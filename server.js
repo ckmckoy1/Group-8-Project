@@ -2,7 +2,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const fetch = require('node-fetch'); // For making external API requests
+//const fetch = require('node-fetch'); // For making external API requests
+// to make this work on Replit:
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 const app = express();
 
 // Middleware for parsing JSON bodies
