@@ -60,6 +60,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // Temporary bypass for missing mock endpoints
+        displayMessage('Success: Payment authorized (temporary bypass)!', 'success');
+        
+        /* 
+        // Remove this bypass once mock endpoints are available and use the following code block:
+        
         // Call the mock payment authorization endpoint
         let mockEndpoint;
         if (cardNumber.startsWith('4111')) {
@@ -100,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Payment authorization failed:', error);
             displayMessage('Error: Something went wrong!', 'error');
         }
+        */
     });
 
     // Auto-generate the Order ID on page load
