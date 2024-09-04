@@ -1,0 +1,10 @@
+{
+  "OrderId": "ORD000123",
+  "CardDetails": {
+    "Number": "XXXXXXXXXXXX1234",
+    "ExpirationDate": "2024-08",
+    "CVC": "XXX",
+    "NameOnCard": "John Deaux"
+  },
+  "AuthorizationAmount": 50.00
+}

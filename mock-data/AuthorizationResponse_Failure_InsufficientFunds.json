@@ -1,0 +1,8 @@
+{
+  "OrderId":"ORD000123",
+  "Success": false,
+  "Reason": "Insufficient Funds on Card ending in XXXX",
+  "AuthorizationToken": null,
+  "TokenExpirationDate": null,
+  "AuthorizedAmount": 0.00
+}

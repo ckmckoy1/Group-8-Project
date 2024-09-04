@@ -1,0 +1,8 @@
+{
+  "OrderId":"ORD000123",
+  "Success": false,
+  "Reason": "Card Details incorrect or missing on Card Ending in XXXX",
+  "AuthorizationToken": null,
+  "TokenExpirationDate": null,
+  "AuthorizedAmount": 0.00
+}

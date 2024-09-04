@@ -1,0 +1,8 @@
+{
+  "OrderId":"ORD000123",
+  "Success": true,
+  "Reason": "",
+  "AuthorizationToken": "dGhpcyBpcyBhbiBhdXRoIHRva2Vu",
+  "TokenExpirationDate": "2024-01-31T00:00:00.000",
+  "AuthorizedAmount": 50.00
+}
