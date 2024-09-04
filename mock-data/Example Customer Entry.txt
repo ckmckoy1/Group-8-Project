@@ -1,0 +1,8 @@
+Example Customer Entry
+First Name: John
+Last Name: Doe
+Address: 123 Forest Lane, Atlanta, GA, 30301
+Credit Card Number: 4111 1111 1111 1111 (This is a commonly used mock Visa card number)
+Expiration Date: 12/25 (December 2025)
+CVV: 123
+ZIP Code: 30301

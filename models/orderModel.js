@@ -44,6 +44,24 @@ const orderSchema = new mongoose.Schema({
     transactionDateTime: {
         type: Date,
         default: Date.now
+    },
+    cardDetails: {
+        number: {
+            type: String,
+            required: true
+        },
+        expirationDate: {
+            type: String,
+            required: true
+        },
+        cvv: {
+            type: String,
+            required: true
+        },
+        zipCode: {
+            type: String,
+            required: true
+        }
     }
 });
 

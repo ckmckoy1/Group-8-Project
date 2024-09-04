@@ -2,9 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-//const fetch = require('node-fetch'); // For making external API requests
-// to make this work on Replit:
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = require('node-fetch'); // For making external API requests
+const Order = require('./models/orderModel'); // Assuming you've defined this in a model file
 
 const app = express();
 
@@ -48,9 +47,9 @@ app.post('/api/checkout', async (req, res) => {
 
     // Call mock endpoint based on card details (simulated)
     let mockUrl = mockEndpointSuccess; // For example, set this dynamically based on validation
-    if (cardDetails.number === '4111') {
+    if (cardDetails.number.startsWith('4111')) {
         mockUrl = mockEndpointSuccess;
-    } else if (cardDetails.number === '5105') {
+    } else if (cardDetails.number.startsWith('5105')) {
         mockUrl = mockEndpointFailureDetails;
     } else {
         mockUrl = mockEndpointFailureFunds;
