@@ -14,17 +14,22 @@
     <div class="order-management-container">
         <div class="filter-container">
             <input type="text" id="searchInput" placeholder="Search by Order ID or Customer">
-            <button id="sortButton">Sort by Amount</button>
+            <select id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="Authorized">Authorized</option>
+                <option value="Pending">Pending</option>
+                <option value="Failed">Failed</option>
+            </select>
         </div>
 
         <table id="orderTable">
             <thead>
                 <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Amount</th>
+                    <th onclick="sortTable('orderId')">Order ID &#9650;&#9660;</th>
+                    <th onclick="sortTable('customer')">Customer &#9650;&#9660;</th>
+                    <th onclick="sortTable('orderDate')">Order Date &#9650;&#9660;</th>
+                    <th onclick="sortTable('status')">Status &#9650;&#9660;</th>
+                    <th onclick="sortTable('amount')">Amount &#9650;&#9660;</th>
                 </tr>
             </thead>
             <tbody id="orderTableBody">
@@ -36,14 +41,21 @@
     </div>
 
     <script>
-        // Sample order data for testing
-        const orders = [
+        let orders = [
             { orderId: 'NS-10001', customer: 'John Doe', orderDate: '2024-08-20', status: 'Authorized', amount: 120.00 },
             { orderId: 'NS-10002', customer: 'Jane Smith', orderDate: '2024-08-21', status: 'Pending', amount: 90.50 },
             { orderId: 'NS-10003', customer: 'Michael Brown', orderDate: '2024-08-22', status: 'Authorized', amount: 150.75 },
+            { orderId: 'NS-10004', customer: 'Emily White', orderDate: '2024-08-23', status: 'Failed', amount: 45.00 }
         ];
 
-        // Render orders in the table
+        let sortDirection = {
+            orderId: true,
+            customer: true,
+            orderDate: true,
+            status: true,
+            amount: true
+        };
+
         function renderOrders(orderList) {
             const orderTableBody = document.getElementById('orderTableBody');
             orderTableBody.innerHTML = '';
@@ -61,27 +73,47 @@
             });
         }
 
-        // Sort orders by amount
-        function sortOrders() {
-            const sortedOrders = [...orders].sort((a, b) => a.amount - b.amount);
-            renderOrders(sortedOrders);
+        function sortTable(column) {
+            orders = orders.sort((a, b) => {
+                let valA = a[column];
+                let valB = b[column];
+
+                if (column === 'amount') {
+                    valA = parseFloat(valA);
+                    valB = parseFloat(valB);
+                } else if (column === 'orderDate') {
+                    valA = new Date(valA);
+                    valB = new Date(valB);
+                } else {
+                    valA = valA.toString().toLowerCase();
+                    valB = valB.toString().toLowerCase();
+                }
+
+                if (valA < valB) return sortDirection[column] ? -1 : 1;
+                if (valA > valB) return sortDirection[column] ? 1 : -1;
+                return 0;
+            });
+
+            sortDirection[column] = !sortDirection[column];
+            renderOrders(orders);
         }
 
-        // Filter orders by search input
         function filterOrders() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+
             const filteredOrders = orders.filter(order =>
-                order.orderId.toLowerCase().includes(searchInput) ||
-                order.customer.toLowerCase().includes(searchInput)
+                (order.orderId.toLowerCase().includes(searchInput) ||
+                order.customer.toLowerCase().includes(searchInput)) &&
+                (statusFilter === '' || order.status === statusFilter)
             );
+
             renderOrders(filteredOrders);
         }
 
-        // Add event listeners
-        document.getElementById('sortButton').addEventListener('click', sortOrders);
         document.getElementById('searchInput').addEventListener('input', filterOrders);
+        document.getElementById('statusFilter').addEventListener('change', filterOrders);
 
-        // Render initial orders on page load
         window.onload = function () {
             renderOrders(orders);
         };
