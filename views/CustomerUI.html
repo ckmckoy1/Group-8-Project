@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Nature Sporting Goods</title>
+    <link rel="stylesheet" href="CustomerStyle.css">
+    <link rel="icon" href="deer.jpg" type="image/jpg">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Nature Sporting Goods</h1>
+        </div>
+
+    </header>
+
+    <div class="banner">
+            <nav class="nav">
+            <a href="#">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Sign In</a>
+        </nav>
+    </div>
+
+<div class="popup-overlay" id="popupOverlay">
+    <div class="popup" id="popup">
+        <span class="close" id="closePopup">&times;</span>
+        <div class="popup-content">
+            <p>Get 15% Off</p>
+        </div>
+    </div>
+</div>
+
+
+<script src="script.js"></script>
+    <main class="checkout-container">
+        <h2>Checkout</h2>
+        <div class="product-images">
+            <img src="../ExternalUI/Camping.jpg" alt="Camping Gear">
+            <img src="../ExternalUI/Kayaking.jpg" alt="Kayaking Gear">
+            <img src="../ExternalUI/Hiking.jpg" alt="Hiking Gear">
+        </div>
+
+        <form id="checkoutForm" class="checkout-form">
+            <!-- Order Information (Hidden Order ID) -->
+            <input type="hidden" id="orderId" name="orderId">
+
+            <!-- Customer Information -->
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" required>
+            </div>
+
+            <!-- Payment Information -->
+            <div class="form-group">
+                <label for="cardNumber">Credit Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter your credit card number" required oninput="maskCardNumber(); detectCardType();">
+            </div>
+
+            <div class="form-group">
+                <label for="expDate">Expiration Date:</label>
+                <input type="text" id="expDate" name="expDate" placeholder="MM/YY" required>
+            </div>
+
+            <div class="form-group">
+                <label for="securityCode">Security Code (CVV):</label>
+                <input type="text" id="securityCode" name="securityCode" placeholder="Enter your security code" required>
+            </div>
+
+            <div class="form-group">
+                <label for="zipCode">ZIP Code:</label>
+                <input type="text" id="zipCode" name="zipCode" placeholder="Enter your ZIP code" required>
+            </div>
+
+            <div id="message" class="message"></div>
+
+            <button type="submit" class="submit-button">Complete Purchase</button>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Nature Sporting Goods. All rights reserved.</p>
+        <nav class="footer-nav">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+        </nav>
+    </footer>
+
+    <script>
+        // Function to auto-generate Order ID
+        function generateOrderId() {
+            const orderId = 'NS-' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('orderId').value = orderId;
+        }
+
+        // Function to mask credit card number
+        function maskCardNumber() {
+            const cardInput = document.getElementById('cardNumber');
+            cardInput.value = cardInput.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+        }
+
+        // Function to detect card type
+        function detectCardType() {
+            const cardInput = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const messageDiv = document.getElementById('message');
+            const cardType = getCardType(cardInput);
+
+            if (cardType === 'Unknown') {
+                messageDiv.textContent = 'Warning: Unsupported card type. Please use Visa, MasterCard, or American Express.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+            } else {
+                messageDiv.textContent = `Card Type Detected: ${cardType}`;
+                messageDiv.className = 'message success';
+                messageDiv.style.display = 'block';
+            }
+        }
+
+        // Function to get card type
+        function getCardType(number) {
+            const re = {
+                visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+                mastercard: /^5[1-5][0-9]{14}$/,
+                amex: /^3[47][0-9]{13}$/
+            };
+            if (re.visa.test(number)) return 'Visa';
+            if (re.mastercard.test(number)) return 'MasterCard';
+            if (re.amex.test(number)) return 'American Express';
+            return 'Unknown';
+        }
+
+        // Function to validate expiration date
+        function isCardExpired(expDate) {
+            const today = new Date();
+            const [month, year] = expDate.split('/').map(Number);
+            const exp = new Date(`20${year}-${month}-01`);
+            return today > exp;
+        }
+
+        // Handle form submission
+        document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const orderId = document.getElementById('orderId').value;
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const expDate = document.getElementById('expDate').value;
+            const securityCode = document.getElementById('securityCode').value;
+            const zipCode = document.getElementById('zipCode').value;
+            const messageDiv = document.getElementById('message');
+
+            // Client-side validations
+            if (isCardExpired(expDate)) {
+                messageDiv.textContent = 'Error: Your card has expired.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            const cardType = getCardType(cardNumber);
+            if (cardType === 'Unknown') {
+                messageDiv.textContent = 'Error: Unsupported card type.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            // Call the appropriate mock endpoint based on the card details (simplified example)
+            let mockEndpoint = '';
+            if (cardNumber.startsWith('4111')) {
+                mockEndpoint = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'; // Success
+            } else if (cardNumber.startsWith('5105')) {
+                mockEndpoint = 'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4'; // Incorrect details
+            } else {
+                mockEndpoint = 'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588'; // Insufficient funds
+            }
+
+            try {
+                const response = await fetch(mockEndpoint);
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageDiv.textContent = 'Success: Payment authorized!';
+                    messageDiv.className = 'message success';
+                } else {
+                    messageDiv.textContent = `Error: ${data.message}`;
+                    messageDiv.className = 'message error';
+                }
+            } catch (error) {
+                messageDiv.textContent = 'Error: Something went wrong!';
+                messageDiv.className = 'message error';
+            }
+
+            messageDiv.style.display = 'block';
+        });
+
+        // Auto-generate the Order ID on page load
+        window.onload = generateOrderId;
+    </script>
+</body>
+</html>

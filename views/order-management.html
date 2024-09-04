@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management</title>
+    <link rel="stylesheet" href="orderManagementStyle.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Order Management</h1>
+    </header>
+
+    <div class="order-management-container">
+        <div class="filter-container">
+            <input type="text" id="searchInput" placeholder="Search by Order ID or Customer">
+            <button id="sortButton">Sort by Amount</button>
+        </div>
+
+        <table id="orderTable">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="orderTableBody">
+                <!-- Orders will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Sample order data for testing
+        const orders = [
+            { orderId: 'NS-10001', customer: 'John Doe', orderDate: '2024-08-20', status: 'Authorized', amount: 120.00 },
+            { orderId: 'NS-10002', customer: 'Jane Smith', orderDate: '2024-08-21', status: 'Pending', amount: 90.50 },
+            { orderId: 'NS-10003', customer: 'Michael Brown', orderDate: '2024-08-22', status: 'Authorized', amount: 150.75 },
+        ];
+
+        // Render orders in the table
+        function renderOrders(orderList) {
+            const orderTableBody = document.getElementById('orderTableBody');
+            orderTableBody.innerHTML = '';
+
+            orderList.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.orderId}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.orderDate}</td>
+                    <td>${order.status}</td>
+                    <td>$${order.amount.toFixed(2)}</td>
+                `;
+                orderTableBody.appendChild(row);
+            });
+        }
+
+        // Sort orders by amount
+        function sortOrders() {
+            const sortedOrders = [...orders].sort((a, b) => a.amount - b.amount);
+            renderOrders(sortedOrders);
+        }
+
+        // Filter orders by search input
+        function filterOrders() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredOrders = orders.filter(order =>
+                order.orderId.toLowerCase().includes(searchInput) ||
+                order.customer.toLowerCase().includes(searchInput)
+            );
+            renderOrders(filteredOrders);
+        }
+
+        // Add event listeners
+        document.getElementById('sortButton').addEventListener('click', sortOrders);
+        document.getElementById('searchInput').addEventListener('input', filterOrders);
+
+        // Render initial orders on page load
+        window.onload = function () {
+            renderOrders(orders);
+        };
+    </script>
+</body>
+</html>

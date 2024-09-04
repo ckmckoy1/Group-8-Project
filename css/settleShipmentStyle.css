@@ -1,0 +1,114 @@
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Header styling */
+.header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Settle shipment form container */
+.settle-shipment-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Form input fields */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.form-group input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Submit button */
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+/* Message styling */
+.message {
+    display: none;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: white;
+}
+
+.message.success {
+    background-color: #4CAF50;
+}
+
+.message.error {
+    background-color: #f44336;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .settle-shipment-container {
+        padding: 15px;
+    }
+
+    .form-group input {
+        font-size: 13px;
+    }
+
+    .submit-button {
+        font-size: 14px;
+    }
+}

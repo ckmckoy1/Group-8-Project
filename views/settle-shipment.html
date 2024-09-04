@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settle Shipment | Nature Sporting Goods</title>
+    <link rel="stylesheet" href="settleShipmentStyle.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Settle Shipment</h1>
+    </header>
+
+    <div class="settle-shipment-container">
+        <form id="settleShipmentForm">
+            <div class="form-group">
+                <label for="orderId">Order ID:</label>
+                <input type="text" id="orderId" name="orderId" placeholder="Enter Order ID" required>
+            </div>
+
+            <div class="form-group">
+                <label for="finalAmount">Final Shipment Amount:</label>
+                <input type="number" id="finalAmount" name="finalAmount" step="0.01" placeholder="Enter Final Amount" required>
+            </div>
+
+            <button type="submit" class="submit-button">Settle Shipment</button>
+
+            <div id="message" class="message" style="display: none;"></div>
+        </form>
+    </div>
+
+    <script>
+        // Sample authorized orders data
+        const authorizedOrders = {
+            'NS-10001': { authorizedAmount: 120.00 },
+            'NS-10002': { authorizedAmount: 90.50 },
+            'NS-10003': { authorizedAmount: 150.75 },
+        };
+
+        // Handle form submission
+        document.getElementById('settleShipmentForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const orderId = document.getElementById('orderId').value;
+            const finalAmount = parseFloat(document.getElementById('finalAmount').value);
+            const messageDiv = document.getElementById('message');
+
+            // Check if the order exists
+            if (authorizedOrders[orderId]) {
+                const authorizedAmount = authorizedOrders[orderId].authorizedAmount;
+
+                // Compare final amount with authorized amount
+                if (finalAmount > authorizedAmount) {
+                    messageDiv.textContent = `Error: Final amount ($${finalAmount.toFixed(2)}) exceeds the authorized amount ($${authorizedAmount.toFixed(2)}).`;
+                    messageDiv.className = 'message error';
+                } else {
+                    messageDiv.textContent = `Success: Shipment for Order ID ${orderId} settled successfully with amount $${finalAmount.toFixed(2)}.`;
+                    messageDiv.className = 'message success';
+                }
+            } else {
+                messageDiv.textContent = 'Error: Order ID not found.';
+                messageDiv.className = 'message error';
+            }
+
+            messageDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
