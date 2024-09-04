@@ -171,6 +171,7 @@ h2 {
     margin-left: 15px;
     font-weight: bold;
     transition: color 0.3s ease;
+    text-align: center;
 }
 
 .footer-nav a:hover {
