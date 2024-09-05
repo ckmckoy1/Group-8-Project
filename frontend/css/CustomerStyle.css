@@ -20,11 +20,11 @@ header {
     color: #fff;
     display: flex;
     text-align: center;
+    padding: 10px 5%;
 }
 
 .header .logo h1 {
     font-size: 1.8em;
-    margin: 0;
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center;
@@ -159,6 +159,7 @@ h2 {
     font-size: 0.9em;
     display: flex;
     margin-top: 30px;
+    padding: 20px 5%;
 }
 
 .footer-nav a {

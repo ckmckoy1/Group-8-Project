@@ -77,6 +77,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
+            // Show the popup after 2 seconds
+    setTimeout(function() {
+        popupOverlay.classList.add('show');
+    }, 2000);
+
+    // Close the popup when the close button is clicked
+    closePopup.addEventListener('click', function() {
+        popupOverlay.classList.remove('show');
+    });
+
+    // Close the popup when clicking outside of it
+    popupOverlay.addEventListener('click', function(event) {
+        if (event.target === popupOverlay) {
+            popupOverlay.classList.remove('show');
+        }
+
         // Uncomment and use this block once the mock endpoints are ready
 
         /*
