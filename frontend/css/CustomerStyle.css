@@ -19,16 +19,23 @@ header {
     background-color: #005f73;
     color: #fff;
     display: flex;
-    text-align: center;
+    justify-content: center; /* Centers the logo horizontally */
+    align-items: center;     /* Centers the content vertically */
     padding: 10px 5%;
+}
+
+.header .logo {
+    margin: 0 auto; /* Ensures the logo is centered */
 }
 
 .header .logo h1 {
     font-size: 1.8em;
     font-weight: bold;
     letter-spacing: 2px;
-    text-align: center;
+    text-align: center; /* Keeps the text centered */
+    margin: 0;
 }
+
 
 .header .nav a {
     margin-left: 20px;

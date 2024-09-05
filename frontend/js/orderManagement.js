@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event listener for sorting the orders by different criteria
     sortSelect.addEventListener('change', sortOrders);
 
-    // Function to fetch orders from the server and display them in the table
+    // Function to fetch orders from the backend API and display them in the table
     async function fetchOrders() {
         try {
-            const response = await fetch('/orders');
+            const response = await fetch('/api/orders');  // Updated to match the route on your backend
             const orders = await response.json();
 
             displayOrders(orders);
@@ -35,13 +35,13 @@ document.addEventListener('DOMContentLoaded', function () {
             orderIdCell.textContent = order.orderId;
 
             const customerCell = document.createElement('td');
-            customerCell.textContent = `${order.customer.firstName} ${order.customer.lastName}`;
+            customerCell.textContent = `${order.firstName} ${order.lastName}`;  // Adjusted to match the backend schema
 
             const statusCell = document.createElement('td');
-            statusCell.textContent = order.paymentStatus;
+            statusCell.textContent = order.status;  // Make sure this matches the order schema (e.g., 'paymentStatus')
 
             const amountCell = document.createElement('td');
-            amountCell.textContent = `$${order.amount}`;
+            amountCell.textContent = `$${order.authorizedAmount.toFixed(2)}`;  // Display the authorized amount
 
             row.appendChild(orderIdCell);
             row.appendChild(customerCell);
@@ -80,9 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const valueB = getCellValue(b, sortValue);
 
             if (sortValue === 'amount') {
-                return parseFloat(valueA.slice(1)) - parseFloat(valueB.slice(1));
+                return parseFloat(valueA.slice(1)) - parseFloat(valueB.slice(1)); // Sort by amount, removing the '$' symbol
             } else {
-                return valueA.localeCompare(valueB);
+                return valueA.localeCompare(valueB); // Sort by other string-based values (e.g., orderId, customer, status)
             }
         });
 
@@ -105,3 +105,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+
