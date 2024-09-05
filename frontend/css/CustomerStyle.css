@@ -17,11 +17,9 @@ a {
 
 header {
     background-color: #005f73;
-    padding: 15px 0;
     color: #fff;
     display: flex;
     text-align: center;
-    padding: 10px 5%;
 }
 
 .header .logo h1 {
@@ -157,7 +155,6 @@ h2 {
 .footer {
     background-color: #005f73;
     color: #fff;
-    padding: 20px 5%;
     text-align: center;
     font-size: 0.9em;
     display: flex;
