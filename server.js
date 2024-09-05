@@ -11,10 +11,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML)
 
-// Connect to MongoDB (replace <db_uri> with your MongoDB URI)
-mongoose.connect('<db_uri>', { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB (replace <db_password> with your actual MongoDB password)
+mongoose.connect('mongodb+srv://ckgaskell:<Fireballs25#>@group8.zid4l.mongodb.net/?retryWrites=true&w=majority&appName=Group8', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
     .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.log(err));
+    .catch(err => console.log('MongoDB connection error:', err));
 
 // Define Mongoose schema and models
 const orderSchema = new mongoose.Schema({
@@ -40,7 +43,7 @@ const Order = mongoose.model('Order', orderSchema);
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
     const { orderId, firstName, lastName, address, cardDetails } = req.body;
-    
+
     const mockEndpointSuccess = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741';
     const mockEndpointFailureDetails = 'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4';
     const mockEndpointFailureFunds = 'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588';
