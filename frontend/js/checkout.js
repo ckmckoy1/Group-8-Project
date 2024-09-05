@@ -63,10 +63,23 @@ document.addEventListener('DOMContentLoaded', function () {
         // Temporary bypass for missing mock endpoints
         displayMessage('Success: Payment authorized (temporary bypass)!', 'success');
         
-        /* 
-        // Remove this bypass once mock endpoints are available and use the following code block:
-        
-        // Call the mock payment authorization endpoint
+        // Prepare order data
+        const orderData = {
+            orderId: orderId,
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            cardDetails: {
+                number: cardNumber,
+                expirationDate: expDate,
+                cvv: securityCode,
+                zipCode: zipCode
+            }
+        };
+
+        // Uncomment and use this block once the mock endpoints are ready
+
+        /*
         let mockEndpoint;
         if (cardNumber.startsWith('4111')) {
             mockEndpoint = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'; // Success
@@ -107,6 +120,27 @@ document.addEventListener('DOMContentLoaded', function () {
             displayMessage('Error: Something went wrong!', 'error');
         }
         */
+
+        // Optionally, send order data to the backend for storage
+        try {
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) {
+                const result = await response.json();
+                displayMessage(`Error: ${result.message}`, 'error');
+            } else {
+                displayMessage('Order submitted successfully!', 'success');
+            }
+        } catch (error) {
+            console.error('Error submitting order:', error);
+            displayMessage('Error: Something went wrong!', 'error');
+        }
     });
 
     // Auto-generate the Order ID on page load
@@ -115,4 +149,3 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('orderId').value = orderId;
     };
 });
-
