@@ -19,7 +19,6 @@
                 <option value="Authorized">Authorized</option>
                 <option value="Pending">Pending</option>
                 <option value="Failed">Failed</option>
-                <option value="Settled">Settled</option>
             </select>
         </div>
 
@@ -42,27 +41,12 @@
     </div>
 
     <script>
-        let orders = [];
+        let orders = [
+            { orderId: 'NS-10001', customer: 'John Doe', orderDate: '2024-08-20', status: 'Authorized', amount: 120.00 },
+            { orderId: 'NS-10002', customer: 'Jane Smith', orderDate: '2024-08-21', status: 'Pending', amount: 90.50 },
+            { orderId: 'NS-10003', customer: 'Michael Brown', orderDate: '2024-08-22', status: 'Authorized', amount: 150.75 }
+        ];
 
-        // Render orders in the table
-        function renderOrders(orderList) {
-            const orderTableBody = document.getElementById('orderTableBody');
-            orderTableBody.innerHTML = '';
-
-            orderList.forEach(order => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${order.orderId}</td>
-                    <td>${order.firstName} ${order.lastName}</td>
-                    <td>${new Date(order.transactionDateTime).toLocaleDateString()}</td>
-                    <td>${order.paymentStatus}</td>
-                    <td>$${order.totalAmount.toFixed(2)}</td>
-                `;
-                orderTableBody.appendChild(row);
-            });
-        }
-
-        // Sort orders by column
         let sortDirection = {
             orderId: true,
             customer: true,
@@ -71,8 +55,49 @@
             amount: true
         };
 
+        // Function to render orders in the table
+        function renderOrders(orderList) {
+            const orderTableBody = document.getElementById('orderTableBody');
+            orderTableBody.innerHTML = '';
+
+            orderList.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.orderId}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.orderDate}</td>
+                    <td>${order.status}</td>
+                    <td>$${order.amount.toFixed(2)}</td>
+                `;
+                orderTableBody.appendChild(row);
+            });
+        }
+
+        // Function to add a new order
+        function addNewOrder(newOrder) {
+            orders.push(newOrder);  // Add the new order to the existing list
+            renderOrders(orders);   // Re-render the table with updated data
+        }
+
+        // Example of adding a new order (You can replace this with your form submission logic)
+        document.getElementById('checkoutForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Sample new order data (This would come from your form)
+            const newOrder = {
+                orderId: 'NS-10004',
+                customer: 'Emily White',
+                orderDate: '2024-08-23',
+                status: 'Pending',
+                amount: 45.00
+            };
+
+            addNewOrder(newOrder);  // Add new order to the list
+        });
+
+        // Function to sort the table
         function sortTable(column) {
-            orders.sort((a, b) => {
+            orders = orders.sort((a, b) => {
                 let valA = a[column];
                 let valB = b[column];
 
@@ -96,40 +121,10 @@
             renderOrders(orders);
         }
 
-        // Filter orders by search input and status
-        function filterOrders() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const statusFilter = document.getElementById('statusFilter').value;
-
-            const filteredOrders = orders.filter(order =>
-                (order.orderId.toLowerCase().includes(searchInput) ||
-                (order.firstName + ' ' + order.lastName).toLowerCase().includes(searchInput)) &&
-                (statusFilter === '' || order.paymentStatus === statusFilter)
-            );
-
-            renderOrders(filteredOrders);
-        }
-
-        // Fetch orders from the backend
-        async function fetchOrders() {
-            try {
-                const response = await fetch('/api/orders');
-                orders = await response.json();
-                renderOrders(orders); 
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-            }
-        }
-
-        // Add event listeners
-        document.getElementById('searchInput').addEventListener('input', filterOrders);
-        document.getElementById('statusFilter').addEventListener('change', filterOrders);
-
-        // Fetch and render initial orders on page load
+        // Initial render
         window.onload = function () {
-            fetchOrders();
+            renderOrders(orders);  // Render the initial sample data
         };
     </script>
 </body>
 </html>
-
