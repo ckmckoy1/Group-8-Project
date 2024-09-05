@@ -153,9 +153,8 @@ The backend uses MongoDB to store the following details:
     ```
 
 **Access the Application:** Open your browser and navigate to:
-    ```bash
-    http://localhost:3000
-    ```
+    [https://ckmckoy1.github.io/Group-8-Project/](https://ckmckoy1.github.io/Group-8-Project/)
+
 
 ## License
 This project is licensed under the MIT License.
