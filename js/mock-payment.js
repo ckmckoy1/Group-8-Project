@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const messageDiv = document.getElementById('message');
+    let mockOrders = [];
 
     // Function to mask credit card number
     function maskCardNumber(cardNumber) {
@@ -60,53 +61,25 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Temporary bypass for missing mock endpoints
-        displayMessage('Success: Payment authorized (temporary bypass)!', 'success');
-        
-        /* 
-        // Remove this bypass once mock endpoints are available and use the following code block:
-        
-        // Call the mock payment authorization endpoint
-        let mockEndpoint;
-        if (cardNumber.startsWith('4111')) {
-            mockEndpoint = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'; // Success
-        } else if (cardNumber.startsWith('5105')) {
-            mockEndpoint = 'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4'; // Incorrect details
-        } else {
-            mockEndpoint = 'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588'; // Insufficient funds
-        }
+        // Temporary bypass for mock testing
+        const isSuccess = Math.random() > 0.3; // Randomly decide success/failure
 
-        try {
-            const response = await fetch(mockEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    OrderId: orderId,
-                    CardDetails: {
-                        Number: cardNumber,
-                        ExpirationDate: expDate,
-                        CVC: securityCode,
-                        NameOnCard: `${firstName} ${lastName}`
-                    },
-                    AuthorizationAmount: 50.00 // Sample amount for authorization
-                })
+        if (isSuccess) {
+            // Add to mockOrders array (simulating order storage)
+            mockOrders.push({
+                orderId,
+                customer: `${firstName} ${lastName}`,
+                address,
+                cardNumber: maskCardNumber(cardNumber),
+                expDate,
+                status: 'Authorized'
             });
 
-            const data = await response.json();
-
-            if (data.Success) {
-                displayMessage(`Success: Payment authorized! Token: ${data.AuthorizationToken}`, 'success');
-                // Save the transaction details (optional, for back-end implementation)
-            } else {
-                displayMessage(`Error: ${data.Reason}`, 'error');
-            }
-        } catch (error) {
-            console.error('Payment authorization failed:', error);
-            displayMessage('Error: Something went wrong!', 'error');
+            displayMessage(`Success: Payment authorized for ${firstName} ${lastName}!`, 'success');
+            console.log('Orders:', mockOrders); // View mock orders
+        } else {
+            displayMessage('Error: Payment failed!', 'error');
         }
-        */
     });
 
     // Auto-generate the Order ID on page load
@@ -115,4 +88,3 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('orderId').value = orderId;
     };
 });
-
