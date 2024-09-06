@@ -1,10 +1,23 @@
 /* Global Styles */
+html, body {
+	margin:0;
+	padding:0;
+	border:0;
+	outline:0;
+	font-size:100%;
+	vertical-align:baseline;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     margin: auto;
     padding: 0;
     color: #333;
+}
+
+article,aside,nav,footer,header,section,menu,hgroup,figcaption,figure,details {
+	display:block;
 }
 
 a {
@@ -19,6 +32,10 @@ header {
     justify-content: center; /* Centers the logo horizontally */
     align-items: center;     /* Centers the content vertically */
     padding: 10px 5%;
+}
+
+.promo-bar p a {
+    color: #ffb703;
 }
 
 .header .logo {
@@ -38,7 +55,7 @@ header {
     text-shadow: 2px 2px #023047; /* Dark shadow for depth */
 }
 
-.header .nav a {
+.banner .nav a {
     margin-left: 10px;
     font-weight: bold;
     font-size: 1em;
@@ -46,7 +63,7 @@ header {
     color: #fff; /* White text */
 }
 
-.header .nav a:hover {
+.banner .nav a:hover {
     color: #ffb703; /* Hover color to match the logo */
 }
 
@@ -109,18 +126,6 @@ header {
     padding: 0;
     list-style: none;
     margin: 0;
-}
-
-.banner .nav a {
-    margin: 0 15px;
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #fff; /* White text */
-    transition: color 0.3s ease;
-}
-
-.banner .nav a:hover {
-    color: #ffb703; /* Adventure yellow */
 }
 
 main {
@@ -226,6 +231,13 @@ h2 {
     transform: translateY(2px);
 }
 
+/* Error Message Styling */
+.error-message {
+    color: #d32f2f;
+    font-size: 0.9em;
+    display: none; /* Hidden by default */
+}
+
 .message {
     margin-top: 15px;
     padding: 10px;
@@ -319,32 +331,6 @@ h2 {
     height: 40px;
 }
 
-/* Feedback Popup - Fixed in the middle of the right edge and rotated */
-#feedbackPopupOverlay {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%); /* Center it vertically */
-    z-index: 1000;
-}
-
-#feedbackPopup {
-    position: relative;
-    background-color: #023047;
-    padding: 10px 20px;
-    border-radius: 10px 0 0 10px;
-    writing-mode: vertical-rl; /* Rotates text to vertical */
-    text-align: center;
-    color: #fff;
-    cursor: pointer;
-}
-
-#feedbackPopup p {
-    transform: rotate(180deg); /* Corrects the upside-down text caused by writing-mode */
-    font-weight: bold;
-}
-
-
 /* Footer */
 .footer {
     background-color: #005f73; /* Dark blue-green footer */
@@ -378,6 +364,23 @@ h2 {
 
 .footer p {
     color: #023047; /* Match the banner color */
+}
+
+/* Media Query for Checkout Form */
+@media screen and (max-width: 600px) {
+    .checkout-container {
+        flex-direction: column;
+    }
+
+    .order-summary {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    main, aside {
+        width: 100%;
+        float: none;
+    }
 }
 
 /* Animations */
