@@ -6,6 +6,9 @@ html, body {
 	outline:0;
 	font-size:100%;
 	vertical-align:baseline;
+    min-height: 100vh; /* Ensures the body takes up the full height */
+    display: flex;
+    flex-direction: column; /* Allows flex behavior to push footer down */
 }
 
 body {
@@ -14,6 +17,7 @@ body {
     margin: auto;
     padding: 0;
     color: #333;
+    flex: 1; /* Ensures the body expands to fill available space */
 }
 
 ,aside,nav,footer,header,section {
@@ -31,7 +35,7 @@ header {
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
     align-items: center;     /* Centers the content vertically */
-    padding: 10px 5%;
+    padding: 5px 5%;
 }
 
 .promo-bar p a {
@@ -44,16 +48,6 @@ header {
     align-items: center;
 }
 
-.top-bar .logo h1 {
-    font-size: 1.5em; /* Increased font size */
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-align: center; /* Keeps the text centered */
-    margin-right: 10px;
-    font-family: 'Playfair Display', serif; /* Unique, elegant font */
-    color: #ffb703; /* Bold yellow for adventure theme */
-    text-shadow: 2px 2px #023047; /* Dark shadow for depth */
-}
 
 .banner .nav a {
     margin-left: 10px;
@@ -106,13 +100,20 @@ header {
     height: 40px;
 }
 
-.top-bar .logo {
-    text-align: center;
+.top-bar .logo h1 {
+    font-size: 8em; 
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center; 
+    margin-right: 10px;
+    font-family: 'Playfair Display', serif; /* Unique, elegant font */
+    color: #333
+    text-shadow: 2px 2px #023047; /* Dark shadow for depth */
 }
 
 /* Banner */
 .banner {
-    background-color: #023047; /* Deep blue for banner */
+    background-color: #023047; 
     color: #fff; /* White text for nav links */
     padding: 10px;
     text-align: center;
@@ -155,6 +156,7 @@ footer {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
     animation: fadeIn 1s ease-in-out;
+    flex-grow: 1; /* Ensures the checkout container grows to fill space */
 }
 
 .checkout-form-section {
@@ -348,7 +350,10 @@ h2 {
     justify-content: center;
     align-items: center;
     display: flex;
+    display: flex;
     flex-direction: column; /* Stack footer-nav and footer <p> */
+    clear: both; /* Clear any floats to prevent overlap */
+    margin-top: auto; /* Pushes footer to the bottom when content is short */
 }
 
 .footer-nav {
