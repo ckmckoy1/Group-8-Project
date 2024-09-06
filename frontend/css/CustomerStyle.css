@@ -161,21 +161,31 @@ aside {
 
 /* Checkout Form */
 .checkout-container {
-	display: flex;
-	justify-content: space-between;
-	max-width: 1200px;
-	margin: 30px auto;
-	background-color: #fff;
-	border-radius: 8px;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-	padding: 20px;
-	animation: fadeIn 1s ease-in-out;
-	flex-grow: 1;
+    max-width: 1200px;
+    margin: 30px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    animation: fadeIn 1s ease-in-out;
+    display: flex;
+    flex-direction: column; /* Stack the content vertically */
 }
 
-.checkout-form-section, .order-summary {
-    flex: 0 1 65%; /* Takes 65% of available space */
+
+
+/* Checkout Content Flex */
+.checkout-content {
+    display: flex;
+    justify-content: space-between; /* Allows form and summary to stay side by side */
+    flex-wrap: wrap; /* Ensures the layout wraps if there's not enough space */
 }
+
+.checkout-form-section {
+    flex: 0 1 65%; /* Form takes 65% of space */
+    margin-right: 20px;
+}
+
 
 .order-summary {
 	flex: 0 1 30%; 
