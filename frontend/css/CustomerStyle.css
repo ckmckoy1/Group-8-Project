@@ -6,8 +6,7 @@ body {
     background-color: #f4f4f9;
     margin: auto;
     padding: 0;
-    color: #333;
-    text-align: center; 
+    color: #333; 
 }
 
 a {
@@ -16,8 +15,8 @@ a {
 }
 
 header {
-    background-color: #005f73;
-    color: #fff;
+    background-color: #000; /* Black header */
+    color: #fff; /* White text */
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
     align-items: center;     /* Centers the content vertically */
@@ -36,12 +35,12 @@ header {
     margin: 0;
 }
 
-
 .header .nav a {
     margin-left: 20px;
     font-weight: bold;
     font-size: 1em;
     transition: color 0.3s ease;
+    color: #fff; /* White text */
 }
 
 .header .nav a:hover {
@@ -56,6 +55,27 @@ header {
     text-align: center;
     font-weight: bold;
     font-size: 1.1em;
+}
+
+/* Navigation styles inside the banner */
+.banner .nav {
+    display: flex;
+    justify-content: space-around; /* Spreads the links evenly */
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.banner .nav a {
+    margin: 0 30px; /* Adds space between the links */
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.banner .nav a:hover {
+    color: #f4a261;
 }
 
 /* Checkout Form */
@@ -103,7 +123,9 @@ h2 {
     color: #006d77;
 }
 
-.checkout-form input[type="text"] {
+.checkout-form input[type="text"],
+.checkout-form input[type="email"],
+.checkout-form input[type="tel"] {
     width: 100%;
     padding: 10px;
     border-radius: 4px;
@@ -111,7 +133,9 @@ h2 {
     transition: border 0.3s ease;
 }
 
-.checkout-form input[type="text"]:focus {
+.checkout-form input[type="text"]:focus,
+.checkout-form input[type="email"]:focus,
+.checkout-form input[type="tel"]:focus {
     border-color: #83c5be;
     outline: none;
 }
@@ -158,15 +182,27 @@ h2 {
     color: #9d0208;
 }
 
+/* Order Summary */
+.order-summary {
+    background-color: #f0f0f0; /* Light gray background */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
 /* Footer */
 .footer {
-    background-color: #005f73;
-    color: #fff;
+    background-color: #000; /* Black footer */
+    color: #fff; /* White text */
     text-align: center;
     font-size: 0.9em;
     display: flex;
     margin-top: 30px;
     padding: 20px 5%;
+    justify-content: center; /* Centers the logo horizontally */
+    align-items: center;     /* Centers the content vertically */
 }
 
 .footer-nav a {
@@ -174,6 +210,7 @@ h2 {
     font-weight: bold;
     transition: color 0.3s ease;
     text-align: center;
+    margin: 0 auto; /* Ensures the logo is centered */
 }
 
 .footer-nav a:hover {
@@ -202,6 +239,7 @@ h2 {
         transform: translateX(0);
     }
 }
+
 /* Popup Styles */
 .popup-overlay {
     position: fixed;
@@ -224,7 +262,8 @@ h2 {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #fff;
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

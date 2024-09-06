@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const messageDiv = document.getElementById('message');
+    const popupOverlay = document.getElementById('popupOverlay');
+    const closePopup = document.getElementById('closePopup');
 
     // Function to mask credit card number
     function maskCardNumber(cardNumber) {
@@ -77,65 +79,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
-            // Show the popup after 2 seconds
-    setTimeout(function() {
-        popupOverlay.classList.add('show');
-    }, 2000);
+        // Show the popup after 2 seconds
+        setTimeout(function() {
+            popupOverlay.classList.add('show');
+        }, 2000);
 
-    // Close the popup when the close button is clicked
-    closePopup.addEventListener('click', function() {
-        popupOverlay.classList.remove('show');
-    });
-
-    // Close the popup when clicking outside of it
-    popupOverlay.addEventListener('click', function(event) {
-        if (event.target === popupOverlay) {
+        // Close the popup when the close button is clicked
+        closePopup.addEventListener('click', function() {
             popupOverlay.classList.remove('show');
-        }
+        });
 
-        // Uncomment and use this block once the mock endpoints are ready
-
-        /*
-        let mockEndpoint;
-        if (cardNumber.startsWith('4111')) {
-            mockEndpoint = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'; // Success
-        } else if (cardNumber.startsWith('5105')) {
-            mockEndpoint = 'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4'; // Incorrect details
-        } else {
-            mockEndpoint = 'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588'; // Insufficient funds
-        }
-
-        try {
-            const response = await fetch(mockEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    OrderId: orderId,
-                    CardDetails: {
-                        Number: cardNumber,
-                        ExpirationDate: expDate,
-                        CVC: securityCode,
-                        NameOnCard: `${firstName} ${lastName}`
-                    },
-                    AuthorizationAmount: 50.00 // Sample amount for authorization
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.Success) {
-                displayMessage(`Success: Payment authorized! Token: ${data.AuthorizationToken}`, 'success');
-                // Save the transaction details (optional, for back-end implementation)
-            } else {
-                displayMessage(`Error: ${data.Reason}`, 'error');
+        // Close the popup when clicking outside of it
+        popupOverlay.addEventListener('click', function(event) {
+            if (event.target === popupOverlay) {
+                popupOverlay.classList.remove('show');
             }
-        } catch (error) {
-            console.error('Payment authorization failed:', error);
-            displayMessage('Error: Something went wrong!', 'error');
-        }
-        */
+        });
 
         // Optionally, send order data to the backend for storage
         try {
@@ -164,4 +123,47 @@ document.addEventListener('DOMContentLoaded', function () {
         const orderId = 'NS-' + Math.floor(100000 + Math.random() * 900000);
         document.getElementById('orderId').value = orderId;
     };
+
+    // Uncomment and use this block once the mock endpoints are ready
+    /*
+    let mockEndpoint;
+    if (cardNumber.startsWith('4111')) {
+        mockEndpoint = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'; // Success
+    } else if (cardNumber.startsWith('5105')) {
+        mockEndpoint = 'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4'; // Incorrect details
+    } else {
+        mockEndpoint = 'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588'; // Insufficient funds
+    }
+
+    try {
+        const response = await fetch(mockEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                OrderId: orderId,
+                CardDetails: {
+                    Number: cardNumber,
+                    ExpirationDate: expDate,
+                    CVC: securityCode,
+                    NameOnCard: `${firstName} ${lastName}`
+                },
+                AuthorizationAmount: 50.00 // Sample amount for authorization
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.Success) {
+            displayMessage(`Success: Payment authorized! Token: ${data.AuthorizationToken}`, 'success');
+            // Save the transaction details (optional, for back-end implementation)
+        } else {
+            displayMessage(`Error: ${data.Reason}`, 'error');
+        }
+    } catch (error) {
+        console.error('Payment authorization failed:', error);
+        displayMessage('Error: Something went wrong!', 'error');
+    }
+    */
 });
