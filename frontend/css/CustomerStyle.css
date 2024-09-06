@@ -20,7 +20,7 @@ body {
     flex: 1; /* Ensures the body expands to fill available space */
 }
 
-,aside,nav,footer,header,section {
+aside,nav,footer,header,section {
 	display:block;
 }
 
@@ -107,7 +107,7 @@ header {
     text-align: center; 
     margin-right: 10px;
     font-family: 'Playfair Display', serif; /* Unique, elegant font */
-    color: #333
+    color: #333;
     text-shadow: 2px 2px #023047; /* Dark shadow for depth */
 }
 
@@ -142,7 +142,7 @@ aside {
 
 footer {
 	float:bottom;
-	width:30%;
+	width:1000%;
 }
 
 /* Checkout Form */
