@@ -13,7 +13,7 @@ a {
 }
 
 header {
-    background-color: #333; /* Dark blue-green header for a nature look */
+    background-color: #333; 
     color: #fff; /* White text */
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
@@ -93,7 +93,7 @@ header {
 /* Banner */
 .banner {
     background-color:  #023047; /* Deep blue */
-    color: #333;
+    color: #fff; 
     padding: 10px;
     text-align: center;
     font-weight: bold;
