@@ -9,7 +9,7 @@ body {
 
 a {
     text-decoration: none;
-    color: #333;
+    color: #fff; /* White text for links */
 }
 
 header {
@@ -23,15 +23,17 @@ header {
 
 .header .logo {
     margin: 0 auto; /* Ensures the logo is centered */
+    display: flex;
+    align-items: center;
 }
 
 .header .logo h1 {
-    font-size: 2em;
+    font-size: 2.5em; /* Increased font size */
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center; /* Keeps the text centered */
-    margin: 0;
-    font-family: 'Montserrat', sans-serif; /* More modern and stylish font */
+    margin-right: 10px;
+    font-family: 'Playfair Display', serif; /* Unique, elegant font */
     color: #ffb703; /* Bold yellow for adventure theme */
     text-shadow: 2px 2px #023047; /* Dark shadow for depth */
 }
@@ -62,7 +64,8 @@ header {
 }
 
 .top-bar .search-bar img {
-    margin-right: 10px;
+    margin-left: 10px; /* Spacing from the search button */
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(93deg) brightness(108%) contrast(105%); /* Same color as the button */
 }
 
 .top-bar .search-bar input {
@@ -92,8 +95,8 @@ header {
 
 /* Banner */
 .banner {
-    background-color:  #023047; /* Deep blue */
-    color: #fff; 
+    background-color: #023047; /* Deep blue for banner */
+    color: #fff; /* White text for nav links */
     padding: 10px;
     text-align: center;
     font-weight: bold;
@@ -109,10 +112,10 @@ header {
 }
 
 .banner .nav a {
-    margin: 0 15px; /* Decreased space between the links */
+    margin: 0 15px;
     font-size: 1.1em;
     font-weight: bold;
-    color: #333;
+    color: #fff; /* White text */
     transition: color 0.3s ease;
 }
 
@@ -184,6 +187,7 @@ h2 {
 .checkout-form input[type="tel"]:focus {
     border-color: #83c5be; /* Light green-blue */
     outline: none;
+    background-color: #e0fbfc; /* Slight color change on focus */
 }
 
 .checkout-form .continue-btn,
@@ -231,17 +235,124 @@ h2 {
     color: #9d0208;
 }
 
+/* Popup for Chat - Positioned in the bottom right corner */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+}
+
+.popup-overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    background-color: #023047; /* Deep blue */
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+.popup.expanded .close {
+    display: block;
+}
+
+.popup-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Chat Popup - Fixed in the bottom-right corner */
+#chatPopupOverlay {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+#chatPopup {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #ffb703;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#chatPopup img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Feedback Popup - Fixed in the middle of the right edge and rotated */
+#feedbackPopupOverlay {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%); /* Center it vertically */
+    z-index: 1000;
+}
+
+#feedbackPopup {
+    position: relative;
+    background-color: #023047;
+    padding: 10px 20px;
+    border-radius: 10px 0 0 10px;
+    writing-mode: vertical-rl; /* Rotates text to vertical */
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+#feedbackPopup p {
+    transform: rotate(180deg); /* Corrects the upside-down text caused by writing-mode */
+    font-weight: bold;
+}
+
+
 /* Footer */
 .footer {
     background-color: #005f73; /* Dark blue-green footer */
     color: #fff; /* White text */
     text-align: center;
     font-size: 0.9em;
-    display: flex;
     margin-top: 30px;
     padding: 20px 5%;
-    justify-content: center; /* Centers the logo horizontally */
-    align-items: center;     /* Centers the content vertically */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column; /* Stack footer-nav and footer <p> */
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; /* Space between nav and the footer <p> */
 }
 
 .footer-nav a {
@@ -249,11 +360,14 @@ h2 {
     font-weight: bold;
     transition: color 0.3s ease;
     text-align: center;
-    margin: 0 auto; /* Ensures the logo is centered */
 }
 
 .footer-nav a:hover {
     color: #ffb703; /* Adventure yellow */
+}
+
+.footer p {
+    color: #023047; /* Match the banner color */
 }
 
 /* Animations */
