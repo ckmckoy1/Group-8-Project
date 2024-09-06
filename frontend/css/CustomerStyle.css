@@ -153,7 +153,6 @@ aside {
 }
 
 .footer-nav a {
-	font-weight: bold;
 	transition: color 0.3s ease;
 }
 
@@ -163,6 +162,7 @@ aside {
 
 .footer p {
 	color: #023047;
+    font-weight: bold;
 }
 
 /* Checkout Form */
