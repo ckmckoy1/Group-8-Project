@@ -162,12 +162,8 @@
                         </div>
                     </form>
                 </div>
-        </section>
-    </main>
 
-    <aside>
-            <!-- Right Column: Order Summary -->
-            <section>
+                <!-- Right Column: Order Summary -->
                 <div class="order-summary">
                     <h3>Order Summary</h3>
                     <p>Items in Cart: 1</p>
@@ -178,9 +174,10 @@
                     <hr>
                     <p><strong>Grand Total: $50.00</strong></p>
                 </div>
-            </section>
-    </aside>
-    
+            </div>
+        </section>
+    </main>
+
     <footer class="footer">
         <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
         <nav class="footer-nav">
@@ -197,19 +194,17 @@
     </footer>
 
     <script>
+        document.getElementById('closeChatPopup').addEventListener('click', function() {
+            document.getElementById('chatPopupOverlay').classList.remove('show');
+        });
 
-    document.getElementById('closeChatPopup').addEventListener('click', function() {
-        document.getElementById('chatPopupOverlay').classList.remove('show');
-    });
-
-    document.getElementById('closeFeedbackPopup').addEventListener('click', function() {
-        document.getElementById('feedbackPopupOverlay').classList.remove('show');
-    });
+        document.getElementById('closeFeedbackPopup').addEventListener('click', function() {
+            document.getElementById('feedbackPopupOverlay').classList.remove('show');
+        });
 
         function collapseSection(currentSectionId, nextSectionId) {
             const currentSection = document.getElementById(currentSectionId);
             const nextSection = document.getElementById(nextSectionId);
-
             currentSection.querySelector('.form-content').style.display = 'none';
             nextSection.querySelector('.form-content').style.display = 'block';
         }
@@ -218,12 +213,7 @@
             const section = document.getElementById(sectionId);
             const content = section.querySelector('.form-content');
             const isVisible = content.style.display === 'block';
-
-            if (isVisible) {
-                content.style.display = 'none';
-            } else {
-                content.style.display = 'block';
-            }
+            content.style.display = isVisible ? 'none' : 'block';
         }
 
         function validateForm() {
@@ -239,5 +229,4 @@
     </script>
 
 </body>
-
 </html>
