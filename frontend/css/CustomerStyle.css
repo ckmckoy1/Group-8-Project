@@ -44,8 +44,8 @@ header {
     align-items: center;
 }
 
-.header .logo h1 {
-    font-size: 2.5em; /* Increased font size */
+.top-bar .logo h1 {
+    font-size: 1.5em; /* Increased font size */
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center; /* Keeps the text centered */
@@ -81,13 +81,14 @@ header {
     display: flex;
     align-items: center;
     margin-left: 5px;
+    padding: 10px 0;
 }
 
 .top-bar .search-bar img {
     margin-left: 10px; /* Spacing from the search button */
     filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(93deg) brightness(108%) contrast(105%); /* Same color as the button */
     border: none;
-    padding: 10px;
+    padding: 10px 0;
     border-radius: 4px;
     margin-left: 10px;
     cursor: pointer;
