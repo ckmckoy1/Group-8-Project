@@ -13,7 +13,7 @@ a {
 }
 
 header {
-    background-color: #005f73; /* Dark blue-green header for a nature look */
+    background-color: #333; /* Dark blue-green header for a nature look */
     color: #fff; /* White text */
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
@@ -54,7 +54,6 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    background-color: #023047; /* Deep blue */
 }
 
 .top-bar .search-bar {
@@ -93,7 +92,7 @@ header {
 
 /* Banner */
 .banner {
-    background-color: #94d2bd; /* Light greenish-blue for nature tone */
+    background-color:  #023047; /* Deep blue */
     color: #333;
     padding: 10px;
     text-align: center;
