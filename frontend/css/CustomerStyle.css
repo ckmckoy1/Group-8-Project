@@ -48,7 +48,6 @@ header {
     align-items: center;
 }
 
-
 .banner .nav a {
     margin-left: 10px;
     font-weight: bold;
@@ -84,7 +83,6 @@ header {
     border: none;
     padding: 10px 0;
     border-radius: 4px;
-    margin-left: 10px;
     cursor: pointer;
 }
 
@@ -93,7 +91,6 @@ header {
     border: 2px solid #83c5be; /* Light green-blue */
     border-radius: 4px;
 }
-
 
 .top-bar .cart-icon img {
     width: 40px;
@@ -129,23 +126,41 @@ header {
     margin: 0;
 }
 
+/* Flexbox layout for main content and sidebar */
+.container {
+    display: flex;
+    justify-content: space-between; /* Spaces between main content and sidebar */
+    flex-grow: 1; /* Ensures this section expands to fill available space */
+}
+
 main {
-	float:left;
-	width:60%;
+    flex: 0 1 60%; /* Main content takes 60% of available space */
+    padding: 20px;
 }
 
 aside {
-	float:right;
-	width:30%;
+    flex: 0 1 30%; /* Sidebar takes 30% of available space */
+    padding: 20px;
 }
 
-footer {
-	float:bottom;
-	width:100%;
+/* Footer */
+.footer {
+    background-color: #005f73; /* Dark blue-green footer */
+    color: #fff; /* White text */
+    text-align: center;
+    font-size: 0.9em;
+    padding: 30px 5%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column; /* Stack footer-nav and footer <p> */
+    margin-top: auto; /* Pushes footer to the bottom when content is short */
+    width: 100%; /* Ensures the footer takes full width */
 }
 
 /* Checkout Form */
 .checkout-container {
+    display: flex;
     justify-content: space-between;
     max-width: 1200px;
     margin: 30px auto;
@@ -338,22 +353,6 @@ h2 {
 }
 
 /* Footer */
-.footer {
-    background-color: #005f73; /* Dark blue-green footer */
-    color: #fff; /* White text */
-    text-align: center;
-    font-size: 0.9em;
-    margin-top: 30px;
-    padding: 30px 5%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    display: flex;
-    flex-direction: column; /* Stack footer-nav and footer <p> */
-    clear: both; /* Clear any floats to prevent overlap */
-    margin-top: auto; /* Pushes footer to the bottom when content is short */
-}
-
 .footer-nav {
     display: flex;
     justify-content: center;
@@ -386,9 +385,8 @@ h2 {
         margin-top: 20px;
     }
 
-    main, aside {
-        width: 100%;
-        float: none;
+    .container {
+        flex-direction: column; /* Stack main and aside on top of each other on smaller screens */
     }
 }
 
