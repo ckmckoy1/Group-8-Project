@@ -19,19 +19,19 @@
         </div>
     </header>
 
+    <!-- Top Bar with Search, Logo, and Cart -->
     <div class="top-bar">
-        <div class="logo">
-            <h1>Wild Path Outfitters</h1>
-            <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Search">
-        </div>
         <div class="search-bar">
+            <img src="../assets/search.svg" width="50" height="50" alt="Search">
             <input type="text" placeholder="Search...">
             <button>Search</button>
-            <a href="../searc.html"></a>
-            <img src="../assets/search.svg" width="50" height="50" alt="Search">
+        </div>
+        <div class="logo">
+            <h1>Wild Path Outfitters</h1>
+            <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Compass">
         </div>
         <div class="cart-icon">
-            <a href="../cart.html"></a>
+            <a href="../cart.html">
                 <img src="../assets/cart.svg" width="50" height="50" alt="Shopping Cart Icon">
             </a>
         </div>
@@ -83,7 +83,7 @@
         <div class="checkout-content">
             <!-- Left Column: Form for Checkout Sections -->
             <div class="checkout-form-section">
-                <form id="checkoutForm">
+                <form id="checkoutForm" onsubmit="return validateForm()">
                     <!-- Section 1: Shipping & Billing Details -->
                     <div id="shippingBillingSection" class="form-section">
                         <h3>1. SHIPPING & BILLING DETAILS</h3>
@@ -124,6 +124,7 @@
                             <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
                         </div>
                         <button type="button" class="continue-btn" onclick="goToSection('shippingMethodSection')">Continue</button>
+                        <button type="button" class="edit-btn" onclick="goToSection('shippingBillingSection')">Edit</button>
                     </div>
 
                     <!-- Section 2: Shipping Method -->
@@ -139,6 +140,7 @@
                             <label for="express">Express Shipping (2-3 days)</label>
                         </div>
                         <button type="button" class="continue-btn" onclick="goToSection('paymentSection')">Continue</button>
+                        <button type="button" class="edit-btn" onclick="goToSection('shippingMethodSection')">Edit</button>
                     </div>
 
                     <!-- Section 3: Payment -->
@@ -161,6 +163,7 @@
                             <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
                         </div>
                         <button type="submit" class="submit-button">Complete Purchase</button>
+                        <button type="button" class="edit-btn" onclick="goToSection('paymentSection')">Edit</button>
                     </div>
                 </form>
             </div>
@@ -168,13 +171,13 @@
             <!-- Right Column: Order Summary -->
             <div class="order-summary">
                 <h3>Order Summary</h3>
-                <p>Items in Cart: 3</p>
-                <p>Total: $239.98</p>
+                <p>Items in Cart: 1</p>
+                <p>Total: $43.14</p>
                 <hr>
-                <p>Shipping: $10.00</p>
-                <p>Tax: $18.00</p>
+                <p>Shipping: $3.99</p>
+                <p>Tax: $2.87</p>
                 <hr>
-                <p><strong>Grand Total: $267.98</strong></p>
+                <p><strong>Grand Total: $50.00</strong></p>
             </div>
         </div>
     </main>
@@ -183,19 +186,15 @@
         <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
         <nav class="footer-nav">
             <a href="#">Store Locator</a>
-            <a href="#">Adventure Rewards</a>
+            <a href="#">Navigator Rewards</a>
             <a href="#">Help</a>
             <a href="#">Customer Service</a>
             <a href="#">Return Policy</a>
             <a href="#">Shipping</a>
             <a href="#">Contact Us</a>
             <a href="#">Sign In / Register</a>
-            <a href="#">Gift Cards</a>
-            <a href="#">Promos & Coupons</a>
-            <a href="#">Price Match Policy</a>
             <a href="#">EB Credit Card</a>
             <a href="#">Privacy Policy</a>
-            <a href="#">CA Supply Chains Act</a>
         </nav>
     </footer>
 
@@ -204,6 +203,17 @@
             const sections = document.querySelectorAll('.form-section');
             sections.forEach(section => section.style.display = 'none');
             document.getElementById(sectionId).style.display = 'block';
+        }
+
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('input[required]');
+            for (let field of requiredFields) {
+                if (!field.value) {
+                    alert(`Please fill out the ${field.name} field.`);
+                    return false;
+                }
+            }
+            return true;
         }
     </script>
 
