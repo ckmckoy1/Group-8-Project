@@ -1,12 +1,10 @@
-/* CustomerStyle.css */
-
 /* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     margin: auto;
     padding: 0;
-    color: #333; 
+    color: #333;
 }
 
 a {
@@ -15,7 +13,7 @@ a {
 }
 
 header {
-    background-color: #000; /* Black header */
+    background-color: #005f73; /* Dark blue-green header for a nature look */
     color: #fff; /* White text */
     display: flex;
     justify-content: center; /* Centers the logo horizontally */
@@ -28,15 +26,18 @@ header {
 }
 
 .header .logo h1 {
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center; /* Keeps the text centered */
     margin: 0;
+    font-family: 'Montserrat', sans-serif; /* More modern and stylish font */
+    color: #ffb703; /* Bold yellow for adventure theme */
+    text-shadow: 2px 2px #023047; /* Dark shadow for depth */
 }
 
 .header .nav a {
-    margin-left: 20px;
+    margin-left: 10px;
     font-weight: bold;
     font-size: 1em;
     transition: color 0.3s ease;
@@ -44,12 +45,55 @@ header {
 }
 
 .header .nav a:hover {
-    color: #f4a261;
+    color: #ffb703; /* Hover color to match the logo */
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    background-color: #023047; /* Deep blue */
+}
+
+.top-bar .search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.top-bar .search-bar img {
+    margin-right: 10px;
+}
+
+.top-bar .search-bar input {
+    padding: 10px;
+    border: 2px solid #83c5be; /* Light green-blue */
+    border-radius: 4px;
+}
+
+.top-bar .search-bar button {
+    background-color: #ffb703;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.top-bar .cart-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+.top-bar .logo {
+    text-align: center;
 }
 
 /* Banner */
 .banner {
-    background-color: #94d2bd;
+    background-color: #94d2bd; /* Light greenish-blue for nature tone */
     color: #333;
     padding: 10px;
     text-align: center;
@@ -57,7 +101,6 @@ header {
     font-size: 1.1em;
 }
 
-/* Navigation styles inside the banner */
 .banner .nav {
     display: flex;
     justify-content: space-around; /* Spreads the links evenly */
@@ -67,7 +110,7 @@ header {
 }
 
 .banner .nav a {
-    margin: 0 30px; /* Adds space between the links */
+    margin: 0 15px; /* Decreased space between the links */
     font-size: 1.1em;
     font-weight: bold;
     color: #333;
@@ -75,12 +118,14 @@ header {
 }
 
 .banner .nav a:hover {
-    color: #f4a261;
+    color: #ffb703; /* Adventure yellow */
 }
 
 /* Checkout Form */
 .checkout-container {
-    max-width: 900px;
+    display: flex; /* Added flex for side-by-side alignment */
+    justify-content: space-between;
+    max-width: 1200px;
     margin: 30px auto;
     background-color: #ffffff;
     border-radius: 8px;
@@ -89,27 +134,28 @@ header {
     animation: fadeIn 1s ease-in-out;
 }
 
+.checkout-form-section {
+    flex: 0.65; /* Takes up 65% of space */
+}
+
+.order-summary {
+    flex: 0.3; /* Takes up 30% of space */
+    background-color: #e5e5e5; /* Light gray background */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-left: 20px; /* Adds space between the order summary and form */
+}
+
+/* Form Styling */
 h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #023047;
+    color: #023047; /* Deep adventure blue */
     animation: slideIn 1s ease-in-out;
-}
-
-.product-images {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-
-.product-images img {
-    width: 30%;
-    border-radius: 5px;
-    transition: transform 0.3s ease;
-}
-
-.product-images img:hover {
-    transform: scale(1.05);
+    font-family: 'Montserrat', sans-serif; /* Modern font */
 }
 
 .checkout-form .form-group {
@@ -120,7 +166,7 @@ h2 {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #006d77;
+    color: #006d77; /* Dark green-blue */
 }
 
 .checkout-form input[type="text"],
@@ -131,17 +177,19 @@ h2 {
     border-radius: 4px;
     border: 1px solid #ccc;
     transition: border 0.3s ease;
+    background-color: #f4f4f9; /* Subtle background for inputs */
 }
 
 .checkout-form input[type="text"]:focus,
 .checkout-form input[type="email"]:focus,
 .checkout-form input[type="tel"]:focus {
-    border-color: #83c5be;
+    border-color: #83c5be; /* Light green-blue */
     outline: none;
 }
 
+.checkout-form .continue-btn,
 .checkout-form .submit-button {
-    background-color: #028090;
+    background-color: #028090; /* Blue-green */
     color: #fff;
     padding: 12px;
     border: none;
@@ -153,11 +201,13 @@ h2 {
     margin-top: 20px;
 }
 
+.checkout-form .continue-btn:hover,
 .checkout-form .submit-button:hover {
     background-color: #05668d;
     transform: translateY(-2px);
 }
 
+.checkout-form .continue-btn:active,
 .checkout-form .submit-button:active {
     background-color: #034759;
     transform: translateY(2px);
@@ -173,7 +223,7 @@ h2 {
 }
 
 .message.success {
-    background-color: #8ecae6;
+    background-color: #8ecae6; /* Light blue success */
     color: #023047;
 }
 
@@ -182,19 +232,9 @@ h2 {
     color: #9d0208;
 }
 
-/* Order Summary */
-.order-summary {
-    background-color: #f0f0f0; /* Light gray background */
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
 /* Footer */
 .footer {
-    background-color: #000; /* Black footer */
+    background-color: #005f73; /* Dark blue-green footer */
     color: #fff; /* White text */
     text-align: center;
     font-size: 0.9em;
@@ -214,7 +254,7 @@ h2 {
 }
 
 .footer-nav a:hover {
-    color: #f4a261;
+    color: #ffb703; /* Adventure yellow */
 }
 
 /* Animations */
@@ -238,73 +278,4 @@ h2 {
         opacity: 1;
         transform: translateX(0);
     }
-}
-
-/* Popup Styles */
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 999;
-}
-
-.popup-overlay.show {
-    visibility: visible;
-    opacity: 1;
-}
-
-.popup {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #000; /* Black background */
-    color: #fff; /* White text */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 50px; /* Start with a small size */
-    height: 50px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: width 0.3s ease, height 0.3s ease;
-}
-
-.popup.expanded {
-    width: 300px; /* Expanded size */
-    height: 200px;
-}
-
-.popup .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    display: none; /* Initially hidden */
-}
-
-.popup.expanded .close {
-    display: block; /* Show close button when expanded */
-}
-
-.popup-content {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.popup.expanded .popup-content {
-    opacity: 1;
-    visibility: visible;
-}
-
-.popup-content p {
-    font-size: 18px;
-    text-align: center;
-    margin: 20px 0;
 }

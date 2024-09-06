@@ -86,84 +86,87 @@
                 <form id="checkoutForm" onsubmit="return validateForm()">
                     <!-- Section 1: Shipping & Billing Details -->
                     <div id="shippingBillingSection" class="form-section">
-                        <h3>1. SHIPPING & BILLING DETAILS</h3>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required placeholder="Enter your email">
+                        <h3 onclick="toggleSection('shippingBillingSection')">1. SHIPPING & BILLING DETAILS</h3>
+                        <div class="form-content">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number:</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="For delivery purposes only">
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName">First Name:</label>
+                                <input type="text" id="firstName" name="firstName" required placeholder="First Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name:</label>
+                                <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Shipping Address:</label>
+                                <input type="text" id="address" name="address" required placeholder="Start typing your street address">
+                            </div>
+                            <div class="form-group">
+                                <label for="unitNumber">Unit Number, Suite, Floor (Optional):</label>
+                                <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City:</label>
+                                <input type="text" id="city" name="city" required placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State / Region:</label>
+                                <input type="text" id="state" name="state" required placeholder="State / Region">
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">ZIP / Postal Code:</label>
+                                <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
+                            </div>
+                            <button type="button" class="continue-btn" onclick="collapseSection('shippingBillingSection', 'shippingMethodSection')">Continue</button>
                         </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number:</label>
-                            <input type="tel" id="phone" name="phone" required placeholder="For delivery purposes only">
-                        </div>
-                        <div class="form-group">
-                            <label for="firstName">First Name:</label>
-                            <input type="text" id="firstName" name="firstName" required placeholder="First Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name:</label>
-                            <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Shipping Address:</label>
-                            <input type="text" id="address" name="address" required placeholder="Start typing your street address">
-                        </div>
-                        <div class="form-group">
-                            <label for="unitNumber">Unit Number, Suite, Floor (Optional):</label>
-                            <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor">
-                        </div>
-                        <div class="form-group">
-                            <label for="city">City:</label>
-                            <input type="text" id="city" name="city" required placeholder="City">
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State / Region:</label>
-                            <input type="text" id="state" name="state" required placeholder="State / Region">
-                        </div>
-                        <div class="form-group">
-                            <label for="zip">ZIP / Postal Code:</label>
-                            <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
-                        </div>
-                        <button type="button" class="continue-btn" onclick="goToSection('shippingMethodSection')">Continue</button>
-                        <button type="button" class="edit-btn" onclick="goToSection('shippingBillingSection')">Edit</button>
                     </div>
 
                     <!-- Section 2: Shipping Method -->
-                    <div id="shippingMethodSection" class="form-section" style="display:none;">
-                        <h3>2. SHIPPING METHOD</h3>
-                        <p>Select your preferred shipping method:</p>
-                        <div class="form-group">
-                            <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
-                            <label for="standard">Standard Shipping (5-7 days)</label>
+                    <div id="shippingMethodSection" class="form-section collapsed">
+                        <h3 onclick="toggleSection('shippingMethodSection')">2. SHIPPING METHOD</h3>
+                        <div class="form-content">
+                            <p>Select your preferred shipping method:</p>
+                            <div class="form-group">
+                                <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
+                                <label for="standard">Standard Shipping (5-7 days)</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="radio" id="express" name="shippingMethod" value="Express" required>
+                                <label for="express">Express Shipping (2-3 days)</label>
+                            </div>
+                            <button type="button" class="continue-btn" onclick="collapseSection('shippingMethodSection', 'paymentSection')">Continue</button>
                         </div>
-                        <div class="form-group">
-                            <input type="radio" id="express" name="shippingMethod" value="Express" required>
-                            <label for="express">Express Shipping (2-3 days)</label>
-                        </div>
-                        <button type="button" class="continue-btn" onclick="goToSection('paymentSection')">Continue</button>
-                        <button type="button" class="edit-btn" onclick="goToSection('shippingMethodSection')">Edit</button>
                     </div>
 
                     <!-- Section 3: Payment -->
-                    <div id="paymentSection" class="form-section" style="display:none;">
-                        <h3>3. PAYMENT</h3>
-                        <div class="form-group">
-                            <label for="cardNumber">Credit Card Number:</label>
-                            <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
+                    <div id="paymentSection" class="form-section collapsed">
+                        <h3 onclick="toggleSection('paymentSection')">3. PAYMENT</h3>
+                        <div class="form-content">
+                            <div class="form-group">
+                                <label for="cardNumber">Credit Card Number:</label>
+                                <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
+                            </div>
+                            <div class="form-group">
+                                <label for="expDate">Expiration Date:</label>
+                                <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label for="securityCode">Security Code (CVV):</label>
+                                <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCode">Billing ZIP Code:</label>
+                                <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
+                            </div>
+                            <button type="submit" class="submit-button">Complete Purchase</button>
                         </div>
-                        <div class="form-group">
-                            <label for="expDate">Expiration Date:</label>
-                            <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
-                        </div>
-                        <div class="form-group">
-                            <label for="securityCode">Security Code (CVV):</label>
-                            <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
-                        </div>
-                        <div class="form-group">
-                            <label for="zipCode">Billing ZIP Code:</label>
-                            <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
-                        </div>
-                        <button type="submit" class="submit-button">Complete Purchase</button>
-                        <button type="button" class="edit-btn" onclick="goToSection('paymentSection')">Edit</button>
                     </div>
                 </form>
             </div>
@@ -198,10 +201,24 @@
     </footer>
 
     <script>
-        function goToSection(sectionId) {
-            const sections = document.querySelectorAll('.form-section');
-            sections.forEach(section => section.style.display = 'none');
-            document.getElementById(sectionId).style.display = 'block';
+        function collapseSection(currentSectionId, nextSectionId) {
+            const currentSection = document.getElementById(currentSectionId);
+            const nextSection = document.getElementById(nextSectionId);
+
+            currentSection.querySelector('.form-content').style.display = 'none';
+            nextSection.querySelector('.form-content').style.display = 'block';
+        }
+
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const content = section.querySelector('.form-content');
+            const isVisible = content.style.display === 'block';
+
+            if (isVisible) {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
         }
 
         function validateForm() {
