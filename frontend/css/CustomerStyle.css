@@ -147,7 +147,6 @@ footer {
 
 /* Checkout Form */
 .checkout-container {
-    display: flex; /* Added flex for side-by-side alignment */
     justify-content: space-between;
     max-width: 1200px;
     margin: 30px auto;
