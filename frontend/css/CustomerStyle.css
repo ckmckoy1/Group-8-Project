@@ -101,14 +101,13 @@ header {
 }
 
 .top-bar .logo h1 {
-    font-size: 4em; 
+    font-size: 2em; 
     font-weight: bold;
     letter-spacing: 2px;
     text-align: center; 
     margin-right: 10px;
     font-family: 'Playfair Display', serif; /* Unique, elegant font */
     color: #333;
-    text-shadow: 2px 2px #023047; /* Dark shadow for depth */
 }
 
 /* Banner */
@@ -142,7 +141,7 @@ aside {
 
 footer {
 	float:bottom;
-	width:1000%;
+	width:100%;
 }
 
 /* Checkout Form */
