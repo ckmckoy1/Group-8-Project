@@ -123,6 +123,16 @@ header {
     color: #ffb703; /* Adventure yellow */
 }
 
+main {
+	float:left;
+	width:60%;
+}
+
+aside {
+	float:right;
+	width:30%;
+}
+
 /* Checkout Form */
 .checkout-container {
     display: flex; /* Added flex for side-by-side alignment */
