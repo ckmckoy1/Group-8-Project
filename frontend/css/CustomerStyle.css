@@ -6,7 +6,7 @@ html, body {
 	outline: 0;
 	font-size: 100%;
 	vertical-align: baseline;
-	min-height: 100vh; /* Full height */
+	height: 100%; /* Use height instead of min-height */
 	display: flex;
 	flex-direction: column; /* Push footer down */
 }
@@ -122,6 +122,7 @@ header {
     max-width: 1200px;
     margin: 30px auto;
     padding: 20px;
+	flex-grow: 1; /* This allows the container to fill available space */
 }
 
 /* Left Side: Checkout Container */
@@ -155,7 +156,7 @@ header {
 	display: flex;
 	flex-direction: column;
 	margin-top: auto;
-    margin: 0;
+    margin: auto;
 	width: 100%;
 }
 
