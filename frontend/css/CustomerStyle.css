@@ -65,11 +65,13 @@ header {
 }
 
 .search-bar input {
-	padding: 10px;
-    color: #aaa;
-	/* border: 2px solid #83c5be;
-	border-radius: 4px; */
+    padding: 10px;
+    color: #aaa;  /* Text color */
+    background-color: transparent; /* Make the input transparent */
+    border: none; /* Remove the border */
+    outline: none; /* Remove the default focus outline */
 }
+
 
 .top-bar .cart-icon img {
 	width: 40px;
@@ -115,22 +117,32 @@ header {
 
 /* Flexbox layout for main content and sidebar */
 .container {
-	display: flex;
-	justify-content: space-between;
-	flex-grow: 1;
-	padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
 }
 
-main, aside {
-	padding: 20px;
+/* Left Side: Checkout Container */
+.checkout-container {
+    flex: 0 1 65%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    animation: fadeIn 1s ease-in-out;
 }
 
-main {
-	flex: 0 1 60%;
-}
-
-aside {
-	flex: 0 1 30%;
+/* Right Side: Order Summary */
+.order-summary {
+    flex: 0 1 30%;
+    background-color: #e5e5e5;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-left: 20px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 /* Footer */
@@ -364,15 +376,14 @@ h2 {
 	height: 40px;
 }
 
-/* Media Query for Responsiveness */
-@media (max-width: 600px) {
-	.checkout-container, .container {
-		flex-direction: column;
-	}
-	.order-summary {
-		margin-top: 20px;
-		margin-left: 0;
-	}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .order-summary {
+        margin-left: 0;
+        margin-top: 20px;
+    }
 }
 
 /* Animations */
