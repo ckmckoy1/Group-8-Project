@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const closePopup = document.getElementById('closePopup');
 
     // Function to mask credit card number
-    function maskCardNumber(cardNumber) {
+    const maskCardNumber = (cardNumber) => {
         return cardNumber.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-    }
+    };
 
     // Function to detect card type
-    function detectCardType(cardNumber) {
+    const detectCardType = (cardNumber) => {
         const re = {
             visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
             mastercard: /^5[1-5][0-9]{14}$/,
@@ -20,25 +20,30 @@ document.addEventListener('DOMContentLoaded', function () {
         if (re.mastercard.test(cardNumber)) return 'MasterCard';
         if (re.amex.test(cardNumber)) return 'American Express';
         return 'Unknown';
-    }
+    };
 
     // Function to validate expiration date
-    function isCardExpired(expDate) {
+    const isCardExpired = (expDate) => {
         const today = new Date();
         const [month, year] = expDate.split('/').map(Number);
         const exp = new Date(`20${year}-${month}-01`);
         return today > exp;
-    }
+    };
 
     // Function to display messages
-    function displayMessage(message, type) {
+    const displayMessage = (message, type) => {
         messageDiv.textContent = message;
         messageDiv.className = `message ${type}`;
         messageDiv.style.display = 'block';
-    }
+    };
+
+    // Function to close popup
+    const closePopupHandler = () => {
+        popupOverlay.classList.remove('show');
+    };
 
     // Handle form submission
-    checkoutForm.addEventListener('submit', async function (event) {
+    checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const orderId = document.getElementById('orderId').value;
@@ -62,48 +67,46 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Temporary bypass for missing mock endpoints
+        // Simulate payment success for now
         displayMessage('Success: Payment authorized (temporary bypass)!', 'success');
-        
+
         // Prepare order data
         const orderData = {
-            orderId: orderId,
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
+            orderId,
+            firstName,
+            lastName,
+            address,
             cardDetails: {
                 number: cardNumber,
                 expirationDate: expDate,
                 cvv: securityCode,
-                zipCode: zipCode
-            }
+                zipCode,
+            },
         };
 
         // Show the popup after 2 seconds
-        setTimeout(function() {
+        setTimeout(() => {
             popupOverlay.classList.add('show');
         }, 2000);
 
         // Close the popup when the close button is clicked
-        closePopup.addEventListener('click', function() {
-            popupOverlay.classList.remove('show');
-        });
+        closePopup.addEventListener('click', closePopupHandler);
 
         // Close the popup when clicking outside of it
-        popupOverlay.addEventListener('click', function(event) {
+        popupOverlay.addEventListener('click', (event) => {
             if (event.target === popupOverlay) {
-                popupOverlay.classList.remove('show');
+                closePopupHandler();
             }
         });
 
-        // Optionally, send order data to the backend for storage
+        // Optionally send order data to the backend
         try {
             const response = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(orderData)
+                body: JSON.stringify(orderData),
             });
 
             if (!response.ok) {
@@ -123,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const orderId = 'NS-' + Math.floor(100000 + Math.random() * 900000);
         document.getElementById('orderId').value = orderId;
     };
+
+
 
     // Uncomment and use this block once the mock endpoints are ready
     /*
