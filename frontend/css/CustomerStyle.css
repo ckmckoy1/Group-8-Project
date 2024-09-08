@@ -10,6 +10,7 @@ html, body {
     display: flex;
     flex-direction: column; /* Push footer down */
     width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 body {
@@ -17,6 +18,12 @@ body {
     background-color: #f4f4f9;
     color: #333;
     flex: 1; /* Expand body */
+}
+
+/* Remove default margin from all sections */
+section, header, footer {
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -32,8 +39,7 @@ header {
     justify-content: center;
     align-items: center;
     padding: 2px 5%;
-    font-size: 1em;
-    margin: auto;
+    width: 100%;
 }
 
 .promo-bar p a {
@@ -45,8 +51,9 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    margin: auto;
+    padding: 10px 5px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .search-bar {
@@ -54,22 +61,19 @@ header {
     align-items: center;
     padding: 10px 0;
     border-bottom: 2px solid #333;
-    background-color: transparent;
-    outline: none; 
-}
-
-.search-bar img {
-    margin-left: 10px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
 .search-bar input {
     padding: 10px;
-    color: #aaa;  /* Text color */
-    background-color: transparent; /* Make the input transparent */
-    border: none; /* Remove the border */
-    outline: none; /* Remove the default focus outline */
+    color: #aaa;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.search-bar img {
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .top-bar .cart-icon img {
@@ -78,9 +82,8 @@ header {
 }
 
 .top-bar .logo h1 {
-    font-size: 3em;
+    font-size: 2.5em;
     font-weight: bold;
-    letter-spacing: 2px;
     text-align: center;
     font-family: 'Bauhaus Soft', serif;
     color: #333;
@@ -94,14 +97,14 @@ header {
     text-align: center;
     font-weight: bold;
     font-size: 1.1em;
-    margin: auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .banner .nav {
     display: flex;
     justify-content: space-around;
     padding: 0;
-    margin: auto;
     list-style: none;
 }
 
@@ -119,9 +122,10 @@ header {
     display: flex;
     justify-content: space-between;
     max-width: 1200px;
-    margin: 30px auto;
+    margin: 0 auto;
     padding: 20px;
-    flex-grow: 1; /* This allows the container to fill available space */
+    flex-grow: 1;
+    box-sizing: border-box;
 }
 
 /* Left Side: Checkout Container */
@@ -131,7 +135,7 @@ header {
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    animation: fadeIn 1s ease-in-out;
+    box-sizing: border-box;
 }
 
 /* Right Side: Order Summary */
@@ -141,15 +145,13 @@ header {
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-left: 20px;
-    margin-top: 30px;
-    max-height: 400px; /* Limits the height */
+    max-height: 400px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Keep content at the top */
-    overflow: hidden; /* Prevents content from pushing the background further */
-    animation: fadeIn 1s ease-in-out;
+    justify-content: flex-start;
+    overflow: hidden;
 }
 
 .order-summary h3 {
@@ -171,11 +173,8 @@ hr {
     color: #fff;
     text-align: center;
     font-size: 0.9em;
-    padding: 10px 5%;
-    display: flex;
-    flex-direction: column;
+    padding: 10px;
     margin-top: auto;
-    margin: auto;
     width: 100%;
 }
 
@@ -183,7 +182,6 @@ hr {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    justify-content: space-around;
 }
 
 .footer-nav a {
@@ -224,14 +222,13 @@ h2 {
     padding: 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    transition: border 0.3s ease;
     background-color: #f4f4f9;
+    box-sizing: border-box;
 }
 
 .checkout-form input:focus {
     border-color: #83c5be;
     background-color: #e0fbfc;
-    outline: none;
 }
 
 .continue-btn, .submit-button {
@@ -242,7 +239,6 @@ h2 {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: 20px;
 }
 
@@ -363,28 +359,5 @@ h2 {
     .order-summary {
         margin-left: 0;
         margin-top: 20px;
-    }
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
     }
 }
