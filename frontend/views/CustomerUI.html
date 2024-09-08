@@ -12,7 +12,9 @@
 <body>
     <header class="header">
         <div class="promo-bar">
-            <p>Earn Rewards On Purchases | FALL OUTERWEAR 20-40% OFF | <a href="#">VIEW DEALS</a> | <img src="../assets/location.svg" width="5" height="5"> The Outlet Shoppes at Atlanta  |  <img src="../assets/account.svg" width="5" height="5"> <a href="#">Sign In / Sign Up </a></p>
+            <p>Earn Rewards On Purchases | FALL OUTERWEAR 20-40% OFF | <a href="#">VIEW DEALS</a> | 
+            <img src="../assets/location.svg" width="5" height="5"> The Outlet Shoppes at Atlanta  |  
+            <img src="../assets/account.svg" width="5" height="5"> <a href="#">Sign In / Sign Up </a></p>
         </div>
     </header>
 
@@ -44,129 +46,129 @@
         </nav>
     </div>
 
-<!-- Popup for Chat -->
-<div class="popup-overlay" id="chatPopupOverlay">
-    <div class="popup" id="chatPopup">
-        <span class="close" id="closeChatPopup">&times;</span>
-        <div class="popup-content">
-            <img src="../assets/chat.svg" width="50" height="50" alt="Chat">
-        </div>
-    </div>
-</div>
-
-<!-- Popup for Feedback -->
-<div class="popup-overlay" id="feedbackPopupOverlay">
-    <div class="popup" id="feedbackPopup">
-        <span class="close" id="closeFeedbackPopup">&times;</span>
-        <div class="popup-content">
-            <p>Give us feedback!</p>
-        </div>
-    </div>
-</div>
-
-    <main>
-    <div class="container">    
-        <section class="checkout-container">
-            <h2>Secure Checkout</h2>
-            <div class="sign-in">
-                <p>Sign in to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
-                <a href="#">+ Add my Adventure Rewards Number</a>
+    <!-- Popup for Chat -->
+    <div class="popup-overlay" id="chatPopupOverlay">
+        <div class="popup" id="chatPopup">
+            <span class="close" id="closeChatPopup">&times;</span>
+            <div class="popup-content">
+                <img src="../assets/chat.svg" width="50" height="50" alt="Chat">
             </div>
+        </div>
+    </div>
 
-            <div class="checkout-content">
-                <!-- Left Column: Form for Checkout Sections -->
-                <div class="checkout-form-section">
-                    <form id="checkoutForm" onsubmit="return validateForm()">
-                        <!-- Section 1: Shipping & Billing Details -->
-                        <div id="shippingBillingSection" class="form-section">
-                            <h3 onclick="toggleSection('shippingBillingSection')">1. SHIPPING & BILLING DETAILS</h3>
-                            <div class="form-content">
-                                <div class="form-group">
-                                    <label for="email">Email:</label>
-                                    <input type="email" id="email" name="email" required placeholder="Enter your email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Phone Number:</label>
-                                    <input type="tel" id="phone" name="phone" required placeholder="For delivery purposes only">
-                                </div>
-                                <div class="form-group">
-                                    <label for="firstName">First Name:</label>
-                                    <input type="text" id="firstName" name="firstName" required placeholder="First Name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName">Last Name:</label>
-                                    <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">Shipping Address:</label>
-                                    <input type="text" id="address" name="address" required placeholder="Start typing your street address">
-                                </div>
-                                <div class="form-group">
-                                    <label for="unitNumber">Unit Number, Suite, Floor (Optional):</label>
-                                    <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor">
-                                </div>
-                                <div class="form-group">
-                                    <label for="city">City:</label>
-                                    <input type="text" id="city" name="city" required placeholder="City">
-                                </div>
-                                <div class="form-group">
-                                    <label for="state">State / Region:</label>
-                                    <input type="text" id="state" name="state" required placeholder="State / Region">
-                                </div>
-                                <div class="form-group">
-                                    <label for="zip">ZIP / Postal Code:</label>
-                                    <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
-                                </div>
-                                <button type="button" class="continue-btn" onclick="collapseSection('shippingBillingSection', 'shippingMethodSection')">Continue</button>
-                            </div>
-                        </div>
+    <!-- Popup for Feedback -->
+    <div class="popup-overlay" id="feedbackPopupOverlay">
+        <div class="popup" id="feedbackPopup">
+            <span class="close" id="closeFeedbackPopup">&times;</span>
+            <div class="popup-content">
+                <p>Give us feedback!</p>
+            </div>
+        </div>
+    </div>
 
-                        <!-- Section 2: Shipping Method -->
-                        <div id="shippingMethodSection" class="form-section collapsed">
-                            <h3 onclick="toggleSection('shippingMethodSection')">2. SHIPPING METHOD</h3>
-                            <div class="form-content">
-                                <p>Select your preferred shipping method:</p>
-                                <div class="form-group">
-                                    <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
-                                    <label for="standard">Standard Shipping (5-7 days)</label>
-                                </div>
-                                <div class="form-group">
-                                    <input type="radio" id="express" name="shippingMethod" value="Express" required>
-                                    <label for="express">Express Shipping (2-3 days)</label>
-                                </div>
-                                <button type="button" class="continue-btn" onclick="collapseSection('shippingMethodSection', 'paymentSection')">Continue</button>
-                            </div>
-                        </div>
-
-                        <!-- Section 3: Payment -->
-                        <div id="paymentSection" class="form-section collapsed">
-                            <h3 onclick="toggleSection('paymentSection')">3. PAYMENT</h3>
-                            <div class="form-content">
-                                <div class="form-group">
-                                    <label for="cardNumber">Credit Card Number:</label>
-                                    <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
-                                </div>
-                                <div class="form-group">
-                                    <label for="expDate">Expiration Date:</label>
-                                    <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
-                                </div>
-                                <div class="form-group">
-                                    <label for="securityCode">Security Code (CVV):</label>
-                                    <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
-                                </div>
-                                <div class="form-group">
-                                    <label for="zipCode">Billing ZIP Code:</label>
-                                    <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
-                                </div>
-                                <button type="submit" class="submit-button">Complete Purchase</button>
-                            </div>
-                        </div>
-                    </form>
+    <main class="main-content">
+        <div class="container">    
+            <section class="checkout-container">
+                <h2>Secure Checkout</h2>
+                <div class="sign-in">
+                    <p>Sign in to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
+                    <a href="#">+ Add my Adventure Rewards Number</a>
                 </div>
-            </section>
+
+                <div class="checkout-content">
+                    <!-- Left Column: Form for Checkout Sections -->
+                    <div class="checkout-form-section">
+                        <form id="checkoutForm" onsubmit="return validateForm()">
+                            <!-- Section 1: Shipping & Billing Details -->
+                            <div id="shippingBillingSection" class="form-section">
+                                <h3 onclick="toggleSection('shippingBillingSection')">1. SHIPPING & BILLING DETAILS</h3>
+                                <div class="form-content">
+                                    <div class="form-group">
+                                        <label for="email">Email:</label>
+                                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number:</label>
+                                        <input type="tel" id="phone" name="phone" required placeholder="For delivery purposes only">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firstName">First Name:</label>
+                                        <input type="text" id="firstName" name="firstName" required placeholder="First Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name:</label>
+                                        <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Shipping Address:</label>
+                                        <input type="text" id="address" name="address" required placeholder="Start typing your street address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="unitNumber">Unit Number, Suite, Floor (Optional):</label>
+                                        <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city">City:</label>
+                                        <input type="text" id="city" name="city" required placeholder="City">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state">State / Region:</label>
+                                        <input type="text" id="state" name="state" required placeholder="State / Region">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zip">ZIP / Postal Code:</label>
+                                        <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
+                                    </div>
+                                    <button type="button" class="continue-btn" onclick="collapseSection('shippingBillingSection', 'shippingMethodSection')">Continue</button>
+                                </div>
+                            </div>
+
+                            <!-- Section 2: Shipping Method -->
+                            <div id="shippingMethodSection" class="form-section collapsed">
+                                <h3 onclick="toggleSection('shippingMethodSection')">2. SHIPPING METHOD</h3>
+                                <div class="form-content">
+                                    <p>Select your preferred shipping method:</p>
+                                    <div class="form-group">
+                                        <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
+                                        <label for="standard">Standard Shipping (5-7 days)</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="radio" id="express" name="shippingMethod" value="Express" required>
+                                        <label for="express">Express Shipping (2-3 days)</label>
+                                    </div>
+                                    <button type="button" class="continue-btn" onclick="collapseSection('shippingMethodSection', 'paymentSection')">Continue</button>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: Payment -->
+                            <div id="paymentSection" class="form-section collapsed">
+                                <h3 onclick="toggleSection('paymentSection')">3. PAYMENT</h3>
+                                <div class="form-content">
+                                    <div class="form-group">
+                                        <label for="cardNumber">Credit Card Number:</label>
+                                        <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="expDate">Expiration Date:</label>
+                                        <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="securityCode">Security Code (CVV):</label>
+                                        <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zipCode">Billing ZIP Code:</label>
+                                        <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
+                                    </div>
+                                    <button type="submit" class="submit-button">Complete Purchase</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
                 <!-- Right Column: Order Summary -->
                 <aside class="order-summary">
-                <div class="order-summary">
                     <h3>Order Summary</h3>
                     <p>Items in Cart: 1</p>
                     <p>Total: $43.14</p>
@@ -175,10 +177,9 @@
                     <p>Tax: $2.87</p>
                     <hr>
                     <p><strong>Grand Total: $50.00</strong></p>
-                </div>
-                <aside class="order-summary">
+                </aside>
             </div>
-        
+        </div>
     </main>
 
     <footer class="footer">
@@ -196,24 +197,22 @@
         <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
     </footer>
 
-  
-<script>
-    document.getElementById('openChatPopup').addEventListener('click', function() {
-        document.getElementById('chatPopupOverlay').classList.add('show');
-    });
+    <script>
+        document.getElementById('openChatPopup').addEventListener('click', function() {
+            document.getElementById('chatPopupOverlay').classList.add('show');
+        });
 
-    document.getElementById('openFeedbackPopup').addEventListener('click', function() {
-        document.getElementById('feedbackPopupOverlay').classList.add('show');
-    });
+        document.getElementById('openFeedbackPopup').addEventListener('click', function() {
+            document.getElementById('feedbackPopupOverlay').classList.add('show');
+        });
 
-    document.getElementById('closeChatPopup').addEventListener('click', function() {
-        document.getElementById('chatPopupOverlay').classList.remove('show');
-    });
+        document.getElementById('closeChatPopup').addEventListener('click', function() {
+            document.getElementById('chatPopupOverlay').classList.remove('show');
+        });
 
-    document.getElementById('closeFeedbackPopup').addEventListener('click', function() {
-        document.getElementById('feedbackPopupOverlay').classList.remove('show');
-    });
-
+        document.getElementById('closeFeedbackPopup').addEventListener('click', function() {
+            document.getElementById('feedbackPopupOverlay').classList.remove('show');
+        });
 
         function collapseSection(currentSectionId, nextSectionId) {
             const currentSection = document.getElementById(currentSectionId);
@@ -240,6 +239,6 @@
             return true;
         }
     </script>
-
 </body>
 </html>
+
