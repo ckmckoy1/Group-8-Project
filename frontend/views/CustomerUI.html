@@ -65,6 +65,7 @@
 </div>
 
     <main>
+    <div class="container">    
         <section class="checkout-container">
             <h2>Secure Checkout</h2>
             <div class="sign-in">
@@ -162,8 +163,9 @@
                         </div>
                     </form>
                 </div>
-
+            </section>
                 <!-- Right Column: Order Summary -->
+                <aside class="order-summary">
                 <div class="order-summary">
                     <h3>Order Summary</h3>
                     <p>Items in Cart: 1</p>
@@ -174,8 +176,9 @@
                     <hr>
                     <p><strong>Grand Total: $50.00</strong></p>
                 </div>
+                <aside class="order-summary">
             </div>
-        </section>
+        
     </main>
 
     <footer class="footer">
@@ -194,13 +197,23 @@
     </footer>
 
     <script>
-        document.getElementById('closeChatPopup').addEventListener('click', function() {
-            document.getElementById('chatPopupOverlay').classList.remove('show');
-        });
+<script>
+    document.getElementById('openChatPopup').addEventListener('click', function() {
+        document.getElementById('chatPopupOverlay').classList.add('show');
+    });
 
-        document.getElementById('closeFeedbackPopup').addEventListener('click', function() {
-            document.getElementById('feedbackPopupOverlay').classList.remove('show');
-        });
+    document.getElementById('openFeedbackPopup').addEventListener('click', function() {
+        document.getElementById('feedbackPopupOverlay').classList.add('show');
+    });
+
+    document.getElementById('closeChatPopup').addEventListener('click', function() {
+        document.getElementById('chatPopupOverlay').classList.remove('show');
+    });
+
+    document.getElementById('closeFeedbackPopup').addEventListener('click', function() {
+        document.getElementById('feedbackPopupOverlay').classList.remove('show');
+    });
+</script>
 
         function collapseSection(currentSectionId, nextSectionId) {
             const currentSection = document.getElementById(currentSectionId);
