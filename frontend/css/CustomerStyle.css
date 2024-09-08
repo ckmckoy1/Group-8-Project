@@ -45,7 +45,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    margin: 0 10px;
+    margin: 0;
 }
 
 .search-bar {
@@ -93,7 +93,7 @@ header {
     text-align: center;
     font-weight: bold;
     font-size: 1.1em;
-    margin: 10px 0;
+    margin: 0;
 }
 
 .banner .nav {
