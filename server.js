@@ -3,13 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fetch = require('node-fetch'); // For making external API requests
-const Order = require('./models/orderModel'); // Assuming you've defined this in a model file
+//const Order = require('./models/orderModel'); // Assuming you've defined this in a model file
+require('dotenv').config(); // For loading environment variables
 
 const app = express();
 
 // Middleware for parsing JSON bodies
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files (like CSS, JS, HTML)
+app.use(express.static('public')); // Serve static files (like CSS, JS, HTML))
 
 // Connect to MongoDB using environment variable
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -39,14 +40,19 @@ const Order = mongoose.model('Order', orderSchema);
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
-    const { orderId, firstName, lastName, address, cardDetails } = req.body;
+    const { firstName, lastName, address, cardDetails } = req.body;
 
+    // Auto-generate orderId for new orders
+    const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
+
+    // Mock Endpoint URLs (currently commented out for bypass)
+    /*
     const mockEndpointSuccess = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741';
     const mockEndpointFailureDetails = 'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4';
     const mockEndpointFailureFunds = 'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588';
 
-    // Call mock endpoint based on card details (simulated)
-    let mockUrl = mockEndpointSuccess; // For example, set this dynamically based on validation
+    // Determine mock URL based on card details (simulated)
+    let mockUrl = mockEndpointSuccess;
     if (cardDetails.number.startsWith('4111')) {
         mockUrl = mockEndpointSuccess;
     } else if (cardDetails.number.startsWith('5105')) {
@@ -55,37 +61,44 @@ app.post('/api/checkout', async (req, res) => {
         mockUrl = mockEndpointFailureFunds;
     }
 
-    try {
-        const response = await fetch(mockUrl);
-        const data = await response.json();
+    // Uncomment and restore this once the mock endpoints are available
+    const response = await fetch(mockUrl);
+    const data = await response.json();
+    */
 
-        // Store the transaction in MongoDB
+    try {
+        // Bypass mock endpoint and simulate a successful payment
+        const mockToken = 'mockToken123'; // Mock token for now
+        const authorizedAmount = 50.00;   // Mock authorized amount for now
+        const tokenExpirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // Mock token expiration (1 week)
+
+        // Store transaction details in MongoDB
         const newOrder = new Order({
-            orderId: orderId,
-            firstName: firstName,
-            lastName: lastName,
-            address: address,
+            orderId,
+            firstName,
+            lastName,
+            address,
             cardDetails: {
-                number: cardDetails.number.slice(-4), // Save only the last 4 digits
+                number: cardDetails.number.slice(-4), // Only save the last 4 digits
                 expirationDate: cardDetails.expirationDate,
                 cvv: cardDetails.cvv,
                 zipCode: cardDetails.zipCode
             },
-            authorizationToken: data.AuthorizationToken || null,
-            authorizedAmount: data.AuthorizedAmount || 0,
-            tokenExpirationDate: data.TokenExpirationDate || null,
+            authorizationToken: mockToken, // Mock token used for bypass
+            authorizedAmount: authorizedAmount,
+            tokenExpirationDate: tokenExpirationDate,
             transactionDateTime: new Date(),
-            status: data.Success ? 'Success' : 'Failure'
+            status: 'Success' // Mark as Success in bypass
         });
 
         await newOrder.save();
 
         // Send response back to the client
         res.json({
-            message: data.Success ? 'Payment Authorized' : 'Payment Failed',
-            authorizationToken: data.AuthorizationToken,
-            authorizedAmount: data.AuthorizedAmount,
-            tokenExpirationDate: data.TokenExpirationDate
+            message: 'Payment Authorized (bypass)',
+            authorizationToken: mockToken,
+            authorizedAmount: authorizedAmount,
+            tokenExpirationDate: tokenExpirationDate
         });
 
     } catch (error) {
@@ -108,7 +121,7 @@ app.post('/api/settle-shipment', async (req, res) => {
     const { orderId, finalAmount } = req.body;
 
     try {
-        const order = await Order.findOne({ orderId: orderId });
+        const order = await Order.findOne({ orderId });
 
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
