@@ -1,4 +1,4 @@
-# Nature Sporting Goods Ecommerce Payment Processing
+# Wild Path Outfitters Ecommerce Payment Processing
 
 ## Overview
 This project is an implementation of a payment processing system for an eCommerce website that handles credit card authorizations, validates inputs, and interacts with mock payment authorization endpoints. The project consists of two main components:
@@ -155,6 +155,6 @@ The backend uses MongoDB to store the following details:
 **Access the Application:** Open your browser and navigate to:
     [https://ckmckoy1.github.io/Group-8-Project/](https://ckmckoy1.github.io/Group-8-Project/)
 
-
 ## License
 This project is licensed under the MIT License.
+
