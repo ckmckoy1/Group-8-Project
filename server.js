@@ -3,22 +3,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-//const Order = require('./models/orderModel'); // Assuming you've defined this in a model file
 require('dotenv').config(); // For loading environment variables
 
-// Root route
-app.get('/', (req, res) => {
-    res.send('Welcome to Wild Path Outfitters API!');
-});
-
-
+// Initialize express app
 const app = express();
 
 // Middleware for parsing JSON bodies
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files (like CSS, JS, HTML))
+app.use(express.static('public')); // Serve static files (like CSS, JS, HTML)
 
-// Connect to MongoDB using environment variable
+// Connect to MongoDB using environment variables
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log('MongoDB connection error:', err));
@@ -43,6 +37,11 @@ const orderSchema = new mongoose.Schema({
 });
 
 const Order = mongoose.model('Order', orderSchema);
+
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to Wild Path Outfitters API!');
+});
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
