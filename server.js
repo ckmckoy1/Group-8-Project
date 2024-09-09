@@ -6,6 +6,12 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 //const Order = require('./models/orderModel'); // Assuming you've defined this in a model file
 require('dotenv').config(); // For loading environment variables
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to Wild Path Outfitters API!');
+});
+
+
 const app = express();
 
 // Middleware for parsing JSON bodies
