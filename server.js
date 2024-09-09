@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fetch = require('node-fetch'); // For making external API requests
-const Order = require('./models/orderModel'); // Assuming you've defined this in a model file
+//const Order = require('./models/orderModel'); // Assuming you've defined this in a model file
 require('dotenv').config(); // For loading environment variables
 
 const app = express();
