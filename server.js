@@ -17,6 +17,11 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.log('MongoDB connection error:', err));
 
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to Wild Path Outfitters API!');
+});
+
 // Define Mongoose schema and models
 const orderSchema = new mongoose.Schema({
     orderId: String,
@@ -37,11 +42,6 @@ const orderSchema = new mongoose.Schema({
 });
 
 const Order = mongoose.model('Order', orderSchema);
-
-// Root route
-app.get('/', (req, res) => {
-    res.send('Welcome to Wild Path Outfitters API!');
-});
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
