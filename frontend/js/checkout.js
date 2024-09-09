@@ -127,7 +127,22 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('orderId').value = orderId;
     };
 
-
+    function validateForm() {
+        const requiredFields = document.querySelectorAll('input[required]');
+        let isValid = true;
+    
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                field.style.border = '2px solid red'; // Highlight empty fields
+                isValid = false;
+            } else {
+                field.style.border = ''; // Reset field border if filled
+            }
+        });
+    
+        return isValid;
+    }
+    
 
     // Uncomment and use this block once the mock endpoints are ready
     /*

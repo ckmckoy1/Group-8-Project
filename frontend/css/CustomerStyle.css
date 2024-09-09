@@ -139,6 +139,7 @@ header {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 /* Right Side: Order Summary */
@@ -155,6 +156,7 @@ header {
     flex-direction: column;
     justify-content: flex-start;
     overflow: hidden;
+    overflow-y: auto;
 }
 
 .order-summary h3 {
