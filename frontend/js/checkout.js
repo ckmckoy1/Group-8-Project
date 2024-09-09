@@ -46,14 +46,23 @@ document.addEventListener('DOMContentLoaded', function () {
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const orderId = document.getElementById('orderId').value;
+        // Gather values from the form (excluding orderId as it will be generated in the backend)
         const firstName = document.getElementById('firstName').value;
         const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
         const address = document.getElementById('address').value;
+        const unitNumber = document.getElementById('unitNumber').value;
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+        const zip = document.getElementById('zip').value;
+        const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+
+        // Payment details
         const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
         const expDate = document.getElementById('expDate').value;
         const securityCode = document.getElementById('securityCode').value;
-        const zipCode = document.getElementById('zipCode').value;
+        const billingZipCode = document.getElementById('zipCode').value;
 
         // Client-side validations
         if (isCardExpired(expDate)) {
@@ -72,16 +81,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Prepare order data
         const orderData = {
-            orderId,
             firstName,
             lastName,
-            address,
-            cardDetails: {
-                number: cardNumber,
-                expirationDate: expDate,
-                cvv: securityCode,
-                zipCode,
-            },
+            email,
+            phone,
+            address: `${address} ${unitNumber}, ${city}, ${state}, ${zip}`,
+            shippingMethod,
+            paymentDetails: {
+                cardNumber,
+                expDate,
+                securityCode,
+                billingZipCode
+            }
         };
 
         // Show the popup after 2 seconds
@@ -99,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Optionally send order data to the backend
+        // Send order data to the backend (where orderId will be generated)
         try {
             const response = await fetch('/api/checkout', {
                 method: 'POST',
@@ -109,11 +120,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify(orderData),
             });
 
+            const result = await response.json();
+
             if (!response.ok) {
-                const result = await response.json();
                 displayMessage(`Error: ${result.message}`, 'error');
             } else {
-                displayMessage('Order submitted successfully!', 'success');
+                displayMessage(`Order submitted successfully! Order ID: ${result.orderId}`, 'success');
             }
         } catch (error) {
             console.error('Error submitting order:', error);
@@ -121,12 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Auto-generate the Order ID on page load
-    window.onload = function () {
-        const orderId = 'NS-' + Math.floor(100000 + Math.random() * 900000);
-        document.getElementById('orderId').value = orderId;
-    };
-
+    // Validate form fields
     function validateForm() {
         const requiredFields = document.querySelectorAll('input[required]');
         let isValid = true;
@@ -142,9 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
         return isValid;
     }
-    
 
-    // Uncomment and use this block once the mock endpoints are ready
+    // Mock payment endpoint - Uncomment once ready
     /*
     let mockEndpoint;
     if (cardNumber.startsWith('4111')) {
@@ -177,7 +183,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (data.Success) {
             displayMessage(`Success: Payment authorized! Token: ${data.AuthorizationToken}`, 'success');
-            // Save the transaction details (optional, for back-end implementation)
         } else {
             displayMessage(`Error: ${data.Reason}`, 'error');
         }
