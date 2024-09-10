@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 require('dotenv').config(); // For loading environment variables
 
 // Initialize express app
@@ -19,8 +19,6 @@ mongoose.connect(process.env.MONGODB_URI)
         console.error('MongoDB connection error:', err.message);
         console.error('Make sure your credentials and IP whitelisting are correct.');
     });
-
-
 
 // Root route
 app.get('/', (req, res) => {
@@ -137,14 +135,16 @@ app.post('/api/settle-shipment', async (req, res) => {
             return res.status(404).json({ message: 'Order not found' });
         }
 
+        // Compare the final amount with the authorized amount stored in MongoDB
         if (finalAmount > order.authorizedAmount) {
-            return res.status(400).json({ message: 'Final amount exceeds authorized amount' });
+            return res.status(400).json({ message: `Final amount exceeds authorized amount of $${order.authorizedAmount}` });
         }
 
+        // Mark the order as settled and save
         order.status = 'Settled';
         await order.save();
 
-        res.json({ message: 'Order successfully settled' });
+        res.json({ message: `Order ${orderId} successfully settled with amount $${finalAmount}` });
 
     } catch (err) {
         res.status(500).json({ message: 'Failed to settle order', error: err.message });
@@ -155,7 +155,6 @@ app.post('/api/settle-shipment', async (req, res) => {
 app.use((req, res) => {
     res.status(404).send({ message: 'Resource not found!' });
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 3000;

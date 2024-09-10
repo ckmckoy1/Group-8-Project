@@ -4,10 +4,6 @@ body {
     background-color: #f9f9f9;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
 }
 
 /* Header styling */
@@ -21,6 +17,14 @@ body {
 .header h1 {
     margin: 0;
     font-size: 24px;
+}
+
+/* Center the form container */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Adjust to prevent overlap with header */
 }
 
 /* Settle shipment form container */

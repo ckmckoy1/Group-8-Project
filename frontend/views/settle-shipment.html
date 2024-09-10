@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settle Shipment | Nature Sporting Goods</title>
+    <title>Settle Shipment | Wild Path Outfitters</title>
     <link rel="stylesheet" href="../css/settleShipmentStyle.css">
 </head>
 <body>
@@ -11,6 +11,7 @@
         <h1>Settle Shipment</h1>
     </header>
 
+    <main>
     <div class="settle-shipment-container">
         <form id="settleShipmentForm">
             <div class="form-group">
@@ -28,42 +29,47 @@
             <div id="message" class="message" style="display: none;"></div>
         </form>
     </div>
-
+</main>
     <script>
-        // Sample authorized orders data
-        const authorizedOrders = {
-            'NS-10001': { authorizedAmount: 120.00 },
-            'NS-10002': { authorizedAmount: 90.50 },
-            'NS-10003': { authorizedAmount: 150.75 },
-        };
+<script>
+    document.getElementById('settleShipmentForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-        // Handle form submission
-        document.getElementById('settleShipmentForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+        const orderId = document.getElementById('orderId').value;
+        const finalAmount = parseFloat(document.getElementById('finalAmount').value);
+        const messageDiv = document.getElementById('message');
 
-            const orderId = document.getElementById('orderId').value;
-            const finalAmount = parseFloat(document.getElementById('finalAmount').value);
-            const messageDiv = document.getElementById('message');
+        try {
+            const response = await fetch('/api/settle-shipment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: orderId,
+                    finalAmount: finalAmount
+                }),
+            });
 
-            // Check if the order exists
-            if (authorizedOrders[orderId]) {
-                const authorizedAmount = authorizedOrders[orderId].authorizedAmount;
+            const result = await response.json();
 
-                // Compare final amount with authorized amount
-                if (finalAmount > authorizedAmount) {
-                    messageDiv.textContent = `Error: Final amount ($${finalAmount.toFixed(2)}) exceeds the authorized amount ($${authorizedAmount.toFixed(2)}).`;
-                    messageDiv.className = 'message error';
-                } else {
-                    messageDiv.textContent = `Success: Shipment for Order ID ${orderId} settled successfully with amount $${finalAmount.toFixed(2)}.`;
-                    messageDiv.className = 'message success';
-                }
-            } else {
-                messageDiv.textContent = 'Error: Order ID not found.';
+            if (!response.ok) {
+                messageDiv.textContent = `Error: ${result.message}`;
                 messageDiv.className = 'message error';
+            } else {
+                messageDiv.textContent = result.message;
+                messageDiv.className = 'message success';
             }
+        } catch (error) {
+            console.error('Error during shipment settlement:', error);
+            messageDiv.textContent = 'Error: Something went wrong!';
+            messageDiv.className = 'message error';
+        }
 
-            messageDiv.style.display = 'block';
-        });
+        messageDiv.style.display = 'block';
+    });
+</script>
+
     </script>
 </body>
 </html>
