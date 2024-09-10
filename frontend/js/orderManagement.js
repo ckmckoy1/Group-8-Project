@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to fetch orders from the backend API and display them in the table
     async function fetchOrders() {
         try {
-            const response = await fetch('/api/orders');  // This API should fetch the orders from MongoDB
+            const response = await fetch('https://your-heroku-app.herokuapp.com/api/orders'); 
             const orders = await response.json();
 
             displayOrders(orders);
