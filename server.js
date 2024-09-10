@@ -12,13 +12,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML)
 
-// Connect to MongoDB using environment variables
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// Updated MongoDB connection code without deprecated options
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => {
         console.error('MongoDB connection error:', err.message);
         console.error('Make sure your credentials and IP whitelisting are correct.');
     });
+
 
 
 // Root route
@@ -149,6 +150,12 @@ app.post('/api/settle-shipment', async (req, res) => {
         res.status(500).json({ message: 'Failed to settle order', error: err.message });
     }
 });
+
+// Catch-all route for undefined paths
+app.use((req, res) => {
+    res.status(404).send({ message: 'Resource not found!' });
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
