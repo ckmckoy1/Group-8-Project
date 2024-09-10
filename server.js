@@ -15,7 +15,11 @@ app.use(express.static('public')); // Serve static files (like CSS, JS, HTML)
 // Connect to MongoDB using environment variables
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.log('MongoDB connection error:', err));
+    .catch(err => {
+        console.error('MongoDB connection error:', err.message);
+        console.error('Make sure your credentials and IP whitelisting are correct.');
+    });
+
 
 // Root route
 app.get('/', (req, res) => {
