@@ -119,12 +119,13 @@ app.post('/api/checkout', async (req, res) => {
 // Route to fetch all orders (for Order Management UI)
 app.get('/api/orders', async (req, res) => {
     try {
-        const orders = await Order.find();
-        res.json(orders);
+        const orders = await Order.find();  // Fetch all orders from WP-Orders collection
+        res.json(orders);  // Send the orders to the frontend
     } catch (err) {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
     }
 });
+
 
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
