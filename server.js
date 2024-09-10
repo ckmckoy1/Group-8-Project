@@ -44,7 +44,9 @@ const orderSchema = new mongoose.Schema({
     status: String // Success or Failure
 });
 
-const Order = mongoose.model('Order', orderSchema);
+// Use WP-Orders collection within the WildPathOutfitters database
+const Order = mongoose.model('Order', orderSchema, 'WP-Orders'); // This references your specific collection
+
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
