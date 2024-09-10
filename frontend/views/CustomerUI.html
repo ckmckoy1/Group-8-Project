@@ -46,22 +46,12 @@
         </nav>
     </div>
 
-    <!-- Popup for Chat -->
-    <div class="popup-overlay" id="chatPopupOverlay">
-        <div class="popup" id="chatPopup">
-            <span class="close" id="closeChatPopup">&times;</span>
+    <!-- Popup for Order Complete -->
+    <div class="popup-overlay" id="orderPopupOverlay" style="display: none;">
+        <div class="popup" id="orderPopup">
+            <span class="close" id="closeOrderPopup">&times;</span>
             <div class="popup-content">
-                <img src="../assets/chat.svg" width="50" height="50" alt="Chat">
-            </div>
-        </div>
-    </div>
-
-    <!-- Popup for Feedback -->
-    <div class="popup-overlay" id="feedbackPopupOverlay">
-        <div class="popup" id="feedbackPopup">
-            <span class="close" id="closeFeedbackPopup">&times;</span>
-            <div class="popup-content">
-                <p>Give us feedback!</p>
+                <p>Your order is complete! Thank you for shopping with Wild Path Outfitters.</p>
             </div>
         </div>
     </div>
@@ -238,6 +228,75 @@
             }
             return true;
         }
+
+        // Handle form submission and show popup for order completion
+        document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Gather form data
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const unitNumber = document.getElementById('unitNumber').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const zip = document.getElementById('zip').value;
+            const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expDate = document.getElementById('expDate').value;
+            const securityCode = document.getElementById('securityCode').value;
+            const billingZipCode = document.getElementById('zipCode').value;
+
+            // Prepare order data for API
+            const orderData = {
+                firstName,
+                lastName,
+                email,
+                phone,
+                address: `${address} ${unitNumber}`,
+                city,
+                state,
+                zip,
+                shippingMethod,
+                paymentDetails: {
+                    cardNumber,
+                    expDate,
+                    securityCode,
+                    billingZipCode
+                }
+            };
+
+            try {
+                // Send data to the API
+                const response = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Show success popup
+                    document.getElementById('orderPopupOverlay').style.display = 'block';
+                    alert(`Order submitted successfully! Order ID: ${result.orderId}`);
+                } else {
+                    alert(`Error: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('Error submitting order:', error);
+                alert('Error: Something went wrong!');
+            }
+        });
+
+        // Close the order popup
+        document.getElementById('closeOrderPopup').addEventListener('click', function() {
+            document.getElementById('orderPopupOverlay').style.display = 'none';
+        });
     </script>
 </body>
 
