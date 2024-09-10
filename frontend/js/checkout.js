@@ -42,6 +42,21 @@ document.addEventListener('DOMContentLoaded', function () {
         popupOverlay.classList.remove('show');
     };
 
+    // Show the popup after 2 seconds
+    setTimeout(() => {
+        popupOverlay.classList.add('show');
+    }, 2000);
+
+    // Close the popup when the close button is clicked
+    closePopup.addEventListener('click', closePopupHandler);
+
+    // Close the popup when clicking outside of it
+    popupOverlay.addEventListener('click', (event) => {
+        if (event.target === popupOverlay) {
+            closePopupHandler();
+        }
+    });
+
     // Handle form submission
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -95,21 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
-        // Show the popup after 2 seconds
-        setTimeout(() => {
-            popupOverlay.classList.add('show');
-        }, 2000);
-
-        // Close the popup when the close button is clicked
-        closePopup.addEventListener('click', closePopupHandler);
-
-        // Close the popup when clicking outside of it
-        popupOverlay.addEventListener('click', (event) => {
-            if (event.target === popupOverlay) {
-                closePopupHandler();
-            }
-        });
-
         // Send order data to the backend (where orderId will be generated)
         try {
             const response = await fetch('/api/checkout', {
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function validateForm() {
         const requiredFields = document.querySelectorAll('input[required]');
         let isValid = true;
-    
+
         requiredFields.forEach(field => {
             if (!field.value) {
                 field.style.border = '2px solid red'; // Highlight empty fields
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 field.style.border = ''; // Reset field border if filled
             }
         });
-    
+
         return isValid;
     }
 
