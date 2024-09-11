@@ -19,7 +19,9 @@ It also provides UIs for viewing order status and settling shipments.
     - [Warehouse UI for Shipment Settlement](#warehouse-ui-for-shipment-settlement)
     - [Database Schema](#database-schema)
 7. [Running the Project](#running-the-project)
-8. [License](#license)
+8. [Error Handling and Logging](#error-handling-and-logging)
+9. [Deployment](#deployment)
+10. [License](#license)
 
 ## Project Structure
 
@@ -46,7 +48,7 @@ It also provides UIs for viewing order status and settling shipments.
   - MongoDB for storing order and transaction details
   - Heroku for hosting the backend
 - **Mock Endpoints:**
-  - Provided by MA for simulating payment authorization
+  - Provided by Mocky for simulating payment authorization
 
 ## Prerequisites
 Before running the project, ensure you have the following:
@@ -155,6 +157,52 @@ The backend uses MongoDB to store the following details:
 **Access the Application:** Open your browser and navigate to:
     [https://ckmckoy1.github.io/Group-8-Project/](https://ckmckoy1.github.io/Group-8-Project/)
 
+## Error Handling and Logging
+### Error Handling:
+Backend error handling ensures meaningful error messages are returned to the client. Below is an example snippet:
+
+```javascript
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+```
+
+## Logging
+
+**morgan** is used for request logging, helping track API usage and identify issues.
+
+### Example logging code snippet:
+```javascript
+app.use(morgan('combined')); // Logs all requests
+```
+
+## Deployment
+
+### Frontend Deployment on GitHub Pages:
+1. Push code to GitHub:
+Push the frontend changes to the gh-pages branch on GitHub.
+2. Access your site:
+Navigate to <Your GitHub Pages URL> to access your frontend.
+
+### Backend Deployment on Heroku:
+1. Deploy the backend to Heroku:
+
+```bash
+git push heroku main
+```
+
+2. Set environment variables on Heroku:
+   
+```bash
+heroku config:set MONGODB_URI=<Your MongoDB Atlas URI>
+```
+
+3. Access your backend API:
+
+Use <Your Heroku App URL>/api to access the backend endpoints.
+
 ## License
 This project is licensed under the MIT License.
+
 
