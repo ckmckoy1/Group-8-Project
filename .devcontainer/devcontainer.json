@@ -2,19 +2,13 @@
 {
 
     "extensions": [
-
         "dbaeumer.vscode-eslint",
-
         "esbenp.prettier-vscode",
-
         "ms-vsliveshare.vsliveshare",
-
         "tinkertrain.theme-panda",
-
         "vsls-contrib.codetour",
-
-        "streetsidesoftware.code-spell-checker"
-
+        "streetsidesoftware.code-spell-checker",
+        "ZainChen.json"
     ]
 
 }
