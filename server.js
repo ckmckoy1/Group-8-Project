@@ -7,6 +7,18 @@ require('dotenv').config(); // For loading environment variables
 const cors = require('cors');
 const morgan = require('morgan');
 const compression = require('compression');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const hashedPassword = await bcrypt.hash(password, saltRounds);
+const helmet = require('helmet');
+app.use(helmet());
+
+// Create a token
+const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+// Verify a token
+const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
 app.use(morgan('combined')); // Logs requests to your console
 app.use(compression());
