@@ -36,24 +36,65 @@ document.addEventListener('DOMContentLoaded', function () {
             orderIdCell.textContent = order.OrderID;
 
             const customerCell = document.createElement('td');
-            customerCell.textContent = `${order.FirstName} ${order.LastName}`;  // Adjusted to match the backend schema
+            customerCell.textContent = `${order.FirstName} ${order.LastName}`;
+
+            const emailCell = document.createElement('td');
+            emailCell.textContent = order.CustomerEmail;
+
+            const addressCell = document.createElement('td');
+            addressCell.textContent = `${order.StreetAddress}, ${order.UnitNumber}, ${order.City}, ${order.State}, ${order.ZipCode}`;
+
+            const shippingMethodCell = document.createElement('td');
+            shippingMethodCell.textContent = order.ShippingMethod;
 
             const statusCell = document.createElement('td');
-            statusCell.textContent = order.PaymentStatus;  // Adjust this field based on your schema (e.g., 'PaymentStatus')
+            statusCell.textContent = order.PaymentStatus;
 
             const amountCell = document.createElement('td');
-            amountCell.textContent = `$${order.TotalAmount.toFixed(2)}`;  // Display the authorized amount
+            amountCell.textContent = `$${order.TotalAmount.toFixed(2)}`;
 
+            const cardNumberCell = document.createElement('td');
+            cardNumberCell.textContent = `**** **** **** ${order.CardNumber.slice(-4)}`; // Only show last 4 digits
+
+            const expirationDateCell = document.createElement('td');
+            expirationDateCell.textContent = order.ExpirationDate;
+
+            const billingZipCell = document.createElement('td');
+            billingZipCell.textContent = order.BillingZipCode;
+
+            const transactionDateCell = document.createElement('td');
+            transactionDateCell.textContent = new Date(order.TransactionDateTime).toLocaleString();
+
+            const authTokenCell = document.createElement('td');
+            authTokenCell.textContent = order.AuthorizationToken;
+
+            const authAmountCell = document.createElement('td');
+            authAmountCell.textContent = `$${order.AuthorizationAmount.toFixed(2)}`;
+
+            const authExpiryCell = document.createElement('td');
+            authExpiryCell.textContent = new Date(order.AuthorizationExpirationDate).toLocaleString();
+
+            // Append cells to the row
             row.appendChild(orderIdCell);
             row.appendChild(customerCell);
+            row.appendChild(emailCell);
+            row.appendChild(addressCell);
+            row.appendChild(shippingMethodCell);
             row.appendChild(statusCell);
             row.appendChild(amountCell);
+            row.appendChild(cardNumberCell);
+            row.appendChild(expirationDateCell);
+            row.appendChild(billingZipCell);
+            row.appendChild(transactionDateCell);
+            row.appendChild(authTokenCell);
+            row.appendChild(authAmountCell);
+            row.appendChild(authExpiryCell);
 
             orderTableBody.appendChild(row);
         });
     }
 
-    // Function to filter the orders based on customer name or status
+    // Function to filter the orders based on customer name, order ID, or status
     function filterOrders() {
         const filterValue = searchInput.value.toLowerCase();
         const statusValue = statusFilter.value.toLowerCase();
@@ -61,8 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
-            const customerCell = row.cells[1].textContent.toLowerCase();
-            const statusCell = row.cells[2].textContent.toLowerCase();
+            const customerCell = row.cells[1].textContent.toLowerCase(); // Customer name cell
+            const statusCell = row.cells[5].textContent.toLowerCase(); // Status cell
 
             const matchesCustomer = customerCell.includes(filterValue);
             const matchesStatus = !statusValue || statusCell.includes(statusValue);
@@ -83,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const valueA = a.cells[column].textContent;
             const valueB = b.cells[column].textContent;
 
-            if (column === 3) { // If sorting by amount (index 3), parse the numbers
+            if (column === 6 || column === 11) { // If sorting by amount or authorization amount
                 return parseFloat(valueA.slice(1)) - parseFloat(valueB.slice(1));
             }
 
