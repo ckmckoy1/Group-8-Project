@@ -7,7 +7,6 @@ import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
-import bcrypt from 'bcrypt';
 
 // Initialize dotenv to read environment variables
 dotenv.config();
@@ -20,12 +19,12 @@ app.use(helmet());
 app.use(morgan('combined')); // Logs requests to your console
 app.use(compression());
 app.use(cors({
-    origin: 'https://ckmckoy1.github.io' // Allow requests from your GitHub Pages domain
+    origin: ['https://ckmckoy1.github.io', 'https://your-heroku-app.herokuapp.com'] // Allow requests from GitHub Pages and Heroku
 }));
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files (like CSS, JS, HTML))
+app.use(express.static('public')); // Serve static files (like CSS, JS, HTML from public folder)
 
-// Updated MongoDB connection code
+// MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathOutfitters', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -36,17 +35,10 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathO
         console.error('Make sure your credentials and IP whitelisting are correct.');
     });
 
-
-// Example for using bcrypt to hash passwords
-async function hashPassword(password) {
-    const saltRounds = 10;
-    return await bcrypt.hash(password, saltRounds);
-}
-
-// Example for verifying JWT tokens
-function verifyToken(token) {
-    return jwt.verify(token, process.env.JWT_SECRET);
-}
+// Root route to confirm the server is up and running
+app.get('/', (req, res) => {
+    res.send('Welcome to Wild Path Outfitters API!');
+});
 
 // Define Mongoose schema and models
 const orderSchema = new mongoose.Schema({
@@ -68,7 +60,7 @@ const orderSchema = new mongoose.Schema({
 });
 
 // Use WP-Orders collection within the WildPathOutfitters database
-const Order = mongoose.model('Order', orderSchema, 'WP-Orders'); // This references your specific collection
+const Order = mongoose.model('Order', orderSchema, 'WP-Orders');
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
@@ -76,7 +68,6 @@ app.post('/api/checkout', async (req, res) => {
 
     // Auto-generate orderId for new orders
     const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
-
 
     // Mock Endpoint URLs (currently commented out for bypass)
     /*
@@ -117,11 +108,11 @@ app.post('/api/checkout', async (req, res) => {
                 cvv: cardDetails.cvv,
                 zipCode: cardDetails.zipCode
             },
-            authorizationToken: mockToken, // Mock token used for bypass
+            authorizationToken: mockToken,
             authorizedAmount: authorizedAmount,
             tokenExpirationDate: tokenExpirationDate,
             transactionDateTime: new Date(),
-            status: 'Success' // Mark as Success in bypass
+            status: 'Success'
         });
 
         await newOrder.save();
