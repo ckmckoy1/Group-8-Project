@@ -2,20 +2,21 @@
     "name": "Node.js & MongoDB Dev Container",
     "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:14", // Node.js image
     "extensions": [
-      "dbaeumer.vscode-eslint",
-      "esbenp.prettier-vscode",
-      "christian-kohler.npm-intellisense",
-      "christian-kohler.path-intellisense",
-      "xabikos.javascriptsnippets",
-      "mongodb.mongodb-vscode",
-      "alexcvzz.vscode-mongo-snippets",
-      "eamodio.gitlens",
-      "GitHub.vscode-pull-request-github",
-      "ms-azuretools.vscode-docker",
-      "humao.rest-client",
-      "CoenraadS.bracket-pair-colorizer-2",
-      "redhat.vscode-yaml",
-      "mikestead.dotenv"
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "christian-kohler.npm-intellisense",
+        "christian-kohler.path-intellisense",
+        "xabikos.javascriptsnippets",
+        "mongodb.mongodb-vscode",
+        "alexcvzz.vscode-mongo-snippets",
+        "eamodio.gitlens",
+        "GitHub.vscode-pull-request-github",
+        "ms-azuretools.vscode-docker",
+        "humao.rest-client",
+        "CoenraadS.bracket-pair-colorizer-2",
+        "redhat.vscode-yaml",
+        "mikestead.dotenv",
+        "codespaces-Contrib.codeswing"
     ],
     "settings": {
       "editor.formatOnSave": true, // Auto-formatting on save
