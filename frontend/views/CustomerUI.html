@@ -192,6 +192,21 @@
     </footer>
 
     <script>
+    // Auto-format phone number as (###) ###-####
+document.getElementById('phone').addEventListener('input', function (e) {
+    let input = e.target.value.replace(/\D/g, ''); // Remove all non-digit characters
+    if (input.length > 0) {
+        input = '(' + input.substring(0, 3);
+    }
+    if (input.length > 4) {
+        input += ') ' + input.substring(3, 6);
+    }
+    if (input.length > 9) {
+        input += '-' + input.substring(6, 10);
+    }
+    e.target.value = input.substring(0, 14); // Limit the length to (###) ###-####
+});
+    
         // Auto-format expiration date (MM/YY)
         document.getElementById('expDate').addEventListener('input', function (e) {
             let input = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
