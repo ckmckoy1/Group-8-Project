@@ -25,10 +25,20 @@
         <table id="orderTable">
             <thead>
                 <tr>
-                    <th onclick="sortTable('orderId')">Order ID &#9650;&#9660;</th>
-                    <th onclick="sortTable('customer')">Customer &#9650;&#9660;</th>
-                    <th onclick="sortTable('status')">Status &#9650;&#9660;</th>
-                    <th onclick="sortTable('amount')">Amount &#9650;&#9660;</th>
+                    <th onclick="sortTable(0)">Order ID &#9650;&#9660;</th>
+                    <th onclick="sortTable(1)">Customer &#9650;&#9660;</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Shipping Method</th>
+                    <th onclick="sortTable(2)">Status &#9650;&#9660;</th>
+                    <th onclick="sortTable(3)">Amount &#9650;&#9660;</th>
+                    <th>Card Number</th>
+                    <th>Expiration Date</th>
+                    <th>Billing Zip</th>
+                    <th>Transaction Date</th>
+                    <th>Authorization Token</th>
+                    <th>Authorization Amount</th>
+                    <th>Authorization Expiration</th>
                 </tr>
             </thead>
             <tbody id="orderTableBody">
