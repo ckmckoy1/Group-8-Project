@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Send order data to the backend (where orderId will be generated)
         try {
-            const response = await fetch('https://your-heroku-app.herokuapp.com/api/orders'), {
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

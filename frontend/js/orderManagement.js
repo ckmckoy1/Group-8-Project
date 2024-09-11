@@ -33,16 +33,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = document.createElement('tr');
 
             const orderIdCell = document.createElement('td');
-            orderIdCell.textContent = order.orderId;
+            orderIdCell.textContent = order.OrderID;
 
             const customerCell = document.createElement('td');
-            customerCell.textContent = `${order.firstName} ${order.lastName}`;  // Adjusted to match the backend schema
+            customerCell.textContent = `${order.FirstName} ${order.LastName}`;  // Adjusted to match the backend schema
 
             const statusCell = document.createElement('td');
-            statusCell.textContent = order.status;  // Adjust this field based on your schema (e.g., 'paymentStatus')
+            statusCell.textContent = order.PaymentStatus;  // Adjust this field based on your schema (e.g., 'PaymentStatus')
 
             const amountCell = document.createElement('td');
-            amountCell.textContent = `$${order.authorizedAmount.toFixed(2)}`;  // Display the authorized amount
+            amountCell.textContent = `$${order.TotalAmount.toFixed(2)}`;  // Display the authorized amount
 
             row.appendChild(orderIdCell);
             row.appendChild(customerCell);
