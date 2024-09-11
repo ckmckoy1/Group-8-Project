@@ -29,6 +29,13 @@ h1 {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    overflow-x: auto; /* Allow horizontal scrolling if necessary */
+}
+
+/* Table container for responsive overflow */
+.table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile devices */
 }
 
 /* Table styling */
@@ -37,6 +44,7 @@ table {
     border-collapse: collapse;
     margin-bottom: 1.5em;
     font-size: 1em;
+    min-width: 1000px; /* Ensure table has enough space */
 }
 
 table, th, td {
@@ -126,4 +134,32 @@ input[type="text"]:focus, select:focus {
 .card-number {
     font-family: 'Courier New', Courier, monospace;
     letter-spacing: 0.1em;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    table, th, td {
+        font-size: 0.9em; /* Adjust font size for smaller screens */
+        padding: 10px;
+    }
+
+    .order-management-container {
+        padding: 1em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    table, th, td {
+        font-size: 0.8em;
+        padding: 8px;
+    }
+
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    input[type="text"], select {
+        margin-bottom: 10px;
+    }
 }
