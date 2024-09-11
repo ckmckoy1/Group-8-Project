@@ -1,0 +1,22 @@
+
+{
+
+    "recommendations": [
+
+        "dbaeumer.vscode-eslint",
+
+        "esbenp.prettier-vscode",
+
+        "ms-vsliveshare.vsliveshare",
+
+        "tinkertrain.theme-panda",
+
+        "codespaces-contrib.codeswing",
+
+        "vsls-contrib.codetour",
+
+        "streetsidesoftware.code-spell-checker"
+
+    ],
+
+}
