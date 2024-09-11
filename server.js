@@ -7,7 +7,6 @@ import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 // Initialize dotenv to read environment variables
@@ -37,10 +36,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathO
         console.error('Make sure your credentials and IP whitelisting are correct.');
     });
 
-// JWT token creation function
-function createToken(userId) {
-    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
-}
 
 // Example for using bcrypt to hash passwords
 async function hashPassword(password) {
