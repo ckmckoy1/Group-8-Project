@@ -12,8 +12,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML)
 
-// Updated MongoDB connection code without deprecated options
-mongoose.connect(process.env.MONGODB_URI)
+// Updated MongoDB connection code
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathOutfitters', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => {
         console.error('MongoDB connection error:', err.message);
@@ -46,7 +49,6 @@ const orderSchema = new mongoose.Schema({
 
 // Use WP-Orders collection within the WildPathOutfitters database
 const Order = mongoose.model('Order', orderSchema, 'WP-Orders'); // This references your specific collection
-
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
@@ -125,7 +127,6 @@ app.get('/api/orders', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
     }
 });
-
 
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
