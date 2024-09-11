@@ -4,6 +4,18 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 require('dotenv').config(); // For loading environment variables
+const cors = require('cors');
+const morgan = require('morgan');
+const compression = require('compression');
+
+app.use(morgan('combined')); // Logs requests to your console
+app.use(compression());
+
+// Allow requests from your GitHub Pages domain
+app.use(cors({
+    origin: 'https://ckmckoy1.github.io'
+}));
+
 
 // Initialize express app
 const app = express();
