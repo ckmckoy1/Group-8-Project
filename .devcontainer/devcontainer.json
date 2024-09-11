@@ -1,14 +1,32 @@
-
 {
-
+    "name": "Node.js & MongoDB Dev Container",
+    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:14", // Node.js image
     "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "ms-vsliveshare.vsliveshare",
-        "tinkertrain.theme-panda",
-        "vsls-contrib.codetour",
-        "streetsidesoftware.code-spell-checker",
-        "ZainChen.json"
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "christian-kohler.npm-intellisense",
+      "christian-kohler.path-intellisense",
+      "xabikos.javascriptsnippets",
+      "mongodb.mongodb-vscode",
+      "alexcvzz.vscode-mongo-snippets",
+      "eamodio.gitlens",
+      "GitHub.vscode-pull-request-github",
+      "ms-azuretools.vscode-docker",
+      "humao.rest-client",
+      "CoenraadS.bracket-pair-colorizer-2",
+      "redhat.vscode-yaml",
+      "mikestead.dotenv"
+    ],
+    "settings": {
+      "editor.formatOnSave": true, // Auto-formatting on save
+      "eslint.autoFixOnSave": true, // Auto-fixing ESLint errors on save
+      "prettier.requireConfig": true // Ensures Prettier uses your project's Prettier config
+    },
+    "postCreateCommand": "npm install", // Automatically run npm install after the container is created
+    "runArgs": ["--init"], // Ensures clean exit of the container on shutdown
+    "forwardPorts": [3000], // Forward port 3000 (Node.js)
+    "mounts": [
+      "source=${localWorkspaceFolder}/.env,target=/workspace/.env,type=bind,consistency=cached" // Mounts .env file
     ]
-
-}
+  }
+  
