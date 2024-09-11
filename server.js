@@ -1,40 +1,30 @@
 // Import dependencies
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-require('dotenv').config(); // For loading environment variables
-const cors = require('cors');
-const morgan = require('morgan');
-const compression = require('compression');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-const hashedPassword = await bcrypt.hash(password, saltRounds);
-const helmet = require('helmet');
-app.use(helmet());
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import morgan from 'morgan';
+import compression from 'compression';
+import helmet from 'helmet';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
-// Create a token
-const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-// Verify a token
-const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-app.use(morgan('combined')); // Logs requests to your console
-app.use(compression());
-
-// Allow requests from your GitHub Pages domain
-app.use(cors({
-    origin: 'https://ckmckoy1.github.io'
-}));
-
+// Initialize dotenv to read environment variables
+dotenv.config();
 
 // Initialize express app
 const app = express();
 
-// Middleware for parsing JSON bodies
+// Middleware
+app.use(helmet());
+app.use(morgan('combined')); // Logs requests to your console
+app.use(compression());
+app.use(cors({
+    origin: 'https://ckmckoy1.github.io' // Allow requests from your GitHub Pages domain
+}));
 app.use(bodyParser.json());
-app.use(express.static('public')); // Serve static files (like CSS, JS, HTML)
+app.use(express.static('public')); // Serve static files (like CSS, JS, HTML))
 
 // Updated MongoDB connection code
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathOutfitters', {
@@ -47,10 +37,21 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathO
         console.error('Make sure your credentials and IP whitelisting are correct.');
     });
 
-// Root route
-app.get('/', (req, res) => {
-    res.send('Welcome to Wild Path Outfitters API!');
-});
+// JWT token creation function
+function createToken(userId) {
+    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+}
+
+// Example for using bcrypt to hash passwords
+async function hashPassword(password) {
+    const saltRounds = 10;
+    return await bcrypt.hash(password, saltRounds);
+}
+
+// Example for verifying JWT tokens
+function verifyToken(token) {
+    return jwt.verify(token, process.env.JWT_SECRET);
+}
 
 // Define Mongoose schema and models
 const orderSchema = new mongoose.Schema({
@@ -80,6 +81,7 @@ app.post('/api/checkout', async (req, res) => {
 
     // Auto-generate orderId for new orders
     const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
+
 
     // Mock Endpoint URLs (currently commented out for bypass)
     /*
