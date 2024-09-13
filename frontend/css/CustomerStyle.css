@@ -41,7 +41,6 @@ header {
     padding: 1.5px;
     width: 100%;
     font-size: 0.75em;
-    justify-content: space-between;
 }
 
 .promo-bar p a {
@@ -242,6 +241,7 @@ hr {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    gap: 15px; /* Adjust the gap value as needed */
 }
 
 .footer-nav a {
@@ -418,7 +418,7 @@ h2 {
         flex-direction: column;
         padding: 10px;
     }
-    
+
     @media (max-width: 768px) {
         .form-group-pair {
             flex-direction: column; /* Stack fields vertically on smaller screens */
