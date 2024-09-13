@@ -136,11 +136,12 @@ header {
 
 /* Left Side: Checkout Container */
 .checkout-container {
-    flex: 0 1 65%;
+    flex: 0 1 70%; /* Increase the width of the checkout container */
     background-color: #ffffff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
+    margin-left: 10px; /* Reduce the margin on the left side */
     overflow-y: auto;
 }
 
@@ -167,17 +168,17 @@ header {
 
 /* Add space between form groups */
 .form-group {
-    margin-bottom: 20px; /* Adjust value as needed for more or less space */
+    margin-bottom: 20px;
 }
 
 .form-group-pair {
-    margin-bottom: 20px; /* Add spacing between pairs of inputs */
+    margin-bottom: 20px;
 }
 
 /* Optional: Adjust input fields and label spacing */
 .form-group label,
 .form-group-pair label {
-    margin-bottom: 5px; /* Space between label and input */
+    margin-bottom: 5px;
     display: block;
 }
 
@@ -186,7 +187,6 @@ header {
     padding: 10px;
     width: 100%;
 }
-
 
 /* Styles for the red asterisks */
 .asterisk {
@@ -216,11 +216,11 @@ input[required]:not(.invalid) {
 
 /* Right Side: Order Summary */
 .order-summary {
-    flex: 0 1 30%;
+    flex: 0 1 28%; /* Increase the width of the order summary */
     background-color: #e5e5e5;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ccc;
-    margin-left: 20px;
+    margin-left: 10px; /* Reduce the margin on the left side */
     max-height: 300px;
     box-sizing: border-box;
     display: flex;
