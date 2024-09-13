@@ -6,21 +6,20 @@ html, body {
     outline: 0;
     font-size: 100%;
     vertical-align: baseline;
-    height: 100%; /* Use height instead of min-height */
+    height: 100%;
     display: flex;
-    flex-direction: column; /* Push footer down */
+    flex-direction: column;
     width: 100%;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-x: hidden;
 }
 
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     color: #333;
-    flex: 1; /* Expand body */
+    flex: 1;
 }
 
-/* Remove default margin from all sections */
 section, header, footer {
     margin: 0;
     padding: 0;
@@ -28,7 +27,7 @@ section, header, footer {
 
 a {
     text-decoration: none;
-    color: #fff; /* White links */
+    color: #fff;
 }
 
 /* Header */
@@ -50,7 +49,6 @@ header {
 .promo-bar p img {
     filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(93deg) brightness(108%) contrast(105%);
 }
-
 
 /* Top Bar */
 .top-bar {
@@ -140,7 +138,6 @@ header {
 .checkout-container {
     flex: 0 1 65%;
     background-color: #ffffff;
-    /*border-radius: 8px;*/
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
     box-sizing: border-box;
@@ -155,7 +152,7 @@ header {
 .form-group-pair {
     display: flex;
     justify-content: space-between;
-    gap: 20px; /* Space between input pairs */
+    gap: 20px;
 }
 
 /* Make sure each input in the pair takes up equal space */
@@ -165,7 +162,7 @@ header {
 
 /* Adjust the label width so inputs are aligned better */
 .form-group-pair label {
-    flex-basis: 30%; /* Adjust label width as necessary */
+    flex-basis: 30%;
 }
 
 /* Styles for the red asterisks */
@@ -181,27 +178,24 @@ input[required].invalid {
 
 /* Reset invalid border when corrected */
 input[required]:not(.invalid) {
-    border: 1px solid #ccc; /* Default border */
+    border: 1px solid #ccc;
 }
-
 
 /* Form sections are hidden by default */
 .form-section .form-content {
-    display: none; /* Initially hide content */
+    display: none;
 }
 
 /* Form section with the "show" class will be visible */
 .form-section .form-content.show {
-    display: block; /* Show when the class "show" is added */
+    display: block;
 }
-
 
 /* Right Side: Order Summary */
 .order-summary {
     flex: 0 1 30%;
     background-color: #e5e5e5;
     padding: 10px;
-    /* border-radius: 8px; */
     border: 1px solid #ccc;
     margin-left: 20px;
     max-height: 300px;
@@ -241,7 +235,7 @@ hr {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    gap: 15px; /* Adjust the gap value as needed */
+    gap: 15px;
 }
 
 .footer-nav a {
@@ -262,7 +256,6 @@ h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #023047;
-    animation: slideIn 1s ease-in-out;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -346,7 +339,7 @@ h2 {
     width: 100%;
     height: 100%;
     visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.7); /* Add background overlay */
+    background-color: rgba(0, 0, 0, 0.7);
     opacity: 0;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     z-index: 999;
@@ -412,6 +405,31 @@ h2 {
     height: 40px;
 }
 
+/* Feedback Popup */
+#feedbackPopupOverlay {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1001;
+}
+
+#feedbackPopup {
+    width: 100px;
+    height: 100px;
+    background-color: #023047;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#feedbackPopup p {
+    font-size: 1em;
+    text-align: center;
+}
+
 /* Responsive Layout */
 @media (max-width: 768px) {
     .container {
@@ -419,10 +437,9 @@ h2 {
         padding: 10px;
     }
 
-    @media (max-width: 768px) {
-        .form-group-pair {
-            flex-direction: column; /* Stack fields vertically on smaller screens */
-        }
+    .form-group-pair {
+        flex-direction: column;
+    }
 
     .order-summary {
         margin-left: 0;

@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const closePopup = document.getElementById('closePopup');
     const requiredFieldsSection1 = ['email', 'phone', 'firstName', 'lastName', 'address', 'city', 'state', 'zip'];
 
+    // Chat and Feedback Popup Elements
+    const chatPopupOverlay = document.getElementById('chatPopupOverlay');
+    const feedbackPopupOverlay = document.getElementById('feedbackPopupOverlay');
+    const closeChatPopup = document.getElementById('closeChatPopup');
+    const closeFeedbackPopup = document.getElementById('closeFeedbackPopup');
+
     // Function to add asterisk for missing fields
     function addAsteriskForMissingFields(fieldId) {
         const label = document.querySelector(`label[for="${fieldId}"]`);
@@ -26,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 isValid = false;
             } else {
                 field.style.border = ''; // Reset border if filled
-                // Remove asterisk if the field is filled
                 const asterisk = label.querySelector('.asterisk');
                 if (asterisk) {
                     asterisk.remove();
@@ -42,16 +47,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const isSection1Valid = validateSection1();
 
         if (isSection1Valid) {
-            // Collapse the current section
             document.getElementById(currentSectionId).querySelector('.form-content').style.display = 'none';
-            // Show the next section
             document.getElementById(nextSectionId).querySelector('.form-content').style.display = 'block';
         } else {
             alert('Please complete the full form.');
         }
     }
 
-    // Attach the continue button event for Section 1
     document.querySelector('.continue-btn').addEventListener('click', function () {
         collapseSectionWithValidation('shippingBillingSection', 'shippingMethodSection');
     });
@@ -207,6 +209,28 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Error during payment or order submission:', error);
             displayMessage('Error: Something went wrong!', 'error');
+        }
+    });
+
+    // Chat Popup Logic
+    closeChatPopup.addEventListener('click', function () {
+        chatPopupOverlay.classList.remove('show');
+    });
+
+    chatPopupOverlay.addEventListener('click', function (event) {
+        if (event.target === chatPopupOverlay) {
+            chatPopupOverlay.classList.remove('show');
+        }
+    });
+
+    // Feedback Popup Logic
+    closeFeedbackPopup.addEventListener('click', function () {
+        feedbackPopupOverlay.classList.remove('show');
+    });
+
+    feedbackPopupOverlay.addEventListener('click', function (event) {
+        if (event.target === feedbackPopupOverlay) {
+            feedbackPopupOverlay.classList.remove('show');
         }
     });
 });
