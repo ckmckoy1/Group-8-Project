@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = document.createElement('tr');
 
             const orderIdCell = document.createElement('td');
-            orderIdCell.textContent = order.OrderID; // Correct field name
+            orderIdCell.textContent = order.OrderID;
 
             const customerCell = document.createElement('td');
-            customerCell.textContent = `${order.FirstName} ${order.LastName}`; // Correct field names
+            customerCell.textContent = `${order.FirstName} ${order.LastName}`;
 
             const emailCell = document.createElement('td');
-            emailCell.textContent = order.CustomerEmail; // Correct field name
+            emailCell.textContent = order.CustomerEmail;
 
             const addressCell = document.createElement('td');
             addressCell.textContent = `${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}`;
@@ -77,6 +77,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const authExpiryCell = document.createElement('td');
             authExpiryCell.textContent = new Date(order.AuthorizationExpirationDate).toLocaleString();
 
+            const warehouseStatusCell = document.createElement('td');
+            warehouseStatusCell.textContent = order.WarehouseStatus || 'N/A'; // Display WarehouseStatus
+
             // Append cells to the row
             row.appendChild(orderIdCell);
             row.appendChild(customerCell);
@@ -92,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             row.appendChild(authTokenCell);
             row.appendChild(authAmountCell);
             row.appendChild(authExpiryCell);
+            row.appendChild(warehouseStatusCell); // Append Warehouse Status cell
 
             orderTableBody.appendChild(row);
         });
