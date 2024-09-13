@@ -153,28 +153,22 @@ header {
 }
 
 .form-section .form-content {
-    display: none; /* Hide content by default */
-}
-
-.form-section.collapsed .form-content {
-    display: none;
+    display: none; /* Initially hide content */
 }
 
 .form-section .form-content.show {
-    display: block;
+    display: block; /* Show when the class "show" is added */
 }
-
-
 
 /* Right Side: Order Summary */
 .order-summary {
     flex: 0 1 30%;
     background-color: #e5e5e5;
-    padding: 7px;
+    padding: 10px;
     /* border-radius: 8px; */
     border: 1px solid #ccc;
     margin-left: 20px;
-    max-height: 400px;
+    max-height: 300px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -211,7 +205,6 @@ hr {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    justify-content: space-between;
 }
 
 .footer-nav a {

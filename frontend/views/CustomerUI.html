@@ -113,7 +113,7 @@
                                         <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
                                         <label for="sameAsShipping">Is the shipping address the same as billing?</label>
                                     </div>
-                                    <button type="button" class="continue-btn" onclick="collapseSection('shippingBillingSection', 'shippingMethodSection')">Continue</button>
+                                    <button type="button" class="continue-btn" onclick="collapseSectionWithValidation('shippingBillingSection', 'shippingMethodSection')">Continue</button>
                                 </div>
                             </div>
 
@@ -130,7 +130,7 @@
                                         <input type="radio" id="express" name="shippingMethod" value="Express" required>
                                         <label for="express">Express Shipping (2-3 days)</label>
                                     </div>
-                                    <button type="button" class="continue-btn" onclick="collapseSection('shippingMethodSection', 'paymentSection')">Continue</button>
+                                    <button type="button" class="continue-btn" onclick="collapseSectionWithValidation('shippingMethodSection', 'paymentSection')">Continue</button>
                                 </div>
                             </div>
 
@@ -191,168 +191,8 @@
         <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
     </footer>
 
-    <script>
-// Auto-format phone number as (###) ###-####
-document.getElementById('phone').addEventListener('input', function (e) {
-    let input = e.target.value.replace(/\D/g, ''); // Remove all non-digit characters
-    
-    if (input.length <= 3) {
-        input = '(' + input;
-    } else if (input.length <= 6) {
-        input = '(' + input.substring(0, 3) + ') ' + input.substring(3);
-    } else {
-        input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6, 10);
-    }
+    <script src="path/to/your/checkout.js"></script>
 
-    e.target.value = input.substring(0, 14); // Limit the length to (###) ###-####
-});
-
-    
-        // Auto-format expiration date (MM/YY)
-        document.getElementById('expDate').addEventListener('input', function (e) {
-            let input = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
-            if (input.length > 2) {
-                input = input.substring(0, 2) + '/' + input.substring(2, 4);
-            }
-            e.target.value = input;
-        });
-
-        // Auto-format card number as #### #### #### ####
-        document.getElementById('cardNumber').addEventListener('input', function (e) {
-            let input = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
-            input = input.match(/.{1,4}/g)?.join(' ') || input; // Add space every 4 digits
-            e.target.value = input;
-        });
-
-        // Copy shipping ZIP code to billing if checkbox is checked
-        document.getElementById('sameAsShipping').addEventListener('change', function (e) {
-            if (e.target.checked) {
-                document.getElementById('zipCode').value = document.getElementById('zip').value;
-            } else {
-                document.getElementById('zipCode').value = ''; // Clear if unchecked
-            }
-        });
-
-        function collapseSection(currentSectionId, nextSectionId) {
-            const currentSection = document.getElementById(currentSectionId);
-            const nextSection = document.getElementById(nextSectionId);
-            currentSection.querySelector('.form-content').style.display = 'none';
-            nextSection.querySelector('.form-content').style.display = 'block';
-        }
-
-        function toggleSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            const content = section.querySelector('.form-content');
-            const isVisible = content.style.display === 'block';
-            content.style.display = isVisible ? 'none' : 'block';
-        }
-        function validateForm() {
-    let isValid = true;
-    const requiredFields = document.querySelectorAll('input[required]');
-    requiredFields.forEach(field => {
-        if (!field.value) {
-            field.style.borderColor = '#d32f2f'; // Highlight field in red
-            const error = document.createElement('div');
-            error.classList.add('error-message');
-            error.textContent = `Please fill out the ${field.name} field.`;
-            field.parentNode.appendChild(error);
-            isValid = false;
-        } else {
-            field.style.borderColor = ''; // Reset border if valid
-            const error = field.parentNode.querySelector('.error-message');
-            if (error) {
-                error.remove(); // Remove existing error message if input is valid
-            }
-        }
-    });
-    return isValid;
-}
-
-
-        // Handle form submission and show popup for order completion
-        document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            // Gather form data
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            const unitNumber = document.getElementById('unitNumber').value;
-            const city = document.getElementById('city').value;
-            const state = document.getElementById('state').value;
-            const zip = document.getElementById('zip').value;
-            const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
-            const cardNumber = document.getElementById('cardNumber').value;
-            const expDate = document.getElementById('expDate').value;
-            const securityCode = document.getElementById('securityCode').value;
-            const billingZipCode = document.getElementById('zipCode').value;
-
-            // Prepare order data for API
-            const orderData = {
-                firstName,
-                lastName,
-                email,
-                phone,
-                address: `${address} ${unitNumber}`,
-                city,
-                state,
-                zip,
-                shippingMethod,
-                paymentDetails: {
-                    cardNumber,
-                    expDate,
-                    securityCode,
-                    billingZipCode
-                }
-            };
-
-            try {
-                // Send data to the API
-                const response = await fetch('/api/checkout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(orderData),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    // Show success popup
-                    document.getElementById('orderPopupOverlay').style.display = 'block';
-                    alert(`Order submitted successfully! Order ID: ${result.orderId}`);
-                } else {
-                    alert(`Error: ${result.message}`);
-                }
-            } catch (error) {
-                console.error('Error submitting order:', error);
-                alert('Error: Something went wrong!');
-            }
-        });
-
-        // Close the order popup
-        document.getElementById('closeOrderPopup').addEventListener('click', function() {
-            document.getElementById('orderPopupOverlay').style.display = 'none';
-        });
-
-        function collapseSection(currentSectionId, nextSectionId) {
-    const currentSection = document.getElementById(currentSectionId);
-    const nextSection = document.getElementById(nextSectionId);
-
-    // Collapse the current section
-    currentSection.querySelector('.form-content').classList.remove('show');
-    
-    // Expand the next section
-    nextSection.querySelector('.form-content').classList.add('show');
-}
-
-// Initialize the first section as visible
-document.getElementById('shippingBillingSection').querySelector('.form-content').classList.add('show');
-   
-    </script>
 </body>
 
 </html>

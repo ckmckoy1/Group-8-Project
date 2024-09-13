@@ -4,6 +4,74 @@ document.addEventListener('DOMContentLoaded', function () {
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
 
+    // Auto-format phone number as (###) ###-####
+    document.getElementById('phone').addEventListener('input', function (e) {
+        let input = e.target.value.replace(/\D/g, ''); // Remove all non-digit characters
+        
+        if (input.length <= 3) {
+            input = '(' + input;
+        } else if (input.length <= 6) {
+            input = '(' + input.substring(0, 3) + ') ' + input.substring(3);
+        } else {
+            input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6, 10);
+        }
+
+        e.target.value = input.substring(0, 14); // Limit the length to (###) ###-####
+    });
+
+    // Auto-format expiration date (MM/YY)
+    document.getElementById('expDate').addEventListener('input', function (e) {
+        let input = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        if (input.length > 2) {
+            input = input.substring(0, 2) + '/' + input.substring(2, 4);
+        }
+        e.target.value = input;
+    });
+
+    // Auto-format card number as #### #### #### ####
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
+        let input = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
+        input = input.match(/.{1,4}/g)?.join(' ') || input; // Add space every 4 digits
+        e.target.value = input;
+    });
+
+    // Copy shipping ZIP code to billing if checkbox is checked
+    document.getElementById('sameAsShipping').addEventListener('change', function (e) {
+        if (e.target.checked) {
+            document.getElementById('zipCode').value = document.getElementById('zip').value;
+        } else {
+            document.getElementById('zipCode').value = ''; // Clear if unchecked
+        }
+    });
+
+    // Function to validate fields in the current section before proceeding
+    function collapseSectionWithValidation(currentSectionId, nextSectionId) {
+        const currentSection = document.getElementById(currentSectionId);
+        const requiredFields = currentSection.querySelectorAll('input[required]');
+        let isValid = true;
+
+        // Validate each required field
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.border = '2px solid red'; // Highlight missing fields
+                isValid = false;
+            } else {
+                field.style.border = ''; // Reset border if filled
+            }
+        });
+
+        if (isValid) {
+            // Collapse the current section
+            currentSection.querySelector('.form-content').style.display = 'none';
+
+            // Expand the next section
+            const nextSection = document.getElementById(nextSectionId);
+            nextSection.querySelector('.form-content').style.display = 'block';
+        } else {
+            alert('Please fill out all required fields.');
+        }
+    }
+
     // Function to mask credit card number
     const maskCardNumber = (cardNumber) => {
         return cardNumber.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
