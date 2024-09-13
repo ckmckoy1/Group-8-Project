@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchOrders() {
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders'); 
+            if (!response.ok) {
+                throw new Error('Failed to fetch orders');
+            }
             const orders = await response.json();
 
             displayOrders(orders);
@@ -33,46 +36,46 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = document.createElement('tr');
 
             const orderIdCell = document.createElement('td');
-            orderIdCell.textContent = order.OrderID;
+            orderIdCell.textContent = order.orderId; // Ensure your API uses orderId, not OrderID
 
             const customerCell = document.createElement('td');
-            customerCell.textContent = `${order.FirstName} ${order.LastName}`;
+            customerCell.textContent = `${order.firstName} ${order.lastName}`; // Adjust field names
 
             const emailCell = document.createElement('td');
-            emailCell.textContent = order.CustomerEmail;
+            emailCell.textContent = order.email; // Ensure API returns 'email'
 
             const addressCell = document.createElement('td');
-            addressCell.textContent = `${order.StreetAddress}, ${order.UnitNumber}, ${order.City}, ${order.State}, ${order.ZipCode}`;
+            addressCell.textContent = `${order.address}`;
 
             const shippingMethodCell = document.createElement('td');
-            shippingMethodCell.textContent = order.ShippingMethod;
+            shippingMethodCell.textContent = order.shippingMethod;
 
             const statusCell = document.createElement('td');
-            statusCell.textContent = order.PaymentStatus;
+            statusCell.textContent = order.status;
 
             const amountCell = document.createElement('td');
-            amountCell.textContent = `$${order.TotalAmount.toFixed(2)}`;
+            amountCell.textContent = `$${order.totalAmount.toFixed(2)}`;
 
             const cardNumberCell = document.createElement('td');
-            cardNumberCell.textContent = `**** **** **** ${order.CardNumber.slice(-4)}`; // Only show last 4 digits
+            cardNumberCell.textContent = `**** **** **** ${order.cardDetails.number.slice(-4)}`; // Only show last 4 digits
 
             const expirationDateCell = document.createElement('td');
-            expirationDateCell.textContent = order.ExpirationDate;
+            expirationDateCell.textContent = order.cardDetails.expirationDate;
 
             const billingZipCell = document.createElement('td');
-            billingZipCell.textContent = order.BillingZipCode;
+            billingZipCell.textContent = order.cardDetails.zipCode;
 
             const transactionDateCell = document.createElement('td');
-            transactionDateCell.textContent = new Date(order.TransactionDateTime).toLocaleString();
+            transactionDateCell.textContent = new Date(order.transactionDateTime).toLocaleString();
 
             const authTokenCell = document.createElement('td');
-            authTokenCell.textContent = order.AuthorizationToken;
+            authTokenCell.textContent = order.authorizationToken;
 
             const authAmountCell = document.createElement('td');
-            authAmountCell.textContent = `$${order.AuthorizationAmount.toFixed(2)}`;
+            authAmountCell.textContent = `$${order.authorizedAmount.toFixed(2)}`;
 
             const authExpiryCell = document.createElement('td');
-            authExpiryCell.textContent = new Date(order.AuthorizationExpirationDate).toLocaleString();
+            authExpiryCell.textContent = new Date(order.tokenExpirationDate).toLocaleString();
 
             // Append cells to the row
             row.appendChild(orderIdCell);
