@@ -91,9 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Simulate payment success for now
-        displayMessage('Success: Payment authorized (temporary bypass)!', 'success');
-
         // Prepare order data
         const orderData = {
             firstName,
@@ -110,25 +107,59 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
 
-        // Send order data to the backend (where orderId will be generated)
+        // Select the appropriate mock endpoint based on card type
+        let mockEndpoint;
+        if (cardNumber.startsWith('4111')) {
+            mockEndpoint = 'https://run.mocky.io/v3/b4e53431-c19e-4853-93c9-03d1cdd1e6f3'; // Success
+        } else if (cardNumber.startsWith('5105')) {
+            mockEndpoint = 'https://run.mocky.io/v3/52371a52-83fc-4edd-84d1-bfeee1a5f448'; // Incorrect details
+        } else {
+            mockEndpoint = 'https://run.mocky.io/v3/9027a69f-0b17-4f9d-912f-16e0342c1b38'; // Insufficient funds
+        }
+
         try {
-            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders'), {
+            // Simulate payment via mock endpoint
+            const paymentResponse = await fetch(mockEndpoint, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(orderData),
+                body: JSON.stringify({
+                    OrderId: 'ORD000123', // This can be dynamically generated in a real scenario
+                    CardDetails: {
+                        Number: cardNumber,
+                        ExpirationDate: expDate,
+                        CVC: securityCode,
+                        NameOnCard: `${firstName} ${lastName}`
+                    },
+                    AuthorizationAmount: 50.00 // Sample amount for authorization
+                })
             });
 
-            const result = await response.json();
+            const paymentResult = await paymentResponse.json();
 
-            if (!response.ok) {
-                displayMessage(`Error: ${result.message}`, 'error');
+            if (paymentResult.Success) {
+                // Payment success: Submit order to the backend (MongoDB storage)
+                const orderResponse = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                });
+
+                const orderResult = await orderResponse.json();
+
+                if (!orderResponse.ok) {
+                    displayMessage(`Error: ${orderResult.message}`, 'error');
+                } else {
+                    displayMessage(`Order submitted successfully! Order ID: ${orderResult.orderId}`, 'success');
+                }
             } else {
-                displayMessage(`Order submitted successfully! Order ID: ${result.orderId}`, 'success');
+                displayMessage(`Error: ${paymentResult.Reason}`, 'error');
             }
         } catch (error) {
-            console.error('Error submitting order:', error);
+            console.error('Error during payment or order submission:', error);
             displayMessage('Error: Something went wrong!', 'error');
         }
     });
@@ -149,47 +180,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return isValid;
     }
-
-    // Mock payment endpoint - Uncomment once ready
-    
-    let mockEndpoint;
-    if (cardNumber.startsWith('4111')) {
-        mockEndpoint = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'; // Success
-    } else if (cardNumber.startsWith('5105')) {
-        mockEndpoint = 'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4'; // Incorrect details
-    } else {
-        mockEndpoint = 'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588'; // Insufficient funds
-    }
-
-    try {
-        const response = await fetch(mockEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                OrderId: orderId,
-                CardDetails: {
-                    Number: cardNumber,
-                    ExpirationDate: expDate,
-                    CVC: securityCode,
-                    NameOnCard: `${firstName} ${lastName}`
-                },
-                AuthorizationAmount: 50.00 // Sample amount for authorization
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.Success) {
-            displayMessage(`Success: Payment authorized! Token: ${data.AuthorizationToken}`, 'success');
-        } else {
-            displayMessage(`Error: ${data.Reason}`, 'error');
-        }
-    } catch (error) {
-        console.error('Payment authorization failed:', error);
-        displayMessage('Error: Something went wrong!', 'error');
-    }
-    
 });
-
