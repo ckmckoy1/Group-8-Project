@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Mock payment endpoint - Uncomment once ready
-    /*
+    
     let mockEndpoint;
     if (cardNumber.startsWith('4111')) {
         mockEndpoint = 'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'; // Success
@@ -190,5 +190,6 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Payment authorization failed:', error);
         displayMessage('Error: Something went wrong!', 'error');
     }
-    */
+    
 });
+
