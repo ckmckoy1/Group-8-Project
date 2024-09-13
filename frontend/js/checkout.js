@@ -42,6 +42,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Show the Section 1: Shipping and Billing 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ensure the first section is visible by default
+        document.querySelector('#shippingBillingSection .form-content').classList.add('show');
+        
+        // The rest of your JavaScript logic here
+    });
+    
+
     // Function to validate fields in the current section before proceeding
     function collapseSectionWithValidation(currentSectionId, nextSectionId) {
         const currentSection = document.getElementById(currentSectionId);
