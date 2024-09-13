@@ -7,7 +7,6 @@ import cors from 'cors';
 import morgan from 'morgan';
 import compression from 'compression';
 import helmet from 'helmet';
-import fetch from 'node-fetch'; // Ensure this is installed
 
 // Initialize dotenv to read environment variables
 dotenv.config();
@@ -20,7 +19,7 @@ app.use(helmet());
 app.use(morgan('combined')); // Logs requests to your console
 app.use(compression());
 app.use(cors({
-    origin: ['https://ckmckoy1.github.io', 'https://group8-a70f0e413328.herokuapp.com'] // Allow requests from GitHub Pages and Heroku
+    origin: ['https://ckmckoy1.github.io', 'https://your-heroku-app.herokuapp.com'] // Allow requests from GitHub Pages and Heroku
 }));
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML from public folder)
@@ -48,7 +47,7 @@ const orderSchema = new mongoose.Schema({
     lastName: String,
     address: String,
     cardDetails: {
-        number: String, // Only last 4 digits are saved for security
+        number: String,
         expirationDate: String,
         cvv: String,
         zipCode: String
@@ -70,13 +69,14 @@ app.post('/api/checkout', async (req, res) => {
     // Auto-generate orderId for new orders
     const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
 
-    // Mock Endpoint URLs
+    // Mock Endpoint URLs (currently commented out for bypass)
+    
     const mockEndpointSuccess = 'https://run.mocky.io/v3/b4e53431-c19e-4853-93c9-03d1cdd1e6f3';
     const mockEndpointFailureDetails = 'https://run.mocky.io/v3/52371a52-83fc-4edd-84d1-bfeee1a5f448';
     const mockEndpointFailureFunds = 'https://run.mocky.io/v3/9027a69f-0b17-4f9d-912f-16e0342c1b38';
 
     // Determine mock URL based on card details (simulated)
-    let mockUrl;
+    let mockUrl = mockEndpointSuccess;
     if (cardDetails.number.startsWith('4111')) {
         mockUrl = mockEndpointSuccess;
     } else if (cardDetails.number.startsWith('5105')) {
@@ -85,47 +85,39 @@ app.post('/api/checkout', async (req, res) => {
         mockUrl = mockEndpointFailureFunds;
     }
 
-    try {
-        // Send a request to the mock payment endpoint
-        const response = await fetch(mockUrl, { method: 'POST' });
-        const data = await response.json();
+    // Uncomment and restore this once the mock endpoints are available
+    const response = await fetch(mockUrl);
+    const data = await response.json();
+    
+        // Store transaction details in MongoDB
+        const newOrder = new Order({
+            orderId,
+            firstName,
+            lastName,
+            address,
+            cardDetails: {
+                number: cardDetails.number.slice(-4), // Only save the last 4 digits
+                expirationDate: cardDetails.expirationDate,
+                cvv: cardDetails.cvv,
+                zipCode: cardDetails.zipCode
+            },
+            authorizationToken: mockToken,
+            authorizedAmount: authorizedAmount,
+            tokenExpirationDate: tokenExpirationDate,
+            transactionDateTime: new Date(),
+            status: 'Success'
+        });
 
-        // If the payment is successful, store the order details in MongoDB
-        if (data.Success) {
-            const newOrder = new Order({
-                orderId,
-                firstName,
-                lastName,
-                address,
-                cardDetails: {
-                    number: cardDetails.number.slice(-4), // Only save the last 4 digits
-                    expirationDate: cardDetails.expirationDate,
-                    cvv: cardDetails.cvv,
-                    zipCode: cardDetails.zipCode
-                },
-                authorizationToken: data.AuthorizationToken,
-                authorizedAmount: data.AuthorizedAmount,
-                tokenExpirationDate: new Date(data.TokenExpirationDate),
-                transactionDateTime: new Date(),
-                status: 'Success'
-            });
+        await newOrder.save();
 
-            await newOrder.save();
+        // Send response back to the client
+        res.json({
+            message: 'Payment Authorized (bypass)',
+            authorizationToken: mockToken,
+            authorizedAmount: authorizedAmount,
+            tokenExpirationDate: tokenExpirationDate
+        });
 
-            // Send response back to the client
-            res.json({
-                message: 'Payment authorized successfully!',
-                orderId: newOrder.orderId,
-                authorizationToken: data.AuthorizationToken,
-                authorizedAmount: data.AuthorizedAmount,
-                tokenExpirationDate: data.TokenExpirationDate
-            });
-        } else {
-            // Handle payment failure cases
-            res.status(400).json({
-                message: `Payment failed: ${data.Reason}`
-            });
-        }
     } catch (error) {
         res.status(500).json({ message: 'Server error during payment processing', error: error.message });
     }
@@ -154,14 +146,14 @@ app.post('/api/settle-shipment', async (req, res) => {
 
         // Compare the final amount with the authorized amount stored in MongoDB
         if (finalAmount > order.authorizedAmount) {
-            return res.status(400).json({ message: `Final amount exceeds authorized amount of $${order.authorizedAmount}` });
+            return res.status(400).json({ message: Final amount exceeds authorized amount of $${order.authorizedAmount} });
         }
 
         // Mark the order as settled and save
         order.status = 'Settled';
         await order.save();
 
-        res.json({ message: `Order ${orderId} successfully settled with amount $${finalAmount}` });
+        res.json({ message: Order ${orderId} successfully settled with amount $${finalAmount} });
 
     } catch (err) {
         res.status(500).json({ message: 'Failed to settle order', error: err.message });
@@ -176,5 +168,5 @@ app.use((req, res) => {
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(Server running on port ${PORT});
 });
