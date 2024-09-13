@@ -152,7 +152,7 @@ header {
 .form-group-pair {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 10px;
 }
 
 /* Make sure each input in the pair takes up equal space */
