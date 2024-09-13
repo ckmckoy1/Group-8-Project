@@ -38,7 +38,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2px;
+    padding: 1.5px;
     width: 100%;
     font-size: 0.75em;
 }
