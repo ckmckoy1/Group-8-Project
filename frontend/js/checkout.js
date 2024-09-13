@@ -3,6 +3,58 @@ document.addEventListener('DOMContentLoaded', function () {
     const messageDiv = document.getElementById('message');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
+    const requiredFieldsSection1 = ['email', 'phone', 'firstName', 'lastName', 'address', 'city', 'state', 'zip'];
+
+    // Function to add asterisk for missing fields
+    function addAsteriskForMissingFields(fieldId) {
+        const label = document.querySelector(`label[for="${fieldId}"]`);
+        if (label && !label.querySelector('.asterisk')) {
+            label.innerHTML += ' <span class="asterisk" style="color: red;">*</span>';
+        }
+    }
+
+    // Function to validate fields in Section 1
+    function validateSection1() {
+        let isValid = true;
+        requiredFieldsSection1.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            const label = document.querySelector(`label[for="${fieldId}"]`);
+
+            if (!field.value.trim()) {
+                field.style.border = '2px solid red'; // Highlight empty fields
+                addAsteriskForMissingFields(fieldId); // Add asterisk for missing fields
+                isValid = false;
+            } else {
+                field.style.border = ''; // Reset border if filled
+                // Remove asterisk if the field is filled
+                const asterisk = label.querySelector('.asterisk');
+                if (asterisk) {
+                    asterisk.remove();
+                }
+            }
+        });
+
+        return isValid;
+    }
+
+    // Function to collapse current section and show the next
+    function collapseSectionWithValidation(currentSectionId, nextSectionId) {
+        const isSection1Valid = validateSection1();
+
+        if (isSection1Valid) {
+            // Collapse the current section
+            document.getElementById(currentSectionId).querySelector('.form-content').style.display = 'none';
+            // Show the next section
+            document.getElementById(nextSectionId).querySelector('.form-content').style.display = 'block';
+        } else {
+            alert('Please complete the full form.');
+        }
+    }
+
+    // Attach the continue button event for Section 1
+    document.querySelector('.continue-btn').addEventListener('click', function () {
+        collapseSectionWithValidation('shippingBillingSection', 'shippingMethodSection');
+    });
 
     // Auto-format phone number as (###) ###-####
     document.getElementById('phone').addEventListener('input', function (e) {
@@ -41,39 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('zipCode').value = '';
         }
     });
-
-    // Show the Section 1: Shipping and Billing 
-    document.addEventListener('DOMContentLoaded', function () {
-        // Ensure the first section is visible by default
-        document.querySelector('#shippingBillingSection .form-content').classList.add('show');
-        
-        // The rest of your JavaScript logic here
-    });
-    
-
-    // Function to validate fields in the current section before proceeding
-    function collapseSectionWithValidation(currentSectionId, nextSectionId) {
-        const currentSection = document.getElementById(currentSectionId);
-        const requiredFields = currentSection.querySelectorAll('input[required]');
-        let isValid = true;
-
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                field.style.border = '2px solid red';
-                isValid = false;
-            } else {
-                field.style.border = '';
-            }
-        });
-
-        if (isValid) {
-            currentSection.querySelector('.form-content').style.display = 'none';
-            const nextSection = document.getElementById(nextSectionId);
-            nextSection.querySelector('.form-content').style.display = 'block';
-        } else {
-            alert('Please fill out all required fields.');
-        }
-    }
 
     // Function to validate expiration date
     const isCardExpired = (expDate) => {

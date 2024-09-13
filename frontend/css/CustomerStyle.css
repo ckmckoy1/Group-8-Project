@@ -152,13 +152,26 @@ header {
     border-bottom: 1px solid #333;
 }
 
+.asterisk {
+    color: red;
+    font-size: 1.2em;
+}
+
+input[required]:invalid {
+    border: 2px solid red;
+}
+
+
+/* Form sections are hidden by default */
 .form-section .form-content {
     display: none; /* Initially hide content */
 }
 
+/* Form section with the "show" class will be visible */
 .form-section .form-content.show {
     display: block; /* Show when the class "show" is added */
 }
+
 
 /* Right Side: Order Summary */
 .order-summary {
