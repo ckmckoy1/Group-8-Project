@@ -41,6 +41,7 @@ header {
     padding: 1.5px;
     width: 100%;
     font-size: 0.75em;
+    justify-content: space-between;
 }
 
 .promo-bar p a {
@@ -66,7 +67,7 @@ header {
     display: flex;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5d3;
     margin-left: 10px;
 }
 
@@ -151,12 +152,25 @@ header {
     border-bottom: 1px solid #333;
 }
 
+.form-section .form-content {
+    display: none; /* Hide content by default */
+}
+
+.form-section.collapsed .form-content {
+    display: none;
+}
+
+.form-section .form-content.show {
+    display: block;
+}
+
+
 
 /* Right Side: Order Summary */
 .order-summary {
     flex: 0 1 30%;
     background-color: #e5e5e5;
-    padding: 10px;
+    padding: 7px;
     /* border-radius: 8px; */
     border: 1px solid #ccc;
     margin-left: 20px;
@@ -197,6 +211,7 @@ hr {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    justify-content: space-between;
 }
 
 .footer-nav a {
@@ -301,6 +316,7 @@ h2 {
     width: 100%;
     height: 100%;
     visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.7); /* Add background overlay */
     opacity: 0;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     z-index: 999;
@@ -370,9 +386,23 @@ h2 {
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
+        padding: 10px;
     }
     .order-summary {
         margin-left: 0;
         margin-top: 20px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar .logo h1 {
+        font-size: 2em;
+    }
+    .banner .nav a {
+        font-size: 0.9em;
+    }
+    .checkout-container, .order-summary {
+        padding: 10px;
     }
 }
