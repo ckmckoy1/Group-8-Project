@@ -102,22 +102,27 @@ document.addEventListener('DOMContentLoaded', function () {
         const filterValue = searchInput.value.toLowerCase();
         const statusValue = statusFilter.value.toLowerCase();
         const rows = orderTableBody.getElementsByTagName('tr');
-
+    
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
-            const customerCell = row.cells[1].textContent.toLowerCase(); // Customer name cell
-            const statusCell = row.cells[5].textContent.toLowerCase(); // Status cell
-
+            const orderIdCell = row.cells[0].textContent.toLowerCase();
+            const customerCell = row.cells[1].textContent.toLowerCase();
+            const emailCell = row.cells[2].textContent.toLowerCase();
+            const statusCell = row.cells[5].textContent.toLowerCase();
+    
+            const matchesOrderId = orderIdCell.includes(filterValue);
             const matchesCustomer = customerCell.includes(filterValue);
+            const matchesEmail = emailCell.includes(filterValue);
             const matchesStatus = !statusValue || statusCell.includes(statusValue);
-
-            if (matchesCustomer && matchesStatus) {
+    
+            if ((matchesOrderId || matchesCustomer || matchesEmail) && matchesStatus) {
                 row.style.display = '';
             } else {
                 row.style.display = 'none';
             }
         }
     }
+    
 
     // Example sorting function (can be extended)
     function sortTable(column) {
