@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
-    
+    const messageDiv = document.getElementById('message'); // Make sure this element exists in your HTML
+
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
     const continueToReviewBtn = document.getElementById('continueToReview');
