@@ -2,10 +2,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    border: 0;
-    outline: 0;
     font-size: 100%;
-    vertical-align: baseline;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -60,11 +57,10 @@ header {
     align-items: center;
     padding: 10px 5px;
     width: 100%;
-    box-sizing: border-box;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: sticky;
-    top: 40px; /* Adjust to sit below the header */
+    top: 40px;
     z-index: 999;
 }
 
@@ -72,7 +68,6 @@ header {
     display: flex;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid #e5e5e5d3;
     margin-left: 10px;
 }
 
@@ -114,7 +109,7 @@ header {
     width: 100%;
     box-sizing: border-box;
     position: sticky;
-    top: 90px; /* Adjust based on header and top-bar heights */
+    top: 90px;
     z-index: 998;
 }
 
@@ -134,7 +129,7 @@ header {
     color: #ffb703;
 }
 
-/* Flexbox layout for main content and sidebar */
+/* Main Container Layout */
 .container {
     display: flex;
     justify-content: space-between;
@@ -143,17 +138,16 @@ header {
     padding: 20px;
     flex-grow: 1;
     box-sizing: border-box;
-    padding-top: 70px; /* Add enough padding to make space for the fixed header, top-bar, and banner */
+    padding-top: 70px;
 }
 
-/* Left Side: Checkout Container */
+/* Checkout Container */
 .checkout-container {
-    flex: 0 1 70%; /* Increase the width of the checkout container */
+    flex: 0 1 70%;
     background-color: #ffffff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     padding: 30px;
-    box-sizing: border-box;
-    margin-left: 6px; /* Reduce the margin on the left side */
+    margin-left: 6px;
     overflow-y: auto;
 }
 
@@ -169,113 +163,91 @@ header {
     color: #ffb703;
 }
 
-/* Flex container for pairs of inputs */
+/* Form Layout */
 .form-group-pair, .form-group {
     display: flex;
-    flex: 1;
     justify-content: space-between;
     gap: 20px;
-    width: 100%; /* Ensure both have the same width */
+    width: 100%;
+    align-items: center;
     box-sizing: border-box;
 }
 
-.form-group-pair input,
-.form-group input {
-   /* flex: 1;
-    width: 100%; */
-    padding: 5px; /* Smaller padding */
-    width: 80%; /* Reduced width */
-    font-size: 0.9em; /* Smaller text */
+.form-group-pair input, .form-group input {
+    padding: 8px;
+    width: 100%;
+    max-width: 250px;
+    font-size: 0.9em;
     border: 1px solid #ccc;
-    box-sizing: border-box;
 }
 
-.form-group-pair label,
-.form-group label {
-    /* flex-basis: 30%;  Labels will be the same width */
+.form-group-pair label, .form-group label {
     font-size: 0.9em;
     margin-bottom: 3px;
+    display: block;
+    flex-basis: 30%;
 }
 
-/* Add space between form groups */
 .form-group, .form-group-pair {
     margin-bottom: 20px;
 }
 
-.form-group label, 
-.form-group-pair label {
-    font-size: 0.9em;
-    margin-bottom: 3px;
-}
-
-/* Reduced Button Size */
+/* Button Styling */
 .continue-btn, .submit-button {
     padding: 8px 12px;
     font-size: 0.9em;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
 }
 
-/* Flex container for pairs of inputs */
-.form-group-pair, .form-group {
-    display: flex;
-    flex: 1;
-    justify-content: space-between;
-    gap: 20px;
-    width: 100%; /* Ensure both have the same width */
-    box-sizing: border-box;
+.continue-btn:hover, .submit-button:hover {
+    background-color: #05668d;
+    transform: translateY(-2px);
 }
 
-/* Adjust input fields and label spacing */
-.form-group label,
-.form-group-pair label {
-    margin-bottom: 5px;
-    display: block;
+.continue-btn:active, .submit-button:active {
+    background-color: #034759;
+    transform: translateY(2px);
 }
 
-.form-group input,
-.form-group-pair input {
-    padding: 10px;
-    width: 100%;
+/* Error Styling */
+input[required].invalid {
+    border: 2px solid red;
 }
 
-/* Styles for the red asterisks */
+input[required]:not(.invalid) {
+    border: 1px solid #ccc;
+}
+
 .asterisk {
     color: red;
     font-size: 1.2em;
 }
 
-/* Red border for invalid required fields */
-input[required].invalid {
-    border: 2px solid red;
-}
-
-/* Reset invalid border when corrected */
-input[required]:not(.invalid) {
-    border: 1px solid #ccc;
-}
-
-/* Form sections are hidden by default */
+/* Form sections */
 .form-section .form-content {
     display: none;
 }
 
-/* Form section with the "show" class will be visible */
 .form-section .form-content.show {
     display: block;
 }
 
-/* Right Side: Order Summary */
+/* Order Summary */
 .order-summary {
-    flex: 0 1 28%; /* Increase the width of the order summary */
+    flex: 0 1 28%;
     background-color: #e5e5e5;
     padding: 15px;
     border: 1px solid #ccc;
-    margin-left: 10px; /* Reduce the margin on the left side */
+    margin-left: 10px;
     max-height: 300px;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow: hidden;
     overflow-y: auto;
 }
 
@@ -324,59 +296,6 @@ hr {
     font-weight: bold;
 }
 
-/* Form Styles */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #023047;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.checkout-form .form-group {
-    margin-bottom: 15px;
-}
-
-.checkout-form label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #006d77;
-}
-
-.checkout-form input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    background-color: #f4f4f9;
-    box-sizing: border-box;
-}
-
-.checkout-form input:focus {
-    border-color: #83c5be;
-    background-color: #e0fbfc;
-}
-
-.continue-btn, .submit-button {
-    background-color: #333;
-    color: #fff;
-    padding: 12px;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    margin-top: 20px;
-}
-
-.continue-btn:hover, .submit-button:hover {
-    background-color: #05668d;
-    transform: translateY(-2px);
-}
-
-.continue-btn:active, .submit-button:active {
-    background-color: #034759;
-    transform: translateY(2px);
-}
-
 /* Error Message Styling */
 .error-message {
     color: #d32f2f;
@@ -403,7 +322,7 @@ h2 {
     color: #9d0208;
 }
 
-/* Popup for Chat */
+/* Popup Styling */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -505,29 +424,32 @@ h2 {
 /* Responsive Layout */
 @media (min-width: 769px) {
     .container {
-        display: flex;
-        flex-direction: row; /* Ensure containers are side by side on wider screens */
-        padding: 10px;
+        flex-direction: row;
     }
 
     .form-group-pair {
-        flex-direction: row; /* Ensure inputs are side by side */
+        flex-direction: row;
     }
 
     .order-summary {
         flex-direction: column;
-        margin-left: 20px; /* Ensures the order summary stays on the right */
+        margin-left: 20px;
     }
 }
 
-/* Mobile-first: Stack elements on top of each other */
+/* Mobile-first: Stack elements on smaller screens */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column; /* Stacks checkout and order summary on smaller screens */
+        flex-direction: column;
     }
 
     .form-group-pair {
-        flex-direction: column; /* Stack fields vertically on smaller screens */
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .form-group-pair input, .form-group input {
+        max-width: 100%;
     }
 
     .order-summary {
@@ -541,9 +463,11 @@ h2 {
     .top-bar .logo h1 {
         font-size: 2em;
     }
+
     .banner .nav a {
         font-size: 0.9em;
     }
+
     .checkout-container, .order-summary {
         padding: 10px;
     }
