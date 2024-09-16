@@ -37,9 +37,12 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1.5px;
+    padding: 10px;
     width: 100%;
     font-size: 0.75em;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .promo-bar p a {
@@ -58,6 +61,11 @@ header {
     padding: 10px 5px;
     width: 100%;
     box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 40px; /* Adjust to sit below the header */
+    z-index: 999;
 }
 
 .search-bar {
@@ -105,6 +113,9 @@ header {
     font-size: 1.1em;
     width: 100%;
     box-sizing: border-box;
+    position: sticky;
+    top: 90px; /* Adjust based on header and top-bar heights */
+    z-index: 998;
 }
 
 .banner .nav {
@@ -127,11 +138,12 @@ header {
 .container {
     display: flex;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
     flex-grow: 1;
     box-sizing: border-box;
+    padding-top: 70px; /* Add enough padding to make space for the fixed header, top-bar, and banner */
 }
 
 /* Left Side: Checkout Container */
@@ -139,9 +151,9 @@ header {
     flex: 0 1 70%; /* Increase the width of the checkout container */
     background-color: #ffffff;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 30px;
     box-sizing: border-box;
-    margin-left: 10px; /* Reduce the margin on the left side */
+    margin-left: 6px; /* Reduce the margin on the left side */
     overflow-y: auto;
 }
 
@@ -149,33 +161,70 @@ header {
     border-bottom: 1px solid #333;
 }
 
+.checkout-container h2 {
+    text-align: left;
+}
+
+.checkout-container a {
+    color: #ffb703;
+}
+
 /* Flex container for pairs of inputs */
-.form-group-pair {
+.form-group-pair, .form-group {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-/* Make sure each input in the pair takes up equal space */
-.form-group-pair input {
     flex: 1;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%; /* Ensure both have the same width */
+    box-sizing: border-box;
 }
 
-/* Adjust the label width so inputs are aligned better */
-.form-group-pair label {
-    flex-basis: 30%;
+.form-group-pair input,
+.form-group input {
+   /* flex: 1;
+    width: 100%; */
+    padding: 5px; /* Smaller padding */
+    width: 80%; /* Reduced width */
+    font-size: 0.9em; /* Smaller text */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.form-group-pair label,
+.form-group label {
+    /* flex-basis: 30%;  Labels will be the same width */
+    font-size: 0.9em;
+    margin-bottom: 3px;
 }
 
 /* Add space between form groups */
-.form-group {
+.form-group, .form-group-pair {
     margin-bottom: 20px;
 }
 
-.form-group-pair {
-    margin-bottom: 20px;
+.form-group label, 
+.form-group-pair label {
+    font-size: 0.9em;
+    margin-bottom: 3px;
 }
 
-/* Optional: Adjust input fields and label spacing */
+/* Reduced Button Size */
+.continue-btn, .submit-button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+/* Flex container for pairs of inputs */
+.form-group-pair, .form-group {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%; /* Ensure both have the same width */
+    box-sizing: border-box;
+}
+
+/* Adjust input fields and label spacing */
 .form-group label,
 .form-group-pair label {
     margin-bottom: 5px;
@@ -245,8 +294,8 @@ hr {
 
 /* Footer */
 .footer {
-    background-color: #005f73;
-    color: #fff;
+    background-color: #e5e5e5;
+    color: #333;
     text-align: center;
     font-size: 0.9em;
     padding: 10px;
@@ -263,6 +312,7 @@ hr {
 
 .footer-nav a {
     transition: color 0.3s ease;
+    color: #023047;
 }
 
 .footer-nav a:hover {
@@ -308,11 +358,10 @@ h2 {
 }
 
 .continue-btn, .submit-button {
-    background-color: #028090;
+    background-color: #333;
     color: #fff;
     padding: 12px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     font-size: 1.1em;
     margin-top: 20px;
@@ -454,14 +503,31 @@ h2 {
 }
 
 /* Responsive Layout */
-@media (max-width: 768px) {
+@media (min-width: 769px) {
     .container {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row; /* Ensure containers are side by side on wider screens */
         padding: 10px;
     }
 
     .form-group-pair {
+        flex-direction: row; /* Ensure inputs are side by side */
+    }
+
+    .order-summary {
         flex-direction: column;
+        margin-left: 20px; /* Ensures the order summary stays on the right */
+    }
+}
+
+/* Mobile-first: Stack elements on top of each other */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stacks checkout and order summary on smaller screens */
+    }
+
+    .form-group-pair {
+        flex-direction: column; /* Stack fields vertically on smaller screens */
     }
 
     .order-summary {
