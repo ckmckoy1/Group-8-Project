@@ -1,178 +1,245 @@
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
-    const messageDiv = document.getElementById('message');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
+    
+    // Buttons for moving to next sections
+    const continueToPaymentBtn = document.getElementById('continueToPayment');
+    const continueToReviewBtn = document.getElementById('continueToReview');
+
+    // Mock Endpoint URLs
+    const mockEndpointSuccess = 'https://run.mocky.io/v3/b4e53431-c19e-4853-93c9-03d1cdd1e6f3';
+    const mockEndpointFailureDetails = 'https://run.mocky.io/v3/52371a52-83fc-4edd-84d1-bfeee1a5f448';
+    const mockEndpointFailureFunds = 'https://run.mocky.io/v3/9027a69f-0b17-4f9d-912f-16e0342c1b38';
+
+    // Required fields by section
     const requiredFieldsSection1 = ['email', 'phone', 'firstName', 'lastName', 'address', 'city', 'state', 'zip'];
+    const requiredFieldsSection2 = ['cardNumber', 'expDate', 'securityCode', 'zipCode'];
 
-    // Popups: Chat and Feedback
-    const chatPopupOverlay = document.getElementById('chatPopupOverlay');
-    const feedbackPopupOverlay = document.getElementById('feedbackPopupOverlay');
-    const closeChatPopup = document.getElementById('closeChatPopup');
-    const closeFeedbackPopup = document.getElementById('closeFeedbackPopup');
-
-    // Utility function to display messages
-    const displayMessage = (message, type) => {
-        messageDiv.textContent = message;
-        messageDiv.className = `message ${type}`;
-        messageDiv.style.display = 'block';
-    };
-
-    // Add asterisks for missing fields
-    const addAsteriskForMissingFields = (fieldId) => {
+    // Function to add asterisk for missing fields
+    function addAsteriskForMissingFields(fieldId) {
         const label = document.querySelector(`label[for="${fieldId}"]`);
         if (label && !label.querySelector('.asterisk')) {
             label.innerHTML += ' <span class="asterisk" style="color: red;">*</span>';
         }
-    };
+    }
 
-    // Validate fields in Section 1
-    const validateSection1 = () => {
+    // Function to validate a specific section
+    function validateSection(requiredFields) {
         let isValid = true;
-        requiredFieldsSection1.forEach(fieldId => {
+        requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             const label = document.querySelector(`label[for="${fieldId}"]`);
 
             if (!field.value.trim()) {
-                field.style.border = '2px solid red'; 
-                addAsteriskForMissingFields(fieldId); 
+                field.style.border = '2px solid red'; // Highlight empty fields
+                addAsteriskForMissingFields(fieldId); // Add asterisk for missing fields
                 isValid = false;
             } else {
-                field.style.border = ''; 
-                const asterisk = label.querySelector('.asterisk');
-                if (asterisk) asterisk.remove();
+                field.style.border = ''; // Reset border if filled
+                const asterisk = label?.querySelector('.asterisk');
+                if (asterisk) {
+                    asterisk.remove();
+                }
             }
         });
         return isValid;
-    };
+    }
 
-    // Collapse current section and show the next
-    const collapseSectionWithValidation = (currentSectionId, nextSectionId) => {
-        if (validateSection1()) {
+    // Function to validate the shipping method (radio button)
+    function validateShippingMethod() {
+        const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
+        if (!shippingMethod) {
+            alert('Please select a shipping method.');
+            return false;
+        }
+        return true;
+    }
+
+    // Function to collapse current section and open the next
+    function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields) {
+        const isValid = validateSection(requiredFields);
+        const isShippingValid = validateShippingMethod();
+
+        if (isValid && isShippingValid) {
+            // Collapse current section
             document.getElementById(currentSectionId).querySelector('.form-content').style.display = 'none';
+            // Open the next section
             document.getElementById(nextSectionId).querySelector('.form-content').style.display = 'block';
         } else {
-            alert('Please complete the full form.');
+            alert('Please complete all required fields in this section.');
         }
-    };
+    }
+
+    // Section 1: Continue to Payment (validates Section 1 fields)
+    continueToPaymentBtn.addEventListener('click', function () {
+        collapseSectionWithValidation('shippingSection', 'paymentSection', requiredFieldsSection1);
+    });
+
+    // Section 2: Continue to Review (validates Section 2 fields)
+    continueToReviewBtn.addEventListener('click', function () {
+        collapseSectionWithValidation('paymentSection', 'reviewOrderSection', requiredFieldsSection2);
+    });
 
     // Auto-format phone number as (###) ###-####
-    document.getElementById('phone').addEventListener('input', (e) => {
+    document.getElementById('phone').addEventListener('input', function (e) {
         let input = e.target.value.replace(/\D/g, '');
         if (input.length <= 3) {
             input = '(' + input;
         } else if (input.length <= 6) {
             input = '(' + input.substring(0, 3) + ') ' + input.substring(3);
         } else {
-            input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6);
+            input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6, 10);
         }
         e.target.value = input.substring(0, 14);
     });
 
     // Auto-format expiration date (MM/YY)
-    document.getElementById('expDate').addEventListener('input', (e) => {
+    document.getElementById('expDate').addEventListener('input', function (e) {
         let input = e.target.value.replace(/\D/g, '');
-        if (input.length > 2) input = input.substring(0, 2) + '/' + input.substring(2, 4);
+        if (input.length > 2) {
+            input = input.substring(0, 2) + '/' + input.substring(2, 4);
+        }
         e.target.value = input;
     });
 
     // Auto-format card number as #### #### #### ####
-    document.getElementById('cardNumber').addEventListener('input', (e) => {
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
         let input = e.target.value.replace(/\D/g, '');
-        e.target.value = input.match(/.{1,4}/g)?.join(' ') || input;
+        input = input.match(/.{1,4}/g)?.join(' ') || input;
+        e.target.value = input;
     });
 
-    // Copy shipping ZIP to billing ZIP
-    document.getElementById('sameAsShipping').addEventListener('change', (e) => {
-        const billingZip = document.getElementById('zipCode');
+    // Copy shipping ZIP code to billing if checkbox is checked
+    document.getElementById('sameAsShipping').addEventListener('change', function (e) {
         if (e.target.checked) {
-            billingZip.value = document.getElementById('zip').value;
+            document.getElementById('zipCode').value = document.getElementById('zip').value;
         } else {
-            billingZip.value = '';
+            document.getElementById('zipCode').value = '';
         }
     });
 
-    // Validate card expiration
+    // Validate the expiration date
     const isCardExpired = (expDate) => {
+        const today = new Date();
         const [month, year] = expDate.split('/').map(Number);
         const exp = new Date(`20${year}-${month}-01`);
-        return new Date() > exp;
+        return today > exp;
     };
 
-    // Close popup handler
-    const closePopupHandler = () => popupOverlay.classList.remove('show');
-    closePopup.addEventListener('click', closePopupHandler);
-    popupOverlay.addEventListener('click', (event) => {
-        if (event.target === popupOverlay) closePopupHandler();
-    });
+    // Function to display error/success messages
+    const displayMessage = (message, type) => {
+        messageDiv.textContent = message;
+        messageDiv.className = `message ${type}`;
+        messageDiv.style.display = 'block';
+    };
 
-    // Handle form submission and show order popup
+    // Final submission
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const orderData = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            address: `${document.getElementById('address').value} ${document.getElementById('unitNumber').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value}, ${document.getElementById('zip').value}`,
-            shippingMethod: document.querySelector('input[name="shippingMethod"]:checked').value,
-            paymentDetails: {
-                cardNumber: document.getElementById('cardNumber').value.replace(/\s/g, ''),
-                expDate: document.getElementById('expDate').value,
-                securityCode: document.getElementById('securityCode').value,
-                billingZipCode: document.getElementById('zipCode').value
-            }
-        };
+        // Validate payment section before final submission
+        const isSection2Valid = validateSection(requiredFieldsSection2);
+        if (!isSection2Valid) {
+            return;
+        }
 
-        if (isCardExpired(orderData.paymentDetails.expDate)) {
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+        const unitNumber = document.getElementById('unitNumber').value;
+        const city = document.getElementById('city').value;
+        const state = document.getElementById('state').value;
+        const zip = document.getElementById('zip').value;
+        const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+        const expDate = document.getElementById('expDate').value;
+        const securityCode = document.getElementById('securityCode').value;
+        const billingZipCode = document.getElementById('zipCode').value;
+
+        // Check card expiration
+        if (isCardExpired(expDate)) {
             displayMessage('Error: Your card has expired.', 'error');
             return;
         }
 
+        // Determine mock URL based on card number (first digit simulation)
+        let mockUrl;
+        if (cardNumber.startsWith('4111')) {
+            mockUrl = mockEndpointSuccess;
+        } else if (cardNumber.startsWith('5105')) {
+            mockUrl = mockEndpointFailureDetails;
+        } else {
+            mockUrl = mockEndpointFailureFunds;
+        }
+
+        // Prepare order data
+        const orderData = {
+            firstName,
+            lastName,
+            email,
+            phone,
+            address: `${address} ${unitNumber}, ${city}, ${state}, ${zip}`,
+            shippingMethod,
+            paymentDetails: {
+                cardNumber,
+                expDate,
+                securityCode,
+                billingZipCode
+            }
+        };
+
         try {
-            const paymentResponse = await fetch('https://run.mocky.io/v3/b4e53431-c19e-4853-93c9-03d1cdd1e6f3', {
+            // Send a request to the mock payment endpoint
+            const paymentResponse = await fetch(mockUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({
                     OrderId: 'ORD000123',
-                    CardDetails: orderData.paymentDetails,
+                    CardDetails: {
+                        Number: cardNumber,
+                        ExpirationDate: expDate,
+                        CVC: securityCode,
+                        NameOnCard: `${firstName} ${lastName}`
+                    },
                     AuthorizationAmount: 50.00
                 })
             });
 
             const paymentResult = await paymentResponse.json();
+
             if (paymentResult.Success) {
+                // Send order details to MongoDB after payment success
                 const orderResponse = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderData)
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
                 });
 
                 const orderResult = await orderResponse.json();
-                if (orderResponse.ok) {
-                    displayMessage(`Order submitted successfully! Order ID: ${orderResult.orderId}`, 'success');
-                    popupOverlay.classList.add('show');
-                } else {
+
+                if (!orderResponse.ok) {
                     displayMessage(`Error: ${orderResult.message}`, 'error');
+                } else {
+                    displayMessage(`Order submitted successfully! Order ID: ${orderResult.orderId}`, 'success');
+                    popupOverlay.classList.add('show'); // Show success popup
                 }
             } else {
-                displayMessage(`Error: ${paymentResult.Reason}`, 'error');
+                // Handle payment failure
+                displayMessage(`Payment failed: ${paymentResult.Reason}`, 'error');
             }
         } catch (error) {
+            console.error('Error during payment or order submission:', error);
             displayMessage('Error: Something went wrong!', 'error');
         }
     });
 
-    // Chat Popup Logic
-    closeChatPopup.addEventListener('click', () => chatPopupOverlay.classList.remove('show'));
-    chatPopupOverlay.addEventListener('click', (event) => {
-        if (event.target === chatPopupOverlay) chatPopupOverlay.classList.remove('show');
-    });
-
-    // Feedback Popup Logic
-    closeFeedbackPopup.addEventListener('click', () => feedbackPopupOverlay.classList.remove('show'));
-    feedbackPopupOverlay.addEventListener('click', (event) => {
-        if (event.target === feedbackPopupOverlay) feedbackPopupOverlay.classList.remove('show');
-    });
+    // Close popup functionality
+    closePopup.addEventListener('click', () => popupOverlay.classList.remove('show'));
 });

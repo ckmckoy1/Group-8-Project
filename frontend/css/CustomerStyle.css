@@ -166,20 +166,29 @@ header {
 /* Form Layout */
 .form-group-pair, .form-group {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;
+    gap: 5px;
     width: 100%;
     align-items: center;
     box-sizing: border-box;
 }
 
-.form-group-pair input, .form-group input {
-    padding: 8px;
+.form-group input {
+    padding: 16px;
+    width: 100%;
+    max-width: 500px;
+    font-size: 0.9em;
+    border: 1px solid #ccc;
+}
+
+.form-group-pair input{
+    padding: 16px;
     width: 100%;
     max-width: 250px;
     font-size: 0.9em;
     border: 1px solid #ccc;
 }
+
+
 
 .form-group-pair label, .form-group label {
     font-size: 0.9em;
@@ -189,12 +198,12 @@ header {
 }
 
 .form-group, .form-group-pair {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 /* Button Styling */
 .continue-btn, .submit-button {
-    padding: 8px 12px;
+    padding: 15px 18px;
     font-size: 0.9em;
     background-color: #333;
     color: #fff;
@@ -253,6 +262,7 @@ input[required]:not(.invalid) {
 
 .order-summary h3 {
     margin-top: 0;
+    border-bottom: 1px solid #333;
 }
 
 .order-summary p {

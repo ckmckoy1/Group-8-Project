@@ -10,19 +10,15 @@
 </head>
 
 <body>
-    <!-- Header Section -->
     <header class="header">
         <div class="promo-bar">
-            <p>Earn Rewards On Purchases | FALL OUTERWEAR 20-40% OFF | 
-                <a href="#">VIEW DEALS</a> | 
-                <img src="../assets/location.svg" width="25" height="25"> The Outlet Shoppes at Atlanta |  
-                <img src="../assets/account.svg" width="25" height="25"> 
-                <a href="#">Sign In / Sign Up</a>
-            </p>
+            <p>Earn Rewards On Purchases | FALL OUTERWEAR 20-40% OFF | <a href="#">VIEW DEALS</a> | 
+            <img src="../assets/location.svg" width="25" height="25"> The Outlet Shoppes at Atlanta  |  
+            <img src="../assets/account.svg" width="25" height="25"> <a href="#">Sign In / Sign Up </a></p>
         </div>
     </header>
 
-    <!-- Top Bar: Search, Logo, Cart -->
+    <!-- Top Bar with Search, Logo, and Cart -->
     <div class="top-bar">
         <div class="search-bar">
             <input type="text" placeholder="Search...">
@@ -38,7 +34,6 @@
         </div>
     </div>
 
-    <!-- Navigation Banner -->
     <div class="banner">
         <nav class="nav">
             <a href="#">Women</a>
@@ -51,7 +46,7 @@
         </nav>
     </div>
 
-    <!-- Order Complete Popup -->
+    <!-- Popup for Order Complete -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
             <span class="close" id="closePopup">&times;</span>
@@ -60,46 +55,75 @@
             </div>
         </div>
     </div>
-
-    <!-- Main Content -->
+    
     <main class="main-content">
-        <div class="container">
+        <div class="container">    
             <section class="checkout-container">
                 <h2>Checkout</h2>
                 <div class="sign-in">
-                    <p>Sign in to your account to save time and earn rewards. No Account? 
-                        <a href="#">Sign up now</a>
-                    </p>
+                    <p>Sign in to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
                     <a href="#">+ Add my Adventure Rewards Number</a>
                 </div>
 
-                <!-- Checkout Form Section -->
                 <div class="checkout-content">
+                    <!-- Left Column: Form for Checkout Sections -->
                     <div class="checkout-form-section">
                         <form id="checkoutForm" onsubmit="return validateForm()">
-
-                            <!-- Shipping & Delivery Section -->
-                            <div id="shippingBillingSection" class="form-section show">
-                                <h3>1. SHIPPING & DELIVERY</h3>
-                                <div class="form-content">
-                                    <label>Contact Info</label>
-                                    <div class="form-group-pair">
-                                        <input type="email" id="email" name="email" required placeholder="Email">
-                                        <input type="tel" id="phone" name="phone" required placeholder="Phone Number">
+                            <!-- Section 1: Shipping & Delivery Details -->
+                            <div id="shippingSection" class="form-section show">
+                                <h3 onclick="toggleSection('shippingSection')">1. SHIPPING & DELIVERY</h3>
+                                <div class="form-content show">
+                                    <!-- Contact Info -->
+                                    <div class="form-group">
+                                        <label for="Contact Info Group">Contact Info</label>
                                     </div>
-                                    <p>For delivery purposes only</p>
 
-                                    <label>Shipping Address</label>
                                     <div class="form-group-pair">
-                                        <input type="text" id="firstName" name="firstName" required placeholder="First Name">
-                                        <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
+                                        <div class="form-group">
+                                            <input type="email" id="email" name="email" required placeholder="Email">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="tel" id="phone" name="phone" required placeholder="Phone Number">
+                                        </div>
                                     </div>
-                                    <input type="text" id="address" name="address" required placeholder="Address">
-                                    <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor (Optional)">
-                                    <input type="text" id="city" name="city" required placeholder="City">
+
+                                    <div class="form-group">
+                                        <p>For delivery purposes only</p>
+                                    </div>
+
+                                    <!-- Shipping Address -->
+                                    <div class="form-group">
+                                        <label for="Shipping Address Group">Shipping Address</label>
+                                    </div>
+
                                     <div class="form-group-pair">
-                                        <input type="text" id="state" name="state" required placeholder="State / Region">
-                                        <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
+                                        <div class="form-group">
+                                            <input type="text" id="firstName" name="firstName" required placeholder="First Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" id="address" name="address" required placeholder="Address">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor (Optional)">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" id="city" name="city" required placeholder="City">
+                                    </div>
+
+                                    <div class="form-group-pair">
+                                        <div class="form-group">
+                                            <input type="text" id="state" name="state" required placeholder="State / Region">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
+                                        </div>
                                     </div>
 
                                     <p>Select your preferred shipping method:</p>
@@ -112,13 +136,14 @@
                                         <label for="express">Express Shipping (2-3 days)</label>
                                     </div>
 
-                                    <button type="button" class="continue-btn" onclick="collapseSectionWithValidation('shippingBillingSection', 'paymentSection')">Continue to Payment</button>
+                                    <button type="button" class="continue-btn" id="continueToPayment">CONTINUE TO PAYMENT</button>
+
                                 </div>
                             </div>
 
-                            <!-- Payment Section -->
+                            <!-- Section 2: Payment -->
                             <div id="paymentSection" class="form-section collapsed">
-                                <h3>2. PAYMENT</h3>
+                                <h3 onclick="toggleSection('paymentSection')">2. PAYMENT</h3>
                                 <div class="form-content">
                                     <div class="form-group-pair">
                                         <input type="checkbox" id="PaymentOption1" name="PaymentOption1">
@@ -152,18 +177,73 @@
                                         <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
                                     </div>
                                     <div class="form-group-pair">
-                                        <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
-                                        <label for="sameAsShipping">Same as Billing?</label>
+                                        <div class="form-group">
+                                            <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sameAsShipping">Same as Billing?</label>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="zipCode">Billing ZIP Code:</label>
                                         <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
                                     </div>
+                                    <button type="button" class="continue-btn" id="continueToReview">Continue to Review</button>
 
-                                    <button type="submit" class="submit-button">Complete Purchase</button>
                                 </div>
                             </div>
 
+                            <!-- Section 3: Review Order -->
+                            <div id="reviewOrderSection" class="form-section collapsed">
+                                <h3 onclick="toggleSection('reviewOrderSection')">3. REVIEW ORDER</h3>
+                                <div class="form-content">
+                                    <div class="form-group">    
+                                        <p>Please review your information and place your order via the Place Order button below.</p>
+                                    </div>   
+                                    <div class="form-group-pair">
+                                        <div class="form-group">
+                                            <p>SUBTOTAL</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>$43.14</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-pair">
+                                        <div class="form-group">
+                                            <p>STANDARD DELIVERY</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>$3.99</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-pair">
+                                        <div class="form-group">
+                                            <p>ESTIMATED TAX</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>$2.87</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-pair">
+                                        <div class="form-group">
+                                            <p>TOTAL</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>$50.00</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-pair">
+                                        <div class="form-group">
+                                            <input type="checkbox" id="signupforoffers" name="signupforoffers">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="signupforoffers">Sign up for email subscription for special offers, new products, and more!</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="submit-button">Place Order</button>
+                                    <p>By placing your order, you agree to Wild Path Outfitters' Privacy Policy and Terms of Sale.</p>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -183,7 +263,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <nav class="footer-nav">
             <a href="#">Store Locator</a>
@@ -220,7 +299,6 @@
     </div>
 
     <script src="../js/checkout.js"></script>
-
 </body>
 
 </html>
