@@ -29,47 +29,9 @@
             <div id="message" class="message" style="display: none;"></div>
         </form>
     </div>
-</main>
-    <script>
-<script>
-    document.getElementById('settleShipmentForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
+    </main>
 
-        const orderId = document.getElementById('orderId').value;
-        const finalAmount = parseFloat(document.getElementById('finalAmount').value);
-        const messageDiv = document.getElementById('message');
-
-        try {
-            const response = await fetch('/api/settle-shipment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    orderId: orderId,
-                    finalAmount: finalAmount
-                }),
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                messageDiv.textContent = `Error: ${result.message}`;
-                messageDiv.className = 'message error';
-            } else {
-                messageDiv.textContent = result.message;
-                messageDiv.className = 'message success';
-            }
-        } catch (error) {
-            console.error('Error during shipment settlement:', error);
-            messageDiv.textContent = 'Error: Something went wrong!';
-            messageDiv.className = 'message error';
-        }
-
-        messageDiv.style.display = 'block';
-    });
-</script>
-
-    </script>
+    <!-- Reference the external JavaScript file -->
+    <script src="../js/settleShipment.js"></script>
 </body>
 </html>

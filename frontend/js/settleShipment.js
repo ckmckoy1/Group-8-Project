@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const settleForm = document.getElementById('settleForm');
+    const settleForm = document.getElementById('settleShipmentForm');
     const messageDiv = document.getElementById('message');
 
     // Handle form submission for settling the shipment
@@ -10,25 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const finalAmount = parseFloat(document.getElementById('finalAmount').value);
 
         try {
-            const response = await fetch('/settle-order', {
+            const response = await fetch('/api/settle-shipment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ orderId, finalAmount }),
+                body: JSON.stringify({
+                    orderId: orderId,
+                    finalAmount: finalAmount
+                }),
             });
 
-            const data = await response.json();
+            const result = await response.json();
 
-            if (response.ok) {
-                messageDiv.textContent = 'Order settled successfully!';
-                messageDiv.className = 'message success';
-            } else {
-                messageDiv.textContent = `Error: ${data.error}`;
+            if (!response.ok) {
+                messageDiv.textContent = `Error: ${result.message}`;
                 messageDiv.className = 'message error';
+            } else {
+                messageDiv.textContent = result.message;
+                messageDiv.className = 'message success';
             }
         } catch (error) {
-            messageDiv.textContent = 'Error: Unable to settle the order. Please try again later.';
+            console.error('Error during shipment settlement:', error);
+            messageDiv.textContent = 'Error: Something went wrong!';
             messageDiv.className = 'message error';
         }
 
