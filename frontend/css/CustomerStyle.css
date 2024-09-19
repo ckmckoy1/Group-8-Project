@@ -136,13 +136,9 @@ header {
     font-size: 3.5em;
     font-weight: bold;
     text-align: center;
-    font-family: 'Bauhaus Soft', serif;
+    font-family: 'Bebas Neue', sans-serif; /* Use chosen font */
     color: #333;
-    .gap: 10px;
-}
-
-.top-bar .logo h1 {
-    font-size: 3em; /* Increase the font size */
+    gap: 10px;
     display: flex;
     align-items: center; /* Align text and image vertically */
     justify-content: center; /* Center the text and image horizontally */
