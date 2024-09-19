@@ -274,15 +274,46 @@ header {
     margin-bottom: 20px;
 }
 
+input {
+    width: 100%;
+    padding: 20px 10px 10px; /* Padding on top for label and bottom for placeholder */
+    font-size: 1.25em; /* Bigger placeholder text */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+/* Placeholder towards the bottom */
+input::placeholder {
+    color: #aaa;
+    font-size: 1.25em;
+    position: relative;
+    top: 10px; /* Move placeholder towards the bottom */
+}
+
+input:focus::placeholder {
+    opacity: 0; /* Hide placeholder when focused */
+}
+
+/* Floating label */
 .floating-label {
     position: absolute;
-    top: 50%;
+    top: 5px; /* Start label inside the input at the bottom */
     left: 10px;
-    transform: translateY(-50%);
-    font-size: 1em; /* Smaller size for label */
+    font-size: 0.4em;
     color: #888;
     pointer-events: none;
     transition: all 0.3s ease;
+    font-weight: bold; 
+}
+
+/* Float label to the top-left corner on focus or when filled */
+input:focus + .floating-label,
+input:not(:placeholder-shown) + .floating-label {
+    top: 5px; /* Move the label to the top */
+    left: 10px;
+    font-size: 0.75em; /* Smaller size for the floating label */
+    color: #000; /* Optionally change label color when floating */
 }
 
 input {

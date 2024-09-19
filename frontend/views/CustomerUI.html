@@ -177,17 +177,21 @@
                                     
                                     <div class="form-group">
                                         <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
-                                        <label for="cardNumber" class="floating-label">Credit Card Number</label>
+                                        <label for="cardNumber" class="floating-label">Card Number *</label>
                                     </div>
                                     <div class="form-group-pair">
                                     <div class="form-group">
                                         <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
-                                        <label for="expDate" class="floating-label">Expiry Date</label>
+                                        <label for="expDate" class="floating-label">Expiry Date *</label>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
-                                        <label for="securityCode" class="floating-label">Security Code (CVV)</label>
+                                        <label for="securityCode" class="floating-label">Security Code *</label>
                                     </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="billingName" name="billingName" required placeholder="John Doe">
+                                        <label for="billingName" class="floating-label">Name on card *</label>
                                     </div>
                                     
                                     <div class="form-group billing-header">    
@@ -196,15 +200,15 @@
                                     <div class="checkbox-group-pair">
                                         <div class="checkbox-group">
                                             <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
-                                            <label for="sameAsShipping" class="floating-label">Same as Billing?</label>
+                                            <label for="sameAsShipping">Same as Billing?</label>
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="zipCode">Billing ZIP Code:</label>
+                                        <label for="zipCode" class="floating-label">Billing ZIP Code:</label>
                                         <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
                                     </div>
-                                    <button type="button" class="continue-btn" id="continueToReview">Continue to Review</button>
+                                    <button type="button" class="continue-btn" id="continueToReview">CONTINUE TO REVIEW</button>
 
                                 </div>
                             </div>
