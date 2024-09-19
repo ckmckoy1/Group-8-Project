@@ -79,7 +79,7 @@
                 <div class="checkout-content">
                     <!-- Left Column: Form for Checkout Sections -->
                     <div class="checkout-form-section">
-                        <form id="checkoutForm" onsubmit="return validateForm()">
+                        <form id="checkoutForm" autocomplete="on" onsubmit="return validateForm()">
                             <!-- Section 1: Shipping & Delivery Details -->
                             <div id="shippingSection" class="form-section show">
                                 <h3 onclick="toggleSection('shippingSection')">1. SHIPPING & DELIVERY</h3>
@@ -175,30 +175,31 @@
                                         <img src="../assets/paypal.svg" width="50" height="55">
                                     </div>
                                     
-
                                     <div class="form-group">
-                                        <label for="cardNumber">Credit Card Number:</label>
                                         <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
+                                        <label for="cardNumber" class="floating-label">Credit Card Number</label>
                                     </div>
+                                    <div class="form-group-pair">
                                     <div class="form-group">
-                                        <label for="expDate">Expiration Date (MM/YY):</label>
                                         <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
+                                        <label for="expDate" class="floating-label">Expiry Date</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="securityCode">Security Code (CVV):</label>
                                         <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
+                                        <label for="securityCode" class="floating-label">Security Code (CVV)</label>
                                     </div>
-                                    <div class="form-group">    
+                                    </div>
+                                    
+                                    <div class="form-group billing-header">    
                                         <p>Billing Address</p>
-                                    </div> 
+                                    </div>                                    
                                     <div class="checkbox-group-pair">
                                         <div class="checkbox-group">
                                             <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
-                                        </div>
-                                        <div class="checkbox-group">
-                                            <label for="sameAsShipping">Same as Billing?</label>
+                                            <label for="sameAsShipping" class="floating-label">Same as Billing?</label>
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group">
                                         <label for="zipCode">Billing ZIP Code:</label>
                                         <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">

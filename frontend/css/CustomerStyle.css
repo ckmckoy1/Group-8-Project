@@ -268,6 +268,50 @@ header {
     align-items: center;
 }
 
+/* Container for floating label */
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.floating-label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1em; /* Smaller size for label */
+    color: #888;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+input {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.25em; /* Bigger size for placeholder */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+input::placeholder {
+    color: #aaa;
+    font-size: 1.25em;
+}
+
+input:focus::placeholder {
+    opacity: 0; /* Hide placeholder when focused */
+}
+
+/* Floating label effect when input is focused or has content */
+input:focus + .floating-label,
+input:not(:placeholder-shown) + .floating-label {
+    top: 5px; /* Float label to the top inside the input */
+    font-size: 0.75em;
+    color: #000;
+}
+
+
 .radio-group {
     display: block; /* Make each radio group a block element to go to the next line */
     margin-bottom: 10px; /* Space between radio button options */
@@ -282,6 +326,55 @@ header {
     font-size: 1em; /* Adjust font size as needed */
 }
 
+.radio-group img {
+    vertical-align: middle; /* Align image vertically with the text */
+    margin-left: 10px; /* Add some space between the text and image */
+}
+
+/* Hide default radio button */
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+/* Create custom radio button */
+.radio-group input[type="radio"] + label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;  /* Set the width of the radio circle */
+    height: 20px; /* Set the height of the radio circle */
+    border-radius: 50%; /* Make it a circle */
+    border: 2px solid black; /* Black border */
+    margin-right: 10px; /* Space between circle and label */
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* Style for checked state */
+.radio-group input[type="radio"]:checked + label::before {
+    background-color: black; /* Fill the circle with black when checked */
+    border-color: black; /* Make sure the border is black */
+}
+
+/* Optionally, change the text color when selected */
+.radio-group input[type="radio"]:checked + label {
+    color: black; /* Change label color when selected */
+}
+
+/* Ensure the checkbox and label are on the same line */
+.checkbox-group {
+    display: flex;
+    align-items: center; /* Vertically aligns the checkbox and label */
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px; /* Add space between checkbox and label */
+}
+
+.billing-header p {
+    font-size: 1.5em;  /* Bigger text */
+    font-weight: bold; /* Bold text */
+    margin: 0;         /* Optionally adjust margins */
+}
 
 /* Button Styling */
 .continue-btn, .submit-button {
