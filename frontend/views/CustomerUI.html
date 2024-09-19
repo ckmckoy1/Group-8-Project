@@ -27,37 +27,36 @@
                 </div>
             </div>
         </div>
+        <!-- Top Bar with Search, Logo, and Cart -->
+        <div class="top-bar">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <img src="../assets/search.svg" width="20" height="20" alt="Search">
+            </div>
+            <div class="logo">
+                <h1>Wild Path Outfitters <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Compass"></h1>
+            </div>
+            <div class="cart-icon">
+                <a href="../cart.html">
+                    <img src="../assets/cart.svg" width="20" height="20" alt="Shopping Cart Icon">
+                </a>
+            </div>
+        </div>
+
+        <div class="banner">
+            <nav class="nav">
+                <a href="#">Women</a>
+                <a href="#">Men</a>
+                <a href="#">Kids</a>
+                <a href="#">Gear & Home</a>
+                <a href="#">Shoes</a>
+                <a href="#">Clearance</a>
+                <a href="#">About Us</a>
+            </nav>
+        </div>
+    
     </header>
     
-
-    <!-- Top Bar with Search, Logo, and Cart -->
-    <div class="top-bar">
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <img src="../assets/search.svg" width="20" height="20" alt="Search">
-        </div>
-        <div class="logo">
-            <h1>Wild Path Outfitters <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Compass"></h1>
-        </div>
-        <div class="cart-icon">
-            <a href="../cart.html">
-                <img src="../assets/cart.svg" width="20" height="20" alt="Shopping Cart Icon">
-            </a>
-        </div>
-    </div>
-
-    <div class="banner">
-        <nav class="nav">
-            <a href="#">Women</a>
-            <a href="#">Men</a>
-            <a href="#">Kids</a>
-            <a href="#">Gear & Home</a>
-            <a href="#">Shoes</a>
-            <a href="#">Clearance</a>
-            <a href="#">About Us</a>
-        </nav>
-    </div>
-
     <!-- Popup for Order Complete -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
@@ -147,31 +146,35 @@
                                         <input type="radio" id="express" name="shippingMethod" value="Express" required>
                                         <label for="express">Express Shipping (2-3 days)</label>
                                     </div>
-                                    
+                                    <button type="button" class="continue-btn" id="continueToPayment">CONTINUE TO PAYMENT</button>
                             </div>
 
                             <!-- Section 2: Payment -->
                             <div id="paymentSection" class="form-section collapsed">
                                 <h3 onclick="toggleSection('paymentSection')">2. PAYMENT</h3>
                                 <div class="form-content">
-                                    <div class="form-group-pair">
-                                        <input type="checkbox" id="PaymentOption1" name="PaymentOption1">
+                                    <div class="form-group">    
+                                        <p>Please select from the payment options below.</p>
+                                    </div>   
+                                    <div class="radio-group">
+                                        <input type="radio" id="PaymentOption1" name="paymentMethod" value="creditCard" checked>
                                         <label for="PaymentOption1">Credit Card</label>
-                                        <img src="../assets/visa.svg" width="30" height="35">
-                                        <img src="../assets/amex.svg" width="30" height="35">
-                                        <img src="../assets/mastercard.svg" width="30" height="35">
-                                        <img src="../assets/discover.svg" width="30" height="35">
+                                        <img src="../assets/visa.svg" width="50" height="55">
+                                        <img src="../assets/amex.svg" width="50" height="55">
+                                        <img src="../assets/mastercard.svg" width="50" height="55">
+                                        <img src="../assets/discover.svg" width="50" height="55">
                                     </div>
-                                    <div class="form-group-pair">
-                                        <input type="checkbox" id="PaymentOption2" name="PaymentOption2">
+                                    <div class="radio-group">
+                                        <input type="radio" id="PaymentOption2" name="paymentMethod" value="klarna">
                                         <label for="PaymentOption2">Klarna</label>
-                                        <img src="../assets/klarna.svg" width="25" height="25">
+                                        <img src="../assets/klarna.svg" width="50" height="55">
                                     </div>
-                                    <div class="form-group-pair">
-                                        <input type="checkbox" id="PaymentOption3" name="PaymentOption3">
+                                    <div class="radio-group">
+                                        <input type="radio" id="PaymentOption3" name="paymentMethod" value="paypal">
                                         <label for="PaymentOption3">PayPal</label>
-                                        <img src="../assets/paypal.svg" width="25" height="25">
+                                        <img src="../assets/paypal.svg" width="50" height="55">
                                     </div>
+                                    
 
                                     <div class="form-group">
                                         <label for="cardNumber">Credit Card Number:</label>
@@ -185,11 +188,14 @@
                                         <label for="securityCode">Security Code (CVV):</label>
                                         <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
                                     </div>
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
+                                    <div class="form-group">    
+                                        <p>Billing Address</p>
+                                    </div> 
+                                    <div class="checkbox-group-pair">
+                                        <div class="checkbox-group">
                                             <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="checkbox-group">
                                             <label for="sameAsShipping">Same as Billing?</label>
                                         </div>
                                     </div>
@@ -310,7 +316,7 @@
         </div>
     </div>
 
-    <script src="../js/checkout.js"></script>
+    <script src="../js/checkout.js"> </script>
 </body>
 
 </html>
