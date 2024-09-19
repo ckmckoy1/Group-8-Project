@@ -105,7 +105,7 @@ header {
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: sticky;
-    top: 40px;
+    top: 33px;
     z-index: 999;
 }
 
@@ -171,7 +171,6 @@ header {
     width: 100%;
     box-sizing: border-box;
     position: sticky;
-    top: 90px;
     z-index: 998;
 }
 
@@ -235,11 +234,22 @@ header {
 
 .form-group input, .form-group-pair input {
     padding: 16px;
-    width: 100%;
     background-color: transparent;
-    max-width: 500px; /* Make .form-group-pair same width as .form-group */
     font-size: 0.9em;
     border: 1px solid #ccc;
+}
+
+/* Ensure .form-group takes up the full width */
+.form-group input {
+    flex-grow: 1;
+    width: 100%; /* Takes full width */
+}
+
+/* Make sure the total width of the .form-group-pair inputs is the same as the .form-group input */
+.form-group-pair input {
+    flex-grow: 1; /* Each input takes equal space */
+    width: 50%; /* Each input takes half the space */
+    padding: 16px;
 }
 
 .form-group-pair label, .form-group label {
@@ -259,12 +269,18 @@ header {
     align-items: center;
 }
 
-.form-group input[type="radio"] {
-    margin-right: 2px; /* Adjust space between radio button and label */
+.radio-group {
+    display: block; /* Make each radio group a block element to go to the next line */
+    margin-bottom: 10px; /* Space between radio button options */
 }
 
-.form-group label {
-    margin: 0; /* Remove any default margin from the label */
+.radio-group input[type="radio"], .radio-group label {
+    margin-bottom: 5px; /* Optional: Add some space between the radio button and the label */
+}
+
+.radio-group label {
+    margin: 0; /* Ensures no extra margin around the label */
+    font-size: 1em; /* Adjust font size as needed */
 }
 
 
@@ -319,7 +335,7 @@ input[required]:not(.invalid) {
     padding: 15px;
     border: 1px solid #ccc;
     margin-left: 10px;
-    max-height: 300px;
+    max-height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -339,6 +355,14 @@ input[required]:not(.invalid) {
     border-bottom: 1px solid #333;
     padding: 5px;
     display: inline-block;
+}
+
+.order-summary img {
+    width: 250px; /* Adjust the size of the image */
+    height: 250px; /* Make sure the image remains proportional */
+    justify-content: center;
+    margin-top: 10px; /* Add some space between the text and image */
+    align-items: center;
 }
 
 hr {
