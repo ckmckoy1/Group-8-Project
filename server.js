@@ -146,27 +146,48 @@ app.post('/api/settle-shipment', async (req, res) => {
     const { orderId, finalAmount } = req.body;
 
     try {
+        // Fetch the order from MongoDB using orderId
         const order = await Order.findOne({ orderId });
 
+        // If the order is not found
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        // Compare the final amount with the authorized amount stored in MongoDB
-        if (finalAmount > order.authorizedAmount) {
-            return res.status(400).json({ message: `Final amount exceeds authorized amount of $${order.authorizedAmount}` });
+        const authorizationAmount = order.authorizedAmount;
+
+        // If the final amount is greater than the authorized amount
+        if (finalAmount > authorizationAmount) {
+            return res.status(400).json({ message: 'Unable to approve. Final amount exceeds authorized amount.' });
         }
 
-        // Mark the order as settled and save
-        order.status = 'Settled';
-        await order.save();
+        // If the final amount is less than the authorized amount
+        if (finalAmount < authorizationAmount) {
+            const remainingBalance = authorizationAmount - finalAmount;
+            // Update MongoDB to mark the order as "Partial Settlement"
+            order.status = 'Partial Settlement';
+            await order.save();
 
-        res.json({ message: `Order ${orderId} successfully settled with amount $${finalAmount}` });
+            return res.json({
+                message: `Partial settlement processed. Remaining balance: $${remainingBalance}. There is still a balance remaining on the account.`,
+                remainingBalance
+            });
+        }
 
+        // If the final amount is equal to the authorized amount
+        if (finalAmount === authorizationAmount) {
+            // Update MongoDB to mark the order as "Settled"
+            order.status = 'Settled';
+            await order.save();
+
+            return res.json({ message: 'Order successfully settled.' });
+        }
     } catch (err) {
-        res.status(500).json({ message: 'Failed to settle order', error: err.message });
+        // Handle MongoDB connection or processing errors
+        res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
+
 
 // Catch-all route for undefined paths
 app.use((req, res) => {
