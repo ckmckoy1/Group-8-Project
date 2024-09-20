@@ -25,6 +25,16 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML from public folder)
 
+const cors = require('cors');
+
+// Add this before your routes to allow requests from your GitHub Pages domain
+app.use(cors({
+    origin: ['https://ckmckoy1.github.io'],
+    methods: ['GET', 'POST'],
+    credentials: true // If you need to send cookies or auth headers
+}));
+
+
 // MongoDB connection with a longer timeout (10s) to prevent Heroku timeout issues
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathOutfitters', {
     useNewUrlParser: true,
