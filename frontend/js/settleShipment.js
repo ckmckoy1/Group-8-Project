@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Show loading message
+        messageDiv.textContent = 'Processing...';
+        messageDiv.className = 'message info';
+        messageDiv.style.display = 'block';
+
         try {
             const response = await fetch('/api/settle-shipment', {
                 method: 'POST',
@@ -32,12 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
 
-            if (!response.ok) {
-                messageDiv.textContent = `Error: ${result.message}`;
+            if (response.status === 404) {
+                messageDiv.textContent = 'Order not found.';
                 messageDiv.className = 'message error';
-            } else {
+            } else if (response.status === 400) {
+                messageDiv.textContent = `Unable to approve: ${result.message}`;
+                messageDiv.className = 'message error';
+            } else if (response.ok) {
                 messageDiv.textContent = result.message;
                 messageDiv.className = 'message success';
+            } else {
+                messageDiv.textContent = `Unexpected error occurred.`;
+                messageDiv.className = 'message error';
             }
         } catch (error) {
             console.error('Error during shipment settlement:', error);

@@ -178,12 +178,12 @@ app.post('/api/settle-shipment', async (req, res) => {
         // If the final amount is less than the authorized amount
         if (finalAmount < authorizationAmount) {
             const remainingBalance = authorizationAmount - finalAmount;
-            // Update MongoDB to mark the order as "Partial Settlement"
             order.WarehouseStatus = 'Partial Settlement';
+        
             const saveStart = Date.now();
             await order.save();
             console.log(`Saving partial settlement to MongoDB took ${Date.now() - saveStart}ms`);
-
+        
             return res.json({
                 message: `Partial settlement processed. Remaining balance: $${remainingBalance}. There is still a balance remaining on the account.`,
                 remainingBalance
@@ -192,12 +192,12 @@ app.post('/api/settle-shipment', async (req, res) => {
 
         // If the final amount is equal to the authorized amount
         if (finalAmount === authorizationAmount) {
-            // Update MongoDB to mark the order as "Settled"
             order.WarehouseStatus = 'Settled';
+        
             const saveStart = Date.now();
             await order.save();
             console.log(`Saving settlement to MongoDB took ${Date.now() - saveStart}ms`);
-
+        
             return res.json({ message: 'Order successfully settled.' });
         }
     } catch (err) {
