@@ -156,10 +156,10 @@ app.get('/api/orders', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
     }
 });
-
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
     console.log('Settle shipment route hit');
+    
     const { orderId, finalAmount } = req.body;
     console.log('Order ID being searched:', orderId); // Log orderId for debugging
 
@@ -173,18 +173,21 @@ app.post('/api/settle-shipment', async (req, res) => {
         }
 
         console.log('Order found:', order); // Log the order details if found
-        const authorizationAmount = order.authorizationAmount;
+        const authorizationAmount = order.AuthorizationAmount; // Ensure proper capitalization
 
         // Check if the final amount is greater than the authorized amount
         if (finalAmount > authorizationAmount) {
+            console.log(`Final amount exceeds authorized amount: ${finalAmount} > ${authorizationAmount}`);
             return res.status(400).json({ message: 'Unable to approve. Final amount exceeds authorized amount.' });
         }
 
         // Handle partial or full settlement
         if (finalAmount < authorizationAmount) {
             const remainingBalance = authorizationAmount - finalAmount;
-            order.warehouseStatus = 'Partial Settlement'; // Update the WarehouseStatus field
+            order.WarehouseStatus = 'Partial Settlement'; // Ensure correct capitalization
             await order.save();
+            
+            console.log(`Partial settlement processed. Remaining balance: $${remainingBalance}`);
             return res.json({
                 message: `Partial settlement processed. Remaining balance: $${remainingBalance}.`,
                 remainingBalance
@@ -192,13 +195,16 @@ app.post('/api/settle-shipment', async (req, res) => {
         }
 
         if (finalAmount === authorizationAmount) {
-            order.warehouseStatus = 'Settled'; // Update the WarehouseStatus field
+            order.WarehouseStatus = 'Settled'; // Ensure correct capitalization
             await order.save();
+
+            console.log('Order successfully settled');
             return res.json({ message: 'Order successfully settled.' });
         }
 
     } catch (err) {
-        res.status(500).json({ message: 'Unable to access the database.', error: err.message });
+        console.error('Error during shipment settlement:', err.message);
+        return res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
 

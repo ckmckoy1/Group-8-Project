@@ -3,6 +3,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageDiv = document.getElementById('message');
     const finalAmountInput = document.getElementById('finalAmount');
 
+    // Fetch order details to verify amounts
+    const fetchOrderDetails = async (orderId) => {
+        try {
+            const response = await fetch(`/api/orders/${orderId}`);
+            if (!response.ok) {
+                throw new Error('Order not found');
+            }
+            const order = await response.json();
+            return order;
+        } catch (error) {
+            console.error('Error fetching order details:', error);
+            throw error;
+        }
+    };
+
     // Handle form submission for settling the shipment
     settleForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -11,15 +26,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const finalAmount = parseFloat(finalAmountInput.value.replace(/[^0-9.-]+/g, "")); // Remove formatting before sending
         const orderId = document.getElementById('orderId').value;
 
-        if (isNaN(finalAmount)) {
-            messageDiv.textContent = 'Please enter a valid amount';
+        if (!orderId.trim() || isNaN(finalAmount)) {
+            messageDiv.textContent = 'Please enter a valid Order ID and Amount';
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
             return;
         }
 
         try {
-            // Use fetch to send a POST request to your API endpoint
+            // Fetch order details first to compare amounts
+            const order = await fetchOrderDetails(orderId);
+            const authorizationAmount = order.AuthorizationAmount;
+
+            // Perform client-side comparison before sending settlement request
+            if (finalAmount > authorizationAmount) {
+                messageDiv.textContent = 'Final amount exceeds authorized amount!';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            // Send settlement request if amounts are valid
             const response = await fetch('/api/settle-shipment', {
                 method: 'POST',
                 headers: {
