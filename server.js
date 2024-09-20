@@ -151,6 +151,7 @@ app.get('/api/orders', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
     }
 });
+
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
     console.log('Settle shipment route hit');
@@ -158,11 +159,8 @@ app.post('/api/settle-shipment', async (req, res) => {
     console.log('Order ID being searched:', orderId); // Log orderId for debugging
 
     try {
-        const startQuery = Date.now();
         // Fetch the order from MongoDB using the correct field name "OrderID"
-        const order = await Order.findOne({ orderId: orderId });
-        const queryTime = Date.now() - startQuery;
-        console.log(`Query took ${queryTime}ms`);
+        const order = await Order.findOne({ OrderID: orderId });
 
         if (!order) {
             console.log('Order not found'); // Log if the order is not found
@@ -170,24 +168,18 @@ app.post('/api/settle-shipment', async (req, res) => {
         }
 
         console.log('Order found:', order); // Log the order details if found
-        const authorizationAmount = order.authorizedAmount;
+        const authorizationAmount = order.authorizationAmount;
 
         // Check if the final amount is greater than the authorized amount
         if (finalAmount > authorizationAmount) {
-            console.log('Final amount exceeds authorization amount');
             return res.status(400).json({ message: 'Unable to approve. Final amount exceeds authorized amount.' });
         }
 
         // Handle partial or full settlement
         if (finalAmount < authorizationAmount) {
             const remainingBalance = authorizationAmount - finalAmount;
-            order.warehouseStatus = 'Partial Settlement'; // Update the warehouseStatus field
-
-            const saveStart = Date.now();
+            order.warehouseStatus = 'Partial Settlement'; // Update the WarehouseStatus field
             await order.save();
-            const saveTime = Date.now() - saveStart;
-            console.log(`Saving order took ${saveTime}ms`);
-
             return res.json({
                 message: `Partial settlement processed. Remaining balance: $${remainingBalance}.`,
                 remainingBalance
@@ -195,21 +187,16 @@ app.post('/api/settle-shipment', async (req, res) => {
         }
 
         if (finalAmount === authorizationAmount) {
-            order.warehouseStatus = 'Settled'; // Update the warehouseStatus field
-
-            const saveStart = Date.now();
+            order.warehouseStatus = 'Settled'; // Update the WarehouseStatus field
             await order.save();
-            const saveTime = Date.now() - saveStart;
-            console.log(`Saving order took ${saveTime}ms`);
-
             return res.json({ message: 'Order successfully settled.' });
         }
 
     } catch (err) {
-        console.log('Error during processing:', err.message); // Log any errors
         res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
+
 
 // Catch-all route for undefined paths
 app.use((req, res) => {
