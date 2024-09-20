@@ -153,7 +153,6 @@ app.post('/api/settle-shipment', async (req, res) => {
 
     try {
         // Fetch the order from MongoDB using OrderID (case-sensitive)
-        const order = await Order.findOne({ orderId: orderId });
         const order = await Order.findOne({ OrderID: orderId }) || await Order.findOne();
 
         // If the order is not found
