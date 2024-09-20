@@ -103,6 +103,24 @@ main {
     background-color: #f44336;
 }
 
+        /* Style for the prefix and input */
+        .order-id-container {
+            display: flex;
+            align-items: center;
+        }
+        .order-id-prefix {
+            padding: 0 5px;
+            font-size: 1rem;
+            background-color: #f0f0f0; /* Make it look like it's part of the input */
+            border: 1px solid #ccc;
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+        }
+        #orderId {
+            border-radius: 0 5px 5px 0; /* Rounded corners for the input box */
+            border-left: none;
+        }
+
 /* Responsive design */
 @media (max-width: 600px) {
     .settle-shipment-container {
