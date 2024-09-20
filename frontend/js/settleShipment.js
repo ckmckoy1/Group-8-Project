@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Update fetch URLs to include your Heroku app URL
 const fetchOrderDetails = async (orderId) => {
     try {
-        const response = await fetch(`https://your-app.herokuapp.com/api/orders/${orderId}`); // Full URL for Heroku
+        const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`); // Full URL for Heroku
         if (!response.ok) {
             throw new Error('Order not found');
         }
