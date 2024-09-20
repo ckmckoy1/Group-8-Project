@@ -25,10 +25,11 @@ app.use(cors({
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML from public folder)
 
-// MongoDB connection
+// MongoDB connection with a longer timeout (10s) to prevent Heroku timeout issues
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathOutfitters', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 10000 // Increase timeout for MongoDB to 10 seconds
 })
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => {
@@ -59,6 +60,9 @@ const orderSchema = new mongoose.Schema({
     transactionDateTime: Date,
     status: String // Success or Failure
 });
+
+// Add index on orderId to optimize querying by orderId
+orderSchema.index({ orderId: 1 }); // Creates an index on the orderId field
 
 // Use WP-Orders collection within the WildPathOutfitters database
 const Order = mongoose.model('Order', orderSchema, 'WP-Orders');
@@ -140,20 +144,21 @@ app.get('/api/orders', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
     }
 });
+
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
     const { orderId, finalAmount } = req.body;
 
     try {
         // Fetch the order from MongoDB using OrderID (case-sensitive)
-        const order = await Order.findOne({ OrderID: orderId });
+        const order = await Order.findOne({ orderId: orderId });
 
         // If the order is not found
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        const authorizationAmount = order.AuthorizationAmount;
+        const authorizationAmount = order.authorizedAmount;
 
         // If the final amount is greater than the authorized amount
         if (finalAmount > authorizationAmount) {
@@ -186,7 +191,6 @@ app.post('/api/settle-shipment', async (req, res) => {
         res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
-
 
 // Catch-all route for undefined paths
 app.use((req, res) => {
