@@ -23,7 +23,7 @@ h1 {
 
 /* Container for the order management UI */
 .order-management-container {
-    max-width: 1500px;
+    max-width: 1200px;
     margin: 1em auto; /* Reduced margin for less space at the top and bottom */
     padding: 1em; /* Reduced padding */
     background-color: white;
