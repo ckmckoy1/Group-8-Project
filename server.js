@@ -58,7 +58,7 @@ const orderSchema = new mongoose.Schema({
     authorizedAmount: Number,
     tokenExpirationDate: Date,
     transactionDateTime: Date,
-    status: String // Success or Failure
+    status: String, // Success or Failure
     warehouseStatus: String // Include WarehouseStatus field
 });
 
