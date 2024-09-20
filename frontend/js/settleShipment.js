@@ -18,12 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Show loading message
-        messageDiv.textContent = 'Processing...';
-        messageDiv.className = 'message info';
-        messageDiv.style.display = 'block';
-
         try {
+            // Use fetch to send a POST request to your API endpoint
             const response = await fetch('/api/settle-shipment', {
                 method: 'POST',
                 headers: {
@@ -37,18 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
 
-            if (response.status === 404) {
-                messageDiv.textContent = 'Order not found.';
+            if (!response.ok) {
+                messageDiv.textContent = `Error: ${result.message}`;
                 messageDiv.className = 'message error';
-            } else if (response.status === 400) {
-                messageDiv.textContent = `Unable to approve: ${result.message}`;
-                messageDiv.className = 'message error';
-            } else if (response.ok) {
+            } else {
                 messageDiv.textContent = result.message;
                 messageDiv.className = 'message success';
-            } else {
-                messageDiv.textContent = `Unexpected error occurred.`;
-                messageDiv.className = 'message error';
             }
         } catch (error) {
             console.error('Error during shipment settlement:', error);
