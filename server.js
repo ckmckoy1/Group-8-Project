@@ -91,8 +91,10 @@ app.post('/api/checkout', async (req, res) => {
 
     try {
         // Send a request to the mock payment endpoint
+        const responseStart = Date.now(); // Start tracking time for the external request
         const response = await fetch(mockUrl, { method: 'POST' });
         const data = await response.json();
+        console.log(`Mock payment request took ${Date.now() - responseStart}ms`); // Log how long the mock payment request took
 
         // If the payment is successful, store the order details in MongoDB
         if (data.Success) {
@@ -114,7 +116,9 @@ app.post('/api/checkout', async (req, res) => {
                 status: 'Success'
             });
 
+            const saveStart = Date.now(); // Track how long saving to MongoDB takes
             await newOrder.save();
+            console.log(`Saving order to MongoDB took ${Date.now() - saveStart}ms`);
 
             // Send response back to the client
             res.json({
@@ -138,7 +142,9 @@ app.post('/api/checkout', async (req, res) => {
 // Route to fetch all orders (for Order Management UI)
 app.get('/api/orders', async (req, res) => {
     try {
+        const fetchStart = Date.now(); // Track how long it takes to fetch orders
         const orders = await Order.find();  // Fetch all orders from WP-Orders collection
+        console.log(`Fetching all orders took ${Date.now() - fetchStart}ms`);
         res.json(orders);  // Send the orders to the frontend
     } catch (err) {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
@@ -152,8 +158,10 @@ app.post('/api/settle-shipment', async (req, res) => {
     console.log('Order ID being searched:', orderId); // Log orderId for debugging
 
     try {
-        // Fetch the order from MongoDB using OrderID (case-sensitive)
+        // Measure how long the query takes
+        const queryStart = Date.now();
         const order = await Order.findOne({ orderId: orderId });
+        console.log(`Query took ${Date.now() - queryStart}ms`); // Log query time
 
         // If the order is not found
         if (!order) {
@@ -172,7 +180,9 @@ app.post('/api/settle-shipment', async (req, res) => {
             const remainingBalance = authorizationAmount - finalAmount;
             // Update MongoDB to mark the order as "Partial Settlement"
             order.WarehouseStatus = 'Partial Settlement';
+            const saveStart = Date.now(); // Track how long saving to MongoDB takes
             await order.save();
+            console.log(`Saving partial settlement to MongoDB took ${Date.now() - saveStart}ms`);
 
             return res.json({
                 message: `Partial settlement processed. Remaining balance: $${remainingBalance}. There is still a balance remaining on the account.`,
@@ -184,7 +194,9 @@ app.post('/api/settle-shipment', async (req, res) => {
         if (finalAmount === authorizationAmount) {
             // Update MongoDB to mark the order as "Settled"
             order.WarehouseStatus = 'Settled';
+            const saveStart = Date.now(); // Track how long saving to MongoDB takes
             await order.save();
+            console.log(`Saving settlement to MongoDB took ${Date.now() - saveStart}ms`);
 
             return res.json({ message: 'Order successfully settled.' });
         }
