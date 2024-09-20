@@ -140,21 +140,20 @@ app.get('/api/orders', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
     }
 });
-
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
     const { orderId, finalAmount } = req.body;
 
     try {
-        // Fetch the order from MongoDB using orderId
-        const order = await Order.findOne({ orderId });
+        // Fetch the order from MongoDB using OrderID (case-sensitive)
+        const order = await Order.findOne({ OrderID: orderId });
 
         // If the order is not found
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        const authorizationAmount = order.authorizedAmount;
+        const authorizationAmount = order.AuthorizationAmount;
 
         // If the final amount is greater than the authorized amount
         if (finalAmount > authorizationAmount) {
@@ -165,7 +164,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         if (finalAmount < authorizationAmount) {
             const remainingBalance = authorizationAmount - finalAmount;
             // Update MongoDB to mark the order as "Partial Settlement"
-            order.status = 'Partial Settlement';
+            order.WarehouseStatus = 'Partial Settlement';
             await order.save();
 
             return res.json({
@@ -177,7 +176,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         // If the final amount is equal to the authorized amount
         if (finalAmount === authorizationAmount) {
             // Update MongoDB to mark the order as "Settled"
-            order.status = 'Settled';
+            order.WarehouseStatus = 'Settled';
             await order.save();
 
             return res.json({ message: 'Order successfully settled.' });
