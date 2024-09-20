@@ -149,6 +149,7 @@ app.get('/api/orders', async (req, res) => {
 app.post('/api/settle-shipment', async (req, res) => {
     console.log('Settle shipment route hit');
     const { orderId, finalAmount } = req.body;
+    console.log('Order ID being searched:', orderId); // Log orderId for debugging
 
     try {
         // Fetch the order from MongoDB using OrderID (case-sensitive)
