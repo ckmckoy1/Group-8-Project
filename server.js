@@ -59,6 +59,7 @@ const orderSchema = new mongoose.Schema({
     tokenExpirationDate: Date,
     transactionDateTime: Date,
     status: String // Success or Failure
+    warehouseStatus: String // Include WarehouseStatus field
 });
 
 // Add index on orderId to optimize querying by orderId
@@ -167,7 +168,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         }
 
         console.log('Order found:', order); // Log the order details if found
-        const authorizationAmount = order.AuthorizationAmount;
+        const authorizationAmount = order.authorizationAmount;
 
         // Check if the final amount is greater than the authorized amount
         if (finalAmount > authorizationAmount) {
@@ -177,7 +178,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         // Handle partial or full settlement
         if (finalAmount < authorizationAmount) {
             const remainingBalance = authorizationAmount - finalAmount;
-            order.WarehouseStatus = 'Partial Settlement';
+            order.warehouseStatus = 'Partial Settlement'; // Update the WarehouseStatus field
             await order.save();
             return res.json({
                 message: `Partial settlement processed. Remaining balance: $${remainingBalance}.`,
@@ -186,7 +187,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         }
 
         if (finalAmount === authorizationAmount) {
-            order.WarehouseStatus = 'Settled';
+            order.warehouseStatus = 'Settled'; // Update the WarehouseStatus field
             await order.save();
             return res.json({ message: 'Order successfully settled.' });
         }
