@@ -1,8 +1,6 @@
-{
-  "name": "group8",
+"name": "group8",
   "version": "1.0.0",
   "description": "A Node.js app for Wild Path Outfitters",
-  "type": "module",  // Explicitly define module type for ES modules
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -24,6 +22,6 @@
     "nodemon": "^2.0.15"
   },
   "engines": {
-    "node": ">=18.x" // Use a newer version of Node.js, preferably 18.x
+    "node": ">=16.x"
   }
 }
