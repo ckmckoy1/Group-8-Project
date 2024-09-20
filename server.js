@@ -156,6 +156,7 @@ app.get('/api/orders', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
     }
 });
+
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
     console.log('Settle shipment route hit');
@@ -175,25 +176,19 @@ app.post('/api/settle-shipment', async (req, res) => {
         console.log('Order found:', order); // Log the order details if found
         const authorizationAmount = order.AuthorizationAmount; // Ensure proper capitalization
 
-        // Check if the final amount is greater than the authorized amount
-        if (finalAmount > authorizationAmount) {
-            console.log(`Final amount exceeds authorized amount: ${finalAmount} > ${authorizationAmount}`);
-            return res.status(400).json({ message: 'Unable to approve. Final amount exceeds authorized amount.' });
+        // Check if the order has already been settled
+        if (order.WarehouseStatus === 'Settled') {
+            console.log('Order has already been settled');
+            return res.status(400).json({ message: 'Order has already been settled. No further action is allowed.' });
         }
 
-        // Handle partial or full settlement
-        if (finalAmount < authorizationAmount) {
-            const remainingBalance = authorizationAmount - finalAmount;
-            order.WarehouseStatus = 'Partial Settlement'; // Ensure correct capitalization
-            await order.save();
-            
-            console.log(`Partial settlement processed. Remaining balance: $${remainingBalance}`);
-            return res.json({
-                message: `Partial settlement processed. Remaining balance: $${remainingBalance}.`,
-                remainingBalance
-            });
+        // Check if the final amount matches the authorized amount
+        if (finalAmount !== authorizationAmount) {
+            console.log(`Final amount does not match authorized amount: ${finalAmount} !== ${authorizationAmount}`);
+            return res.status(400).json({ message: 'Unable to approve. Final amount does not match the authorized amount.' });
         }
 
+        // If amounts match, mark the order as settled
         if (finalAmount === authorizationAmount) {
             order.WarehouseStatus = 'Settled'; // Ensure correct capitalization
             await order.save();
@@ -207,6 +202,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         return res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
+
 
 
 // Catch-all route for undefined paths
