@@ -20,19 +20,12 @@ app.use(helmet());
 app.use(morgan('combined')); // Logs requests to your console
 app.use(compression());
 app.use(cors({
-    origin: ['https://ckmckoy1.github.io', 'https://group8-a70f0e413328.herokuapp.com'] // Allow requests from GitHub Pages and Heroku
+    origin: ['https://ckmckoy1.github.io', 'https://group8-a70f0e413328.herokuapp.com'], // Allow requests from GitHub Pages and Heroku
+    methods: ['GET', 'POST'],
+    credentials: true
 }));
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML from public folder)
-
-const cors = require('cors');
-
-// Add this before your routes to allow requests from your GitHub Pages domain
-app.use(cors({
-    origin: ['https://ckmckoy1.github.io'],
-    methods: ['GET', 'POST'],
-    credentials: true // If you need to send cookies or auth headers
-}));
 
 
 // MongoDB connection with a longer timeout (10s) to prevent Heroku timeout issues
