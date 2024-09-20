@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageDiv = document.getElementById('message');
     const finalAmountInput = document.getElementById('finalAmount');
 
-    // Fetch order details to verify amounts and status
+    // Fetch order details to verify amounts
     const fetchOrderDetails = async (orderId) => {
         try {
-            const response = await fetch(`/api/orders/${orderId}`);
+            const response = await fetch(`/api/orders/${orderId}`); // Ensure this API endpoint works as expected
             if (!response.ok) {
                 throw new Error('Order not found');
             }
@@ -34,28 +34,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Fetch order details first to compare amounts and check settlement status
+            // Fetch order details first to compare amounts
             const order = await fetchOrderDetails(orderId);
             const authorizationAmount = order.AuthorizationAmount;
-            const warehouseStatus = order.WarehouseStatus;
-
-            // Check if the order is already settled
-            if (warehouseStatus === 'Settled') {
-                messageDiv.textContent = 'Order has already been settled!';
+            
+            if (!authorizationAmount) {
+                messageDiv.textContent = 'Invalid authorization amount';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
                 return;
             }
 
-            // Check if the final amount matches the authorized amount
-            if (finalAmount !== authorizationAmount) {
-                messageDiv.textContent = 'Final amount does not match the authorized amount!';
+            // Perform client-side comparison before sending settlement request
+            if (finalAmount > authorizationAmount) {
+                messageDiv.textContent = 'Final amount exceeds authorized amount!';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
                 return;
             }
 
-            // Send settlement request if everything is valid
+            // Send settlement request if amounts are valid
             const response = await fetch('/api/settle-shipment', {
                 method: 'POST',
                 headers: {
