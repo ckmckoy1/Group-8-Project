@@ -76,6 +76,21 @@ orderSchema.index({ OrderID: 1 });
 // Use WP-Orders collection within the WildPathOutfitters database
 const Order = mongoose.model('Order', orderSchema, 'WP-Orders');
 
+// API route to get a specific order by orderId (new route)
+app.get('/api/orders/:orderId', async (req, res) => {
+    const { orderId } = req.params;
+    try {
+        const order = await Order.findOne({ OrderID: orderId });
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.json(order);
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to retrieve order', error: err.message });
+    }
+});
+
+
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
     const { firstName, lastName, address, cardDetails } = req.body;

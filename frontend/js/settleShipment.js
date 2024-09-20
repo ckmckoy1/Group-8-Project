@@ -3,76 +3,78 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageDiv = document.getElementById('message');
     const finalAmountInput = document.getElementById('finalAmount');
 
-  // Update fetch URLs to include your Heroku app URL
-const fetchOrderDetails = async (orderId) => {
-    try {
-        const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`); // Full URL for Heroku
-        if (!response.ok) {
-            throw new Error('Order not found');
+    // Fetch order details from your Heroku backend
+    const fetchOrderDetails = async (orderId) => {
+        try {
+            const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`); // Full URL for Heroku
+            if (!response.ok) {
+                throw new Error('Order not found');
+            }
+            const order = await response.json();
+            return order;
+        } catch (error) {
+            console.error('Error fetching order details:', error);
+            throw error;
         }
-        const order = await response.json();
-        return order;
-    } catch (error) {
-        console.error('Error fetching order details:', error);
-        throw error;
-    }
-};
+    };
 
-// Handle form submission for settling the shipment
-settleForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    // Handle form submission for settling the shipment
+    settleForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    // Convert the finalAmount to a float by stripping out non-numeric characters
-    const finalAmount = parseFloat(finalAmountInput.value.replace(/[^0-9.-]+/g, ""));
-    const orderId = document.getElementById('orderId').value;
+        // Convert the finalAmount to a float by stripping out non-numeric characters
+        const finalAmount = parseFloat(finalAmountInput.value.replace(/[^0-9.-]+/g, ""));
+        const orderId = document.getElementById('orderId').value; // This is the input field value
 
-    if (!orderId.trim() || isNaN(finalAmount)) {
-        messageDiv.textContent = 'Please enter a valid Order ID and Amount';
-        messageDiv.className = 'message error';
-        messageDiv.style.display = 'block';
-        return;
-    }
-
-    try {
-        const order = await fetchOrderDetails(orderId);
-        const authorizationAmount = order.AuthorizationAmount;
-
-        if (finalAmount > authorizationAmount) {
-            messageDiv.textContent = 'Final amount exceeds authorized amount!';
+        if (!orderId.trim() || isNaN(finalAmount)) {
+            messageDiv.textContent = 'Please enter a valid Order ID and Amount';
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
             return;
         }
 
-        // Send settlement request to your Heroku backend
-        const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/settle-shipment', { // Full URL for Heroku
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderId: orderId,
-                finalAmount: finalAmount
-            }),
-        });
+        try {
+            // Fetch the order details from the backend
+            const order = await fetchOrderDetails(orderId);
 
-        const result = await response.json();
+            const authorizationAmount = order.AuthorizationAmount; // Must match the capitalization used in the Mongoose schema
 
-        if (!response.ok) {
-            messageDiv.textContent = `Error: ${result.message}`;
+            if (finalAmount > authorizationAmount) {
+                messageDiv.textContent = 'Final amount exceeds authorized amount!';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            // Send settlement request to your Heroku backend
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/settle-shipment', { // Full URL for Heroku
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: order.OrderID,  // Use the `OrderID` as it's defined in the backend schema
+                    finalAmount: finalAmount
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                messageDiv.textContent = `Error: ${result.message}`;
+                messageDiv.className = 'message error';
+            } else {
+                messageDiv.textContent = result.message;
+                messageDiv.className = 'message success';
+            }
+        } catch (error) {
+            console.error('Error during shipment settlement:', error);
+            messageDiv.textContent = 'Error: Something went wrong!';
             messageDiv.className = 'message error';
-        } else {
-            messageDiv.textContent = result.message;
-            messageDiv.className = 'message success';
         }
-    } catch (error) {
-        console.error('Error during shipment settlement:', error);
-        messageDiv.textContent = 'Error: Something went wrong!';
-        messageDiv.className = 'message error';
-    }
 
-    messageDiv.style.display = 'block';
-});
+        messageDiv.style.display = 'block';
+    });
 
     // Automatically format finalAmount input when the user finishes typing (on blur)
     finalAmountInput.addEventListener('blur', (event) => {
