@@ -158,60 +158,43 @@ app.post('/api/settle-shipment', async (req, res) => {
     console.log('Order ID being searched:', orderId); // Log orderId for debugging
 
     try {
-        // Start timing the query
-        console.time('Query');
+        // Fetch the order from MongoDB using the correct field name "OrderID"
+        const order = await Order.findOne({ OrderID: orderId });
 
-        // Fetch the order from MongoDB using OrderID (case-sensitive)
-        const order = await Order.findOne({ orderId: orderId });
-
-        // Log how long the query took
-        console.timeEnd('Query');
-
-        // If the order is not found
         if (!order) {
-            console.log('Order not found');
+            console.log('Order not found'); // Log if the order is not found
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        const authorizationAmount = order.authorizedAmount;
+        console.log('Order found:', order); // Log the order details if found
+        const authorizationAmount = order.AuthorizationAmount;
 
-        // If the final amount is greater than the authorized amount
+        // Check if the final amount is greater than the authorized amount
         if (finalAmount > authorizationAmount) {
-            console.log('Final amount exceeds authorized amount');
             return res.status(400).json({ message: 'Unable to approve. Final amount exceeds authorized amount.' });
         }
 
-        // If the final amount is less than the authorized amount
+        // Handle partial or full settlement
         if (finalAmount < authorizationAmount) {
             const remainingBalance = authorizationAmount - finalAmount;
-            // Update MongoDB to mark the order as "Partial Settlement"
             order.WarehouseStatus = 'Partial Settlement';
             await order.save();
-
-            console.log('Partial settlement processed');
             return res.json({
-                message: `Partial settlement processed. Remaining balance: $${remainingBalance}. There is still a balance remaining on the account.`,
+                message: `Partial settlement processed. Remaining balance: $${remainingBalance}.`,
                 remainingBalance
             });
         }
 
-        // If the final amount is equal to the authorized amount
         if (finalAmount === authorizationAmount) {
-            // Update MongoDB to mark the order as "Settled"
             order.WarehouseStatus = 'Settled';
             await order.save();
-
-            console.log('Order successfully settled');
             return res.json({ message: 'Order successfully settled.' });
         }
+
     } catch (err) {
-        // Log the error details
-        console.error('Error during database operation:', err);
-        // Handle MongoDB connection or processing errors
-        return res.status(500).json({ message: 'Unable to access the database.', error: err.message });
+        res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
-
 
 
 // Catch-all route for undefined paths
