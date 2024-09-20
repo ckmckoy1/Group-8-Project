@@ -158,10 +158,10 @@ app.post('/api/settle-shipment', async (req, res) => {
     console.log('Order ID being searched:', orderId); // Log orderId for debugging
 
     try {
-        // Measure how long the query takes
+        // Fetch the order from MongoDB using "OrderID" (case-sensitive)
         const queryStart = Date.now();
-        const order = await Order.findOne({ orderId: orderId });
-        console.log(`Query took ${Date.now() - queryStart}ms`); // Log query time
+        const order = await Order.findOne({ OrderID: orderId }); // Corrected query field to "OrderID"
+        console.log(`Query took ${Date.now() - queryStart}ms`);
 
         // If the order is not found
         if (!order) {
@@ -180,7 +180,7 @@ app.post('/api/settle-shipment', async (req, res) => {
             const remainingBalance = authorizationAmount - finalAmount;
             // Update MongoDB to mark the order as "Partial Settlement"
             order.WarehouseStatus = 'Partial Settlement';
-            const saveStart = Date.now(); // Track how long saving to MongoDB takes
+            const saveStart = Date.now();
             await order.save();
             console.log(`Saving partial settlement to MongoDB took ${Date.now() - saveStart}ms`);
 
@@ -194,7 +194,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         if (finalAmount === authorizationAmount) {
             // Update MongoDB to mark the order as "Settled"
             order.WarehouseStatus = 'Settled';
-            const saveStart = Date.now(); // Track how long saving to MongoDB takes
+            const saveStart = Date.now();
             await order.save();
             console.log(`Saving settlement to MongoDB took ${Date.now() - saveStart}ms`);
 
@@ -205,6 +205,7 @@ app.post('/api/settle-shipment', async (req, res) => {
         res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
+
 
 // Catch-all route for undefined paths
 app.use((req, res) => {
