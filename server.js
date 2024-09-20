@@ -147,6 +147,7 @@ app.get('/api/orders', async (req, res) => {
 
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
+    console.log('Settle shipment route hit');
     const { orderId, finalAmount } = req.body;
 
     try {
