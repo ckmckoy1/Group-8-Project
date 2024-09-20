@@ -44,26 +44,31 @@ app.get('/', (req, res) => {
 
 // Define Mongoose schema and models
 const orderSchema = new mongoose.Schema({
-    orderId: String,
-    firstName: String,
-    lastName: String,
-    address: String,
-    cardDetails: {
-        number: String, // Only last 4 digits are saved for security
-        expirationDate: String,
-        cvv: String,
-        zipCode: String
-    },
-    authorizationToken: String,
-    authorizedAmount: Number,
-    tokenExpirationDate: Date,
-    transactionDateTime: Date,
-    status: String, // Success or Failure
-    warehouseStatus: String // Include WarehouseStatus field
+    OrderID: String,  // Match exactly with the document field
+    CustomerEmail: String,
+    FirstName: String,
+    LastName: String,
+    StreetAddress: String,
+    UnitNumber: String,
+    City: String,
+    State: String,
+    ZipCode: String,
+    ShippingMethod: String,
+    TotalAmount: Number,
+    PaymentStatus: String,
+    CardNumber: String,
+    ExpirationDate: String,
+    CVV: String,
+    BillingZipCode: String,
+    AuthorizationToken: String,
+    TransactionDateTime: Date,
+    AuthorizationAmount: Number,
+    AuthorizationExpirationDate: Date,
+    WarehouseStatus: String
 });
 
-// Add index on orderId to optimize querying by orderId
-orderSchema.index({ orderId: 1 }); // Creates an index on the orderId field
+// Add index on OrderID to optimize querying by OrderID
+orderSchema.index({ OrderID: 1 });
 
 // Use WP-Orders collection within the WildPathOutfitters database
 const Order = mongoose.model('Order', orderSchema, 'WP-Orders');
