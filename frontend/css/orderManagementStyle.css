@@ -6,7 +6,6 @@ html, body {
     margin: 0;
     min-height: 100%;
     position: relative;
-    background: transparent;
     font-family: 'Arial', sans-serif;
 }
 
@@ -94,187 +93,41 @@ div.dataTables_filter {
     text-align: right;
 }
 
-/* Hide the filter by default */
-.dataTables_filter {
-    display: none;
-}
-
-input.datatables_search {
-    width: 90%;
-    line-height: 1.4;
-    margin: 2px;
-}
-
-/* DataTable Pagination */
-div.dataTables_paginate {
-    margin: 4px;
-    float: right;
-    text-align: right;
-}
-
-div.dataTables_paginate .ui-button {
-    padding: 4px 8px;
-    margin: 0 1px;
-}
-
-div.dataTables_paginate .ui-button.previous {
-    margin-right: 0.4em;
-}
-
-div.dataTables_paginate .ui-button.next {
-    margin-left: 0.4em;
-}
-
-/* DataTable Info (Showing X to Y of Z entries) */
-div.dataTables_info {
-    margin: 8px;
-    float: left;
-    font-weight: normal;
-}
-
-/* Sorting Icons and Wrapper */
-div.DataTables_sort_wrapper {
-    position: relative;
-    padding-right: 16px;
-}
-
-th.no-sort div.DataTables_sort_wrapper {
-    padding-right: 0;
-}
-
-span.DataTables_sort_icon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 2px;
-}
-
-/* Table Styling for DataTables */
-table.datalize {
+/* Filter Inputs Below Table Headers */
+thead tr input.form-control,
+thead tr select.form-control {
+    width: 100%;
+    padding: 4px;
     margin-bottom: 0;
-    width: 100%;
-}
-
-table.datalize th {
-    vertical-align: top;
-    text-align: left;
-    padding-left: 0.5em;
-}
-
-/* Divider in Table */
-table.datalize td.divider-after {
-    border-right: 2px solid #666;
-}
-
-/* Rollup Controls */
-#rollup_controls {
-    margin: 10px 12px 0px 12px;
-    float: left;
-}
-
-#rollup_group_by_controls {
-    display: inline;
-}
-
-#rollup_controls select {
-    width: auto;
-    margin: -3px 5px 0 0;
-    font-size: 11px;
-}
-
-#rollup_controls_display {
-    padding: 0 5px 0 0;
-}
-
-#rollup_controls_group_by {
-    padding: 0 5px 0 10px;
-}
-
-/* ColVis and DataTable Buttons */
-div.ColVis {
-    float: left;
-    margin: 4px 0px;
-}
-
-div.DTTT_container {
-    float: left;
-    margin: 4px 0px;
-}
-
-div.ColVis_collection .ColVis_title {
-    font-size: 11px;
-}
-
-div.ColVis .ColVis_Button, div.DTTT_container .DTTT_button {
-    font-size: 13px;
-    margin: 0 3px;
-    padding: 0 5px 3px 5px;
-    height: 30px;
-}
-
-/* DataTable Filter Widget */
-select.datatables_filter_widget {
-    position: absolute;
-    z-index: 1000;
-    width: auto;
-}
-
-/* Filter Button Styling */
-.datatables_search_filter_button.is_filtered {
-    color: #ddbb66;
-    border-color: #ddbb66;
-}
-
-.datatables_search_filter_button.is_filtered:hover {
-    border-color: #bb2f38;
-}
-
-.datatables_search_filter_button {
-    display: block;
-    margin: 2px auto 0 auto;
-}
-
-.datatables_search_filter_button .ui-button-text {
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-}
-
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    text-transform: uppercase;
+    box-sizing: border-box;
     font-size: 0.85em;
-    cursor: pointer;
 }
 
-td {
-    color: #555;
+/* Ensure the row beneath the table header (filters) aligns correctly */
+thead th {
+    vertical-align: bottom;
 }
 
-.table-responsive {
-    max-height: 500px;
-    overflow-y: auto;
-}
-
-.table-striped {
-    width: 100%;
-    min-width: 1000px; /* Ensure table doesn't shrink too much */
-}
-
-th, td {
-    white-space: nowrap;
-    text-align: left;
-    padding: 8px;
-}
-
-
-tr:nth-child(even) {
+/* Table striped rows */
+.table-striped tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-tr:hover {
+.table-striped tr:hover {
     background-color: #f1f1f1;
     transition: background-color 0.3s ease;
+}
+
+/* Centering content */
+.centered-content, .centered-content th,
+.centered-text, .centered-text th {
+    text-align: center;
+}
+
+/* Card number styling */
+.card-number {
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 0.1em;
 }
 
 /* Message styling */
@@ -293,49 +146,6 @@ tr:hover {
 .message.error {
     background-color: #f2dede;
     color: #a94442;
-}
-
-/* Centering content */
-.centered-content, .centered-content th,
-.centered-text, .centered-text th {
-    text-align: center;
-}
-
-/* Card number styling */
-.card-number {
-    font-family: 'Courier New', Courier, monospace;
-    letter-spacing: 0.1em;
-}
-
-/* Button and form styling */
-button, input[type="text"], select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-    font-size: 0.9em;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-input[type="text"], select {
-    width: 200px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-input[type="text"]:focus, select:focus {
-    border-color: #4CAF50;
-    outline: none;
 }
 
 /* Responsive adjustments */
@@ -371,29 +181,41 @@ input[type="text"]:focus, select:focus {
     }
 }
 
-/* Additional styling for dropdowns and buttons */
-.subnav-container {
-    padding-left: 20px;
-    margin-top: 4px;
+/* Additional styling for modals (Choose Columns and Download Options) */
+.modal .modal-dialog {
+    max-width: 600px;
 }
 
-.subnav {
-    display: inline-block;
-    height: 36px;
-    background-color: #eeeeee;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    box-shadow: 3px 3px 8px #d9d9d9;
+.modal-header, .modal-footer {
+    padding: 1rem;
+}
+
+.modal-body {
+    padding: 2rem 1rem;
+}
+
+.modal-footer .btn {
+    padding: 0.5rem 1.5rem;
+}
+
+/* Download Modal Styles */
+.modal .modal-footer .btn-primary {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.modal .modal-footer .btn-secondary {
+    background-color: #cccccc;
+    border-color: #cccccc;
+}
+
+/* Choose Columns Modal Styles */
+.list-group-item {
     cursor: pointer;
 }
 
-.subnav a {
-    color: #000000 !important;
-    text-decoration: none !important;
-}
-
-.subnav a:hover {
-    background-color: #ffffff !important;
+.list-group-item:hover {
+    background-color: #f0f0f0;
 }
 
 /* Hover effect for buttons and table headers */
