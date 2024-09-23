@@ -1,11 +1,20 @@
 /* General body styling */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
+html, body {
+    height: 100%;
+    background: #f8f8f8;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+    background: transparent;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Centered elements */
+.centered, .pane.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Header styling */
@@ -24,18 +33,20 @@ h1 {
 /* Container for the order management UI */
 .order-management-container {
     max-width: 1200px;
-    margin: 1em auto; /* Reduced margin for less space at the top and bottom */
-    padding: 1em; /* Reduced padding */
+    margin: 1em auto;
+    padding: 1em;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    overflow-x: auto; /* Allow horizontal scrolling if necessary */
+    overflow-x: auto;
 }
 
-/* Table container for responsive overflow */
-.table-container {
-    overflow-x: auto; /* Enable horizontal scrolling */
-    -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile devices */
+/* Loading state styling */
+.loading-content > * {
+    visibility: hidden;
+}
+.loading-content {
+    background: #fff url('/images/refreshing.gif') 50% 50% no-repeat !important;
 }
 
 /* Table styling */
@@ -43,23 +54,197 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1.5em;
-    font-size: 0.9em; /* Reduced font size for table content */
-    min-width: 1000px; /* Ensure table has enough space */
+    font-size: 0.9em;
+    min-width: 1000px;
 }
 
 table, th, td {
     border: 1px solid #ddd;
-    padding: 12px; /* Reduced padding */
+    padding: 12px;
     text-align: left;
+}
+
+/* General DataTables Wrapper Styling */
+div.dataTables_wrapper {
+    margin-bottom: 1em;
+    clear: both;
+}
+
+/* DataTable Length (Entries) and Filter Control Styling */
+div.dataTables_length {
+    margin: 10px 12px 0 12px;
+    float: right;
+}
+
+div.dataTables_length label {
+    margin: 0;
+}
+
+div.dataTables_length select {
+    width: auto;
+    margin: -3px 0 0 0;
+    font-size: 11px;
+}
+
+/* DataTable Filtering (Search Box) Styling */
+div.dataTables_filter {
+    margin: 4px 8px;
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+/* Hide the filter by default */
+.dataTables_filter {
+    display: none;
+}
+
+input.datatables_search {
+    width: 90%;
+    line-height: 1.4;
+    margin: 2px;
+}
+
+/* DataTable Pagination */
+div.dataTables_paginate {
+    margin: 4px;
+    float: right;
+    text-align: right;
+}
+
+div.dataTables_paginate .ui-button {
+    padding: 4px 8px;
+    margin: 0 1px;
+}
+
+div.dataTables_paginate .ui-button.previous {
+    margin-right: 0.4em;
+}
+
+div.dataTables_paginate .ui-button.next {
+    margin-left: 0.4em;
+}
+
+/* DataTable Info (Showing X to Y of Z entries) */
+div.dataTables_info {
+    margin: 8px;
+    float: left;
+    font-weight: normal;
+}
+
+/* Sorting Icons and Wrapper */
+div.DataTables_sort_wrapper {
+    position: relative;
+    padding-right: 16px;
+}
+
+th.no-sort div.DataTables_sort_wrapper {
+    padding-right: 0;
+}
+
+span.DataTables_sort_icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 2px;
+}
+
+/* Table Styling for DataTables */
+table.datalize {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+table.datalize th {
+    vertical-align: top;
+    text-align: left;
+    padding-left: 0.5em;
+}
+
+/* Divider in Table */
+table.datalize td.divider-after {
+    border-right: 2px solid #666;
+}
+
+/* Rollup Controls */
+#rollup_controls {
+    margin: 10px 12px 0px 12px;
+    float: left;
+}
+
+#rollup_group_by_controls {
+    display: inline;
+}
+
+#rollup_controls select {
+    width: auto;
+    margin: -3px 5px 0 0;
+    font-size: 11px;
+}
+
+#rollup_controls_display {
+    padding: 0 5px 0 0;
+}
+
+#rollup_controls_group_by {
+    padding: 0 5px 0 10px;
+}
+
+/* ColVis and DataTable Buttons */
+div.ColVis {
+    float: left;
+    margin: 4px 0px;
+}
+
+div.DTTT_container {
+    float: left;
+    margin: 4px 0px;
+}
+
+div.ColVis_collection .ColVis_title {
+    font-size: 11px;
+}
+
+div.ColVis .ColVis_Button, div.DTTT_container .DTTT_button {
+    font-size: 13px;
+    margin: 0 3px;
+    padding: 0 5px 3px 5px;
+    height: 30px;
+}
+
+/* DataTable Filter Widget */
+select.datatables_filter_widget {
+    position: absolute;
+    z-index: 1000;
+    width: auto;
+}
+
+/* Filter Button Styling */
+.datatables_search_filter_button.is_filtered {
+    color: #ddbb66;
+    border-color: #ddbb66;
+}
+
+.datatables_search_filter_button.is_filtered:hover {
+    border-color: #bb2f38;
+}
+
+.datatables_search_filter_button {
+    display: block;
+    margin: 2px auto 0 auto;
+}
+
+.datatables_search_filter_button .ui-button-text {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
 }
 
 th {
     background-color: #f2f2f2;
-    cursor: pointer;
     font-weight: bold;
-    color: #333;
     text-transform: uppercase;
-    font-size: 0.85em; /* Reduced font size for table headers */
+    font-size: 0.85em;
+    cursor: pointer;
 }
 
 td {
@@ -75,20 +260,43 @@ tr:hover {
     transition: background-color 0.3s ease;
 }
 
-/* Buttons for sorting and filtering */
-.filter-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Message styling */
+.message {
+    padding: 1.2em;
     margin-bottom: 1.5em;
+    border-radius: 5px;
+    font-size: 1.1em;
 }
 
+.message.success {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.message.error {
+    background-color: #f2dede;
+    color: #a94442;
+}
+
+/* Centering content */
+.centered-content, .centered-content th,
+.centered-text, .centered-text th {
+    text-align: center;
+}
+
+/* Card number styling */
+.card-number {
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 0.1em;
+}
+
+/* Button and form styling */
 button, input[type="text"], select {
-    padding: 8px; /* Reduced padding */
+    padding: 8px;
     border-radius: 5px;
     border: 1px solid #ccc;
     margin-right: 10px;
-    font-size: 0.9em; /* Reduced font size */
+    font-size: 0.9em;
 }
 
 button {
@@ -113,45 +321,21 @@ input[type="text"]:focus, select:focus {
     outline: none;
 }
 
-/* Success and error message styling */
-.message {
-    padding: 1.2em;
-    margin-bottom: 1.5em;
-    border-radius: 5px;
-    font-size: 1.1em;
-}
-
-.message.success {
-    background-color: #dff0d8;
-    color: #3c763d;
-}
-
-.message.error {
-    background-color: #f2dede;
-    color: #a94442;
-}
-
-/* Card number styling */
-.card-number {
-    font-family: 'Courier New', Courier, monospace;
-    letter-spacing: 0.1em;
-}
-
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
     table, th, td {
-        font-size: 0.8em; /* Further reduce font size for smaller screens */
+        font-size: 0.8em;
         padding: 10px;
     }
 
     .order-management-container {
-        padding: 0.8em; /* Reduced padding for smaller screens */
+        padding: 0.8em;
     }
 }
 
 @media screen and (max-width: 480px) {
     table, th, td {
-        font-size: 0.75em; /* Smallest font size for very small screens */
+        font-size: 0.75em;
         padding: 8px;
     }
 
@@ -162,5 +346,41 @@ input[type="text"]:focus, select:focus {
 
     input[type="text"], select {
         margin-bottom: 10px;
+        width: 100%;
     }
+
+    button {
+        width: 100%;
+    }
+}
+
+/* Additional styling for dropdowns and buttons */
+.subnav-container {
+    padding-left: 20px;
+    margin-top: 4px;
+}
+
+.subnav {
+    display: inline-block;
+    height: 36px;
+    background-color: #eeeeee;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    box-shadow: 3px 3px 8px #d9d9d9;
+    cursor: pointer;
+}
+
+.subnav a {
+    color: #000000 !important;
+    text-decoration: none !important;
+}
+
+.subnav a:hover {
+    background-color: #ffffff !important;
+}
+
+/* Hover effect for buttons and table headers */
+button:hover, th:hover {
+    background-color: #3e8e41;
+    color: #fff;
 }
