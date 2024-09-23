@@ -78,7 +78,8 @@
                         <th>
                             <select id="shippingMethodFilter" class="form-control">
                                 <option value="">All Shipping Methods</option>
-                                <!-- Add specific shipping methods here -->
+                                <option value="">Standard Shipping (5-7 days)</option>
+                                <option value="">Express Shipping (2-3 days)</option>
                             </select>
                         </th>
                         <th>
@@ -93,14 +94,16 @@
                         <th><input type="text" id="cardNumberFilter" class="form-control" placeholder="Search Card Number"></th>
                         <th></th> <!-- No filter for expiration date -->
                         <th><input type="text" id="billingZipFilter" class="form-control" placeholder="Search Billing Zip"></th>
-                        <th><input type="text" id="transactionDateFilter" class="form-control" placeholder="Search Transaction Date"></th>
+                        <th><input type="date" id="transactionDateFilter" class="form-control"></th>
                         <th><input type="text" id="authTokenFilter" class="form-control" placeholder="Search Authorization Token"></th>
                         <th><input type="text" id="authAmountFilter" class="form-control" placeholder="Search Authorization Amount"></th>
                         <th></th> <!-- No filter for auth expiration date -->
                         <th>
                             <select id="warehouseStatusFilter" class="form-control">
                                 <option value="">All Warehouse Statuses</option>
-                                <!-- Add specific warehouse statuses here -->
+                                <option value="">Settled</option>
+                                <option value="">Pending</option>
+                                <option value="">N/A</option>
                             </select>
                         </th>
                     </tr>
