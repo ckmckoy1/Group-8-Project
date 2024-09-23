@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const settleForm = document.getElementById('settleShipmentForm');
     const messageDiv = document.getElementById('message');
     const finalAmountInput = document.getElementById('finalAmount');
+    const orderIdInput = document.getElementById('orderId'); // The input field for order number
 
-    // Fetch order details from your Heroku backend
+    // Function to fetch order details
     const fetchOrderDetails = async (orderId) => {
         try {
             const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`); // Full URL for Heroku
@@ -22,12 +23,25 @@ document.addEventListener('DOMContentLoaded', () => {
     settleForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        // Retrieve the entered order number and verify its length
+        const enteredOrderId = orderIdInput.value.trim();
+
+        // Ensure the orderId is exactly 6 digits long
+        if (!/^\d{6}$/.test(enteredOrderId)) {
+            messageDiv.textContent = 'Order ID must be exactly 6 digits long!';
+            messageDiv.className = 'message error';
+            messageDiv.style.display = 'block';
+            return;
+        }
+
+        // Prepend "WP-" to the order number for MongoDB lookup
+        const fullOrderId = `WP-${enteredOrderId}`;
+
         // Convert the finalAmount to a float by stripping out non-numeric characters
         const finalAmount = parseFloat(finalAmountInput.value.replace(/[^0-9.-]+/g, ""));
-        const orderId = document.getElementById('orderId').value; // This is the input field value
 
-        if (!orderId.trim() || isNaN(finalAmount)) {
-            messageDiv.textContent = 'Please enter a valid Order ID and Amount';
+        if (isNaN(finalAmount)) {
+            messageDiv.textContent = 'Please enter a valid final amount';
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
             return;
@@ -35,9 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Fetch the order details from the backend
-            const order = await fetchOrderDetails(orderId);
+            const order = await fetchOrderDetails(fullOrderId);
 
-            const authorizationAmount = order.AuthorizationAmount; // Must match the capitalization used in the Mongoose schema
+            const authorizationAmount = order.AuthorizationAmount; // Ensure capitalization matches MongoDB schema
 
             if (finalAmount > authorizationAmount) {
                 messageDiv.textContent = 'Final amount exceeds authorized amount!';
@@ -46,14 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Send settlement request to your Heroku backend
-            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/settle-shipment', { // Full URL for Heroku
+            // Send settlement request to the backend
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/settle-shipment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    orderId: order.OrderID,  // Use the `OrderID` as it's defined in the backend schema
+                    orderId: fullOrderId, // Send the full orderId with the WP- prefix
                     finalAmount: finalAmount
                 }),
             });
