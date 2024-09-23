@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
     searchInput.addEventListener('input', filterOrders);
     statusFilter.addEventListener('change', filterOrders);
 
+    // Event listener for the Refresh button
+    document.getElementById('refreshTable').addEventListener('click', fetchOrders);
+
     // Function to fetch orders from the backend API and display them in the table
     async function fetchOrders() {
         try {
@@ -130,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Function to initialize or reinitialize DataTables
+    // Function to initialize or reinitialize DataTables with export buttons
     function initializeDataTable() {
         // Destroy existing instance if it exists, and reinitialize
         if ($.fn.DataTable.isDataTable('#orderTable')) {
@@ -143,6 +146,13 @@ document.addEventListener('DOMContentLoaded', function () {
             ordering: false,   // Disable ordering as we handle sorting manually
             info: true,
             pageLength: 10,    // Number of rows per page
+            dom: 'Bfrtip', // Add buttons and search input
+            buttons: [
+                { extend: 'excelHtml5', title: 'Order Report' },
+                { extend: 'csvHtml5', title: 'Order Report' },
+                { extend: 'pdfHtml5', title: 'Order Report', orientation: 'landscape' }
+            ],
+            scrollX: true  // Enable horizontal scrolling for the table
         });
     }
 

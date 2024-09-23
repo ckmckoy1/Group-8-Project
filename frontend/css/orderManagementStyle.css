@@ -251,6 +251,23 @@ td {
     color: #555;
 }
 
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.table-striped {
+    width: 100%;
+    min-width: 1000px; /* Ensure table doesn't shrink too much */
+}
+
+th, td {
+    white-space: nowrap;
+    text-align: left;
+    padding: 8px;
+}
+
+
 tr:nth-child(even) {
     background-color: #f9f9f9;
 }
