@@ -31,13 +31,20 @@ h1 {
 
 /* Container for the order management UI */
 .order-management-container {
-    max-width: 1200px;
+    max-width: 100%; /* Full width as header and footer */
     margin: 1em auto;
     padding: 1em;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
+    height: calc(100vh - 160px); /* Adjust height to fit screen, leaving room for header and footer */
+}
+
+/* Table container for scrolling */
+.table-container {
+    flex: 1; /* Take up remaining height after the buttons */
+    overflow-y: auto; /* Allow vertical scrolling */
 }
 
 /* Loading state styling */
