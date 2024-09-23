@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const orderTableBody = document.getElementById('orderTableBody');
     const searchInput = document.getElementById('searchInput');
     const statusFilter = document.getElementById('statusFilter');
+    let orders = []; // Store fetched orders here
 
     // Fetch the orders from the backend when the page loads
     fetchOrders();
@@ -17,8 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
             }
-            const orders = await response.json();
-
+            orders = await response.json();
             displayOrders(orders);
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -99,6 +99,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             orderTableBody.appendChild(row);
         });
+
+        // After adding rows, initialize or refresh DataTables
+        initializeDataTable();
     }
 
     // Function to filter the orders based on customer name, order ID, or status
@@ -126,7 +129,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-    
+
+    // Function to initialize or reinitialize DataTables
+    function initializeDataTable() {
+        // Destroy existing instance if it exists, and reinitialize
+        if ($.fn.DataTable.isDataTable('#orderTable')) {
+            $('#orderTable').DataTable().clear().destroy();
+        }
+
+        $('#orderTable').DataTable({
+            paging: true,
+            searching: false,  // Disable search as we have custom search functionality
+            ordering: false,   // Disable ordering as we handle sorting manually
+            info: true,
+            pageLength: 10,    // Number of rows per page
+        });
+    }
 
     // Example sorting function (can be extended)
     function sortTable(column) {
