@@ -1,177 +1,141 @@
 document.addEventListener('DOMContentLoaded', function () {
     const orderTableBody = document.getElementById('orderTableBody');
-    const searchInput = document.getElementById('searchInput');
-    const statusFilter = document.getElementById('statusFilter');
-    let orders = []; // Store fetched orders here
+    let orders = [];
+    let table;
 
     // Fetch the orders from the backend when the page loads
     fetchOrders();
 
-    // Event listener for filtering the orders by Order ID, Customer name, or status
-    searchInput.addEventListener('input', filterOrders);
-    statusFilter.addEventListener('change', filterOrders);
-
     // Event listener for the Refresh button
-    document.getElementById('refreshTable').addEventListener('click', fetchOrders);
+    document.getElementById('refreshTable').addEventListener('click', function () {
+        fetchOrders(true);
+    });
 
-    // Function to fetch orders from the backend API and display them in the table
-    async function fetchOrders() {
+    // Event listener for Choose Columns button
+    document.getElementById('chooseColumns').addEventListener('click', function () {
+        populateColumnChooser();
+        $('#chooseColumnsModal').modal('show');
+    });
+
+    // Event listener for the Download button
+    document.getElementById('downloadButton').addEventListener('click', function () {
+        $('#downloadModal').modal('show');
+    });
+
+    // Event listener for confirming the download format
+    document.getElementById('downloadConfirm').addEventListener('click', function () {
+        const format = document.getElementById('downloadFormat').value;
+        exportTable(format);
+        $('#downloadModal').modal('hide');
+    });
+
+    // Fetch and display orders
+    async function fetchOrders(isRefresh = false) {
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders'); 
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
             }
             orders = await response.json();
+
+            if (isRefresh) {
+                table.clear().destroy();
+                orderTableBody.innerHTML = '';
+            }
+
             displayOrders(orders);
         } catch (error) {
             console.error('Error fetching orders:', error);
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = 'Error fetching orders. Please try again later.';
-            messageDiv.style.display = 'block';
+            document.getElementById('message').textContent = 'Error fetching orders. Please try again later.';
+            document.getElementById('message').style.display = 'block';
         }
     }
 
-    // Function to display orders in the table
+    // Display orders in the table
     function displayOrders(orders) {
-        orderTableBody.innerHTML = ''; // Clear the table before adding new rows
-
         orders.forEach(order => {
             const row = document.createElement('tr');
-
-            const orderIdCell = document.createElement('td');
-            orderIdCell.textContent = order.OrderID;
-
-            const customerCell = document.createElement('td');
-            customerCell.textContent = `${order.FirstName} ${order.LastName}`;
-
-            const emailCell = document.createElement('td');
-            emailCell.textContent = order.CustomerEmail;
-
-            const addressCell = document.createElement('td');
-            addressCell.textContent = `${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}`;
-
-            const shippingMethodCell = document.createElement('td');
-            shippingMethodCell.textContent = order.ShippingMethod;
-
-            const statusCell = document.createElement('td');
-            statusCell.textContent = order.PaymentStatus;
-
-            const amountCell = document.createElement('td');
-            amountCell.textContent = `$${order.TotalAmount.toFixed(2)}`;
-
-            const cardNumberCell = document.createElement('td');
-            cardNumberCell.textContent = `**** **** **** ${order.CardNumber.slice(-4)}`; // Only show last 4 digits
-
-            const expirationDateCell = document.createElement('td');
-            expirationDateCell.textContent = order.ExpirationDate;
-
-            const billingZipCell = document.createElement('td');
-            billingZipCell.textContent = order.BillingZipCode;
-
-            const transactionDateCell = document.createElement('td');
-            transactionDateCell.textContent = new Date(order.TransactionDateTime).toLocaleString();
-
-            const authTokenCell = document.createElement('td');
-            authTokenCell.textContent = order.AuthorizationToken;
-
-            const authAmountCell = document.createElement('td');
-            authAmountCell.textContent = `$${order.AuthorizationAmount.toFixed(2)}`;
-
-            const authExpiryCell = document.createElement('td');
-            authExpiryCell.textContent = new Date(order.AuthorizationExpirationDate).toLocaleString();
-
-            const warehouseStatusCell = document.createElement('td');
-            warehouseStatusCell.textContent = order.WarehouseStatus || 'N/A'; // Display WarehouseStatus
-
-            // Append cells to the row
-            row.appendChild(orderIdCell);
-            row.appendChild(customerCell);
-            row.appendChild(emailCell);
-            row.appendChild(addressCell);
-            row.appendChild(shippingMethodCell);
-            row.appendChild(statusCell);
-            row.appendChild(amountCell);
-            row.appendChild(cardNumberCell);
-            row.appendChild(expirationDateCell);
-            row.appendChild(billingZipCell);
-            row.appendChild(transactionDateCell);
-            row.appendChild(authTokenCell);
-            row.appendChild(authAmountCell);
-            row.appendChild(authExpiryCell);
-            row.appendChild(warehouseStatusCell); // Append Warehouse Status cell
-
+            row.innerHTML = `
+                <td>${order.OrderID}</td>
+                <td>${order.FirstName} ${order.LastName}</td>
+                <td>${order.CustomerEmail}</td>
+                <td>${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}</td>
+                <td>${order.ShippingMethod}</td>
+                <td>${order.PaymentStatus}</td>
+                <td>$${order.TotalAmount.toFixed(2)}</td>
+                <td>**** **** **** ${order.CardNumber.slice(-4)}</td>
+                <td>${order.ExpirationDate}</td>
+                <td>${order.BillingZipCode}</td>
+                <td>${new Date(order.TransactionDateTime).toLocaleString()}</td>
+                <td>${order.AuthorizationToken}</td>
+                <td>$${order.AuthorizationAmount.toFixed(2)}</td>
+                <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td>
+                <td>${order.WarehouseStatus || 'N/A'}</td>
+            `;
             orderTableBody.appendChild(row);
         });
 
-        // After adding rows, initialize or refresh DataTables
         initializeDataTable();
     }
 
-    // Function to filter the orders based on customer name, order ID, or status
-    function filterOrders() {
-        const filterValue = searchInput.value.toLowerCase();
-        const statusValue = statusFilter.value.toLowerCase();
-        const rows = orderTableBody.getElementsByTagName('tr');
-    
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            const orderIdCell = row.cells[0].textContent.toLowerCase();
-            const customerCell = row.cells[1].textContent.toLowerCase();
-            const emailCell = row.cells[2].textContent.toLowerCase();
-            const statusCell = row.cells[5].textContent.toLowerCase();
-    
-            const matchesOrderId = orderIdCell.includes(filterValue);
-            const matchesCustomer = customerCell.includes(filterValue);
-            const matchesEmail = emailCell.includes(filterValue);
-            const matchesStatus = !statusValue || statusCell.includes(statusValue);
-    
-            if ((matchesOrderId || matchesCustomer || matchesEmail) && matchesStatus) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        }
-    }
-
-    // Function to initialize or reinitialize DataTables with export buttons
+    // Initialize DataTables
     function initializeDataTable() {
-        // Destroy existing instance if it exists, and reinitialize
-        if ($.fn.DataTable.isDataTable('#orderTable')) {
-            $('#orderTable').DataTable().clear().destroy();
-        }
-
-        $('#orderTable').DataTable({
+        table = $('#orderTable').DataTable({
             paging: true,
-            searching: false,  // Disable search as we have custom search functionality
-            ordering: false,   // Disable ordering as we handle sorting manually
+            lengthMenu: [10, 25, 50, 100],
+            searching: false,
             info: true,
-            pageLength: 10,    // Number of rows per page
-            dom: 'Bfrtip', // Add buttons and search input
-            buttons: [
-                { extend: 'excelHtml5', title: 'Order Report' },
-                { extend: 'csvHtml5', title: 'Order Report' },
-                { extend: 'pdfHtml5', title: 'Order Report', orientation: 'landscape' }
-            ],
-            scrollX: true  // Enable horizontal scrolling for the table
+            ordering: false,
+            pageLength: 10,
         });
     }
 
-    // Example sorting function (can be extended)
-    function sortTable(column) {
-        const rows = Array.from(orderTableBody.getElementsByTagName('tr'));
+    // Export the table to selected format
+    function exportTable(format) {
+        if (format === 'csv') {
+            table.button('.buttons-csv').trigger();
+        } else if (format === 'pdf') {
+            table.button('.buttons-pdf').trigger();
+        } else if (format === 'excel') {
+            table.button('.buttons-excel').trigger();
+        }
+    }
 
-        rows.sort((a, b) => {
-            const valueA = a.cells[column].textContent;
-            const valueB = b.cells[column].textContent;
+    // Populate the column chooser modal
+    function populateColumnChooser() {
+        const availableColumns = document.getElementById('availableColumns');
+        const selectedColumns = document.getElementById('selectedColumns');
 
-            if (column === 6 || column === 11) { // If sorting by amount or authorization amount
-                return parseFloat(valueA.slice(1)) - parseFloat(valueB.slice(1));
+        availableColumns.innerHTML = '';
+        selectedColumns.innerHTML = '';
+
+        table.columns().every(function (index) {
+            const columnTitle = this.header().textContent;
+            const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
+
+            if (this.visible()) {
+                selectedColumns.innerHTML += listItem;
+            } else {
+                availableColumns.innerHTML += listItem;
             }
+        });
+    }
 
-            return valueA.localeCompare(valueB); // For other columns, use alphabetical sorting
+    // Apply chosen columns
+    document.getElementById('applyColumns').addEventListener('click', function () {
+        const availableColumns = document.querySelectorAll('#availableColumns li');
+        const selectedColumns = document.querySelectorAll('#selectedColumns li');
+
+        availableColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(false);
         });
 
-        // Reorder the rows in the table
-        rows.forEach(row => orderTableBody.appendChild(row));
-    }
+        selectedColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(true);
+        });
+
+        $('#chooseColumnsModal').modal('hide');
+    });
 });
