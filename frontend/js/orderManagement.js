@@ -82,11 +82,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function initializeDataTable() {
         table = $('#orderTable').DataTable({
             paging: true,
-            lengthMenu: [10, 25, 50, 100],
+            lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
             searching: false,
             info: true,
             ordering: false,
             pageLength: 10,
+            // Align the length menu to the right and the buttons on the left
+            dom: '<"row"<"col-md-6"f><"col-md-6"l>>rt<"row"<"col-md-6"i><"col-md-6"p>>',
+            language: {
+                lengthMenu: 'Show _MENU_ entries' // Text for dropdown
+            }
         });
     }
 
