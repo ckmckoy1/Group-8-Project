@@ -38,13 +38,26 @@
 
 <!-- Main Container -->
 <div class="container-fluid mt-4">
+
+        <!-- Header for Payment Items Section -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-left">Payment Items</h2>
+            </div>
+        </div>
+
     <!-- Buttons Section -->
     <div class="row mb-3">
-        <div class="col-md-12 text-right">
+         <!-- Buttons on the Left -->
+        <div class="col-md-12 text-left">
             <button id="refreshTable" class="btn btn-primary">Refresh Table</button>
             <button id="chooseColumns" class="btn btn-secondary">Choose Columns</button>
             <button id="downloadButton" class="btn btn-info">Download</button>
         </div>
+                <!-- "Show entries" dropdown on the Right -->
+                <div class="col-md-6 text-right">
+                    <!-- DataTables will automatically place the length menu here -->
+                </div>
     </div>
 
     <!-- Orders Table -->
@@ -190,9 +203,6 @@
     <footer class="footer bg-dark text-white mt-4">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
-                </div>
                 <div class="col-md-6 text-right">
                     <a href="#" class="text-white">Privacy Policy</a> | 
                     <a href="#" class="text-white">Terms of Use</a>
