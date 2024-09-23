@@ -42,20 +42,20 @@ h2 {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
     height: calc(100vh - 160px); /* Adjust height to fit screen, leaving room for header and footer */
 }
 
 /* Table container for scrolling */
 .table-container {
-    flex: 1; /* Take up remaining height after the buttons */
-    overflow-y: auto; /* Allow vertical scrolling */
+    height: 100%;
+    overflow-y: auto; /* Vertical scrolling for the table */
 }
 
 /* Loading state styling */
 .loading-content > * {
     visibility: hidden;
 }
+
 .loading-content {
     background: #fff url('/images/refreshing.gif') 50% 50% no-repeat !important;
 }
@@ -64,7 +64,6 @@ h2 {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 1.5em;
     font-size: 0.9em;
     min-width: 1000px;
 }
@@ -97,27 +96,16 @@ div.dataTables_length select {
     font-size: 11px;
 }
 
-/* DataTable Filtering (Search Box) Styling */
-div.dataTables_filter {
-    margin: 4px 8px;
-    width: 50%;
-    float: right;
-    text-align: right;
-}
-
-/* Filter Inputs Below Table Headers */
-thead tr input.form-control,
-thead tr select.form-control {
-    width: 100%;
-    padding: 4px;
-    margin-bottom: 0;
-    box-sizing: border-box;
-    font-size: 0.85em;
-}
-
 /* Ensure the row beneath the table header (filters) aligns correctly */
 thead th {
     vertical-align: bottom;
+}
+
+/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
+.row.mb-3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* Table striped rows */
@@ -170,17 +158,17 @@ thead th {
     .order-management-container {
         padding: 0.8em;
     }
+
+    .row.mb-3 {
+        flex-direction: column; /* Stack buttons and dropdown on smaller screens */
+        align-items: flex-start;
+    }
 }
 
 @media screen and (max-width: 480px) {
     table, th, td {
         font-size: 0.75em;
         padding: 8px;
-    }
-
-    .filter-container {
-        flex-direction: column;
-        align-items: flex-start;
     }
 
     input[type="text"], select {
