@@ -249,7 +249,6 @@ button, th  {
     border: none;
     cursor: pointer;
     padding: 10px 20px;
-    border-radius: 5px;
     font-size: 1em;
     transition: background-color 0.3s ease;
 }
@@ -259,3 +258,16 @@ th:hover {
     background-color: #ADD8E6; /* Darker blue color for hover state */
     color: white;
 }
+
+    /* Custom button color */
+    #refreshTable, #chooseColumns, #downloadButton {
+        background-color: white; /* Set your desired color */
+        color:  #007bff;
+        border-color: #007bff;
+        border-radius: 5px;
+    }
+
+    #refreshTable:hover, #chooseColumns:hover, #downloadButton:hover {
+        background-color:  #ADD8E6; /* Set hover color */
+        border-color: #0056b3;
+    }
