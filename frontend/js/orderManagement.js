@@ -87,8 +87,9 @@ document.addEventListener('DOMContentLoaded', function () {
             info: true,
             ordering: false,
             pageLength: 10,
-            // Align the length menu to the right and the buttons on the left
-            dom: '<"row"<"col-md-6"f><"col-md-6"l>>rt<"row"<"col-md-6"i><"col-md-6"p>>',
+            // Customize the layout using the `dom` option
+            dom: '<"row"<"col-md-6"l><"col-md-6 text-right"Bf>>rt<"row"<"col-md-6"i><"col-md-6"p>>',
+    
             language: {
                 lengthMenu: 'Show _MENU_ entries' // Text for dropdown
             }
