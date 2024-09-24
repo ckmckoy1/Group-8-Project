@@ -85,7 +85,7 @@ function initializeDataTable() {
         lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
         searching: false,
         info: true,
-        ordering: false,
+        ordering: true,
         pageLength: 10,
         // Customize the layout using the `dom` option
         dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +

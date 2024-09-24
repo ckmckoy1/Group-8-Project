@@ -6,23 +6,8 @@ html, body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     display: flex;
-    flex-direction: column; /* Make the body act like a flex container */
-}
-
-/* Centered elements */
-.centered, .pane.centered {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Header styling */
-.header {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    padding: 1.5em 0;
-    font-size: 2.5em;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full height of the viewport */
 }
 
 .navbar-brand {
@@ -36,29 +21,18 @@ h2 {
 
 /* Main container for content */
 .container-fluid {
-    flex: 1; /* This makes the main content area take up the available space */
-}
-
-/* Make sure the container fits within the screen height */
-.order-management-container {
-    max-width: 100%;
-    margin: 1em auto;
-    padding: 1em;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    height: calc(100vh - 160px); /* Ensure the container fits between header and footer */
-    display: flex;
-    flex-direction: column; /* Allows flexible height for the table container */
+    background-color: white; /* White background */
+    padding: 2em;
+    margin: 20px auto; /* Center the container with margin */
+    max-width: 1500px; /* Optional: set a max width to prevent container from stretching too much on large screens */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for nicer look */
+    border-radius: 8px; /* Rounded corners */
 }
 
 /* Scrollable table container */
 .table-container {
-    flex: 1;
-    overflow-y: auto; /* Vertical scrolling */
     overflow-x: auto; /* Horizontal scrolling */
-    width: 100%;
-    white-space: nowrap; /* Prevent wrapping in the table */
+    white-space: nowrap; /* Prevent text wrapping in the table */
 }
 
 /* Pagination and info should remain in place outside the scrollable area */
@@ -170,14 +144,14 @@ thead th {
 footer.footer {
     background-color: #333; /* Dark background for footer */
     color: white;
-    padding: 1.5em 0; /* Adjust padding to increase footer height */
+    padding: 1.5em 0;
     text-align: right;
     width: 100%;
-    position: sticky; /* Sticky to bottom */
+    position: sticky;
     bottom: 0;
     left: 0;
+    margin-top: auto; /* Pushes the footer to the bottom */
 }
-
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
     table, th, td {
@@ -211,42 +185,86 @@ footer.footer {
     }
 }
 
-/* Additional styling for modals (Choose Columns and Download Options) */
+/* Modal styles */
 .modal .modal-dialog {
     max-width: 600px;
+    margin: 1.75rem auto;
+    color: black; /* Ensure text is readable */
 }
 
-.modal-header, .modal-footer {
-    padding: 1rem;
+.modal-content {
+    background-color: white; /* White background for the modal */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Soft shadow around modals */
+}
+
+.modal-header {
+    background-color: #007bff; /* Blue background for the modal header */
+    color: white; /* White text for the modal header */
+    border-bottom: none; /* Remove default border */
+    padding: 15px;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 1.5em; /* Larger title */
 }
 
 .modal-body {
-    padding: 2rem 1rem;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light grey background for the body */
+    color: black;
+}
+
+.modal-footer {
+    background-color: white; /* White footer */
+    border-top: none; /* Remove default border */
+    padding: 10px 20px;
+    text-align: right;
 }
 
 .modal-footer .btn {
-    padding: 0.5rem 1.5rem;
+    padding: 10px 20px;
+    border-radius: 5px;
 }
 
-/* Download Modal Styles */
-.modal .modal-footer .btn-primary {
-    background-color: #4CAF50;
-    border-color: #4CAF50;
+/* Primary button for the modal (e.g., Apply or Download) */
+.modal-footer .btn-primary {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    border-color: #007bff;
+    transition: background-color 0.3s ease;
 }
 
-.modal .modal-footer .btn-secondary {
-    background-color: #cccccc;
-    border-color: #cccccc;
+.modal-footer .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    border-color: #0056b3;
 }
 
-/* Choose Columns Modal Styles */
-.list-group-item {
-    cursor: pointer;
+/* Secondary button for the modal (e.g., Close or Cancel) */
+.modal-footer .btn-secondary {
+    background-color: #6c757d; /* Grey background */
+    color: white;
+    border-color: #6c757d;
 }
 
-.list-group-item:hover {
-    background-color: #f0f0f0;
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268; /* Darker grey on hover */
+    border-color: #5a6268;
 }
+
+/* Modal close button styling */
+.modal-header .close {
+    color: white;
+    font-size: 1.5em;
+    opacity: 1; /* Make the 'x' more visible */
+}
+
+.modal-header .close:hover {
+    color: #d4d4d4;
+}
+
 
 /* Normal button background color (blue) */
 button, th  {
