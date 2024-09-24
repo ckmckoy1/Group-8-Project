@@ -22,10 +22,10 @@ html, body {
     color: white;
     text-align: center;
     padding: 1.5em 0;
-    font-size: 2.5em
+    font-size: 2.5em;
 }
 
-navbar-brand {
+.navbar-brand {
     font-size: 2em;
 }
 
@@ -33,7 +33,6 @@ h2 {
     margin: 0;
     font-size: 1em;
 }
-
 
 /* Container for the order management UI */
 .order-management-container {
@@ -235,7 +234,6 @@ button, th  {
     font-size: 1em;
     transition: background-color 0.3s ease;
 }
-
 
 /* Hover state - different shade of blue */
 button:hover, th:hover {

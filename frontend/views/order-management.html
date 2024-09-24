@@ -54,73 +54,74 @@
 </div>
 
 
-    <!-- Orders Table -->
-    <div class="row">
-        <div class="col-12">
-            <table id="orderTable" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Shipping Method</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                        <th>Card Number</th>
-                        <th>Expiration Date</th>
-                        <th>Billing Zip</th>
-                        <th>Transaction Date</th>
-                        <th>Authorization Token</th>
-                        <th>Authorization Amount</th>
-                        <th>Authorization Expiration</th>
-                        <th>Warehouse Status</th>
-                    </tr>
-                    <!-- Filter row -->
-                    <tr>
-                        <th><input type="text" id="orderIDFilter" class="form-control" placeholder="Search Order ID"></th>
-                        <th><input type="text" id="customerFilter" class="form-control" placeholder="Search Customer"></th>
-                        <th><input type="text" id="emailFilter" class="form-control" placeholder="Search Email"></th>
-                        <th><input type="text" id="addressFilter" class="form-control" placeholder="Search Address"></th>
-                        <th>
-                            <select id="shippingMethodFilter" class="form-control">
-                                <option value="">All Shipping Methods</option>
-                                <option value="">Standard Shipping (5-7 days)</option>
-                                <option value="">Express Shipping (2-3 days)</option>
-                            </select>
-                        </th>
-                        <th>
-                            <select id="statusFilter" class="form-control">
-                                <option value="">All Statuses</option>
-                                <option value="Authorized">Authorized</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Failed">Failed</option>
-                            </select>
-                        </th>
-                        <th><input type="text" id="amountFilter" class="form-control" placeholder="Search Amount"></th>
-                        <th><input type="text" id="cardNumberFilter" class="form-control" placeholder="Search Card Number"></th>
-                        <th></th> <!-- No filter for expiration date -->
-                        <th><input type="text" id="billingZipFilter" class="form-control" placeholder="Search Billing Zip"></th>
-                        <th><input type="date" id="transactionDateFilter" class="form-control"></th>
-                        <th><input type="text" id="authTokenFilter" class="form-control" placeholder="Search Authorization Token"></th>
-                        <th><input type="text" id="authAmountFilter" class="form-control" placeholder="Search Authorization Amount"></th>
-                        <th></th> <!-- No filter for auth expiration date -->
-                        <th>
-                            <select id="warehouseStatusFilter" class="form-control">
-                                <option value="">All Warehouse Statuses</option>
-                                <option value="">Settled</option>
-                                <option value="">Pending</option>
-                                <option value="">N/A</option>
-                            </select>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="orderTableBody">
-                    <!-- Orders will be dynamically added here by JavaScript -->
-                </tbody>
-            </table>
-        </div>
+<!-- Orders Table -->
+<div class="row">
+    <div class="col-12 table-container">
+        <table id="orderTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Shipping Method</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                    <th>Card Number</th>
+                    <th>Expiration Date</th>
+                    <th>Billing Zip</th>
+                    <th>Transaction Date</th>
+                    <th>Authorization Token</th>
+                    <th>Authorization Amount</th>
+                    <th>Authorization Expiration</th>
+                    <th>Warehouse Status</th>
+                </tr>
+                <!-- Filter row -->
+                <tr>
+                    <th><input type="text" id="orderIDFilter" class="form-control" placeholder="Search Order ID"></th>
+                    <th><input type="text" id="customerFilter" class="form-control" placeholder="Search Customer"></th>
+                    <th><input type="text" id="emailFilter" class="form-control" placeholder="Search Email"></th>
+                    <th><input type="text" id="addressFilter" class="form-control" placeholder="Search Address"></th>
+                    <th>
+                        <select id="shippingMethodFilter" class="form-control">
+                            <option value="">All Shipping Methods</option>
+                            <option value="Standard">Standard Shipping</option>
+                            <option value="Express">Express Shipping</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">All Statuses</option>
+                            <option value="Authorized">Authorized</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Failed">Failed</option>
+                        </select>
+                    </th>
+                    <th><input type="text" id="amountFilter" class="form-control" placeholder="Search Amount"></th>
+                    <th><input type="text" id="cardNumberFilter" class="form-control" placeholder="Search Card Number"></th>
+                    <th></th> <!-- No filter for expiration date -->
+                    <th><input type="text" id="billingZipFilter" class="form-control" placeholder="Search Billing Zip"></th>
+                    <th><input type="date" id="transactionDateFilter" class="form-control"></th>
+                    <th><input type="text" id="authTokenFilter" class="form-control" placeholder="Search Authorization Token"></th>
+                    <th><input type="text" id="authAmountFilter" class="form-control" placeholder="Search Authorization Amount"></th>
+                    <th></th> <!-- No filter for auth expiration date -->
+                    <th>
+                        <select id="warehouseStatusFilter" class="form-control">
+                            <option value="">All Warehouse Statuses</option>
+                            <option value="Settled">Settled</option>
+                            <option value="Pending">Pending</option>
+                            <option value="N/A">N/A</option>
+                        </select>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="orderTableBody">
+                <!-- Orders will be dynamically added here by JavaScript -->
+            </tbody>
+        </table>
     </div>
+</div>
+
 
     <!-- Message Section -->
     <div id="message" class="alert alert-danger mt-4" style="display: none;"></div>
