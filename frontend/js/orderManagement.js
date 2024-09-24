@@ -88,7 +88,7 @@ function initializeDataTable() {
         ordering: false,
         pageLength: 10,
         // Customize the layout using the `dom` option
-        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
+        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"Bl><"col-md-6 d-flex justify-content-end"f>>' +
              'rt' + 
              '<"row"<"col-md-6"i><"col-md-6"p>>',
         
