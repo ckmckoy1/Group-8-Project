@@ -78,27 +78,29 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeDataTable();
     }
 
-// Initialize DataTables
-function initializeDataTable() {
-    table = $('#orderTable').DataTable({
-        paging: true,
-        lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
-        searching: false, // Disable global searching (since you are doing individual column filtering)
-        info: true,
-        ordering: true,
-        pageLength: 10,
-        orderCellsTop: true, // Use this to allow sorting only on the first row of thead
-        fixedHeader: true, // Optional: keeps headers fixed when scrolling
-        // Customize the layout using the `dom` option
-        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
-             'rt' + 
-             '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
-        language: {
-            lengthMenu: 'Show _MENU_ entries' // Custom text for dropdown
-        }
-    });
-}
-
+    function initializeDataTable() {
+        table = $('#orderTable').DataTable({
+            paging: true,
+            lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
+            searching: false, // Disable global searching (since you are doing individual column filtering)
+            info: true,
+            ordering: true,
+            pageLength: 10,
+            orderCellsTop: true, // Apply sorting to the first header row
+            dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>' + // Length menu (l) and filter (f)
+                 'rt' + // Table (r)
+                 '<"row"<"col-md-6"i><"col-md-6"p>>', // Info (i) and pagination (p) outside table
+            language: {
+                lengthMenu: 'Show _MENU_ entries',
+                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                paginate: {
+                    previous: 'Previous',
+                    next: 'Next'
+                }
+            }
+        });
+    }
+    
 // Add filtering functionality for individual columns
 $('#orderIDFilter').on('keyup', function () {
     table.column(0).search(this.value).draw(); // Search in the first column (Order ID)
