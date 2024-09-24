@@ -78,24 +78,35 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeDataTable();
     }
 
-    // Initialize DataTables
-    function initializeDataTable() {
-        table = $('#orderTable').DataTable({
-            paging: true,
-            lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
-            searching: false,
-            info: true,
-            ordering: true,
-            pageLength: 10,
-            // Customize the layout using the `dom` option
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
-                 'rt' + 
-                 '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
-            language: {
-                lengthMenu: 'Show _MENU_ entries' // Custom text for dropdown
-            }
-        });
-    }
+// Initialize DataTables
+function initializeDataTable() {
+    table = $('#orderTable').DataTable({
+        paging: true,
+        lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
+        searching: false, // Disable global searching (since you are doing individual column filtering)
+        info: true,
+        ordering: true,
+        pageLength: 10,
+        orderCellsTop: true, // Use this to allow sorting only on the first row of thead
+        fixedHeader: true, // Optional: keeps headers fixed when scrolling
+        // Customize the layout using the `dom` option
+        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
+             'rt' + 
+             '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
+        language: {
+            lengthMenu: 'Show _MENU_ entries' // Custom text for dropdown
+        }
+    });
+}
+
+// Add filtering functionality for individual columns
+$('#orderIDFilter').on('keyup', function () {
+    table.column(0).search(this.value).draw(); // Search in the first column (Order ID)
+});
+
+$('#customerFilter').on('keyup', function () {
+    table.column(1).search(this.value).draw(); // Search in the second column (Customer)
+});
 
     // Export the table to selected format
     function exportTable(format) {
