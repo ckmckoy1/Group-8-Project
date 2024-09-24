@@ -4,9 +4,9 @@ html, body {
     background: #f8f8f8;
     padding: 0;
     margin: 0;
-    min-height: 100%;
-    position: relative;
     font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column; /* Make the body act like a flex container */
 }
 
 /* Centered elements */
@@ -31,7 +31,12 @@ html, body {
 
 h2 {
     margin: 0;
-    font-size: 1em;
+    font-size: 2em;
+}
+
+/* Main container for content */
+.container-fluid {
+    flex: 1; /* This makes the main content area take up the available space */
 }
 
 /* Make sure the container fits within the screen height */
@@ -166,10 +171,11 @@ footer.footer {
     background-color: #333; /* Dark background for footer */
     color: white;
     padding: 1.5em 0; /* Adjust padding to increase footer height */
-    text-align: center;
+    text-align: right;
     width: 100%;
-    position: relative;
+    position: sticky; /* Sticky to bottom */
     bottom: 0;
+    left: 0;
 }
 
 /* Responsive adjustments */

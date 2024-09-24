@@ -82,26 +82,20 @@ document.addEventListener('DOMContentLoaded', function () {
 function initializeDataTable() {
     table = $('#orderTable').DataTable({
         paging: true,
-        lengthMenu: [10, 25, 50, 100],
+        lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
         searching: false,
         info: true,
         ordering: false,
         pageLength: 10,
-        dom: '<"row mb-3 align-items-center"<"col-md-6"l><"col-md-6 text-right"Bf>>' +
+        // Customize the layout using the `dom` option
+        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
              'rt' + 
-             '<"row"<"col-md-6"i><"col-md-6"p>>',
-        
+             '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
         language: {
-            lengthMenu: 'Show _MENU_ entries',
-            info: "Showing _START_ to _END_ of _TOTAL_ entries",
-            paginate: {
-                previous: "Previous",
-                next: "Next"
-            }
+            lengthMenu: 'Show _MENU_ entries' // Custom text for dropdown
         }
     });
 }
-
 
     // Export the table to selected format
     function exportTable(format) {
