@@ -6,29 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch the orders from the backend when the page loads
     fetchOrders();
 
-    // Event listener for the Refresh button
-    document.getElementById('refreshTable').addEventListener('click', function () {
-        fetchOrders(true);
-    });
-
-    // Event listener for Choose Columns button
-    document.getElementById('chooseColumns').addEventListener('click', function () {
-        populateColumnChooser();
-        $('#chooseColumnsModal').modal('show');
-    });
-
-    // Event listener for the Download button
-    document.getElementById('downloadButton').addEventListener('click', function () {
-        $('#downloadModal').modal('show');
-    });
-
-    // Event listener for confirming the download format
-    document.getElementById('downloadConfirm').addEventListener('click', function () {
-        const format = document.getElementById('downloadFormat').value;
-        exportTable(format);
-        $('#downloadModal').modal('hide');
-    });
-
     // Fetch and display orders
     async function fetchOrders(isRefresh = false) {
         try {
@@ -78,18 +55,19 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeDataTable();
     }
 
+    // Initialize DataTables
     function initializeDataTable() {
         table = $('#orderTable').DataTable({
             paging: true,
             lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
-            searching: false, // Disable global searching (since you are doing individual column filtering)
+            searching: true, // Enable global searching
             info: true,
             ordering: true,
             pageLength: 10,
             orderCellsTop: true, // Apply sorting to the first header row
-            dom: '<"row mb-3"<"col-md-6"l><"col-md-6"f>>' + // Length menu (l) and filter (f)
-                 'rt' + // Table (r)
-                 '<"row"<"col-md-6"i><"col-md-6"p>>', // Info (i) and pagination (p) outside table
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
+                 'rt' + 
+                 '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -99,88 +77,63 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
-    }
-    
-// Add filtering functionality for individual columns
-$('#orderIDFilter').on('keyup', function () {
-    table.column(0).search(this.value).draw(); // Search in the first column (Order ID)
-});
 
-$('#customerFilter').on('keyup', function () {
-    table.column(1).search(this.value).draw(); // Search in the second column (Customer)
-});
-
-    // Export the table to selected format
-    function exportTable(format) {
-        if (format === 'csv') {
-            table.button('.buttons-csv').trigger();
-        } else if (format === 'pdf') {
-            table.button('.buttons-pdf').trigger();
-        } else if (format === 'excel') {
-            table.button('.buttons-excel').trigger();
-        }
+        // Add filtering functionality for individual columns after the table is initialized
+        addColumnFiltering();
     }
 
-    // Populate the column chooser modal
-    function populateColumnChooser() {
-        const availableColumns = document.getElementById('availableColumns');
-        const selectedColumns = document.getElementById('selectedColumns');
-
-        availableColumns.innerHTML = '';
-        selectedColumns.innerHTML = '';
-
-        // Loop through each column in DataTable and create list items
-        table.columns().every(function (index) {
-            const columnTitle = this.header().textContent.trim(); // Get the column title
-            const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
-
-            // Append to the respective list based on column visibility
-            if (this.visible()) {
-                selectedColumns.innerHTML += listItem;
-            } else {
-                availableColumns.innerHTML += listItem;
-            }
+    // Add filtering functionality for individual columns
+    function addColumnFiltering() {
+        $('#orderIDFilter').on('keyup', function () {
+            table.column(0).search(this.value).draw(); // Search in the first column (Order ID)
         });
 
-        setupColumnListEvents(); // Setup events for column list item clicks
+        $('#customerFilter').on('keyup', function () {
+            table.column(1).search(this.value).draw(); // Search in the second column (Customer)
+        });
+
+        $('#emailFilter').on('keyup', function () {
+            table.column(2).search(this.value).draw(); // Search in the third column (Email)
+        });
+
+        $('#addressFilter').on('keyup', function () {
+            table.column(3).search(this.value).draw(); // Search in the fourth column (Address)
+        });
+
+        $('#shippingMethodFilter').on('change', function () {
+            table.column(4).search(this.value).draw(); // Search in the fifth column (Shipping Method)
+        });
+
+        $('#statusFilter').on('change', function () {
+            table.column(5).search(this.value).draw(); // Search in the sixth column (Status)
+        });
+
+        $('#amountFilter').on('keyup', function () {
+            table.column(6).search(this.value).draw(); // Search in the seventh column (Amount)
+        });
+
+        $('#cardNumberFilter').on('keyup', function () {
+            table.column(7).search(this.value).draw(); // Search in the eighth column (Card Number)
+        });
+
+        $('#billingZipFilter').on('keyup', function () {
+            table.column(9).search(this.value).draw(); // Search in the tenth column (Billing Zip)
+        });
+
+        $('#transactionDateFilter').on('change', function () {
+            table.column(10).search(this.value).draw(); // Search in the eleventh column (Transaction Date)
+        });
+
+        $('#authTokenFilter').on('keyup', function () {
+            table.column(11).search(this.value).draw(); // Search in the twelfth column (Authorization Token)
+        });
+
+        $('#authAmountFilter').on('keyup', function () {
+            table.column(12).search(this.value).draw(); // Search in the thirteenth column (Authorization Amount)
+        });
+
+        $('#warehouseStatusFilter').on('change', function () {
+            table.column(14).search(this.value).draw(); // Search in the fifteenth column (Warehouse Status)
+        });
     }
-
-    // Setup events for column list items
-    function setupColumnListEvents() {
-        // Move columns from Available to Selected
-        $('#availableColumns').on('click', 'li', function () {
-            const columnItem = $(this).detach(); // Remove from available list
-            $('#selectedColumns').append(columnItem); // Append to selected list
-        });
-
-        // Move columns from Selected to Available
-        $('#selectedColumns').on('click', 'li', function () {
-            const columnItem = $(this).detach(); // Remove from selected list
-            $('#availableColumns').append(columnItem); // Append to available list
-        });
-    }
-
-    // Apply chosen columns when "Apply" button is clicked
-    document.getElementById('applyColumns').addEventListener('click', function () {
-        const availableColumns = document.querySelectorAll('#availableColumns li');
-        const selectedColumns = document.querySelectorAll('#selectedColumns li');
-
-        // Hide columns in "Available" list
-        availableColumns.forEach(item => {
-            const columnIdx = parseInt(item.getAttribute('data-column'));
-            table.column(columnIdx).visible(false);
-        });
-
-        // Show columns in "Selected" list
-        selectedColumns.forEach(item => {
-            const columnIdx = parseInt(item.getAttribute('data-column'));
-            table.column(columnIdx).visible(true);
-        });
-
-        // Hide the modal after applying changes
-        $('#chooseColumnsModal').modal('hide');
-    });
-
-    // Call this function when the modal opens
-    $('#chooseColumnsModal').on('show.bs.modal', populateColumnChooser);
 });
