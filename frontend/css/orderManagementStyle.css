@@ -34,27 +34,35 @@ h2 {
     font-size: 1em;
 }
 
-/* Container for the order management UI */
+/* Make sure the container fits within the screen height */
 .order-management-container {
-    max-width: 100%; /* Full width as header and footer */
+    max-width: 100%;
     margin: 1em auto;
     padding: 1em;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    height: calc(100vh - 160px); /* Adjust height to fit screen, leaving room for header and footer */
+    height: calc(100vh - 160px); /* Ensure the container fits between header and footer */
     display: flex;
-    flex-direction: column; /* Allows flexible height for table container */
+    flex-direction: column; /* Allows flexible height for the table container */
 }
 
-/* Table container for scrolling */
+/* Scrollable table container */
 .table-container {
-    flex: 1; /* Take up remaining space in container */
+    flex: 1;
     overflow-y: auto; /* Vertical scrolling */
     overflow-x: auto; /* Horizontal scrolling */
-    width: 100%; /* Ensure the container takes up the full width */
-    white-space: nowrap; /* Prevent table content from wrapping and trigger horizontal scrolling */
+    width: 100%;
+    white-space: nowrap; /* Prevent wrapping in the table */
 }
+
+/* Pagination and info should remain in place outside the scrollable area */
+.row.mb-3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 /* Loading state styling */
 .loading-content > * {
@@ -151,6 +159,17 @@ thead th {
 .message.error {
     background-color: #f2dede;
     color: #a94442;
+}
+
+/* Footer styling */
+footer.footer {
+    background-color: #333; /* Dark background for footer */
+    color: white;
+    padding: 1.5em 0; /* Adjust padding to increase footer height */
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: 0;
 }
 
 /* Responsive adjustments */
