@@ -78,24 +78,24 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeDataTable();
     }
 
-// Initialize DataTables
-function initializeDataTable() {
-    table = $('#orderTable').DataTable({
-        paging: true,
-        lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
-        searching: false,
-        info: true,
-        ordering: true,
-        pageLength: 10,
-        // Customize the layout using the `dom` option
-        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
-             'rt' + 
-             '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
-        language: {
-            lengthMenu: 'Show _MENU_ entries' // Custom text for dropdown
-        }
-    });
-}
+    // Initialize DataTables
+    function initializeDataTable() {
+        table = $('#orderTable').DataTable({
+            paging: true,
+            lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
+            searching: false,
+            info: true,
+            ordering: true,
+            pageLength: 10,
+            // Customize the layout using the `dom` option
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
+                 'rt' + 
+                 '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
+            language: {
+                lengthMenu: 'Show _MENU_ entries' // Custom text for dropdown
+            }
+        });
+    }
 
     // Export the table to selected format
     function exportTable(format) {
@@ -116,33 +116,58 @@ function initializeDataTable() {
         availableColumns.innerHTML = '';
         selectedColumns.innerHTML = '';
 
+        // Loop through each column in DataTable and create list items
         table.columns().every(function (index) {
-            const columnTitle = this.header().textContent;
+            const columnTitle = this.header().textContent.trim(); // Get the column title
             const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
 
+            // Append to the respective list based on column visibility
             if (this.visible()) {
                 selectedColumns.innerHTML += listItem;
             } else {
                 availableColumns.innerHTML += listItem;
             }
         });
+
+        setupColumnListEvents(); // Setup events for column list item clicks
     }
 
-    // Apply chosen columns
+    // Setup events for column list items
+    function setupColumnListEvents() {
+        // Move columns from Available to Selected
+        $('#availableColumns').on('click', 'li', function () {
+            const columnItem = $(this).detach(); // Remove from available list
+            $('#selectedColumns').append(columnItem); // Append to selected list
+        });
+
+        // Move columns from Selected to Available
+        $('#selectedColumns').on('click', 'li', function () {
+            const columnItem = $(this).detach(); // Remove from selected list
+            $('#availableColumns').append(columnItem); // Append to available list
+        });
+    }
+
+    // Apply chosen columns when "Apply" button is clicked
     document.getElementById('applyColumns').addEventListener('click', function () {
         const availableColumns = document.querySelectorAll('#availableColumns li');
         const selectedColumns = document.querySelectorAll('#selectedColumns li');
 
+        // Hide columns in "Available" list
         availableColumns.forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(false);
         });
 
+        // Show columns in "Selected" list
         selectedColumns.forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(true);
         });
 
+        // Hide the modal after applying changes
         $('#chooseColumnsModal').modal('hide');
     });
+
+    // Call this function when the modal opens
+    $('#chooseColumnsModal').on('show.bs.modal', populateColumnChooser);
 });
