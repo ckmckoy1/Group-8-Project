@@ -225,7 +225,7 @@ thead th {
 
 /* Normal button background color (blue) */
 button, th  {
-    background-color: #B9D9EB 
+    background-color: #B9D9EB; 
     color: white;
     border: none;
     cursor: pointer;
@@ -237,6 +237,6 @@ button, th  {
 
 /* Hover state - different shade of blue */
 th:hover {
-    background-color: #ADD8E6 /* Darker blue color for hover state */
+    background-color: #ADD8E6; /* Darker blue color for hover state */
     color: white;
 }
