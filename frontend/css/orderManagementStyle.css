@@ -25,10 +25,15 @@ html, body {
     font-size: 2.5em
 }
 
+navbar-brand {
+    font-size: 2em;
+}
+
 h2 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 1em;
 }
+
 
 /* Container for the order management UI */
 .order-management-container {
@@ -39,17 +44,18 @@ h2 {
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     height: calc(100vh - 160px); /* Adjust height to fit screen, leaving room for header and footer */
+    display: flex;
+    flex-direction: column; /* Allows flexible height for table container */
 }
 
 /* Table container for scrolling */
 .table-container {
-    height: 100%;
+    flex: 1; /* Take up remaining space in container */
     overflow-y: auto; /* Vertical scrolling */
     overflow-x: auto; /* Horizontal scrolling */
-    width: 100%;      /* Ensure the container takes up the full width */
+    width: 100%; /* Ensure the container takes up the full width */
     white-space: nowrap; /* Prevent table content from wrapping and trigger horizontal scrolling */
 }
-
 
 /* Loading state styling */
 .loading-content > * {
@@ -218,8 +224,21 @@ thead th {
     background-color: #f0f0f0;
 }
 
-/* Hover effect for buttons and table headers */
+/* Normal button background color (blue) */
+button, th  {
+    background-color: #007bff; /* Blue color for normal state */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+
+/* Hover state - different shade of blue */
 button:hover, th:hover {
-    background-color: #3e8e41;
-    color: #fff;
+    background-color: #0056b3; /* Darker blue color for hover state */
+    color: white;
 }
