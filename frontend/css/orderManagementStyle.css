@@ -48,8 +48,12 @@ h2 {
 /* Table container for scrolling */
 .table-container {
     height: 100%;
-    overflow-y: auto; /* Vertical scrolling for the table */
+    overflow-y: auto; /* Vertical scrolling */
+    overflow-x: auto; /* Horizontal scrolling */
+    width: 100%;      /* Ensure the container takes up the full width */
+    white-space: nowrap; /* Prevent table content from wrapping and trigger horizontal scrolling */
 }
+
 
 /* Loading state styling */
 .loading-content > * {

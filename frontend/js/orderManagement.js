@@ -78,23 +78,26 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeDataTable();
     }
 
-    // Initialize DataTables
-    function initializeDataTable() {
-        table = $('#orderTable').DataTable({
-            paging: true,
-            lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
-            searching: false,
-            info: true,
-            ordering: false,
-            pageLength: 10,
-            // Customize the layout using the `dom` option
-            dom: '<"row"<"col-md-6"l><"col-md-6 text-right"Bf>>rt<"row"<"col-md-6"i><"col-md-6"p>>',
-    
-            language: {
-                lengthMenu: 'Show _MENU_ entries' // Text for dropdown
-            }
-        });
-    }
+// Initialize DataTables
+function initializeDataTable() {
+    table = $('#orderTable').DataTable({
+        paging: true,
+        lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
+        searching: false,
+        info: true,
+        ordering: false,
+        pageLength: 10,
+        // Customize the layout using the `dom` option
+        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
+             'rt' + 
+             '<"row"<"col-md-6"i><"col-md-6"p>>',
+        
+        language: {
+            lengthMenu: 'Show _MENU_ entries' // Text for dropdown
+        }
+    });
+}
+
 
     // Export the table to selected format
     function exportTable(format) {
