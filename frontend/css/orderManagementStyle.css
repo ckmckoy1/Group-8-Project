@@ -139,19 +139,41 @@ thead th {
     background-color: #f2dede;
     color: #a94442;
 }
-
-/* Footer styling */
 footer.footer {
     background-color: #333; /* Dark background for footer */
     color: white;
     padding: 1.5em 0;
     text-align: right;
     width: 100%;
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    margin-top: auto; /* Pushes the footer to the bottom */
+    margin-top: auto; /* Push the footer to the bottom of the page */
 }
+
+/* Styling for the links */
+footer.footer a {
+    color: white;
+    text-decoration: none;
+    font-size: 1em; /* Adjust font size if needed */
+}
+
+footer.footer a:hover {
+    text-decoration: underline; /* Optional: underline on hover */
+}
+
+/* Add spacing between the links */
+footer.footer .mx-2 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Flexbox to align the links properly in a row */
+footer.footer .d-flex {
+    display: flex;
+    justify-content: flex-end; /* Align to the right */
+    align-items: center; /* Ensure vertical alignment in the center */
+}
+
+
+
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
     table, th, td {
