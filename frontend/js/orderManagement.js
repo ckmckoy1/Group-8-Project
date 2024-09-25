@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
             ordering: true,
             pageLength: 10,
             orderCellsTop: true,
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
-                 'rt' +
-                 '<"row"<"col-md-6"i><"col-md-6"p>>',
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' + // Length menu (l) and Buttons (B) in same row
+                 'rt' + // Table (r)
+                 '<"row"<"col-md-6"i><"col-md-6"p>>', // Info (i) and pagination (p) below the table
             buttons: [
                 { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
                 { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
