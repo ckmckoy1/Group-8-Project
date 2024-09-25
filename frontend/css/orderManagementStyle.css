@@ -36,6 +36,11 @@ h2 {
     max-height: 50vh; /* Set a height for scrollable area */
 }
 
+.dataTables_length{
+    margin-top : -7px;
+    margin-left: 20px;
+   }
+
 /* Pagination and info should remain in place outside the scrollable area */
 .row.mb-3 {
     display: flex;
