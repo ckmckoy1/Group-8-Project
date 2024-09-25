@@ -237,65 +237,66 @@ handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, on
         console.log('Refresh Table button clicked');
         fetchOrders(true); // Refreshes the table data
     });
+// Populate column chooser modal
+document.getElementById('chooseColumns').addEventListener('click', function () {
+    $('#chooseColumnsModal').modal('show');
+    populateColumnChooser(); // Populate the column chooser
+});
 
-    // Populate column chooser modal
-    document.getElementById('chooseColumns').addEventListener('click', function () {
-        $('#chooseColumnsModal').modal('show');
-        populateColumnChooser(); // Ensure this function populates the column chooser
+function populateColumnChooser() {
+    const availableColumns = document.getElementById('availableColumns');
+    const selectedColumns = document.getElementById('selectedColumns');
+
+    availableColumns.innerHTML = '';
+    selectedColumns.innerHTML = '';
+
+    // Populate the columns into the chooser
+    table.columns().every(function (index) {
+        const columnTitle = this.header().textContent.trim();
+        const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+        const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+
+        // Add the columns to the appropriate list based on visibility
+        if (this.visible()) {
+            selectedColumns.innerHTML += listItem;
+        } else {
+            availableColumns.innerHTML += listItem;
+        }
     });
 
-    function populateColumnChooser() {
-        const availableColumns = document.getElementById('availableColumns');
-        const selectedColumns = document.getElementById('selectedColumns');
+    // Make both lists sortable
+    $('#selectedColumns, #availableColumns').sortable({
+        connectWith: '#availableColumns, #selectedColumns',
+        placeholder: 'ui-state-highlight',
+        update: function (event, ui) {
+            updateTableColumns();
+        }
+    }).disableSelection();
+}
 
-        availableColumns.innerHTML = '';
-        selectedColumns.innerHTML = '';
+// Function to update table column visibility and order
+function updateTableColumns() {
+    const selectedColumns = document.querySelectorAll('#selectedColumns li');
+    const availableColumns = document.querySelectorAll('#availableColumns li');
 
-        // Populate the columns into the chooser
-        table.columns().every(function (index) {
-            const columnTitle = this.header().textContent.trim();
-            const columnWidth = $(this.header()).outerWidth(); // Capture current column width
-            const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
-
-            // Add the columns to the appropriate list based on visibility
-            if (this.visible()) {
-                selectedColumns.innerHTML += listItem;
-            } else {
-                availableColumns.innerHTML += listItem;
-            }
-        });
-
-        // Make the columns draggable
-        $('#selectedColumns').sortable({
-            placeholder: 'ui-state-highlight',
-            axis: 'y',
-            update: function (event, ui) {
-                const newOrder = $(this).sortable('toArray', { attribute: 'data-column' });
-                table.colReorder.order(newOrder);
-            }
-        }).disableSelection();
-    }
-
-    // Apply column selections from modal
-    document.getElementById('applyColumns').addEventListener('click', function () {
-        const selectedColumns = document.querySelectorAll('#selectedColumns li');
-        const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
-
-        // Apply the new column order
-        table.colReorder.order(newOrder);
-
-        // Set visibility for the columns
-        selectedColumns.forEach(item => {
-            const columnIdx = parseInt(item.getAttribute('data-column'));
-            table.column(columnIdx).visible(true); // Show selected columns
-        });
-
-        // Hide unselected columns
-        document.querySelectorAll('#availableColumns li').forEach(item => {
-            const columnIdx = parseInt(item.getAttribute('data-column'));
-            table.column(columnIdx).visible(false); // Hide deselected columns
-        });
-
-        $('#chooseColumnsModal').modal('hide'); // Close the modal
+    // Set visibility for the selected columns
+    selectedColumns.forEach(item => {
+        const columnIdx = parseInt(item.getAttribute('data-column'));
+        table.column(columnIdx).visible(true); // Show selected columns
     });
+
+    // Hide columns that were moved to available
+    availableColumns.forEach(item => {
+        const columnIdx = parseInt(item.getAttribute('data-column'));
+        table.column(columnIdx).visible(false); // Hide deselected columns
+    });
+
+    // Apply the new column order for the selected columns
+    const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
+    table.colReorder.order(newOrder); // Reorder columns in the table
+}
+
+// Apply column selections and close modal
+document.getElementById('applyColumns').addEventListener('click', function () {
+    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
 });

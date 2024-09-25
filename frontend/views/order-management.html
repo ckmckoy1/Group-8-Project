@@ -146,39 +146,40 @@
         </div>
     </div>
 
-    <!-- Modal for Choose Columns -->
-    <div class="modal fade" id="chooseColumnsModal" tabindex="-1" role="dialog" aria-labelledby="chooseColumnsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="chooseColumnsModalLabel">Choose Columns</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6>Available Columns</h6>
-                            <ul id="availableColumns" class="list-group">
-                                <!-- Available columns will be populated here -->
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
-                            <h6>Selected Columns</h6>
-                            <ul id="selectedColumns" class="list-group">
-                                <!-- Selected columns will be populated here -->
-                            </ul>
-                        </div>
+<!-- Modal for Choose Columns -->
+<div class="modal fade" id="chooseColumnsModal" tabindex="-1" role="dialog" aria-labelledby="chooseColumnsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chooseColumnsModalLabel">Choose Columns</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Available Columns</h6>
+                        <ul id="availableColumns" class="list-group connectedSortable">
+                            <!-- Available columns will be populated here -->
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Selected Columns</h6>
+                        <ul id="selectedColumns" class="list-group connectedSortable">
+                            <!-- Selected columns will be populated here -->
+                        </ul>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" id="applyColumns" class="btn btn-primary">Apply</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="applyColumns" class="btn btn-primary">Apply</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Modal for Download Options -->
     <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
