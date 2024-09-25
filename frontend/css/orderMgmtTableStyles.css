@@ -144,6 +144,8 @@ thead select:hover,
     list-style: none;
     margin: 0;
     padding: 0;
+    color:#333;
+    font-size: 0.8em; /* Ensure input fields have the same font size */
 }
 
 /* Dropdown item styling */
@@ -155,6 +157,8 @@ thead select:hover,
     cursor: pointer;
     width: 100%;
     text-align: left;
+    color:#333;
+    font-size: 0.8em; /* Ensure input fields have the same font size */
 }
 
 /* Dropdown item hover effect */
