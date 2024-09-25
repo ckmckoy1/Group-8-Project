@@ -33,6 +33,7 @@ h2 {
 .table-container {
     overflow-x: auto; /* Horizontal scrolling */
     white-space: nowrap; /* Prevent text wrapping in the table */
+    max-height: 50vh; /* Set a height for scrollable area */
 }
 
 /* Pagination and info should remain in place outside the scrollable area */

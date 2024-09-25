@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
             info: true,
             ordering: true,
             pageLength: 10,
+            scrollX: true, // Enable horizontal scrolling
+            scrollY: '50vh', // Example to make the table vertically scrollable with fixed height
             orderCellsTop: true,
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' + // Length menu (l) and Buttons (B) in same row
                  'rt' + // Table (r)
