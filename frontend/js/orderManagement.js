@@ -66,14 +66,15 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollX: true, // Enable horizontal scrolling
             scrollY: '50vh', // Example to make the table vertically scrollable with fixed height
             orderCellsTop: true,
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' + // Length menu (l) and Buttons (B) in same row
-                 'rt' + // Table (r)
-                 '<"row"<"col-md-6"i><"col-md-6"p>>', // Info (i) and pagination (p) below the table
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
+                'rt' +
+                '<"row"<"col-md-6"i><"col-md-6"p>>',
             buttons: [
                 { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
                 { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
                 { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
             ],
+            colReorder: true, // Add this option to enable column reordering
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -177,6 +178,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         setupColumnListEvents();
+
+        // Make the selected columns list sortable
+        $('#selectedColumns').sortable({
+            placeholder: 'ui-state-highlight',
+            axis: 'y',
+        }).disableSelection();
     }
 
     // Setup events for moving columns between lists
@@ -206,6 +213,10 @@ document.addEventListener('DOMContentLoaded', function () {
             table.column(columnIdx).visible(true);
         });
 
+        // Update the column order in the DataTable based on the new order
+        const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
+        table.colReorder.order(newOrder);
+
         $('#chooseColumnsModal').modal('hide');
     });
-});
+}); // <- This is where your missing closing brace should be
