@@ -69,24 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollX: true,
             scrollY: '50vh',
             orderCellsTop: true,
-            colReorder: true, // Enable column reordering
-            columns: [
-                { name: 'Order ID' },
-                { name: 'Customer' },
-                { name: 'Email' },
-                { name: 'Address' },
-                { name: 'Shipping Method' },
-                { name: 'Payment Status' },
-                { name: 'Amount' },
-                { name: 'Card Number' },
-                { name: 'Expiration Date' },
-                { name: 'Billing Zip' },
-                { name: 'Transaction Date' },
-                { name: 'Authorization Token' },
-                { name: 'Authorization Amount' },
-                { name: 'Authorization Expiration' },
-                { name: 'Warehouse Status' }
-            ], // Ensure column names are defined
+            colReorder: true,
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
                 'rt' +
                 '<"row"<"col-md-6"i><"col-md-6"p>>',
@@ -106,60 +89,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         addColumnFiltering();
-        table.on('draw', updateTotals); // Update totals after each table draw
+        table.on('draw', updateTotals);
     }
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
-        // Filter logic using dynamic column names
         $('#orderIDFilter').on('keyup', function () {
             table.column('Order ID:name').search(this.value).draw();
         });
-
         $('#customerFilter').on('keyup', function () {
             table.column('Customer:name').search(this.value).draw();
         });
-
         $('#emailFilter').on('keyup', function () {
             table.column('Email:name').search(this.value).draw();
         });
-
         $('#addressFilter').on('keyup', function () {
             table.column('Address:name').search(this.value).draw();
         });
-
         $('#shippingMethodFilter').on('change', function () {
             table.column('Shipping Method:name').search(this.value).draw();
         });
-
         $('#statusFilter').on('change', function () {
             table.column('Payment Status:name').search(this.value).draw();
         });
-
         $('#amountFilter').on('keyup', function () {
             table.column('Amount:name').search(this.value).draw();
         });
-
         $('#cardNumberFilter').on('keyup', function () {
             table.column('Card Number:name').search(this.value).draw();
         });
-
         $('#billingZipFilter').on('keyup', function () {
             table.column('Billing Zip:name').search(this.value).draw();
         });
-
         $('#transactionDateFilter').on('change', function () {
             table.column('Transaction Date:name').search(this.value).draw();
         });
-
         $('#authTokenFilter').on('keyup', function () {
             table.column('Authorization Token:name').search(this.value).draw();
         });
-
         $('#authAmountFilter').on('keyup', function () {
             table.column('Authorization Amount:name').search(this.value).draw();
         });
-
         $('#warehouseStatusFilter').on('change', function () {
             table.column('Warehouse Status:name').search(this.value).draw();
         });
@@ -175,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         table.columns().every(function (index) {
             const columnTitle = this.header().textContent.trim();
-            const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+            const columnWidth = $(this.header()).outerWidth();
             const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
 
             if (this.visible()) {
@@ -187,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setupColumnListEvents();
 
-        // Enable dragging and reordering of columns in the modal
         $('#selectedColumns').sortable({
             placeholder: 'ui-state-highlight',
             axis: 'y',
@@ -211,13 +180,11 @@ document.addEventListener('DOMContentLoaded', function () {
             table.column(columnIdx).visible(true);
         });
 
-        // Hide the columns not selected
         document.querySelectorAll('#availableColumns li').forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(false);
         });
 
-        // Close the modal
         $('#chooseColumnsModal').modal('hide');
     });
 
@@ -263,64 +230,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const shippingMethodFilter = document.getElementById('shippingMethodFilter');
-    
-        // Function to handle select and clear all logic
-        shippingMethodFilter.addEventListener('change', function () {
-            const selectedValues = Array.from(shippingMethodFilter.selectedOptions).map(option => option.value);
-    
+    // Handle 'Select All' and 'Clear All' for dropdowns
+    const shippingMethodFilter = document.getElementById('shippingMethodFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const warehouseStatusFilter = document.getElementById('warehouseStatusFilter');
+
+    function handleSelectAllClearAll(filter) {
+        filter.addEventListener('change', function () {
+            const selectedValues = Array.from(filter.selectedOptions).map(option => option.value);
+
             if (selectedValues.includes('selectAll')) {
-                // Select all options except the 'Select All' and 'Clear All'
-                Array.from(shippingMethodFilter.options).forEach(option => {
+                Array.from(filter.options).forEach(option => {
                     if (option.value !== 'selectAll' && option.value !== 'clearAll') {
                         option.selected = true;
                     }
                 });
             } else if (selectedValues.includes('clearAll')) {
-                // Deselect all options
-                shippingMethodFilter.selectedIndex = -1; // Clears all selections
+                filter.selectedIndex = -1;
             }
         });
-    });
-    
-    document.addEventListener('DOMContentLoaded', function () {
-        const statusFilter = document.getElementById('statusFilter');
-        const warehouseStatusFilter = document.getElementById('warehouseStatusFilter');
-    
-        // Function to handle Select All and Clear All for status filter
-        statusFilter.addEventListener('change', function () {
-            const selectedValues = Array.from(statusFilter.selectedOptions).map(option => option.value);
-    
-            if (selectedValues.includes('selectAll')) {
-                // Select all options except 'Select All' and 'Clear All'
-                Array.from(statusFilter.options).forEach(option => {
-                    if (option.value !== 'selectAll' && option.value !== 'clearAll') {
-                        option.selected = true;
-                    }
-                });
-            } else if (selectedValues.includes('clearAll')) {
-                // Deselect all options
-                statusFilter.selectedIndex = -1; // Clears all selections
-            }
-        });
-    
-        // Function to handle Select All and Clear All for warehouse status filter
-        warehouseStatusFilter.addEventListener('change', function () {
-            const selectedValues = Array.from(warehouseStatusFilter.selectedOptions).map(option => option.value);
-    
-            if (selectedValues.includes('selectAll')) {
-                // Select all options except 'Select All' and 'Clear All'
-                Array.from(warehouseStatusFilter.options).forEach(option => {
-                    if (option.value !== 'selectAll' && option.value !== 'clearAll') {
-                        option.selected = true;
-                    }
-                });
-            } else if (selectedValues.includes('clearAll')) {
-                // Deselect all options
-                warehouseStatusFilter.selectedIndex = -1; // Clears all selections
-            }
-        });
-    });
-    
+    }
+
+    handleSelectAllClearAll(shippingMethodFilter);
+    handleSelectAllClearAll(statusFilter);
+    handleSelectAllClearAll(warehouseStatusFilter);
+
 });

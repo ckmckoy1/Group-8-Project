@@ -82,24 +82,28 @@
                         <th><input type="text" id="emailFilter" class="form-control"></th>
                         <th><input type="text" id="addressFilter" class="form-control"></th>
                         <th>
-                            <select id="shippingMethodFilter" class="form-control" multiple>
-                                <option value="" disabled>Choose...</option>
-                                <option value="selectAll">Select All</option>
-                                <option value="clearAll">Clear All</option>
-                                <option value="Standard">Standard Shipping (5-7 days)</option>
-                                <option value="Express">Express Shipping (2-3 days)</option>
-                            </select>
+                            <div class="dropdown-container">
+                                <button id="shippingMethodFilterBtn" class="btn btn-secondary">Choose...</button>
+                                <div id="shippingMethodFilterDropdown" class="dropdown-list" style="display:none;">
+                                    <button class="dropdown-item" value="selectAll">Select All</button>
+                                    <button class="dropdown-item" value="clearAll">Clear All</button>
+                                    <button class="dropdown-item" value="Standard">Standard Shipping (5-7 days)</button>
+                                    <button class="dropdown-item" value="Express">Express Shipping (2-3 days)</button>
+                                </div>
+                            </div>
                             
                         </th>
                         <th>
-                            <select id="statusFilter" class="form-control" multiple>
-                                <option value="" disabled selected>Choose...</option>
-                                <option value="selectAll">Select All</option>
-                                <option value="clearAll">Clear All</option>
-                                <option value="Authorized">Authorized</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Failed">Failed</option>
-                            </select>
+                            <div class="dropdown-container">
+                                <button id="statusFilterBtn" class="btn btn-secondary">Choose...</button>
+                                <div id="statusFilterDropdown" class="dropdown-list" style="display:none;">
+                                    <button class="dropdown-item" value="selectAll">Select All</button>
+                                    <button class="dropdown-item" value="clearAll">Clear All</button>
+                                    <button class="dropdown-item" value="Authorized">Authorized</button>
+                                    <button class="dropdown-item" value="Pending">Pending</button>
+                                    <button class="dropdown-item" value="Failed">Failed</button>
+                                </div>
+                            </div>
                         </th>
                         <th><input type="text" id="amountFilter" class="form-control"></th>
                         <th><input type="text" id="cardNumberFilter" class="form-control"></th>
@@ -110,14 +114,16 @@
                         <th><input type="text" id="authAmountFilter" class="form-control"></th>
                         <th></th>
                         <th>
-                            <select id="warehouseStatusFilter" class="form-control" multiple>
-                                <option value="" disabled selected>Choose...</option>
-                                <option value="selectAll">Select All</option>
-                                <option value="clearAll">Clear All</option>
-                                <option value="Settled">Settled</option>
-                                <option value="Pending">Pending</option>
-                                <option value="N/A">N/A</option>
-                            </select>
+                            <div class="dropdown-container">
+                                <button id="warehouseStatusFilterBtn" class="btn btn-secondary">Choose...</button>
+                                <div id="warehouseStatusFilterDropdown" class="dropdown-list" style="display:none;">
+                                    <button class="dropdown-item" value="selectAll">Select All</button>
+                                    <button class="dropdown-item" value="clearAll">Clear All</button>
+                                    <button class="dropdown-item" value="Settled">Settled</button>
+                                    <button class="dropdown-item" value="Pending">Pending</button>
+                                    <button class="dropdown-item" value="N/A">N/A</button>
+                                </div>
+                            </div>
                         </th>
                     </tr>
                 </thead>

@@ -94,6 +94,37 @@ thead select:hover,
     cursor: default; /* Change cursor to default to avoid hover effects */
 }
 
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-list {
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 8px 16px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+
 /* Ensure input boxes and select controls inside headers adjust size */
 thead input.form-control, thead select.form-control {
     height: auto; /* Adjust height based on the content */
@@ -129,6 +160,7 @@ tfoot td {
     background-color: transparent; /* No background color for the totals row */
     color: #003366; /* Darker blue text for totals */
     vertical-align: top; /* Align text to the top for consistency */
+    border: none; /* Remove borders for the footer cells */
 }
 
 /* Align the total amount and total transaction amount correctly */
