@@ -44,10 +44,14 @@ thead th {
 
 thead th, tbody td, tfoot td {
     padding: 10px 15px;
-    border: 1px solid #ddd;
     text-align: center;
     white-space: nowrap; /* Prevent column from shrinking */
     word-wrap: break-word; /* Allow wrapping without breaking words */
+}
+
+
+thead th, tbody td {
+    border: 1px solid #ddd;
 }
 
 
@@ -76,7 +80,6 @@ tfoot td {
     font-weight: bold;
     text-align: right;
     padding: 12px;
-    border: 1px solid #ddd;
     white-space: nowrap;
     background-color: transparent; /* No background color */
     color: #003366; /* Darker blue text for totals */
