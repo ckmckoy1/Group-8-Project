@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 table.clear().destroy();
                 orderTableBody.innerHTML = '';
             }
-            
+
             // If orders array is empty, handle that case (if needed)
             if (orders.length === 0) {
                 messageDiv.textContent = 'No orders found.';
@@ -52,43 +52,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize DataTables with export buttons, filtering, and column reordering
     function initializeDataTable() {
-        table = $('#orderTable').DataTable({
-            paging: true,
-            lengthMenu: [10, 25, 50, 100],
-            searching: true,
-            info: true,
-            ordering: true,
-            pageLength: 10,
-            scrollX: true,
-            scrollY: '50vh',
-            orderCellsTop: true,
-            colReorder: true, // Ensure colReorder is enabled
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
-            'rt' +
-            '<"row"<"col-md-6"i><"col-md-6"p>>', // Ensure 'l', 'i', and 'p' are present
-            buttons: [
-                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
-                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
-                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
-            ],
-            language: {
-                lengthMenu: 'Show _MENU_ entries',
-                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-                paginate: {
-                    previous: 'Previous',
-                    next: 'Next'
-                }
+    table = $('#orderTable').DataTable({
+        paging: true,
+        lengthMenu: [10, 25, 50, 100],
+        searching: true,
+        info: true,
+        ordering: true, // Enable sorting
+        pageLength: 10, // Set default page length
+        language: {
+            lengthMenu: 'Show _MENU_ entries',
+            info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+            paginate: {
+                previous: 'Previous',
+                next: 'Next'
             }
-        });
+        }
+    });
+}
 
-        // Listen for column reorder events
-        table.on('column-reorder', function (e, settings, details) {
-            console.log('Columns reordered');
-        });
-
-        addColumnFiltering();
-        table.on('draw', updateTotals); // Update totals on draw
-    }
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
