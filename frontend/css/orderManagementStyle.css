@@ -144,6 +144,30 @@ footer.footer .d-flex {
     border-color: #0056b3;
 }
 
+/* Control column drag popup sizes */
+.modal-dialog .list-group-item {
+    width: 100px; /* Match the column size in the table */
+    white-space: nowrap; /* Prevent wrapping in column chooser */
+}
+
+/* Ensure select boxes have enough room for multiple selections */
+select.form-control {
+    height: auto;
+    min-height: 30px;
+    width: 100%;
+    padding: 5px;
+    background-color: white;
+    color: #003366;
+    font-size: 0.8em;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+select.form-control option[disabled] {
+    color: gray;
+}
+
+
 /* Secondary button for the modal */
 .modal-footer .btn-secondary {
     background-color: #6c757d;

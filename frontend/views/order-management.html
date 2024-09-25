@@ -82,15 +82,20 @@
                         <th><input type="text" id="emailFilter" class="form-control"></th>
                         <th><input type="text" id="addressFilter" class="form-control"></th>
                         <th>
-                            <select id="shippingMethodFilter" class="form-control">
-                                <option value="">All Shipping Methods</option>
+                            <select id="shippingMethodFilter" class="form-control" multiple>
+                                <option value="" disabled>Choose...</option>
+                                <option value="selectAll">Select All</option>
+                                <option value="clearAll">Clear All</option>
                                 <option value="Standard">Standard Shipping (5-7 days)</option>
                                 <option value="Express">Express Shipping (2-3 days)</option>
                             </select>
+                            
                         </th>
                         <th>
-                            <select id="statusFilter" class="form-control">
-                                <option value="">All Statuses</option>
+                            <select id="statusFilter" class="form-control" multiple>
+                                <option value="" disabled selected>Choose...</option>
+                                <option value="selectAll">Select All</option>
+                                <option value="clearAll">Clear All</option>
                                 <option value="Authorized">Authorized</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Failed">Failed</option>
@@ -105,8 +110,10 @@
                         <th><input type="text" id="authAmountFilter" class="form-control"></th>
                         <th></th>
                         <th>
-                            <select id="warehouseStatusFilter" class="form-control">
-                                <option value="">All Warehouse Statuses</option>
+                            <select id="warehouseStatusFilter" class="form-control" multiple>
+                                <option value="" disabled selected>Choose...</option>
+                                <option value="selectAll">Select All</option>
+                                <option value="clearAll">Clear All</option>
                                 <option value="Settled">Settled</option>
                                 <option value="Pending">Pending</option>
                                 <option value="N/A">N/A</option>

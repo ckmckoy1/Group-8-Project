@@ -262,4 +262,65 @@ document.addEventListener('DOMContentLoaded', function () {
             table.button('.buttons-excel').trigger();
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const shippingMethodFilter = document.getElementById('shippingMethodFilter');
+    
+        // Function to handle select and clear all logic
+        shippingMethodFilter.addEventListener('change', function () {
+            const selectedValues = Array.from(shippingMethodFilter.selectedOptions).map(option => option.value);
+    
+            if (selectedValues.includes('selectAll')) {
+                // Select all options except the 'Select All' and 'Clear All'
+                Array.from(shippingMethodFilter.options).forEach(option => {
+                    if (option.value !== 'selectAll' && option.value !== 'clearAll') {
+                        option.selected = true;
+                    }
+                });
+            } else if (selectedValues.includes('clearAll')) {
+                // Deselect all options
+                shippingMethodFilter.selectedIndex = -1; // Clears all selections
+            }
+        });
+    });
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusFilter = document.getElementById('statusFilter');
+        const warehouseStatusFilter = document.getElementById('warehouseStatusFilter');
+    
+        // Function to handle Select All and Clear All for status filter
+        statusFilter.addEventListener('change', function () {
+            const selectedValues = Array.from(statusFilter.selectedOptions).map(option => option.value);
+    
+            if (selectedValues.includes('selectAll')) {
+                // Select all options except 'Select All' and 'Clear All'
+                Array.from(statusFilter.options).forEach(option => {
+                    if (option.value !== 'selectAll' && option.value !== 'clearAll') {
+                        option.selected = true;
+                    }
+                });
+            } else if (selectedValues.includes('clearAll')) {
+                // Deselect all options
+                statusFilter.selectedIndex = -1; // Clears all selections
+            }
+        });
+    
+        // Function to handle Select All and Clear All for warehouse status filter
+        warehouseStatusFilter.addEventListener('change', function () {
+            const selectedValues = Array.from(warehouseStatusFilter.selectedOptions).map(option => option.value);
+    
+            if (selectedValues.includes('selectAll')) {
+                // Select all options except 'Select All' and 'Clear All'
+                Array.from(warehouseStatusFilter.options).forEach(option => {
+                    if (option.value !== 'selectAll' && option.value !== 'clearAll') {
+                        option.selected = true;
+                    }
+                });
+            } else if (selectedValues.includes('clearAll')) {
+                // Deselect all options
+                warehouseStatusFilter.selectedIndex = -1; // Clears all selections
+            }
+        });
+    });
+    
 });
