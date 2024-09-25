@@ -227,4 +227,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     updateTotals();  // Call this function after initial load
+
+    // Event listener for the Download button
+    document.getElementById('downloadButton').addEventListener('click', function () {
+        $('#downloadModal').modal('show');
+    });
+
+    // Event listener for confirming the download format
+    document.getElementById('downloadConfirm').addEventListener('click', function () {
+        const format = document.getElementById('downloadFormat').value;
+        exportTable(format);
+        $('#downloadModal').modal('hide');
+    });
 });

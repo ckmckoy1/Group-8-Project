@@ -70,7 +70,7 @@ thead input[type="text"], thead select {
     width: 100%;
     margin-bottom: 0;
     border: 1px solid #ddd;
-    background-color:#B9D9EB; /* Light blue background for inputs/form controls */
+    background-color: white;  /* Input box color */
     color: #003366; /* Darker blue text */
 }
 
@@ -78,7 +78,7 @@ thead input[type="text"], thead select {
 thead input[type="text"]:hover,
 thead select:hover,
 .form-control:hover {
-    background-color: initial;
+    background-color: white;
     border-color: initial;
     cursor: default;
 }
