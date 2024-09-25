@@ -19,17 +19,6 @@ h2 {
     font-size: 2em;
 }
 
-/* Main container for content */
-.container-fluid {
-    background-color: white;
-    padding: 2em;
-    margin: 20px auto;
-    max-width: 1500px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow-x: hidden;
-}
-
 
 /* Message styling */
 .message {
@@ -63,6 +52,7 @@ footer.footer a {
     color: white;
     text-decoration: none;
     font-size: 1em;
+    text-align: right;
 }
 
 footer.footer a:hover {

@@ -1,19 +1,28 @@
+.container-fluid {
+    background-color: white;
+    padding: 2em;
+    margin: 20px auto;
+    max-width: 1500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Ensure no overflow from the container itself */
+}
 
 /* Scrollable table container */
 .table-container {
-    overflow-x: auto; /* Allow horizontal scrolling */
+    overflow: auto; /* Single horizontal and vertical scrollbars */
     white-space: nowrap;
+    max-height: calc(50vh - 50px); /* Adjust table height with available space */
     position: relative;
-    max-height: 50vh;
 }
 
 /* Ensure the table header, inputs, and columns align perfectly */
 table {
-    width: 100%; /* Ensure the table width is always 100% */
-    table-layout: auto; /* Allow columns to shrink or expand based on content */
+    width: 100%;
+    table-layout: fixed; /* Ensure all columns fit within the table width */
     border-collapse: collapse;
     font-size: 0.9em;
-    min-width: 1000px; /* Minimum width to avoid excessive shrinking */
+    min-width: 1000px;
 }
 
 table, th, td {
@@ -23,53 +32,23 @@ table, th, td {
     word-wrap: break-word; /* Ensure text wraps within columns */
 }
 
-th, td {
-    vertical-align: top;
-    overflow: hidden; /* Hide overflow */
-}
-
-/* Make the row height adjust if text overflows */
-td {
-    white-space: normal;
-    height: auto;
-}
-
-/* Pagination and info should remain in place outside the scrollable area */
-.row.mb-3 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* Reduce gap between header/input/form control section and the table */
-thead th, thead input[type="text"], thead select {
-    margin-bottom: 0; /* Remove unnecessary margin */
-    padding: 3px; /* Reduce padding to decrease the gap */
-}
-
-/* Align the table header and input filter boxes */
+/* Header and input field alignment */
 thead th {
-    position: relative;
-    vertical-align: middle;
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    z-index: 2; /* Keep headers above content */
     text-align: center;
     white-space: nowrap;
-    width: auto;
 }
 
-/* Ensure input boxes and headers stay aligned */
 thead input[type="text"],
 thead select {
     font-size: 0.8em;
     padding: 5px;
     height: 30px;
-    width: 100%;
+    width: 100%; /* Ensure input fields match column width */
     margin-bottom: 0px;
-}
-
-thead select {
-    font-size: 0.8em;
-    height: 30px;
-    padding: 5px;
 }
 
 .form-control {
@@ -80,48 +59,38 @@ thead select {
     margin-bottom: 0px;
 }
 
-/* Ensure column header, filter input, and table columns align perfectly */
-.table-container table {
-    table-layout: fixed;
-    width: 100%;
-}
-
-.table-container th, 
-.table-container td {
-    width: 100px; /* Set equal width for all columns */
-}
-
-/* Adjust modal column list width to avoid stretching */
-.modal-dialog .list-group-item {
-    width: 100px; /* Match the column size in the table */
-}
-
-/* Loading state styling */
-.loading-content > * {
-    visibility: hidden;
-}
-
-.loading-content {
-    background: #fff url('/images/refreshing.gif') 50% 50% no-repeat !important;
-}
-
-/* Total row styling - sticky and follows columns */
+/* Sticky footer for totals, aligned with table columns */
 tfoot td {
     font-weight: bold;
     text-align: right;
     background-color: #f9f9f9;
     position: sticky;
     bottom: 0;
-    z-index: 1;
+    z-index: 2; /* Keep total row above content */
     white-space: nowrap;
 }
 
-/* Scrollable header and input row but fixed total */
-.table-scrollable {
-    max-height: 50vh;
-    overflow-x: auto;
-    overflow-y: auto;
-    position: relative;
+/* Adjust modal column list width to avoid stretching */
+.modal-dialog .list-group-item {
+    width: 100px;
+}
+
+/* Make the row height adjust if text overflows */
+td {
+    white-space: normal;
+    height: auto;
+}
+
+/* Remove unnecessary margin and reduce gap between header/input/form control section and the table */
+thead th, thead input[type="text"], thead select {
+    margin-bottom: 0;
+    padding: 3px;
+}
+
+/* Total row styling - stays sticky at the bottom of the table */
+tfoot {
+    display: table-row-group;
+    background-color: white;
 }
 
 /* General DataTables Wrapper Styling */
@@ -151,17 +120,17 @@ tfoot {
     transition: background-color 0.3s ease;
 }
 
-/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
-.row.mb-3 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 /* Centering content */
 .centered-content, 
 .centered-content th, 
 .centered-text, 
 .centered-text th {
     text-align: center;
+}
+
+/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
+.row.mb-3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
