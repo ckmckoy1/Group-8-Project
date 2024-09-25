@@ -1,3 +1,4 @@
+/* Main container for content */
 .container-fluid {
     background-color: white;
     padding: 2em;
@@ -5,92 +6,114 @@
     max-width: 1500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow: hidden; /* Ensure no overflow from the container itself */
+    overflow-x: hidden;
 }
 
 /* Scrollable table container */
 .table-container {
-    overflow: auto; /* Single horizontal and vertical scrollbars */
-    white-space: nowrap;
-    max-height: calc(50vh - 50px); /* Adjust table height with available space */
     position: relative;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    white-space: nowrap;
+    max-height: 50vh; /* Set a max height for vertical scroll */
 }
 
 /* Ensure the table header, inputs, and columns align perfectly */
 table {
     width: 100%;
-    table-layout: fixed; /* Ensure all columns fit within the table width */
+    table-layout: fixed; /* Fix column width to avoid misalignment */
     border-collapse: collapse;
     font-size: 0.9em;
-    min-width: 1000px;
+    min-width: 1000px; /* Minimum width to avoid excessive shrinking */
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-    word-wrap: break-word; /* Ensure text wraps within columns */
-}
-
-/* Header and input field alignment */
+/* Table header and input field styles */
 thead th {
     position: sticky;
     top: 0;
-    background-color: #f9f9f9;
-    z-index: 2; /* Keep headers above content */
+    background-color: #B9D9EB; /* Light blue background for headers */
+    color: #003366; /* Darker blue text */
+    z-index: 2;
     text-align: center;
-    white-space: nowrap;
+    padding: 10px 15px; /* Increase padding to avoid text overlap */
+    border: 1px solid #ddd;
+    box-sizing: border-box; /* Ensure padding is considered in box model */
+    white-space: normal; /* Allow text to wrap */
+    overflow-wrap: normal; /* Prevent words from breaking */
+    word-break: normal; /* Avoid breaking words */
 }
 
-thead input[type="text"],
-thead select {
-    font-size: 0.8em;
-    padding: 5px;
-    height: 30px;
-    width: 100%; /* Ensure input fields match column width */
-    margin-bottom: 0px;
-}
 
-.form-control {
+/* Input and form control styling matching header */
+thead input[type="text"], thead select {
     font-size: 0.8em;
     padding: 5px;
     height: 30px;
     width: 100%;
-    margin-bottom: 0px;
+    margin-bottom: 0;
+    border: 1px solid #ddd;
+    background-color:#B9D9EB; /* Light blue background for inputs/form controls */
+    color: #003366; /* Darker blue text */
 }
 
-/* Sticky footer for totals, aligned with table columns */
+/* Table body styling */
+tbody td {
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd;
+}
+
+/* Totals row styling */
 tfoot td {
     font-weight: bold;
     text-align: right;
-    background-color: #f9f9f9;
-    position: sticky;
-    bottom: 0;
-    z-index: 2; /* Keep total row above content */
+    padding: 12px;
+    border: 1px solid #ddd;
     white-space: nowrap;
+    background-color: transparent; /* No background color */
+    color: #003366; /* Darker blue text for totals */
 }
 
-/* Adjust modal column list width to avoid stretching */
-.modal-dialog .list-group-item {
-    width: 100px;
+/* Align the total amount and total transaction amount correctly */
+tfoot td#totalAmount,
+tfoot td#totalTransactionAmount {
+    font-weight: bold;
+    background-color: transparent;
+    text-align: right;
+    padding-right: 12px;
+    color: #003366; /* Darker blue text */
 }
 
 /* Make the row height adjust if text overflows */
-td {
-    white-space: normal;
-    height: auto;
+th, td {
+    white-space: normal; /* Allow text to wrap without breaking */
+    word-break: normal; /* Prevent words from breaking */
+    height: auto; /* Adjust row height automatically */
 }
 
-/* Remove unnecessary margin and reduce gap between header/input/form control section and the table */
-thead th, thead input[type="text"], thead select {
-    margin-bottom: 0;
-    padding: 3px;
+/* Ensure column header, filter input, and table columns align perfectly */
+.table-container table {
+    table-layout: fixed;
+    width: 100%;
 }
 
-/* Total row styling - stays sticky at the bottom of the table */
-tfoot {
-    display: table-row-group;
-    background-color: white;
+.table-container th, 
+.table-container td {
+    width: auto; /* Allow width to adjust based on content */
+}
+
+
+/* Adjust modal column list width to avoid stretching */
+.modal-dialog .list-group-item {
+    width: 100px; /* Match the column size in the table */
+}
+
+/* Scrollable header and input row but fixed total */
+.table-scrollable {
+    max-height: 50vh;
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
 }
 
 /* General DataTables Wrapper Styling */
@@ -120,6 +143,23 @@ tfoot {
     transition: background-color 0.3s ease;
 }
 
+/* Footer styling */
+footer.footer {
+    background-color: #333;
+    color: white;
+    padding: 1.5em 0;
+    text-align: right;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
+.row.mb-3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 /* Centering content */
 .centered-content, 
 .centered-content th, 
@@ -128,9 +168,39 @@ tfoot {
     text-align: center;
 }
 
-/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
-.row.mb-3 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    table, th, td {
+        font-size: 0.8em;
+        padding: 10px;
+    }
+
+    thead input[type="text"], 
+    thead select {
+        font-size: 0.7em;
+        padding: 4px;
+        height: 28px;
+    }
+
+    .form-control {
+        font-size: 0.7em;
+        padding: 4px;
+        height: 28px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    table, th, td {
+        font-size: 0.75em;
+        padding: 8px;
+    }
+
+    input[type="text"], select {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
 }
