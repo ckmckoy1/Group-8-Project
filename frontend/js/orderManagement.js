@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     const orderTableBody = document.getElementById('orderTableBody');
     let table;
+    const messageDiv = document.getElementById('message'); // Error message div
+
+    // Hide the error message initially
+    messageDiv.style.display = 'none';
 
     // Fetch the orders from the backend when the page loads
     fetchOrders();
@@ -9,26 +13,42 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchOrders(isRefresh = false) {
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders');
+            
+            // Check if the fetch response is successful
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
             }
+
+            // Parse the JSON response
             const orders = await response.json();
 
-            // Hide the error message if data is fetched
-            document.getElementById('message').style.display = 'none';
+            // If no error, hide the error message
+            messageDiv.style.display = 'none';
 
+            // Refresh table if necessary
             if (isRefresh) {
                 table.clear().destroy();
                 orderTableBody.innerHTML = '';
             }
+            
+            // If orders array is empty, handle that case (if needed)
+            if (orders.length === 0) {
+                messageDiv.textContent = 'No orders found.';
+                messageDiv.style.display = 'block';
+                return;
+            }
 
+            // Display orders
             displayOrders(orders);
-        } catch (error) {
+
+            } catch (error) {
             console.error('Error fetching orders:', error);
-            document.getElementById('message').textContent = 'Error fetching orders. Please try again later.';
-            document.getElementById('message').style.display = 'block';
-        }
-    }
+
+            // Show error message if there's an issue with the fetch
+            messageDiv.textContent = 'Error fetching orders. Please try again later.';
+            messageDiv.style.display = 'block';
+            }
+            }
 
     // Initialize DataTables with export buttons, filtering, and column reordering
     function initializeDataTable() {
