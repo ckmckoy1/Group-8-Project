@@ -23,7 +23,7 @@ table {
     table-layout: auto; /* Allow columns to shrink or expand based on content */
     border-collapse: collapse;
     font-size: 0.9em;
-    min-width: 1000px; /* Minimum width to avoid excessive shrinking */
+    min-width: 1200px; /* Minimum width to avoid excessive shrinking */
 }
 
 table, th, td {
@@ -49,13 +49,6 @@ thead th {
     word-break: normal; /* Avoid breaking words */
 }
 
-thead th, tbody td, tfoot td {
-    padding: 10px 15px;
-    text-align: center;
-    white-space: nowrap; /* Prevent column from shrinking */
-    word-wrap: break-word; /* Allow wrapping without breaking words */
-}
-
 
 thead th, tbody td {
     border: 1px solid #ddd;
@@ -67,7 +60,7 @@ thead input[type="text"], thead select {
     font-size: 0.8em;
     padding: 5px;
     height: 30px;
-    width: 100%;
+    width: auto;
     margin-bottom: 0;
     border: 1px solid #ddd;
     background-color: white;  /* Input box color */
@@ -110,6 +103,16 @@ tfoot td#totalTransactionAmount {
     text-align: right;
     padding-right: 12px;
     color: #003366; /* Darker blue text */
+    width: auto; /* Match this width to the column in the table */
+}
+
+thead th, tbody td, tfoot td {
+    padding: 10px 15px;
+    text-align: center;
+    box-sizing: border-box; /* Ensures consistent padding */
+    white-space: nowrap; /* Prevent shrinking */
+    word-wrap: break-word; /* Allow text to wrap within columns */
+    border: 1px solid #ddd;
 }
 
 /* Make the row height adjust if text overflows */
@@ -154,6 +157,32 @@ div.dataTables_length {
     margin-top: -7px;
     margin-left: 20px;
 }
+
+/* Ensure DataTables info and pagination are visible */
+.dataTables_info {
+    display: block;
+    color: #333;
+    margin-top: 10px;
+}
+
+.dataTables_paginate {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.dataTables_paginate .paginate_button {
+    padding: 5px 10px;
+    margin: 2px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background-color: #0056b3;
+}
+
 
 /* Align total row with the columns */
 tfoot {
