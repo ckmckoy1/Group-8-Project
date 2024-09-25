@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollY: '50vh',
             orderCellsTop: true,
             colReorder: true, // Ensure colReorder is enabled
-            dom: 'lfrtip',  // l = length menu, f = filtering input, r = processing element, t = table, i = information, p = pagination
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
+            'rt' +
+            '<"row"<"col-md-6"i><"col-md-6"p>>', // Ensure 'l', 'i', and 'p' are present
             buttons: [
                 { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
                 { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
@@ -58,16 +60,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
-    
+
         // Listen for column reorder events
         table.on('column-reorder', function (e, settings, details) {
             console.log('Columns reordered');
         });
-    
+
         addColumnFiltering();
         table.on('draw', updateTotals); // Update totals on draw
     }
-    
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
@@ -131,20 +132,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Setup dropdown for status filter
-    const statusFilterButton = document.getElementById('statusFilterButton');
-    const statusFilterOptions = document.getElementById('statusFilterOptions');
-    handleCustomDropdown(statusFilterButton, statusFilterOptions, onDropdownSelection);
+// Setup dropdown for status filter
+const statusFilterButton = document.getElementById('statusFilterButton');
+const statusFilterOptions = document.getElementById('statusFilterOptions');
+handleCustomDropdown(statusFilterButton, statusFilterOptions, onDropdownSelection);
 
-    // Setup dropdown for warehouse status filter
-    const warehouseStatusFilterButton = document.getElementById('warehouseStatusFilterButton');
-    const warehouseStatusFilterOptions = document.getElementById('warehouseStatusFilterOptions');
-    handleCustomDropdown(warehouseStatusFilterButton, warehouseStatusFilterOptions, onDropdownSelection);
+// Setup dropdown for warehouse status filter
+const warehouseStatusFilterButton = document.getElementById('warehouseStatusFilterButton');
+const warehouseStatusFilterOptions = document.getElementById('warehouseStatusFilterOptions');
+handleCustomDropdown(warehouseStatusFilterButton, warehouseStatusFilterOptions, onDropdownSelection);
 
-    // Setup dropdown for shipping method filter
-    const shippingMethodFilterButton = document.getElementById('shippingMethodFilterButton');
-    const shippingMethodFilterOptions = document.getElementById('shippingMethodFilterOptions');
-    handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, onDropdownSelection);
+// Setup dropdown for shipping method filter
+const shippingMethodFilterButton = document.getElementById('shippingMethodFilterButton');
+const shippingMethodFilterOptions = document.getElementById('shippingMethodFilterOptions');
+handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, onDropdownSelection);
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
@@ -230,19 +231,32 @@ document.addEventListener('DOMContentLoaded', function () {
             table.button('.buttons-excel').trigger();
         }
     }
+
+    // Refresh table functionality
+    document.getElementById('refreshTable').addEventListener('click', function () {
+        console.log('Refresh Table button clicked');
+        fetchOrders(true); // Refreshes the table data
+    });
+
+    // Populate column chooser modal
+    document.getElementById('chooseColumns').addEventListener('click', function () {
+        $('#chooseColumnsModal').modal('show');
+        populateColumnChooser(); // Ensure this function populates the column chooser
+    });
+
     function populateColumnChooser() {
         const availableColumns = document.getElementById('availableColumns');
         const selectedColumns = document.getElementById('selectedColumns');
-    
+
         availableColumns.innerHTML = '';
         selectedColumns.innerHTML = '';
-    
+
         // Populate the columns into the chooser
         table.columns().every(function (index) {
             const columnTitle = this.header().textContent.trim();
             const columnWidth = $(this.header()).outerWidth(); // Capture current column width
             const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
-    
+
             // Add the columns to the appropriate list based on visibility
             if (this.visible()) {
                 selectedColumns.innerHTML += listItem;
@@ -250,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 availableColumns.innerHTML += listItem;
             }
         });
-    
+
         // Make the columns draggable
         $('#selectedColumns').sortable({
             placeholder: 'ui-state-highlight',
@@ -261,28 +275,27 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }).disableSelection();
     }
-    
+
+    // Apply column selections from modal
     document.getElementById('applyColumns').addEventListener('click', function () {
         const selectedColumns = document.querySelectorAll('#selectedColumns li');
         const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
-    
+
         // Apply the new column order
         table.colReorder.order(newOrder);
-    
+
         // Set visibility for the columns
         selectedColumns.forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(true); // Show selected columns
         });
-    
+
         // Hide unselected columns
         document.querySelectorAll('#availableColumns li').forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(false); // Hide deselected columns
         });
-    
+
         $('#chooseColumnsModal').modal('hide'); // Close the modal
     });
-    
-
 });
