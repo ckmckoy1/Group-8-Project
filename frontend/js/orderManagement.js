@@ -52,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         initializeDataTable();
+
+        // Update totals after loading orders
+        updateTotals();
     }
 
     // Initialize DataTables with export buttons and individual column filtering

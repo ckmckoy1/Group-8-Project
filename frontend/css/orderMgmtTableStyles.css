@@ -23,7 +23,7 @@ table {
     table-layout: fixed; /* Fix column width to avoid misalignment */
     border-collapse: collapse;
     font-size: 0.9em;
-    min-width: 1000px; /* Minimum width to avoid excessive shrinking */
+    min-width: 1200px; /* Minimum width to avoid excessive shrinking */
 }
 
 /* Table header and input field styles */
@@ -40,6 +40,14 @@ thead th {
     white-space: normal; /* Allow text to wrap */
     overflow-wrap: normal; /* Prevent words from breaking */
     word-break: normal; /* Avoid breaking words */
+}
+
+thead th, tbody td, tfoot td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    white-space: nowrap; /* Prevent column from shrinking */
+    word-wrap: break-word; /* Allow wrapping without breaking words */
 }
 
 
@@ -143,15 +151,6 @@ tfoot {
     transition: background-color 0.3s ease;
 }
 
-/* Footer styling */
-footer.footer {
-    background-color: #333;
-    color: white;
-    padding: 1.5em 0;
-    text-align: right;
-    width: 100%;
-    margin-top: auto;
-}
 
 /* Buttons Section - Keep buttons and length dropdown aligned in the same row */
 .row.mb-3 {
