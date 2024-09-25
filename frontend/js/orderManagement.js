@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     const orderTableBody = document.getElementById('orderTableBody');
-    let orders = [];
     let table;
 
     // Fetch the orders from the backend when the page loads
@@ -9,11 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch and display orders
     async function fetchOrders(isRefresh = false) {
         try {
-            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders'); 
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders');
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
             }
-            orders = await response.json();
+            const orders = await response.json();
 
             if (isRefresh) {
                 table.clear().destroy();
@@ -55,19 +54,24 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeDataTable();
     }
 
-    // Initialize DataTables
+    // Initialize DataTables with export buttons and individual column filtering
     function initializeDataTable() {
         table = $('#orderTable').DataTable({
             paging: true,
-            lengthMenu: [10, 25, 50, 100], // Number of records shown in dropdown
-            searching: true, // Enable global searching
+            lengthMenu: [10, 25, 50, 100],
+            searching: true,
             info: true,
             ordering: true,
             pageLength: 10,
-            orderCellsTop: true, // Apply sorting to the first header row
+            orderCellsTop: true,
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
-                 'rt' + 
-                 '<"row"<"col-md-6"i><"col-md-6"p>>', // info and pagination at the bottom
+                 'rt' +
+                 '<"row"<"col-md-6"i><"col-md-6"p>>',
+            buttons: [
+                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
+                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
+                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
+            ],
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -78,71 +82,64 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Add filtering functionality for individual columns after the table is initialized
         addColumnFiltering();
     }
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
         $('#orderIDFilter').on('keyup', function () {
-            table.column(0).search(this.value).draw(); // Search in the first column (Order ID)
+            table.column(0).search(this.value).draw();
         });
-
         $('#customerFilter').on('keyup', function () {
-            table.column(1).search(this.value).draw(); // Search in the second column (Customer)
+            table.column(1).search(this.value).draw();
         });
-
         $('#emailFilter').on('keyup', function () {
-            table.column(2).search(this.value).draw(); // Search in the third column (Email)
+            table.column(2).search(this.value).draw();
         });
-
         $('#addressFilter').on('keyup', function () {
-            table.column(3).search(this.value).draw(); // Search in the fourth column (Address)
+            table.column(3).search(this.value).draw();
         });
-
         $('#shippingMethodFilter').on('change', function () {
-            table.column(4).search(this.value).draw(); // Search in the fifth column (Shipping Method)
+            table.column(4).search(this.value).draw();
         });
-
         $('#statusFilter').on('change', function () {
-            table.column(5).search(this.value).draw(); // Search in the sixth column (Status)
+            table.column(5).search(this.value).draw();
         });
-
         $('#amountFilter').on('keyup', function () {
-            table.column(6).search(this.value).draw(); // Search in the seventh column (Amount)
+            table.column(6).search(this.value).draw();
         });
-
         $('#cardNumberFilter').on('keyup', function () {
-            table.column(7).search(this.value).draw(); // Search in the eighth column (Card Number)
+            table.column(7).search(this.value).draw();
         });
-
         $('#billingZipFilter').on('keyup', function () {
-            table.column(9).search(this.value).draw(); // Search in the tenth column (Billing Zip)
+            table.column(9).search(this.value).draw();
         });
-
         $('#transactionDateFilter').on('change', function () {
-            table.column(10).search(this.value).draw(); // Search in the eleventh column (Transaction Date)
+            table.column(10).search(this.value).draw();
         });
-
         $('#authTokenFilter').on('keyup', function () {
-            table.column(11).search(this.value).draw(); // Search in the twelfth column (Authorization Token)
+            table.column(11).search(this.value).draw();
         });
-
         $('#authAmountFilter').on('keyup', function () {
-            table.column(12).search(this.value).draw(); // Search in the thirteenth column (Authorization Amount)
+            table.column(12).search(this.value).draw();
         });
-
         $('#warehouseStatusFilter').on('change', function () {
-            table.column(14).search(this.value).draw(); // Search in the fifteenth column (Warehouse Status)
+            table.column(14).search(this.value).draw();
         });
     }
- // Export the table to selected format
+
+    // Download modal: show the modal and handle the export
+    document.getElementById('downloadButton').addEventListener('click', function () {
+        $('#downloadModal').modal('show');
+    });
+
     document.getElementById('downloadConfirm').addEventListener('click', function () {
         const format = document.getElementById('downloadFormat').value;
         exportTable(format);
         $('#downloadModal').modal('hide');
     });
 
+    // Function to trigger the export of the table in the selected format
     function exportTable(format) {
         if (format === 'csv') {
             table.button('.buttons-csv').trigger();
@@ -166,12 +163,10 @@ document.addEventListener('DOMContentLoaded', function () {
         availableColumns.innerHTML = '';
         selectedColumns.innerHTML = '';
 
-        // Loop through each column in DataTable and create list items
         table.columns().every(function (index) {
-            const columnTitle = this.header().textContent.trim(); // Get the column title
+            const columnTitle = this.header().textContent.trim();
             const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
 
-            // Append to the respective list based on column visibility
             if (this.visible()) {
                 selectedColumns.innerHTML += listItem;
             } else {
@@ -179,21 +174,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        setupColumnListEvents(); // Setup events for column list item clicks
+        setupColumnListEvents();
     }
 
-    // Setup events for column list items
+    // Setup events for moving columns between lists
     function setupColumnListEvents() {
-        // Move columns from Available to Selected
         $('#availableColumns').on('click', 'li', function () {
-            const columnItem = $(this).detach(); // Remove from available list
-            $('#selectedColumns').append(columnItem); // Append to selected list
+            const columnItem = $(this).detach();
+            $('#selectedColumns').append(columnItem);
         });
-
-        // Move columns from Selected to Available
         $('#selectedColumns').on('click', 'li', function () {
-            const columnItem = $(this).detach(); // Remove from selected list
-            $('#availableColumns').append(columnItem); // Append to available list
+            const columnItem = $(this).detach();
+            $('#availableColumns').append(columnItem);
         });
     }
 
@@ -202,102 +194,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const availableColumns = document.querySelectorAll('#availableColumns li');
         const selectedColumns = document.querySelectorAll('#selectedColumns li');
 
-        // Hide columns in "Available" list
         availableColumns.forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(false);
         });
 
-        // Show columns in "Selected" list
         selectedColumns.forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(true);
         });
 
-        // Hide the modal after applying changes
         $('#chooseColumnsModal').modal('hide');
     });
 });
-
- // Export the table to selected format
- document.getElementById('downloadConfirm').addEventListener('click', function () {
-    const format = document.getElementById('downloadFormat').value;
-    exportTable(format);
-    $('#downloadModal').modal('hide');
-});
-
-function exportTable(format) {
-    if (format === 'csv') {
-        table.button('.buttons-csv').trigger();
-    } else if (format === 'pdf') {
-        table.button('.buttons-pdf').trigger();
-    } else if (format === 'excel') {
-        table.button('.buttons-excel').trigger();
-    }
-}
-
-// Populate the column chooser modal
-document.getElementById('chooseColumns').addEventListener('click', function () {
-    populateColumnChooser();
-    $('#chooseColumnsModal').modal('show');
-});
-
-function populateColumnChooser() {
-    const availableColumns = document.getElementById('availableColumns');
-    const selectedColumns = document.getElementById('selectedColumns');
-
-    availableColumns.innerHTML = '';
-    selectedColumns.innerHTML = '';
-
-    // Loop through each column in DataTable and create list items
-    table.columns().every(function (index) {
-        const columnTitle = this.header().textContent.trim(); // Get the column title
-        const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
-
-        // Append to the respective list based on column visibility
-        if (this.visible()) {
-            selectedColumns.innerHTML += listItem;
-        } else {
-            availableColumns.innerHTML += listItem;
-        }
-    });
-
-    setupColumnListEvents(); // Setup events for column list item clicks
-}
-
-// Setup events for column list items
-function setupColumnListEvents() {
-    // Move columns from Available to Selected
-    $('#availableColumns').on('click', 'li', function () {
-        const columnItem = $(this).detach(); // Remove from available list
-        $('#selectedColumns').append(columnItem); // Append to selected list
-    });
-
-    // Move columns from Selected to Available
-    $('#selectedColumns').on('click', 'li', function () {
-        const columnItem = $(this).detach(); // Remove from selected list
-        $('#availableColumns').append(columnItem); // Append to available list
-    });
-}
-
-// Apply chosen columns when "Apply" button is clicked
-document.getElementById('applyColumns').addEventListener('click', function () {
-    const availableColumns = document.querySelectorAll('#availableColumns li');
-    const selectedColumns = document.querySelectorAll('#selectedColumns li');
-
-    // Hide columns in "Available" list
-    availableColumns.forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(false);
-    });
-
-    // Show columns in "Selected" list
-    selectedColumns.forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(true);
-    });
-
-    // Hide the modal after applying changes
-    $('#chooseColumnsModal').modal('hide');
-});
-
