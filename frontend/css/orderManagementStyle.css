@@ -64,6 +64,15 @@ thead select {
     padding: 5px;
 }
 
+/* Decrease size of form-control elements (input, select) */
+.form-control {
+    font-size: 0.8em; /* Smaller text */
+    padding: 5px; /* Reduce padding for smaller input boxes */
+    height: 30px; /* Reduce height */
+    width: 100%; /* Ensure the form controls fit the table column width */
+    margin-bottom: 5px; /* Slight margin for spacing */
+}
+
 /* Loading state styling */
 .loading-content > * {
     visibility: hidden;
@@ -212,6 +221,12 @@ footer.footer .d-flex {
     }
     thead input[type="text"], 
     thead select {
+        font-size: 0.7em; /* Further reduce text size for smaller screens */
+        padding: 4px;
+        height: 28px;
+    }
+
+    .form-control {
         font-size: 0.7em; /* Further reduce text size for smaller screens */
         padding: 4px;
         height: 28px;
