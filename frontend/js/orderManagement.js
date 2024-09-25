@@ -43,9 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollY: '50vh',
             orderCellsTop: true,
             colReorder: true, // Ensure colReorder is enabled
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
-                'rt' +
-                '<"row"<"col-md-6"i><"col-md-6"p>>',
+            dom: 'lfrtip',  // l = length menu, f = filtering input, r = processing element, t = table, i = information, p = pagination
             buttons: [
                 { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
                 { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
