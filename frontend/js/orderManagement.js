@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollX: true,
             scrollY: '50vh',
             orderCellsTop: true,
-            colReorder: true,
+            colReorder: true, // Ensure colReorder is enabled
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
                 'rt' +
                 '<"row"<"col-md-6"i><"col-md-6"p>>',
@@ -60,10 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
-
+    
+        // Listen for column reorder events
+        table.on('column-reorder', function (e, settings, details) {
+            console.log('Columns reordered');
+        });
+    
         addColumnFiltering();
-        table.on('draw', updateTotals);
+        table.on('draw', updateTotals); // Update totals on draw
     }
+    
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
@@ -226,4 +232,59 @@ document.addEventListener('DOMContentLoaded', function () {
             table.button('.buttons-excel').trigger();
         }
     }
+    function populateColumnChooser() {
+        const availableColumns = document.getElementById('availableColumns');
+        const selectedColumns = document.getElementById('selectedColumns');
+    
+        availableColumns.innerHTML = '';
+        selectedColumns.innerHTML = '';
+    
+        // Populate the columns into the chooser
+        table.columns().every(function (index) {
+            const columnTitle = this.header().textContent.trim();
+            const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+            const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+    
+            // Add the columns to the appropriate list based on visibility
+            if (this.visible()) {
+                selectedColumns.innerHTML += listItem;
+            } else {
+                availableColumns.innerHTML += listItem;
+            }
+        });
+    
+        // Make the columns draggable
+        $('#selectedColumns').sortable({
+            placeholder: 'ui-state-highlight',
+            axis: 'y',
+            update: function (event, ui) {
+                const newOrder = $(this).sortable('toArray', { attribute: 'data-column' });
+                table.colReorder.order(newOrder);
+            }
+        }).disableSelection();
+    }
+    
+    document.getElementById('applyColumns').addEventListener('click', function () {
+        const selectedColumns = document.querySelectorAll('#selectedColumns li');
+        const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
+    
+        // Apply the new column order
+        table.colReorder.order(newOrder);
+    
+        // Set visibility for the columns
+        selectedColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(true); // Show selected columns
+        });
+    
+        // Hide unselected columns
+        document.querySelectorAll('#availableColumns li').forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(false); // Hide deselected columns
+        });
+    
+        $('#chooseColumnsModal').modal('hide'); // Close the modal
+    });
+    
+
 });
