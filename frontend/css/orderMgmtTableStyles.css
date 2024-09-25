@@ -94,6 +94,38 @@ thead select:hover,
     cursor: default; /* Change cursor to default to avoid hover effects */
 }
 
+/* Styling for 'Choose...' buttons */
+.select-button {
+    background-color: white; /* White background */
+    color: #007bff; /* Blue text */
+    font-size: 0.8em; /* Smaller font size to match input fields */
+    padding: 5px; /* Same padding as input boxes */
+    height: 30px; /* Same height as input fields */
+    border: 1px solid #ddd; /* Border matching the input boxes */
+    border-radius: 4px; /* Slight border radius for buttons */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    text-align: center; /* Center the text */
+    width: 100%; /* Make the button take up the full width of its container */
+}
+
+/* Remove default select styles */
+.select-button:focus {
+    outline: none; /* Remove the outline when focused */
+}
+
+/* Hover effect for buttons */
+.select-button:hover {
+    background-color: #f1f1f1; /* Light gray background on hover */
+    color: #0056b3; /* Darker blue text on hover */
+}
+
+/* Make sure buttons and input fields are aligned */
+.form-control {
+    font-size: 0.8em; /* Ensure input fields have the same font size */
+    height: 30px; /* Set the height to 30px to match buttons */
+    padding: 5px; /* Consistent padding */
+}
+
 
 .dropdown-container {
     position: relative;

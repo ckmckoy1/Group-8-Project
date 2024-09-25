@@ -83,28 +83,25 @@
                         <th><input type="text" id="emailFilter" class="form-control"></th>
                         <th><input type="text" id="addressFilter" class="form-control"></th>
                         <th>
-                            <div class="dropdown-container">
-                                <button id="shippingMethodFilterBtn" class="btn btn-secondary">Choose...</button>
-                                <div id="shippingMethodFilterDropdown" class="dropdown-list" style="display:none;">
-                                    <button class="dropdown-item" value="selectAll">Select All</button>
-                                    <button class="dropdown-item" value="clearAll">Clear All</button>
-                                    <button class="dropdown-item" value="Standard">Standard Shipping (5-7 days)</button>
-                                    <button class="dropdown-item" value="Express">Express Shipping (2-3 days)</button>
-                                </div>
-                            </div>
+                            <button id="statusFilterButton" class="select-button">Choose...</button>
+                            <ul id="statusFilterOptions" class="dropdown-options" style="display: none;">
+                                <li data-value="selectAll">Select All</li>
+                                <li data-value="clearAll">Clear All</li>
+                                <li data-value="Authorized">Authorized</li>
+                                <li data-value="Pending">Pending</li>
+                                <li data-value="Failed">Failed</li>
+                            </ul>
                             
                         </th>
                         <th>
-                            <div class="dropdown-container">
-                                <button id="statusFilterBtn" class="btn btn-secondary">Choose...</button>
-                                <div id="statusFilterDropdown" class="dropdown-list" style="display:none;">
-                                    <button class="dropdown-item" value="selectAll">Select All</button>
-                                    <button class="dropdown-item" value="clearAll">Clear All</button>
-                                    <button class="dropdown-item" value="Authorized">Authorized</button>
-                                    <button class="dropdown-item" value="Pending">Pending</button>
-                                    <button class="dropdown-item" value="Failed">Failed</button>
-                                </div>
-                            </div>
+                            <button id="statusFilterButton" class="select-button">Choose...</button>
+                            <ul id="statusFilterOptions" class="dropdown-options" style="display: none;">
+                                <li data-value="selectAll">Select All</li>
+                                <li data-value="clearAll">Clear All</li>
+                                <li data-value="Authorized">Authorized</li>
+                                <li data-value="Pending">Pending</li>
+                                <li data-value="Failed">Failed</li>
+                            </ul>
                         </th>
                         <th><input type="text" id="amountFilter" class="form-control"></th>
                         <th><input type="text" id="cardNumberFilter" class="form-control"></th>
@@ -115,16 +112,14 @@
                         <th><input type="text" id="authAmountFilter" class="form-control"></th>
                         <th></th>
                         <th>
-                            <div class="dropdown-container">
-                                <button id="warehouseStatusFilterBtn" class="btn btn-secondary">Choose...</button>
-                                <div id="warehouseStatusFilterDropdown" class="dropdown-list" style="display:none;">
-                                    <button class="dropdown-item" value="selectAll">Select All</button>
-                                    <button class="dropdown-item" value="clearAll">Clear All</button>
-                                    <button class="dropdown-item" value="Settled">Settled</button>
-                                    <button class="dropdown-item" value="Pending">Pending</button>
-                                    <button class="dropdown-item" value="N/A">N/A</button>
-                                </div>
-                            </div>
+                            <button id="warehouseStatusFilterButton" class="select-button">Choose...</button>
+                            <ul id="warehouseStatusFilterOptions" class="dropdown-options" style="display: none;">
+                                <li data-value="selectAll">Select All</li>
+                                <li data-value="clearAll">Clear All</li>
+                                <li data-value="Settled">Settled</li>
+                                <li data-value="Pending">Pending</li>
+                                <li data-value="N/A">N/A</li>
+                            </ul>
                         </th>
                     </tr>
                 </thead>
