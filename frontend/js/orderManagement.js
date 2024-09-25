@@ -136,4 +136,168 @@ document.addEventListener('DOMContentLoaded', function () {
             table.column(14).search(this.value).draw(); // Search in the fifteenth column (Warehouse Status)
         });
     }
+ // Export the table to selected format
+    document.getElementById('downloadConfirm').addEventListener('click', function () {
+        const format = document.getElementById('downloadFormat').value;
+        exportTable(format);
+        $('#downloadModal').modal('hide');
+    });
+
+    function exportTable(format) {
+        if (format === 'csv') {
+            table.button('.buttons-csv').trigger();
+        } else if (format === 'pdf') {
+            table.button('.buttons-pdf').trigger();
+        } else if (format === 'excel') {
+            table.button('.buttons-excel').trigger();
+        }
+    }
+
+    // Populate the column chooser modal
+    document.getElementById('chooseColumns').addEventListener('click', function () {
+        populateColumnChooser();
+        $('#chooseColumnsModal').modal('show');
+    });
+
+    function populateColumnChooser() {
+        const availableColumns = document.getElementById('availableColumns');
+        const selectedColumns = document.getElementById('selectedColumns');
+
+        availableColumns.innerHTML = '';
+        selectedColumns.innerHTML = '';
+
+        // Loop through each column in DataTable and create list items
+        table.columns().every(function (index) {
+            const columnTitle = this.header().textContent.trim(); // Get the column title
+            const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
+
+            // Append to the respective list based on column visibility
+            if (this.visible()) {
+                selectedColumns.innerHTML += listItem;
+            } else {
+                availableColumns.innerHTML += listItem;
+            }
+        });
+
+        setupColumnListEvents(); // Setup events for column list item clicks
+    }
+
+    // Setup events for column list items
+    function setupColumnListEvents() {
+        // Move columns from Available to Selected
+        $('#availableColumns').on('click', 'li', function () {
+            const columnItem = $(this).detach(); // Remove from available list
+            $('#selectedColumns').append(columnItem); // Append to selected list
+        });
+
+        // Move columns from Selected to Available
+        $('#selectedColumns').on('click', 'li', function () {
+            const columnItem = $(this).detach(); // Remove from selected list
+            $('#availableColumns').append(columnItem); // Append to available list
+        });
+    }
+
+    // Apply chosen columns when "Apply" button is clicked
+    document.getElementById('applyColumns').addEventListener('click', function () {
+        const availableColumns = document.querySelectorAll('#availableColumns li');
+        const selectedColumns = document.querySelectorAll('#selectedColumns li');
+
+        // Hide columns in "Available" list
+        availableColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(false);
+        });
+
+        // Show columns in "Selected" list
+        selectedColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(true);
+        });
+
+        // Hide the modal after applying changes
+        $('#chooseColumnsModal').modal('hide');
+    });
 });
+
+ // Export the table to selected format
+ document.getElementById('downloadConfirm').addEventListener('click', function () {
+    const format = document.getElementById('downloadFormat').value;
+    exportTable(format);
+    $('#downloadModal').modal('hide');
+});
+
+function exportTable(format) {
+    if (format === 'csv') {
+        table.button('.buttons-csv').trigger();
+    } else if (format === 'pdf') {
+        table.button('.buttons-pdf').trigger();
+    } else if (format === 'excel') {
+        table.button('.buttons-excel').trigger();
+    }
+}
+
+// Populate the column chooser modal
+document.getElementById('chooseColumns').addEventListener('click', function () {
+    populateColumnChooser();
+    $('#chooseColumnsModal').modal('show');
+});
+
+function populateColumnChooser() {
+    const availableColumns = document.getElementById('availableColumns');
+    const selectedColumns = document.getElementById('selectedColumns');
+
+    availableColumns.innerHTML = '';
+    selectedColumns.innerHTML = '';
+
+    // Loop through each column in DataTable and create list items
+    table.columns().every(function (index) {
+        const columnTitle = this.header().textContent.trim(); // Get the column title
+        const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
+
+        // Append to the respective list based on column visibility
+        if (this.visible()) {
+            selectedColumns.innerHTML += listItem;
+        } else {
+            availableColumns.innerHTML += listItem;
+        }
+    });
+
+    setupColumnListEvents(); // Setup events for column list item clicks
+}
+
+// Setup events for column list items
+function setupColumnListEvents() {
+    // Move columns from Available to Selected
+    $('#availableColumns').on('click', 'li', function () {
+        const columnItem = $(this).detach(); // Remove from available list
+        $('#selectedColumns').append(columnItem); // Append to selected list
+    });
+
+    // Move columns from Selected to Available
+    $('#selectedColumns').on('click', 'li', function () {
+        const columnItem = $(this).detach(); // Remove from selected list
+        $('#availableColumns').append(columnItem); // Append to available list
+    });
+}
+
+// Apply chosen columns when "Apply" button is clicked
+document.getElementById('applyColumns').addEventListener('click', function () {
+    const availableColumns = document.querySelectorAll('#availableColumns li');
+    const selectedColumns = document.querySelectorAll('#selectedColumns li');
+
+    // Hide columns in "Available" list
+    availableColumns.forEach(item => {
+        const columnIdx = parseInt(item.getAttribute('data-column'));
+        table.column(columnIdx).visible(false);
+    });
+
+    // Show columns in "Selected" list
+    selectedColumns.forEach(item => {
+        const columnIdx = parseInt(item.getAttribute('data-column'));
+        table.column(columnIdx).visible(true);
+    });
+
+    // Hide the modal after applying changes
+    $('#chooseColumnsModal').modal('hide');
+});
+
