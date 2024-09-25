@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         initializeDataTable();
-        updateTotals(); // Update totals after data is loaded
     }
 
     // Initialize DataTables with export buttons and individual column filtering
@@ -64,9 +63,10 @@ document.addEventListener('DOMContentLoaded', function () {
             info: true,
             ordering: true,
             pageLength: 10,
-            scrollX: true, // Enable horizontal scrolling
-            scrollY: '50vh', // Example to make the table vertically scrollable with fixed height
+            scrollX: true,
+            scrollY: '50vh',
             orderCellsTop: true,
+            colReorder: true, // Enable column reordering
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
                 'rt' +
                 '<"row"<"col-md-6"i><"col-md-6"p>>',
@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
                 { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
             ],
-            colReorder: true, // Enable column reordering
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -86,72 +85,77 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        // Apply filtering and update totals after each draw
         addColumnFiltering();
+        table.on('draw', updateTotals); // Update totals after each draw
     }
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
         $('#orderIDFilter').on('keyup', function () {
-            table.column(0).search(this.value).draw();
+            var index = table.column('Order ID:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#customerFilter').on('keyup', function () {
-            table.column(1).search(this.value).draw();
+            var index = table.column('Customer:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#emailFilter').on('keyup', function () {
-            table.column(2).search(this.value).draw();
+            var index = table.column('Email:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#addressFilter').on('keyup', function () {
-            table.column(3).search(this.value).draw();
+            var index = table.column('Address:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#shippingMethodFilter').on('change', function () {
-            table.column(4).search(this.value).draw();
+            var index = table.column('Shipping Method:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#statusFilter').on('change', function () {
-            table.column(5).search(this.value).draw();
+            var index = table.column('Payment Status:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#amountFilter').on('keyup', function () {
-            table.column(6).search(this.value).draw();
+            var index = table.column('Amount:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#cardNumberFilter').on('keyup', function () {
-            table.column(7).search(this.value).draw();
+            var index = table.column('Card Number:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#billingZipFilter').on('keyup', function () {
-            table.column(9).search(this.value).draw();
+            var index = table.column('Billing Zip:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#transactionDateFilter').on('change', function () {
-            table.column(10).search(this.value).draw();
+            var index = table.column('Transaction Date:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#authTokenFilter').on('keyup', function () {
-            table.column(11).search(this.value).draw();
+            var index = table.column('Authorization Token:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#authAmountFilter').on('keyup', function () {
-            table.column(12).search(this.value).draw();
+            var index = table.column('Authorization Amount:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
+
         $('#warehouseStatusFilter').on('change', function () {
-            table.column(14).search(this.value).draw();
+            var index = table.column('Warehouse Status:name').index();
+            table.column(index).search($.trim(this.value)).draw();
         });
-    }
-
-    // Download modal: show the modal and handle the export
-    document.getElementById('downloadButton').addEventListener('click', function () {
-        $('#downloadModal').modal('show');
-    });
-
-    document.getElementById('downloadConfirm').addEventListener('click', function () {
-        const format = document.getElementById('downloadFormat').value;
-        exportTable(format);
-        $('#downloadModal').modal('hide');
-    });
-
-    // Function to trigger the export of the table in the selected format
-    function exportTable(format) {
-        if (format === 'csv') {
-            table.button('.buttons-csv').trigger();
-        } else if (format === 'pdf') {
-            table.button('.buttons-pdf').trigger();
-        } else if (format === 'excel') {
-            table.button('.buttons-excel').trigger();
-        }
     }
 
     // Populate the column chooser modal
@@ -164,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         table.columns().every(function (index) {
             const columnTitle = this.header().textContent.trim();
-            const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+            const columnWidth = $(this.header()).outerWidth();
             const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
 
             if (this.visible()) {
@@ -176,24 +180,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setupColumnListEvents();
 
-        // Make the selected columns sortable
         $('#selectedColumns').sortable({
             placeholder: 'ui-state-highlight',
             axis: 'y',
             update: function(event, ui) {
-                // Sync column widths after reordering
                 const newOrder = $(this).sortable('toArray', { attribute: 'data-column' });
                 table.colReorder.order(newOrder);
             }
         }).disableSelection();
     }
 
-    // Function to apply the chosen columns when the "Apply" button is clicked
     document.getElementById('applyColumns').addEventListener('click', function () {
         const selectedColumns = document.querySelectorAll('#selectedColumns li');
         const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
 
-        // Apply the new order and visibility
         table.colReorder.order(newOrder);
 
         selectedColumns.forEach(item => {
@@ -201,13 +201,11 @@ document.addEventListener('DOMContentLoaded', function () {
             table.column(columnIdx).visible(true);
         });
 
-        // Hide columns in the available list
         document.querySelectorAll('#availableColumns li').forEach(item => {
             const columnIdx = parseInt(item.getAttribute('data-column'));
             table.column(columnIdx).visible(false);
         });
 
-        // Hide the modal
         $('#chooseColumnsModal').modal('hide');
     });
 
@@ -228,7 +226,5 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
     }
 
-    // Call updateTotals after loading or modifying data
-    updateTotals();
-
-}); // Closing brace
+    updateTotals();  // Call this function after initial load
+});
