@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             const orders = await response.json();
 
-            // Hide the error message if the data is successfully fetched
+            // Hide the error message if data is fetched
             document.getElementById('message').style.display = 'none';
 
             if (isRefresh) {
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
         initializeDataTable();
     }
 
-    // Initialize DataTables with export buttons and individual column filtering
+    // Initialize DataTables with export buttons, filtering, and column reordering
     function initializeDataTable() {
         table = $('#orderTable').DataTable({
             paging: true,
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Authorization Amount' },
                 { name: 'Authorization Expiration' },
                 { name: 'Warehouse Status' }
-            ], // Add column names
+            ], // Ensure column names are defined
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
                 'rt' +
                 '<"row"<"col-md-6"i><"col-md-6"p>>',
@@ -105,141 +105,128 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Apply filtering and update totals after each draw
         addColumnFiltering();
-        table.on('draw', updateTotals); // Update totals after each draw
+        table.on('draw', updateTotals); // Update totals after each table draw
     }
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
+        // Filter logic using dynamic column names
         $('#orderIDFilter').on('keyup', function () {
-            var index = table.column('Order ID:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Order ID:name').search(this.value).draw();
         });
 
         $('#customerFilter').on('keyup', function () {
-            var index = table.column('Customer:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Customer:name').search(this.value).draw();
         });
 
         $('#emailFilter').on('keyup', function () {
-            var index = table.column('Email:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Email:name').search(this.value).draw();
         });
 
         $('#addressFilter').on('keyup', function () {
-            var index = table.column('Address:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Address:name').search(this.value).draw();
         });
 
         $('#shippingMethodFilter').on('change', function () {
-            var index = table.column('Shipping Method:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Shipping Method:name').search(this.value).draw();
         });
 
         $('#statusFilter').on('change', function () {
-            var index = table.column('Payment Status:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Payment Status:name').search(this.value).draw();
         });
 
         $('#amountFilter').on('keyup', function () {
-            var index = table.column('Amount:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Amount:name').search(this.value).draw();
         });
 
         $('#cardNumberFilter').on('keyup', function () {
-            var index = table.column('Card Number:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Card Number:name').search(this.value).draw();
         });
 
         $('#billingZipFilter').on('keyup', function () {
-            var index = table.column('Billing Zip:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Billing Zip:name').search(this.value).draw();
         });
 
         $('#transactionDateFilter').on('change', function () {
-            var index = table.column('Transaction Date:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Transaction Date:name').search(this.value).draw();
         });
 
         $('#authTokenFilter').on('keyup', function () {
-            var index = table.column('Authorization Token:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Authorization Token:name').search(this.value).draw();
         });
 
         $('#authAmountFilter').on('keyup', function () {
-            var index = table.column('Authorization Amount:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Authorization Amount:name').search(this.value).draw();
         });
 
         $('#warehouseStatusFilter').on('change', function () {
-            var index = table.column('Warehouse Status:name').index();
-            table.column(index).search($.trim(this.value)).draw();
+            table.column('Warehouse Status:name').search(this.value).draw();
         });
     }
-// Populate the column chooser modal
-function populateColumnChooser() {
-    const availableColumns = document.getElementById('availableColumns');
-    const selectedColumns = document.getElementById('selectedColumns');
 
-    availableColumns.innerHTML = '';
-    selectedColumns.innerHTML = '';
+    // Column chooser functionality
+    function populateColumnChooser() {
+        const availableColumns = document.getElementById('availableColumns');
+        const selectedColumns = document.getElementById('selectedColumns');
 
-    table.columns().every(function (index) {
-        const columnTitle = this.header().textContent.trim();
-        const columnWidth = $(this.header()).outerWidth(); // Capture current column width
-        const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+        availableColumns.innerHTML = '';
+        selectedColumns.innerHTML = '';
 
-        if (this.visible()) {
-            selectedColumns.innerHTML += listItem;
-        } else {
-            availableColumns.innerHTML += listItem;
-        }
+        table.columns().every(function (index) {
+            const columnTitle = this.header().textContent.trim();
+            const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+            const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+
+            if (this.visible()) {
+                selectedColumns.innerHTML += listItem;
+            } else {
+                availableColumns.innerHTML += listItem;
+            }
+        });
+
+        setupColumnListEvents();
+
+        // Enable dragging and reordering of columns in the modal
+        $('#selectedColumns').sortable({
+            placeholder: 'ui-state-highlight',
+            axis: 'y',
+            update: function (event, ui) {
+                const newOrder = $(this).sortable('toArray', { attribute: 'data-column' });
+                table.colReorder.order(newOrder);
+            }
+        }).disableSelection();
+    }
+
+    // Apply chosen columns
+    document.getElementById('applyColumns').addEventListener('click', function () {
+        const selectedColumns = document.querySelectorAll('#selectedColumns li');
+        const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
+
+        // Apply new column order and visibility
+        table.colReorder.order(newOrder);
+
+        selectedColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(true);
+        });
+
+        // Hide the columns not selected
+        document.querySelectorAll('#availableColumns li').forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(false);
+        });
+
+        // Close the modal
+        $('#chooseColumnsModal').modal('hide');
     });
-
-    setupColumnListEvents();
-
-    // Make the selected columns sortable
-    $('#selectedColumns').sortable({
-        placeholder: 'ui-state-highlight',
-        axis: 'y',
-        update: function(event, ui) {
-            const newOrder = $(this).sortable('toArray', { attribute: 'data-column' });
-            table.colReorder.order(newOrder);
-        }
-    }).disableSelection();
-}
-
-// Function to apply the chosen columns when the "Apply" button is clicked
-document.getElementById('applyColumns').addEventListener('click', function () {
-    const selectedColumns = document.querySelectorAll('#selectedColumns li');
-    const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
-
-    // Apply the new order and visibility
-    table.colReorder.order(newOrder);
-
-    selectedColumns.forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(true);
-    });
-
-    // Hide columns in the available list
-    document.querySelectorAll('#availableColumns li').forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(false);
-    });
-
-    // Hide the modal
-    $('#chooseColumnsModal').modal('hide');
-});
-
 
     // Update totals function
     function updateTotals() {
         let totalAmount = 0;
         let totalTransactionAmount = 0;
 
-        $('#orderTable tbody tr').each(function() {
+        $('#orderTable tbody tr').each(function () {
             const amount = parseFloat($(this).find('td').eq(6).text().replace('$', '')) || 0;
             const transactionAmount = parseFloat($(this).find('td').eq(12).text().replace('$', '')) || 0;
 
@@ -251,17 +238,28 @@ document.getElementById('applyColumns').addEventListener('click', function () {
         $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
     }
 
-    updateTotals();  // Call this function after initial load
+    // Call updateTotals after loading data
+    updateTotals();
 
-    // Event listener for the Download button
+    // Download functionality
     document.getElementById('downloadButton').addEventListener('click', function () {
         $('#downloadModal').modal('show');
     });
 
-    // Event listener for confirming the download format
     document.getElementById('downloadConfirm').addEventListener('click', function () {
         const format = document.getElementById('downloadFormat').value;
         exportTable(format);
         $('#downloadModal').modal('hide');
     });
+
+    // Export the table in the selected format
+    function exportTable(format) {
+        if (format === 'csv') {
+            table.button('.buttons-csv').trigger();
+        } else if (format === 'pdf') {
+            table.button('.buttons-pdf').trigger();
+        } else if (format === 'excel') {
+            table.button('.buttons-excel').trigger();
+        }
+    }
 });
