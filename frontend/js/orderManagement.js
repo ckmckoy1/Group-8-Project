@@ -30,67 +30,69 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Display orders in the table
-    function displayOrders(orders) {
-        orders.forEach(order => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${order.OrderID}</td>
-                <td>${order.FirstName} ${order.LastName}</td>
-                <td>${order.CustomerEmail}</td>
-                <td>${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}</td>
-                <td>${order.ShippingMethod}</td>
-                <td>${order.PaymentStatus}</td>
-                <td>$${order.TotalAmount.toFixed(2)}</td>
-                <td>**** **** **** ${order.CardNumber.slice(-4)}</td>
-                <td>${order.ExpirationDate}</td>
-                <td>${order.BillingZipCode}</td>
-                <td>${new Date(order.TransactionDateTime).toLocaleString()}</td>
-                <td>${order.AuthorizationToken}</td>
-                <td>$${order.AuthorizationAmount.toFixed(2)}</td>
-                <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td>
-                <td>${order.WarehouseStatus || 'N/A'}</td>
-            `;
-            orderTableBody.appendChild(row);
-        });
-
-        initializeDataTable();
-    }
-
-    // Initialize DataTables with export buttons, filtering, and column reordering
-    function initializeDataTable() {
-        table = $('#orderTable').DataTable({
-            paging: true,
-            lengthMenu: [10, 25, 50, 100],
-            searching: true,
-            info: true,
-            ordering: true,
-            pageLength: 10,
-            scrollX: true,
-            scrollY: '50vh',
-            orderCellsTop: true,
-            colReorder: true,
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
-                'rt' +
-                '<"row"<"col-md-6"i><"col-md-6"p>>',
-            buttons: [
-                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
-                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
-                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
-            ],
-            language: {
-                lengthMenu: 'Show _MENU_ entries',
-                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-                paginate: {
-                    previous: 'Previous',
-                    next: 'Next'
-                }
+// Initialize DataTables with export buttons, filtering, and column reordering
+function initializeDataTable() {
+    table = $('#orderTable').DataTable({
+        paging: true,
+        lengthMenu: [10, 25, 50, 100],
+        searching: true,
+        info: true,
+        ordering: true,
+        pageLength: 10,
+        scrollX: true,
+        scrollY: '50vh',
+        orderCellsTop: true,
+        colReorder: true,
+        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
+            'rt' +
+            '<"row"<"col-md-6"i><"col-md-6"p>>',
+        buttons: [
+            { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
+            { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
+            { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
+        ],
+        language: {
+            lengthMenu: 'Show _MENU_ entries',
+            info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+            paginate: {
+                previous: 'Previous',
+                next: 'Next'
             }
-        });
+        }
+    });
 
-        addColumnFiltering();
-        table.on('draw', updateTotals);
-    }
+    addColumnFiltering();
+    table.on('draw', updateTotals);
+}
+
+// Display orders in the table after initializing DataTable
+function displayOrders(orders) {
+    orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${order.OrderID}</td>
+            <td>${order.FirstName} ${order.LastName}</td>
+            <td>${order.CustomerEmail}</td>
+            <td>${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}</td>
+            <td>${order.ShippingMethod}</td>
+            <td>${order.PaymentStatus}</td>
+            <td>$${order.TotalAmount.toFixed(2)}</td>
+            <td>**** **** **** ${order.CardNumber.slice(-4)}</td>
+            <td>${order.ExpirationDate}</td>
+            <td>${order.BillingZipCode}</td>
+            <td>${new Date(order.TransactionDateTime).toLocaleString()}</td>
+            <td>${order.AuthorizationToken}</td>
+            <td>$${order.AuthorizationAmount.toFixed(2)}</td>
+            <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td>
+            <td>${order.WarehouseStatus || 'N/A'}</td>
+        `;
+        orderTableBody.appendChild(row);
+    });
+
+    // Adjust and draw the DataTable after loading the data
+    table.columns.adjust().draw();
+}
+
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
