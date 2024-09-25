@@ -48,6 +48,21 @@ h2 {
     justify-content: space-between;
 }
 
+/* Decrease the size of input filter boxes and make text smaller */
+thead input[type="text"], 
+thead select {
+    font-size: 0.8em; /* Smaller text */
+    padding: 5px; /* Reduce padding to make the input boxes smaller */
+    height: 30px; /* Set a smaller height */
+    width: 100%; /* Ensure the width fits the table column */
+    margin-bottom: 5px; /* Add slight margin for spacing */
+}
+
+thead select {
+    font-size: 0.8em; /* Smaller text for select dropdowns */
+    height: 30px; /* Set a smaller height for select dropdowns */
+    padding: 5px;
+}
 
 /* Loading state styling */
 .loading-content > * {
@@ -194,6 +209,12 @@ footer.footer .d-flex {
     .row.mb-3 {
         flex-direction: column; /* Stack buttons and dropdown on smaller screens */
         align-items: flex-start;
+    }
+    thead input[type="text"], 
+    thead select {
+        font-size: 0.7em; /* Further reduce text size for smaller screens */
+        padding: 4px;
+        height: 28px;
     }
 }
 
