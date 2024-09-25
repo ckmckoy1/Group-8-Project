@@ -67,6 +67,16 @@ thead input[type="text"], thead select {
     color: #003366; /* Darker blue text */
 }
 
+/* Remove hover effect on input and select fields */
+thead input[type="text"]:hover,
+thead select:hover,
+.form-control:hover {
+    background-color: initial;
+    border-color: initial;
+    cursor: default;
+}
+
+
 /* Table body styling */
 tbody td {
     padding: 12px;
