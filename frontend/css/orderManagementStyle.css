@@ -36,11 +36,6 @@ h2 {
     max-height: 50vh; /* Set a height for scrollable area */
 }
 
-.dataTables_length{
-    margin-top : -7px;
-    margin-left: 20px;
-   }
-
 /* Pagination and info should remain in place outside the scrollable area */
 .row.mb-3 {
     display: flex;
@@ -117,6 +112,12 @@ div.dataTables_length select {
     margin: -3px 0 0 0;
     font-size: 11px;
 }
+
+.dataTables_length{
+    margin-top : -7px;
+    margin-left: 20px;
+   }
+
 
 /* Ensure the row beneath the table header (filters) aligns correctly */
 thead th {
