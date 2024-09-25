@@ -209,4 +209,24 @@ document.getElementById('applyColumns').addEventListener('click', function () {
     $('#chooseColumnsModal').modal('hide');
 });
 
+function updateTotals() {
+    let totalAmount = 0;
+    let totalTransactionAmount = 0;
+
+    $('#orderTable tbody tr').each(function() {
+        const amount = parseFloat($(this).find('td').eq(6).text().replace('$', '')) || 0;
+        const transactionAmount = parseFloat($(this).find('td').eq(12).text().replace('$', '')) || 0;
+
+        totalAmount += amount;
+        totalTransactionAmount += transactionAmount;
+    });
+
+    $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
+    $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
+}
+
+// Call updateTotals after loading or modifying data
+updateTotals();
+
+
 }); // <- This is where your missing closing brace should be

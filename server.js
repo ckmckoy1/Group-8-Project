@@ -99,9 +99,9 @@ app.post('/api/checkout', async (req, res) => {
     const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
 
     // Mock Endpoint URLs
-    const mockEndpointSuccess = 'https://run.mocky.io/v3/b4e53431-c19e-4853-93c9-03d1cdd1e6f3';
-    const mockEndpointFailureDetails = 'https://run.mocky.io/v3/52371a52-83fc-4edd-84d1-bfeee1a5f448';
-    const mockEndpointFailureFunds = 'https://run.mocky.io/v3/9027a69f-0b17-4f9d-912f-16e0342c1b38';
+    const mockEndpointSuccess = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
+    const mockEndpointFailureDetails = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
+    const mockEndpointFailureFunds = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient';
 
     // Determine mock URL based on card details (simulated)
     let mockUrl;

@@ -27,13 +27,42 @@ h2 {
     max-width: 1500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    overflow-x: hidden;
 }
 
 /* Scrollable table container */
 .table-container {
-    overflow-x: auto;
+    overflow-x: auto; /* Allow horizontal scrolling */
     white-space: nowrap;
+    position: relative;
     max-height: 50vh;
+}
+
+/* Ensure the table header, inputs, and columns align perfectly */
+table {
+    width: 100%; /* Ensure the table width is always 100% */
+    table-layout: auto; /* Allow columns to shrink or expand based on content */
+    border-collapse: collapse;
+    font-size: 0.9em;
+    min-width: 1000px; /* Minimum width to avoid excessive shrinking */
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    word-wrap: break-word; /* Ensure text wraps within columns */
+}
+
+th, td {
+    vertical-align: top;
+    overflow: hidden; /* Hide overflow */
+}
+
+/* Make the row height adjust if text overflows */
+td {
+    white-space: normal;
+    height: auto;
 }
 
 /* Pagination and info should remain in place outside the scrollable area */
@@ -41,6 +70,12 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+/* Reduce gap between header/input/form control section and the table */
+thead th, thead input[type="text"], thead select {
+    margin-bottom: 0; /* Remove unnecessary margin */
+    padding: 3px; /* Reduce padding to decrease the gap */
 }
 
 /* Align the table header and input filter boxes */
@@ -59,7 +94,7 @@ thead select {
     padding: 5px;
     height: 30px;
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 thead select {
@@ -73,7 +108,7 @@ thead select {
     padding: 5px;
     height: 30px;
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 /* Ensure column header, filter input, and table columns align perfectly */
@@ -101,18 +136,23 @@ thead select {
     background: #fff url('/images/refreshing.gif') 50% 50% no-repeat !important;
 }
 
-/* Table styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9em;
-    min-width: 1000px;
+/* Total row styling - sticky and follows columns */
+tfoot td {
+    font-weight: bold;
+    text-align: right;
+    background-color: #f9f9f9;
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    white-space: nowrap;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
+/* Scrollable header and input row but fixed total */
+.table-scrollable {
+    max-height: 50vh;
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
 }
 
 /* General DataTables Wrapper Styling */
@@ -124,6 +164,12 @@ div.dataTables_wrapper {
 div.dataTables_length {
     margin-top: -7px;
     margin-left: 20px;
+}
+
+/* Align total row with the columns */
+tfoot {
+    display: table-row-group;
+    background-color: white;
 }
 
 /* Table striped rows */
