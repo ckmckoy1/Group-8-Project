@@ -6,24 +6,31 @@
     max-width: 1500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow-x: hidden;
 }
 
 /* Scrollable table container */
 .table-container {
-    position: relative;
     overflow-x: auto; /* Allow horizontal scrolling */
-    white-space: nowrap;
-    max-height: 50vh; /* Set a max height for vertical scroll */
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: 60vh; /* Adjust this based on your desired table height */
+    white-space: nowrap; /* Prevent wrapping of the table content */
+    position: relative;
 }
 
 /* Ensure the table header, inputs, and columns align perfectly */
 table {
-    width: 100%;
-    table-layout: fixed; /* Fix column width to avoid misalignment */
+    width: 100%; /* Ensure the table width is always 100% */
+    table-layout: auto; /* Allow columns to shrink or expand based on content */
     border-collapse: collapse;
     font-size: 0.9em;
-    min-width: 1200px; /* Minimum width to avoid excessive shrinking */
+    min-width: 1000px; /* Minimum width to avoid excessive shrinking */
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    word-wrap: break-word; /* Ensure text wraps within columns */
 }
 
 /* Table header and input field styles */
