@@ -152,71 +152,61 @@ document.addEventListener('DOMContentLoaded', function () {
             table.button('.buttons-excel').trigger();
         }
     }
+// Populate the column chooser modal
+function populateColumnChooser() {
+    const availableColumns = document.getElementById('availableColumns');
+    const selectedColumns = document.getElementById('selectedColumns');
 
-    // Populate the column chooser modal
-    document.getElementById('chooseColumns').addEventListener('click', function () {
-        populateColumnChooser();
-        $('#chooseColumnsModal').modal('show');
+    availableColumns.innerHTML = '';
+    selectedColumns.innerHTML = '';
+
+    table.columns().every(function (index) {
+        const columnTitle = this.header().textContent.trim();
+        const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+        const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+
+        if (this.visible()) {
+            selectedColumns.innerHTML += listItem;
+        } else {
+            availableColumns.innerHTML += listItem;
+        }
     });
 
-    function populateColumnChooser() {
-        const availableColumns = document.getElementById('availableColumns');
-        const selectedColumns = document.getElementById('selectedColumns');
+    setupColumnListEvents();
 
-        availableColumns.innerHTML = '';
-        selectedColumns.innerHTML = '';
+    // Make the selected columns sortable
+    $('#selectedColumns').sortable({
+        placeholder: 'ui-state-highlight',
+        axis: 'y',
+        update: function(event, ui) {
+            // Sync column widths after reordering
+            const newOrder = $(this).sortable('toArray', { attribute: 'data-column' });
+            table.colReorder.order(newOrder);
+        }
+    }).disableSelection();
+}
 
-        table.columns().every(function (index) {
-            const columnTitle = this.header().textContent.trim();
-            const listItem = `<li class="list-group-item" data-column="${index}">${columnTitle}</li>`;
-
-            if (this.visible()) {
-                selectedColumns.innerHTML += listItem;
-            } else {
-                availableColumns.innerHTML += listItem;
-            }
-        });
-
-        setupColumnListEvents();
-
-        // Make the selected columns list sortable
-        $('#selectedColumns').sortable({
-            placeholder: 'ui-state-highlight',
-            axis: 'y',
-        }).disableSelection();
-    }
-
-    // Setup events for moving columns between lists
-    function setupColumnListEvents() {
-        $('#availableColumns').on('click', 'li', function () {
-            const columnItem = $(this).detach();
-            $('#selectedColumns').append(columnItem);
-        });
-        $('#selectedColumns').on('click', 'li', function () {
-            const columnItem = $(this).detach();
-            $('#availableColumns').append(columnItem);
-        });
-    }
-
-    // Apply chosen columns when "Apply" button is clicked
-    document.getElementById('applyColumns').addEventListener('click', function () {
-        const availableColumns = document.querySelectorAll('#availableColumns li');
-        const selectedColumns = document.querySelectorAll('#selectedColumns li');
-
-        availableColumns.forEach(item => {
-            const columnIdx = parseInt(item.getAttribute('data-column'));
-            table.column(columnIdx).visible(false);
-        });
-
-        selectedColumns.forEach(item => {
-            const columnIdx = parseInt(item.getAttribute('data-column'));
-            table.column(columnIdx).visible(true);
-        });
-
-        // Update the column order in the DataTable based on the new order
-        const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
-        table.colReorder.order(newOrder);
-
-        $('#chooseColumnsModal').modal('hide');
+// Function to apply the chosen columns when the "Apply" button is clicked
+document.getElementById('applyColumns').addEventListener('click', function () {
+    const selectedColumns = document.querySelectorAll('#selectedColumns li');
+    const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
+    
+    // Apply the new order and visibility
+    table.colReorder.order(newOrder);
+    
+    selectedColumns.forEach(item => {
+        const columnIdx = parseInt(item.getAttribute('data-column'));
+        table.column(columnIdx).visible(true);
     });
+
+    // Hide columns in the available list
+    document.querySelectorAll('#availableColumns li').forEach(item => {
+        const columnIdx = parseInt(item.getAttribute('data-column'));
+        table.column(columnIdx).visible(false);
+    });
+
+    // Hide the modal
+    $('#chooseColumnsModal').modal('hide');
+});
+
 }); // <- This is where your missing closing brace should be

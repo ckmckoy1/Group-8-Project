@@ -7,7 +7,7 @@ html, body {
     font-family: 'Arial', sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ensure full height of the viewport */
+    min-height: 100vh;
 }
 
 .navbar-brand {
@@ -21,19 +21,19 @@ h2 {
 
 /* Main container for content */
 .container-fluid {
-    background-color: white; /* White background */
+    background-color: white;
     padding: 2em;
-    margin: 20px auto; /* Center the container with margin */
-    max-width: 1500px; /* Optional: set a max width to prevent container from stretching too much on large screens */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for nicer look */
-    border-radius: 8px; /* Rounded corners */
+    margin: 20px auto;
+    max-width: 1500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 /* Scrollable table container */
 .table-container {
-    overflow-x: auto; /* Horizontal scrolling */
-    white-space: nowrap; /* Prevent text wrapping in the table */
-    max-height: 50vh; /* Set a height for scrollable area */
+    overflow-x: auto;
+    white-space: nowrap;
+    max-height: 50vh;
 }
 
 /* Pagination and info should remain in place outside the scrollable area */
@@ -43,29 +43,53 @@ h2 {
     justify-content: space-between;
 }
 
-/* Decrease the size of input filter boxes and make text smaller */
-thead input[type="text"], 
+/* Align the table header and input filter boxes */
+thead th {
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    white-space: nowrap;
+    width: auto;
+}
+
+/* Ensure input boxes and headers stay aligned */
+thead input[type="text"],
 thead select {
-    font-size: 0.8em; /* Smaller text */
-    padding: 5px; /* Reduce padding to make the input boxes smaller */
-    height: 30px; /* Set a smaller height */
-    width: 100%; /* Ensure the width fits the table column */
-    margin-bottom: 5px; /* Add slight margin for spacing */
+    font-size: 0.8em;
+    padding: 5px;
+    height: 30px;
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 thead select {
-    font-size: 0.8em; /* Smaller text for select dropdowns */
-    height: 30px; /* Set a smaller height for select dropdowns */
+    font-size: 0.8em;
+    height: 30px;
     padding: 5px;
 }
 
-/* Decrease size of form-control elements (input, select) */
 .form-control {
-    font-size: 0.8em; /* Smaller text */
-    padding: 5px; /* Reduce padding for smaller input boxes */
-    height: 30px; /* Reduce height */
-    width: 100%; /* Ensure the form controls fit the table column width */
-    margin-bottom: 5px; /* Slight margin for spacing */
+    font-size: 0.8em;
+    padding: 5px;
+    height: 30px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+/* Ensure column header, filter input, and table columns align perfectly */
+.table-container table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-container th, 
+.table-container td {
+    width: 100px; /* Set equal width for all columns */
+}
+
+/* Adjust modal column list width to avoid stretching */
+.modal-dialog .list-group-item {
+    width: 100px; /* Match the column size in the table */
 }
 
 /* Loading state styling */
@@ -97,38 +121,9 @@ div.dataTables_wrapper {
     clear: both;
 }
 
-/* DataTable Length (Entries) and Filter Control Styling */
 div.dataTables_length {
-    margin: 10px 12px 0 12px;
-    float: right;
-}
-
-div.dataTables_length label {
-    margin: 0;
-}
-
-div.dataTables_length select {
-    width: auto;
-    margin: -3px 0 0 0;
-    font-size: 11px;
-}
-
-.dataTables_length{
-    margin-top : -7px;
+    margin-top: -7px;
     margin-left: 20px;
-   }
-
-
-/* Ensure the row beneath the table header (filters) aligns correctly */
-thead th {
-    vertical-align: bottom;
-}
-
-/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
-.row.mb-3 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 
 /* Table striped rows */
@@ -141,16 +136,19 @@ thead th {
     transition: background-color 0.3s ease;
 }
 
-/* Centering content */
-.centered-content, .centered-content th,
-.centered-text, .centered-text th {
-    text-align: center;
+/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
+.row.mb-3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Card number styling */
-.card-number {
-    font-family: 'Courier New', Courier, monospace;
-    letter-spacing: 0.1em;
+/* Centering content */
+.centered-content, 
+.centered-content th, 
+.centered-text, 
+.centered-text th {
+    text-align: center;
 }
 
 /* Message styling */
@@ -170,24 +168,25 @@ thead th {
     background-color: #f2dede;
     color: #a94442;
 }
+
+/* Footer styling */
 footer.footer {
-    background-color: #333; /* Dark background for footer */
+    background-color: #333;
     color: white;
     padding: 1.5em 0;
     text-align: right;
     width: 100%;
-    margin-top: auto; /* Push the footer to the bottom of the page */
+    margin-top: auto;
 }
 
-/* Styling for the links */
 footer.footer a {
     color: white;
     text-decoration: none;
-    font-size: 1em; /* Adjust font size if needed */
+    font-size: 1em;
 }
 
 footer.footer a:hover {
-    text-decoration: underline; /* Optional: underline on hover */
+    text-decoration: underline;
 }
 
 /* Add spacing between the links */
@@ -199,11 +198,121 @@ footer.footer .mx-2 {
 /* Flexbox to align the links properly in a row */
 footer.footer .d-flex {
     display: flex;
-    justify-content: flex-end; /* Align to the right */
-    align-items: center; /* Ensure vertical alignment in the center */
+    justify-content: flex-end;
+    align-items: center;
 }
 
+/* Modal styles */
+.modal .modal-dialog {
+    max-width: 600px;
+    margin: 1.75rem auto;
+    color: black;
+}
 
+.modal-content {
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+    border-bottom: none;
+    padding: 15px;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.modal-body {
+    padding: 20px;
+    background-color: #f8f9fa;
+    color: black;
+}
+
+.modal-footer {
+    background-color: white;
+    border-top: none;
+    padding: 10px 20px;
+    text-align: right;
+}
+
+.modal-footer .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Primary button for the modal */
+.modal-footer .btn-primary {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Secondary button for the modal */
+.modal-footer .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border-color: #6c757d;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
+
+/* Modal close button styling */
+.modal-header .close {
+    color: white;
+    font-size: 1.5em;
+    opacity: 1;
+}
+
+.modal-header .close:hover {
+    color: #d4d4d4;
+}
+
+/* Normal button background color */
+button, th {
+    background-color: #B9D9EB;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover state */
+th:hover {
+    background-color: #ADD8E6;
+    color: white;
+}
+
+/* Custom button color */
+#refreshTable, #chooseColumns, #downloadButton {
+    background-color: white;
+    color: #007bff;
+    border-color: #007bff;
+    border-radius: 5px;
+}
+
+#refreshTable:hover, 
+#chooseColumns:hover, 
+#downloadButton:hover {
+    background-color: #ADD8E6;
+    border-color: #0056b3;
+}
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
@@ -217,18 +326,19 @@ footer.footer .d-flex {
     }
 
     .row.mb-3 {
-        flex-direction: column; /* Stack buttons and dropdown on smaller screens */
+        flex-direction: column;
         align-items: flex-start;
     }
+
     thead input[type="text"], 
     thead select {
-        font-size: 0.7em; /* Further reduce text size for smaller screens */
+        font-size: 0.7em;
         padding: 4px;
         height: 28px;
     }
 
     .form-control {
-        font-size: 0.7em; /* Further reduce text size for smaller screens */
+        font-size: 0.7em;
         padding: 4px;
         height: 28px;
     }
@@ -249,114 +359,3 @@ footer.footer .d-flex {
         width: 100%;
     }
 }
-
-/* Modal styles */
-.modal .modal-dialog {
-    max-width: 600px;
-    margin: 1.75rem auto;
-    color: black; /* Ensure text is readable */
-}
-
-.modal-content {
-    background-color: white; /* White background for the modal */
-    border: none;
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); /* Soft shadow around modals */
-}
-
-.modal-header {
-    background-color: #007bff; /* Blue background for the modal header */
-    color: white; /* White text for the modal header */
-    border-bottom: none; /* Remove default border */
-    padding: 15px;
-}
-
-.modal-title {
-    font-weight: bold;
-    font-size: 1.5em; /* Larger title */
-}
-
-.modal-body {
-    padding: 20px;
-    background-color: #f8f9fa; /* Light grey background for the body */
-    color: black;
-}
-
-.modal-footer {
-    background-color: white; /* White footer */
-    border-top: none; /* Remove default border */
-    padding: 10px 20px;
-    text-align: right;
-}
-
-.modal-footer .btn {
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-/* Primary button for the modal (e.g., Apply or Download) */
-.modal-footer .btn-primary {
-    background-color: #007bff; /* Blue background */
-    color: white;
-    border-color: #007bff;
-    transition: background-color 0.3s ease;
-}
-
-.modal-footer .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    border-color: #0056b3;
-}
-
-/* Secondary button for the modal (e.g., Close or Cancel) */
-.modal-footer .btn-secondary {
-    background-color: #6c757d; /* Grey background */
-    color: white;
-    border-color: #6c757d;
-}
-
-.modal-footer .btn-secondary:hover {
-    background-color: #5a6268; /* Darker grey on hover */
-    border-color: #5a6268;
-}
-
-/* Modal close button styling */
-.modal-header .close {
-    color: white;
-    font-size: 1.5em;
-    opacity: 1; /* Make the 'x' more visible */
-}
-
-.modal-header .close:hover {
-    color: #d4d4d4;
-}
-
-
-/* Normal button background color (blue) */
-button, th  {
-    background-color: #B9D9EB; 
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 10px 20px;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-/* Hover state - different shade of blue */
-th:hover {
-    background-color: #ADD8E6; /* Darker blue color for hover state */
-    color: white;
-}
-
-    /* Custom button color */
-    #refreshTable, #chooseColumns, #downloadButton {
-        background-color: white; /* Set your desired color */
-        color:  #007bff;
-        border-color: #007bff;
-        border-radius: 5px;
-    }
-
-    #refreshTable:hover, #chooseColumns:hover, #downloadButton:hover {
-        background-color:  #ADD8E6; /* Set hover color */
-        border-color: #0056b3;
-    }
