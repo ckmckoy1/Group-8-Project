@@ -300,3 +300,4 @@ function updateTableColumns() {
 document.getElementById('applyColumns').addEventListener('click', function () {
     $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
 });
+});
