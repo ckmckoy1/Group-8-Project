@@ -50,15 +50,27 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             }
 
-    // Initialize DataTables with export buttons, filtering, and column reordering
-    function initializeDataTable() {
+ // Initialize DataTables with export buttons, filtering, and column reordering
+ function initializeDataTable() {
     table = $('#orderTable').DataTable({
         paging: true,
         lengthMenu: [10, 25, 50, 100],
         searching: true,
         info: true,
-        ordering: true, // Enable sorting
-        pageLength: 10, // Set default page length
+        ordering: true,
+        pageLength: 10,
+        scrollX: true,
+        scrollY: '50vh',
+        orderCellsTop: true,
+        colReorder: true, // Ensure colReorder is enabled
+        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
+        'rt' +
+        '<"row"<"col-md-6"i><"col-md-6"p>>', // Ensure 'l', 'i', and 'p' are present
+        buttons: [
+            { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
+            { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
+            { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
+        ],
         language: {
             lengthMenu: 'Show _MENU_ entries',
             info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -68,6 +80,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+
+    // Listen for column reorder events
+    table.on('column-reorder', function (e, settings, details) {
+        console.log('Columns reordered');
+    });
+
+    addColumnFiltering();
+    table.on('draw', updateTotals); // Update totals on draw
 }
 
 
