@@ -14,61 +14,54 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders');
 
-            // Check if the fetch response is successful
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
             }
 
-            // Parse the JSON response
             const orders = await response.json();
 
-            // If no error, hide the error message
-            messageDiv.style.display = 'none';
+            messageDiv.style.display = 'none'; // Hide error message if data is fetched
 
-            // Refresh table if necessary
             if (isRefresh) {
-                table.clear().destroy();
+                table.clear();
                 orderTableBody.innerHTML = '';
             }
 
-            // If orders array is empty, handle that case (if needed)
             if (orders.length === 0) {
                 messageDiv.textContent = 'No orders found.';
                 messageDiv.style.display = 'block';
                 return;
             }
 
-            // Display orders
             displayOrders(orders);
-
         } catch (error) {
             console.error('Error fetching orders:', error);
-
-            // Show error message if there's an issue with the fetch
             messageDiv.textContent = 'Error fetching orders. Please try again later.';
             messageDiv.style.display = 'block';
         }
     }
 
-    // Initialize DataTables with export buttons, filtering, and column reordering
+    // Initialize DataTables with export buttons, filtering, sorting, and column reordering
     function initializeDataTable() {
         table = $('#orderTable').DataTable({
+            stateSave: true,  // Enable state saving
             paging: true,
             lengthMenu: [10, 25, 50, 100],
             searching: true,
             info: true,
             ordering: true,
-            orderCellsTop: true,
             pageLength: 10,
             scrollX: true,
             scrollY: '50vh',
-            colReorder: {
-                realtime: false // Disable realtime reordering to prevent conflicts
-            },
+            orderCellsTop: true,
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
-            'rt' +
-            '<"row"<"col-md-6"i><"col-md-6"p>>',
-       
+                 'rt' +
+                 '<"row"<"col-md-6"i><"col-md-6"p>>',
+            buttons: [
+                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
+                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
+                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
+            ],
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -77,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     next: 'Next'
                 }
             },
+            colReorder: true, // Enable column reordering
             columnDefs: [
                 { name: 'Order ID', targets: 0 },
                 { name: 'Customer', targets: 1 },
@@ -92,15 +86,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Authorization Token', targets: 11 },
                 { name: 'Authorization Amount', targets: 12 },
                 { name: 'Authorization Expiration', targets: 13 },
-                { name: 'Warehouse Status', targets: 14 },
-            ],
+                { name: 'Warehouse Status', targets: 14 }
+            ]
         });
 
-        // Listen for column reorder events
+        // Update filters and sorting after column reordering
         table.on('column-reorder', function (e, settings, details) {
             console.log('Columns reordered');
+            // Re-bind filtering for the reordered columns
+            addColumnFiltering();
         });
 
+        // Bind filtering after initializing the table
         addColumnFiltering();
         table.on('draw', updateTotals); // Update totals on draw
     }
@@ -135,6 +132,52 @@ document.addEventListener('DOMContentLoaded', function () {
         // Adjust and draw the DataTable after loading the data
         table.columns.adjust().draw();
     }
+
+    // Add filtering functionality for individual columns
+    function addColumnFiltering() {
+        const columnIndexes = table.columns().indexes(); // Get the current column indexes after reorder
+        
+        $('#orderIDFilter').on('keyup', function () {
+            table.column(columnIndexes[0]).search(this.value).draw();
+        });
+        $('#customerFilter').on('keyup', function () {
+            table.column(columnIndexes[1]).search(this.value).draw();
+        });
+        $('#emailFilter').on('keyup', function () {
+            table.column(columnIndexes[2]).search(this.value).draw();
+        });
+        $('#addressFilter').on('keyup', function () {
+            table.column(columnIndexes[3]).search(this.value).draw();
+        });
+        $('#shippingMethodFilter').on('change', function () {
+            table.column(columnIndexes[4]).search(this.value).draw();
+        });
+        $('#statusFilter').on('change', function () {
+            table.column(columnIndexes[5]).search(this.value).draw();
+        });
+        $('#amountFilter').on('keyup', function () {
+            table.column(columnIndexes[6]).search(this.value).draw();
+        });
+        $('#cardNumberFilter').on('keyup', function () {
+            table.column(columnIndexes[7]).search(this.value).draw();
+        });
+        $('#billingZipFilter').on('keyup', function () {
+            table.column(columnIndexes[9]).search(this.value).draw();
+        });
+        $('#transactionDateFilter').on('change', function () {
+            table.column(columnIndexes[10]).search(this.value).draw();
+        });
+        $('#authTokenFilter').on('keyup', function () {
+            table.column(columnIndexes[11]).search(this.value).draw();
+        });
+        $('#authAmountFilter').on('keyup', function () {
+            table.column(columnIndexes[12]).search(this.value).draw();
+        });
+        $('#warehouseStatusFilter').on('change', function () {
+            table.column(columnIndexes[14]).search(this.value).draw();
+        });
+    }
+    
 
     // Handle custom dropdowns for filters
     function handleCustomDropdown(dropdownButton, dropdownOptions, callback) {
@@ -239,40 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
         onDropdownSelection(selectedValues, 'Shipping Method');
     });
 
-    // Add filtering functionality for individual columns
-    function addColumnFiltering() {
-        $('#orderIDFilter').on('keyup', function () {
-            table.column('Order ID:name').search(this.value).draw();
-        });
-        $('#customerFilter').on('keyup', function () {
-            table.column('Customer:name').search(this.value).draw();
-        });
-        $('#emailFilter').on('keyup', function () {
-            table.column('Email:name').search(this.value).draw();
-        });
-        $('#addressFilter').on('keyup', function () {
-            table.column('Address:name').search(this.value).draw();
-        });
-        $('#amountFilter').on('keyup', function () {
-            table.column('Amount:name').search(this.value).draw();
-        });
-        $('#cardNumberFilter').on('keyup', function () {
-            table.column('Card Number:name').search(this.value).draw();
-        });
-        $('#billingZipFilter').on('keyup', function () {
-            table.column('Billing Zip:name').search(this.value).draw();
-        });
-        $('#transactionDateFilter').on('change', function () {
-            table.column('Transaction Date:name').search(this.value).draw();
-        });
-        $('#authTokenFilter').on('keyup', function () {
-            table.column('Authorization Token:name').search(this.value).draw();
-        });
-        $('#authAmountFilter').on('keyup', function () {
-            table.column('Authorization Amount:name').search(this.value).draw();
-        });
-    }
-
+    
     // Update totals function
     function updateTotals() {
         let totalAmount = 0;
