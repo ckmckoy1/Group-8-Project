@@ -63,14 +63,10 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollY: '50vh',
             orderCellsTop: true,
             colReorder: true, // Ensure colReorder is enabled
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
-                'rt' +
-                '<"row"<"col-md-6"i><"col-md-6"p>>', // Ensure 'l', 'i', and 'p' are present
-            buttons: [
-                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
-                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
-                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
-            ],
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
+            'rt' +
+            '<"row"<"col-md-6"i><"col-md-6"p>>',
+       
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
