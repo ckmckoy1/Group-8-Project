@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fetch and display orders
     async function fetchOrders(isRefresh = false) {
+        // Hide the error message initially
+        messageDiv.style.display = 'none';
+
+
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders');
 
