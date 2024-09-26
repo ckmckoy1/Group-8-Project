@@ -14,6 +14,7 @@
     overflow-y: auto;
     max-height: 60vh;
     position: relative;
+    overflow: visible;
 }
 
 /* Ensure the entire table wraps its content */
@@ -42,7 +43,7 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
     padding: 12px;
     text-align: left;
     word-wrap: break-word;
@@ -53,24 +54,24 @@ thead th {
     position: sticky;
     top: 0;
     background-color: #B9D9EB; /* Light blue background for headers */
-    color: #333; /* Dark gray text for readability */
+    color: #333; /* Dark grey text */
     z-index: 2;
     text-align: center;
     padding: 10px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
     box-sizing: border-box;
 
     /* Allow text to wrap without breaking words */
-    white-space: normal;     /* Allow text to wrap */
-    word-break: normal;      /* Do not break words */
-    overflow-wrap: normal;   /* Do not break words */
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: normal;
 }
 
 /* General styling for wrapping text in table headers and cells */
 table th, table td {
-    white-space: normal;     /* Allow text to wrap */
-    word-break: normal;      /* Do not break words */
-    overflow-wrap: normal;   /* Do not break words */
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: normal;
     padding: 10px;
     vertical-align: top;
 }
@@ -82,9 +83,9 @@ thead input[type="text"], thead select {
     height: 30px;
     width: auto;
     margin-bottom: 0;
-    border: 1px solid #ddd;
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
     background-color: white;
-    color: #333; /* Dark gray text */
+    color: #333; /* Dark grey text */
 }
 
 /* Remove hover effect on input and select fields */
@@ -92,18 +93,18 @@ thead input[type="text"]:hover,
 thead select:hover,
 .form-control:hover {
     background-color: white;
-    border-color: initial;
+    border-color: #A0BCCD; /* Maintain the soft grey-blue border */
     cursor: default;
 }
 
 /* Styling for 'Choose...' buttons */
 .select-button {
     background-color: white;
-    color: #007bff; /* Bootstrap primary blue */
+    color: #0056b3; /* Dark blue text */
     font-size: 0.8em;
     padding: 5px;
     height: 30px;
-    border: 1px solid #ddd;
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
@@ -117,8 +118,8 @@ thead select:hover,
 
 /* Hover effect for buttons */
 .select-button:hover {
-    background-color: #E0F0F8; /* Lighter shade of blue */
-    color: #0056b3;
+    background-color: #D6EAF5; /* Lighter shade of blue */
+    color: #003d80; /* Darker blue text */
 }
 
 /* Make sure buttons and input fields are aligned */
@@ -137,11 +138,13 @@ thead select:hover,
 /* Dropdown list styling */
 .dropdown-options {
     position: absolute;
+    top: 100%; /* Position below the button */
+    left: 0;
     background-color: white;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-    border: 1px solid #ddd;
+    z-index: 9999; /* Ensure it's on top */
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
     list-style: none;
     margin: 0;
     padding: 0;
@@ -164,12 +167,13 @@ thead select:hover,
 
 /* Dropdown item hover effect */
 .dropdown-options li:hover {
-    background-color: #E0E0E0; /* Light gray on hover */
+    background-color: #E0F0F8; /* Very light blue on hover */
 }
 
 /* Hide dropdown when not active */
 .dropdown-options {
     display: none;
+    z-index: 9999;
 }
 
 /* Ensure input boxes and select controls inside headers adjust size */
@@ -179,8 +183,8 @@ thead input.form-control, thead select.form-control {
     width: 100%;
     font-size: 0.8em;
     padding: 5px;
-    white-space: normal;     /* Allow text to wrap */
-    overflow-wrap: normal;   /* Do not break words */
+    white-space: normal;
+    overflow-wrap: normal;
 }
 
 /* Ensure input boxes and columns grow together */
@@ -194,7 +198,7 @@ tbody td {
     padding: 12px;
     text-align: left;
     vertical-align: top;
-    border: 1px solid #ddd;
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
 }
 
 /* Totals row styling */
@@ -203,8 +207,8 @@ tfoot td {
     text-align: right;
     padding: 12px;
     white-space: nowrap;
-    background-color: transparent;
-    color: #333; /* Dark gray text */
+    background-color: white;
+    color: #333; /* Dark grey text */
     vertical-align: top;
     border: none;
 }
@@ -213,10 +217,10 @@ tfoot td {
 tfoot td#totalAmount,
 tfoot td#totalTransactionAmount {
     font-weight: bold;
-    background-color: transparent;
+    background-color: white;
     text-align: right;
     padding-right: 12px;
-    color: #333; /* Dark gray text */
+    color: #333; /* Dark grey text */
     width: auto;
 }
 
@@ -227,9 +231,9 @@ tfoot {
 
 /* Make the row height adjust if text overflows */
 th, td {
-    white-space: normal;     /* Allow text to wrap */
-    word-break: normal;      /* Do not break words */
-    overflow-wrap: normal;   /* Do not break words */
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: normal;
     height: auto;
 }
 
@@ -285,13 +289,13 @@ div.dataTables_length {
     padding: 5px 10px;
     margin: 2px;
     background-color: #B9D9EB; /* Light blue background */
-    color: #333; /* Dark gray text */
+    color: #333; /* Dark grey text */
     border-radius: 5px;
 }
 
 /* Hover effect for pagination buttons */
 .dataTables_paginate .paginate_button:hover {
-    background-color: #ADD8E6; /* Slightly darker shade */
+    background-color: #D6EAF5; /* Lighter shade of blue */
 }
 
 /* Align total row with the columns */
@@ -302,12 +306,12 @@ tfoot {
 
 /* Table striped rows */
 .table-striped tr:nth-child(even) {
-    background-color: #F9F9F9; /* Light gray for even rows */
+    background-color: #F0F8FF; /* AliceBlue for even rows */
 }
 
 /* Row hover effect */
 .table-striped tr:hover {
-    background-color: #E0E0E0; /* Light gray on hover */
+    background-color: #E0F0F8; /* Very light blue on hover */
     transition: background-color 0.3s ease;
 }
 
