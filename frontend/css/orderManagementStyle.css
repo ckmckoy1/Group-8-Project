@@ -252,10 +252,17 @@ button:hover, th:hover {
     }
 }
 
+/* Adjustments for very small screens */
 @media screen and (max-width: 480px) {
+    .table-container {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
     table, th, td {
         font-size: 0.75em;
         padding: 8px;
+        min-width: 600px; /* Set a minimum width to prevent table from becoming too narrow */
     }
 
     input[type="text"], select {
