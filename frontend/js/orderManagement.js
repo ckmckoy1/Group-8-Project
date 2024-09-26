@@ -61,11 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
                  'rt' +
                  '<"row"<"col-md-6"i><"col-md-6"p>>',
-            buttons: [
-                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
-                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
-                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
-            ],
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
