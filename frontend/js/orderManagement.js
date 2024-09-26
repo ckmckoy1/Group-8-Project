@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
             searching: true,
             info: true,
             ordering: true,
+            orderCellsTop: true,
             pageLength: 10,
             scrollX: true,
             scrollY: '50vh',
-            orderCellsTop: true,
             colReorder: {
                 realtime: false // Disable realtime reordering to prevent conflicts
             },
