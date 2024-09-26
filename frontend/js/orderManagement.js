@@ -6,18 +6,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Hide the error message initially
     messageDiv.style.display = 'none';
 
-    // Initialize the DataTable first
-    initializeDataTable();
-
     // Fetch the orders from the backend when the page loads
     fetchOrders();
 
     // Fetch and display orders
     async function fetchOrders(isRefresh = false) {
-        // Hide the error message initially
-        messageDiv.style.display = 'none';
-
-
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders');
 
@@ -48,70 +41,66 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-  // Initialize DataTables with export buttons, filtering, sorting, and column reordering
-function initializeDataTable() {
-    table = $('#orderTable').DataTable({
-        stateSave: true,  // Enable state saving
-        paging: true,
-        lengthMenu: [10, 25, 50, 100],
-        searching: true,
-        info: true,
-        ordering: true,
-        pageLength: 10,
-        scrollX: true,
-        scrollY: '50vh',
-        orderCellsTop: true,
-        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"f><"col-md-6 d-flex justify-content-end"l>>' +
-             'rt' +
-             '<"row"<"col-md-6"i><"col-md-6"p>>',
-        buttons: [
-            { extend: 'csvHtml5', className: 'buttons-csv', text: 'CSV', exportOptions: { columns: ':visible' } },
-            { extend: 'pdfHtml5', className: 'buttons-pdf', text: 'PDF', exportOptions: { columns: ':visible' } },
-            { extend: 'excelHtml5', className: 'buttons-excel', text: 'Excel', exportOptions: { columns: ':visible' } }
-        ],
-        language: {
-            lengthMenu: 'Show _MENU_ entries',
-            info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-            paginate: {
-                previous: 'Previous',
-                next: 'Next'
-            }
-        },
-        colReorder: true, // Enable column reordering
-        columnDefs: [
-            { name: 'Order ID', targets: 0 },
-            { name: 'Customer', targets: 1 },
-            { name: 'Email', targets: 2 },
-            { name: 'Address', targets: 3 },
-            { name: 'Shipping Method', targets: 4 },
-            { name: 'Payment Status', targets: 5 },
-            { name: 'Amount', targets: 6 },
-            { name: 'Card Number', targets: 7 },
-            { name: 'Expiration Date', targets: 8 },
-            { name: 'Billing Zip', targets: 9 },
-            { name: 'Transaction Date', targets: 10 },
-            { name: 'Authorization Token', targets: 11 },
-            { name: 'Authorization Amount', targets: 12 },
-            { name: 'Authorization Expiration', targets: 13 },
-            { name: 'Warehouse Status', targets: 14 }
-        ]
-    });
+    // Initialize DataTables with export buttons, filtering, sorting, and column reordering
+    function initializeDataTable() {
+        table = $('#orderTable').DataTable({
+            stateSave: true,  // Enable state saving
+            paging: true,
+            lengthMenu: [10, 25, 50, 100],
+            searching: true,
+            info: true,
+            ordering: true,
+            pageLength: 10,
+            scrollX: true,
+            scrollY: '50vh',
+            orderCellsTop: true,
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
+                 'rt' +
+                 '<"row"<"col-md-6"i><"col-md-6"p>>',
+            buttons: [
+                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
+                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
+                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
+            ],
+            language: {
+                lengthMenu: 'Show _MENU_ entries',
+                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                paginate: {
+                    previous: 'Previous',
+                    next: 'Next'
+                }
+            },
+            colReorder: true, // Enable column reordering
+            columnDefs: [
+                { name: 'Order ID', targets: 0 },
+                { name: 'Customer', targets: 1 },
+                { name: 'Email', targets: 2 },
+                { name: 'Address', targets: 3 },
+                { name: 'Shipping Method', targets: 4 },
+                { name: 'Payment Status', targets: 5 },
+                { name: 'Amount', targets: 6 },
+                { name: 'Card Number', targets: 7 },
+                { name: 'Expiration Date', targets: 8 },
+                { name: 'Billing Zip', targets: 9 },
+                { name: 'Transaction Date', targets: 10 },
+                { name: 'Authorization Token', targets: 11 },
+                { name: 'Authorization Amount', targets: 12 },
+                { name: 'Authorization Expiration', targets: 13 },
+                { name: 'Warehouse Status', targets: 14 }
+            ]
+        });
 
-    // Hide the DataTables export buttons from the UI
-    table.buttons().container().hide();
+        // Update filters and sorting after column reordering
+        table.on('column-reorder', function (e, settings, details) {
+            console.log('Columns reordered');
+            // Re-bind filtering for the reordered columns
+            addColumnFiltering();
+        });
 
-    // Update filters and sorting after column reordering
-    table.on('column-reorder', function (e, settings, details) {
-        console.log('Columns reordered');
-        // Re-bind filtering for the reordered columns
+        // Bind filtering after initializing the table
         addColumnFiltering();
-    });
-
-    // Bind filtering after initializing the table
-    addColumnFiltering();
-    table.on('draw', updateTotals); // Update totals on draw
-}
-
+        table.on('draw', updateTotals); // Update totals on draw
+    }
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
@@ -311,6 +300,27 @@ function initializeDataTable() {
         $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
     }
 
+    // Download functionality
+    document.getElementById('downloadButton').addEventListener('click', function () {
+        $('#downloadModal').modal('show');
+    });
+
+    document.getElementById('downloadConfirm').addEventListener('click', function () {
+        const format = document.getElementById('downloadFormat').value;
+        exportTable(format);
+        $('#downloadModal').modal('hide');
+    });
+
+    // Export the table in the selected format
+    function exportTable(format) {
+        if (format === 'csv') {
+            table.button('.buttons-csv').trigger();
+        } else if (format === 'pdf') {
+            table.button('.buttons-pdf').trigger();
+        } else if (format === 'excel') {
+            table.button('.buttons-excel').trigger();
+        }
+    }
 
     // Refresh table functionality
     document.getElementById('refreshTable').addEventListener('click', function () {
