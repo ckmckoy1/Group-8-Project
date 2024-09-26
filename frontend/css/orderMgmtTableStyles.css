@@ -1,129 +1,131 @@
 /* Main container for content */
 .container-fluid {
-    background-color: white; /* Set the background color of the main container */
-    padding: 2em; /* Add padding around the content */
-    margin: 20px auto; /* Center the container with auto margins */
-    max-width: 1500px; /* Set a maximum width to avoid it stretching too much */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for a cleaner look */
-    border-radius: 8px; /* Round the corners of the container */
+    background-color: white;
+    padding: 2em;
+    margin: 20px auto;
+    max-width: 1500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 /* Scrollable table container */
 .table-container {
-    overflow-x: auto; /* Allow horizontal scrolling for wide tables */
-    overflow-y: auto; /* Allow vertical scrolling for long tables */
-    max-height: 60vh; /* Limit the table's maximum height to 60% of the viewport */
-    position: relative; /* Ensure correct positioning for child elements like sticky headers */
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 60vh;
+    position: relative;
 }
 
 /* Ensure the entire table wraps its content */
 .table-container table {
-    width: 100%; /* Full width table */
+    width: 100%;
 }
 
 /* Adjust column widths based on content */
 .table-container th, 
 .table-container td {
-    width: auto; /* Automatically adjust width based on content */
+    width: auto;
 }
 
 /* Remove any forced max-height, allowing rows to grow */
 .table-container {
-    max-height: none; /* Allow rows to grow based on content */
+    max-height: none;
 }
-
 
 /* Table layout and style */
 table {
-    width: 100%; /* Ensure the table takes up the full width of the container */
-    table-layout: auto; /* Allow columns to resize based on their content */
-    border-collapse: collapse; /* Ensure there’s no space between cells */
-    font-size: 0.9em; /* Slightly smaller font for better readability */
-    min-width: 100%; /* Allow table to shrink to its content */
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    min-width: 100%;
+}
 
 table, th, td {
-    border: 1px solid #ddd; /* Light border for a clean look */
-    padding: 12px; /* Add padding inside cells */
-    text-align: left; /* Align text to the left */
-    word-wrap: break-word; /* Ensure words break within columns instead of overflowing */
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    word-wrap: break-word;
 }
 
 /* Table header and input field styles */
 thead th {
-    position: sticky; /* Sticky headers stay in place when scrolling */
-    top: 0; /* Stick to the top */
+    position: sticky;
+    top: 0;
     background-color: #B9D9EB; /* Light blue background for headers */
-    color: #003366; /* Darker blue text for readability */
-    z-index: 2; /* Ensure the header stays on top */
-    text-align: center; /* Center align the header text */
-    padding: 10px 15px; /* Padding to prevent text from touching edges */
-    border: 1px solid #ddd; /* Light border for headers */
-    box-sizing: border-box; /* Include padding in the element's total width and height */
-    white-space: normal; /* Allow the header text to wrap */
-    overflow-wrap: normal; /* Prevent breaking words in awkward places */
-    word-break: normal; /* Ensure words are not broken between lines */
+    color: #333; /* Dark gray text for readability */
+    z-index: 2;
+    text-align: center;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+
+    /* Allow text to wrap without breaking words */
+    white-space: normal;     /* Allow text to wrap */
+    word-break: normal;      /* Do not break words */
+    overflow-wrap: normal;   /* Do not break words */
 }
 
 /* General styling for wrapping text in table headers and cells */
 table th, table td {
-    white-space: normal; /* Allow text to wrap if it exceeds the column width */
-    word-wrap: normal; /* Don't break words, just wrap whole words */
-    overflow-wrap: anywhere; /* Allows text to wrap without breaking words */
-    padding: 10px; /* Adjust padding for better readability */
-    vertical-align: top; /* Align text at the top to avoid awkward middle alignment */
+    white-space: normal;     /* Allow text to wrap */
+    word-break: normal;      /* Do not break words */
+    overflow-wrap: normal;   /* Do not break words */
+    padding: 10px;
+    vertical-align: top;
 }
 
 /* Input and form control styling to match the header */
 thead input[type="text"], thead select {
-    font-size: 0.8em; /* Slightly smaller font for input fields */
-    padding: 5px; /* Padding inside input fields */
-    height: 30px; /* Set a default height for input fields */
-    width: auto; /* Allow input fields to resize based on content */
-    margin-bottom: 0; /* Remove extra margin at the bottom */
-    border: 1px solid #ddd; /* Light border for input fields */
-    background-color: white; /* Set background color for input fields */
-    color: #003366; /* Darker blue text for consistency */
+    font-size: 0.8em;
+    padding: 5px;
+    height: 30px;
+    width: auto;
+    margin-bottom: 0;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #333; /* Dark gray text */
 }
 
 /* Remove hover effect on input and select fields */
 thead input[type="text"]:hover,
 thead select:hover,
 .form-control:hover {
-    background-color: white; /* Keep background color the same on hover */
-    border-color: initial; /* Reset border color to default on hover */
-    cursor: default; /* Change cursor to default to avoid hover effects */
+    background-color: white;
+    border-color: initial;
+    cursor: default;
 }
 
 /* Styling for 'Choose...' buttons */
 .select-button {
-    background-color: white; /* White background */
-    color: #007bff; /* Blue text */
-    font-size: 0.8em; /* Smaller font size to match input fields */
-    padding: 5px; /* Same padding as input boxes */
-    height: 30px; /* Same height as input fields */
-    border: 1px solid #ddd; /* Border matching the input boxes */
-    border-radius: 4px; /* Slight border radius for buttons */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    text-align: center; /* Center the text */
-    width: 100%; /* Make the button take up the full width of its container */
+    background-color: white;
+    color: #007bff; /* Bootstrap primary blue */
+    font-size: 0.8em;
+    padding: 5px;
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
 }
 
 /* Remove default select styles */
 .select-button:focus {
-    outline: none; /* Remove the outline when focused */
+    outline: none;
 }
 
 /* Hover effect for buttons */
 .select-button:hover {
-    background-color: #f1f1f1; /* Light gray background on hover */
-    color: #0056b3; /* Darker blue text on hover */
+    background-color: #E0F0F8; /* Lighter shade of blue */
+    color: #0056b3;
 }
 
 /* Make sure buttons and input fields are aligned */
 .form-control {
-    font-size: 0.8em; /* Ensure input fields have the same font size */
-    height: 30px; /* Set the height to 30px to match buttons */
-    padding: 5px; /* Consistent padding */
+    font-size: 0.8em;
+    height: 30px;
+    padding: 5px;
 }
 
 /* Dropdown container styling */
@@ -139,13 +141,12 @@ thead select:hover,
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     z-index: 1;
-    padding: 0;
     border: 1px solid #ddd;
     list-style: none;
     margin: 0;
     padding: 0;
-    color:#333;
-    font-size: 1em; /* Ensure input fields have the same font size */
+    color: #333;
+    font-size: 1em;
 }
 
 /* Dropdown item styling */
@@ -157,68 +158,66 @@ thead select:hover,
     cursor: pointer;
     width: 100%;
     text-align: left;
-    color:#333;
-    font-size: 1em; /* Ensure input fields have the same font size */
+    color: #333;
+    font-size: 1em;
 }
 
 /* Dropdown item hover effect */
 .dropdown-options li:hover {
-    background-color: #f1f1f1;
+    background-color: #E0E0E0; /* Light gray on hover */
 }
 
 /* Hide dropdown when not active */
 .dropdown-options {
-    display: none; /* Ensure dropdown options are hidden by default */
+    display: none;
 }
-
 
 /* Ensure input boxes and select controls inside headers adjust size */
 thead input.form-control, thead select.form-control {
-    height: auto; /* Adjust height based on the content */
-    min-height: 30px; /* Minimum height to ensure good appearance */
-    width: 100%; /* Full width to match column size */
-    font-size: 0.8em; /* Slightly smaller font */
-    padding: 5px; /* Adjust padding */
-    white-space: normal; /* Allow wrapping */
-    overflow-wrap: anywhere; /* Prevent breaking words but allow wrapping */
+    height: auto;
+    min-height: 30px;
+    width: 100%;
+    font-size: 0.8em;
+    padding: 5px;
+    white-space: normal;     /* Allow text to wrap */
+    overflow-wrap: normal;   /* Do not break words */
 }
-
 
 /* Ensure input boxes and columns grow together */
 table th, table td, thead input.form-control, thead select.form-control {
-    vertical-align: top; /* Align everything to the top */
-    height: auto; /* Allow dynamic height */
+    vertical-align: top;
+    height: auto;
 }
 
 /* Table body cell styling */
 tbody td {
-    padding: 12px; /* Add padding inside table body cells */
-    text-align: left; /* Align text to the left */
-    vertical-align: top; /* Align text to the top of the cell */
-    border: 1px solid #ddd; /* Light border for table cells */
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid #ddd;
 }
 
 /* Totals row styling */
 tfoot td {
-    font-weight: bold; /* Make the text bold for totals */
-    text-align: right; /* Align totals to the right */
-    padding: 12px; /* Add padding inside the footer cells */
-    white-space: nowrap; /* Prevent text wrapping in the totals row */
-    background-color: transparent; /* No background color for the totals row */
-    color: #003366; /* Darker blue text for totals */
-    vertical-align: top; /* Align text to the top for consistency */
-    border: none; /* Remove borders for the footer cells */
+    font-weight: bold;
+    text-align: right;
+    padding: 12px;
+    white-space: nowrap;
+    background-color: transparent;
+    color: #333; /* Dark gray text */
+    vertical-align: top;
+    border: none;
 }
 
 /* Align the total amount and total transaction amount correctly */
 tfoot td#totalAmount,
 tfoot td#totalTransactionAmount {
-    font-weight: bold; /* Make totals bold */
-    background-color: transparent; /* No background color */
-    text-align: right; /* Align totals to the right */
-    padding-right: 12px; /* Add padding to the right */
-    color: #003366; /* Darker blue text for consistency */
-    width: auto; /* Ensure width matches the table's column width */
+    font-weight: bold;
+    background-color: transparent;
+    text-align: right;
+    padding-right: 12px;
+    color: #333; /* Dark gray text */
+    width: auto;
 }
 
 /* Ensure totals row grows with the table */
@@ -226,97 +225,97 @@ tfoot {
     display: table-row-group;
 }
 
-
 /* Make the row height adjust if text overflows */
 th, td {
-    white-space: normal; /* Allow text to wrap if necessary */
-    word-break: normal; /* Prevent words from breaking awkwardly */
-    height: auto; /* Adjust row height based on content */
+    white-space: normal;     /* Allow text to wrap */
+    word-break: normal;      /* Do not break words */
+    overflow-wrap: normal;   /* Do not break words */
+    height: auto;
 }
 
 /* Ensure column headers, filter inputs, and table columns align perfectly */
 .table-container table {
-    width: 100%; /* Make sure the table takes up the full width */
+    width: 100%;
 }
 
 .table-container th, 
 .table-container td {
-    width: auto; /* Allow column width to adjust based on content */
+    width: auto;
 }
 
 /* Adjust modal column list width to avoid stretching */
 .modal-dialog .list-group-item {
-    width: 100px; /* Set a fixed width for items in the modal list */
+    width: 100px;
 }
 
 /* Scrollable header and input row but fixed total */
 .table-scrollable {
-    max-height: 50vh; /* Set a maximum height for the scrollable table */
-    overflow-x: auto; /* Allow horizontal scrolling */
-    overflow-y: auto; /* Allow vertical scrolling */
-    position: relative; /* Maintain relative positioning */
+    max-height: 50vh;
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
 }
 
 /* General DataTables wrapper styling */
 div.dataTables_wrapper {
-    margin-bottom: 1em; /* Add margin below the DataTables wrapper */
-    clear: both; /* Ensure the wrapper clears any floating elements */
+    margin-bottom: 1em;
+    clear: both;
 }
 
 /* Adjust DataTables length dropdown */
 div.dataTables_length {
-    margin-top: -7px; /* Adjust top margin to align with buttons */
-    margin-left: 20px; /* Add left margin */
+    margin-top: -7px;
+    margin-left: 20px;
 }
 
 /* Ensure DataTables info and pagination are visible */
 .dataTables_info {
-    display: block; /* Ensure the info section is visible */
-    color: #333; /* Set text color */
-    margin-top: 10px; /* Add margin to the top */
+    display: block;
+    color: #333;
+    margin-top: 10px;
 }
 
 .dataTables_paginate {
-    display: flex; /* Use flexbox to arrange pagination buttons */
-    justify-content: flex-end; /* Align pagination to the right */
-    margin-top: 10px; /* Add margin to the top */
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
 }
 
 .dataTables_paginate .paginate_button {
-    padding: 5px 10px; /* Add padding to pagination buttons */
-    margin: 2px; /* Add margin around buttons */
-    background-color: #007bff; /* Set button background color */
-    color: white; /* Set button text color */
-    border-radius: 5px; /* Round button corners */
+    padding: 5px 10px;
+    margin: 2px;
+    background-color: #B9D9EB; /* Light blue background */
+    color: #333; /* Dark gray text */
+    border-radius: 5px;
 }
 
 /* Hover effect for pagination buttons */
 .dataTables_paginate .paginate_button:hover {
-    background-color: #0056b3; /* Darken button on hover */
+    background-color: #ADD8E6; /* Slightly darker shade */
 }
 
 /* Align total row with the columns */
 tfoot {
-    display: table-row-group; /* Display totals row as part of the table */
-    background-color: white; /* Set background color for consistency */
+    display: table-row-group;
+    background-color: white;
 }
 
 /* Table striped rows */
 .table-striped tr:nth-child(even) {
-    background-color: #f9f9f9; /* Light gray background for even rows */
+    background-color: #F9F9F9; /* Light gray for even rows */
 }
 
 /* Row hover effect */
 .table-striped tr:hover {
-    background-color: #f1f1f1; /* Change background color on hover */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    background-color: #E0E0E0; /* Light gray on hover */
+    transition: background-color 0.3s ease;
 }
 
 /* Buttons Section - Keep buttons and length dropdown aligned in the same row */
 .row.mb-3 {
-    display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Align items vertically in the center */
-    justify-content: space-between; /* Space out elements evenly */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* Center content in the table */
@@ -324,44 +323,43 @@ tfoot {
 .centered-content th, 
 .centered-text, 
 .centered-text th {
-    text-align: center; /* Center text alignment */
+    text-align: center;
 }
 
 /* Responsive adjustments for smaller screens */
 @media screen and (max-width: 768px) {
     table, th, td {
-        font-size: 0.8em; /* Adjust font size */
-        padding: 10px; /* Add padding */
+        font-size: 0.8em;
+        padding: 10px;
     }
 
     thead input[type="text"], 
     thead select {
-        font-size: 0.7em; /* Reduce font size for inputs */
-        padding: 4px; /* Adjust padding */
-        height: 28px; /* Reduce input height */
+        font-size: 0.7em;
+        padding: 4px;
+        height: 28px;
     }
 
     .form-control {
-        font-size: 0.7em; /* Reduce font size */
-        padding: 4px; /* Adjust padding */
-        height: 28px; /* Reduce height */
+        font-size: 0.7em;
+        padding: 4px;
+        height: 28px;
     }
 }
 
 /* Further adjustments for very small screens */
 @media screen and (max-width: 480px) {
     table, th, td {
-        font-size: 0.75em; /* Reduce font size for very small screens */
-        padding: 8px; /* Adjust padding */
+        font-size: 0.75em;
+        padding: 8px;
     }
 
     input[type="text"], select {
-        margin-bottom: 10px; /* Add margin at the bottom */
-        width: 100%; /* Ensure inputs take up full width */
+        margin-bottom: 10px;
+        width: 100%;
     }
 
     button {
-        width: 100%; /* Ensure buttons take up full width */
+        width: 100%;
     }
-}
 }

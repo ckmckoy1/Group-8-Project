@@ -1,7 +1,7 @@
 /* General body styling */
 html, body {
     height: 100%;
-    background: #f8f8f8;
+    background: #F5F5F5; /* Light gray background */
     padding: 0;
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -10,15 +10,29 @@ html, body {
     min-height: 100vh;
 }
 
+.navbar {
+    background-color: #f8f9fa; /* Light gray background for navbar */
+    border-bottom: 1px solid #ddd; /* Gray border at the bottom */
+}
+
 .navbar-brand {
     font-size: 2em;
+    color: #333; /* Dark gray text */
+}
+
+.navbar-nav .nav-link {
+    color: #333; /* Dark gray text */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #0056b3; /* Bootstrap dark blue on hover */
 }
 
 h2 {
     margin: 0;
     font-size: 2em;
+    color: #333; /* Dark gray text */
 }
-
 
 /* Message styling */
 .message {
@@ -55,16 +69,17 @@ h2 {
 
 /* Footer styling */
 footer.footer {
-    background-color: #333;
-    color: white;
+    background-color: #f8f9fa; /* Light gray background for footer */
+    color: #333; /* Dark gray text */
     padding: 1.5em 0;
     text-align: right;
     width: 100%;
     margin-top: auto;
+    border-top: 1px solid #ddd; /* Gray border at the top */
 }
 
 footer.footer a {
-    color: white;
+    color: #333; /* Dark gray text */
     text-decoration: none;
     font-size: 1em;
     text-align: right;
@@ -72,6 +87,7 @@ footer.footer a {
 
 footer.footer a:hover {
     text-decoration: underline;
+    color: #0056b3; /* Bootstrap dark blue on hover */
 }
 
 /* Add spacing between the links */
@@ -102,9 +118,9 @@ footer.footer .d-flex {
 }
 
 .modal-header {
-    background-color: #007bff;
-    color: white;
-    border-bottom: none;
+    background-color: #f8f9fa; /* Light gray background */
+    color: #333; /* Dark gray text */
+    border-bottom: 1px solid #ddd;
     padding: 15px;
 }
 
@@ -121,7 +137,7 @@ footer.footer .d-flex {
 
 .modal-footer {
     background-color: white;
-    border-top: none;
+    border-top: 1px solid #ddd;
     padding: 10px 20px;
     text-align: right;
 }
@@ -133,21 +149,21 @@ footer.footer .d-flex {
 
 /* Primary button for the modal */
 .modal-footer .btn-primary {
-    background-color: #007bff;
+    background-color: #007bff; /* Bootstrap primary blue */
     color: white;
     border-color: #007bff;
     transition: background-color 0.3s ease;
 }
 
 .modal-footer .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Darker blue on hover */
     border-color: #0056b3;
 }
 
 /* Control column drag popup sizes */
 .modal-dialog .list-group-item {
-    width: 100px; /* Match the column size in the table */
-    white-space: nowrap; /* Prevent wrapping in column chooser */
+    width: 100px;
+    white-space: nowrap;
 }
 
 /* Secondary button for the modal */
@@ -164,19 +180,19 @@ footer.footer .d-flex {
 
 /* Modal close button styling */
 .modal-header .close {
-    color: white;
+    color: #333; /* Dark gray */
     font-size: 1.5em;
     opacity: 1;
 }
 
 .modal-header .close:hover {
-    color: #d4d4d4;
+    color: #000; /* Black on hover */
 }
 
 /* Normal button background color */
 button, th {
-    background-color: #B9D9EB;
-    color: white;
+    background-color: #B9D9EB; /* Light blue */
+    color: #333; /* Dark gray text */
     border: none;
     cursor: pointer;
     padding: 10px 20px;
@@ -185,25 +201,60 @@ button, th {
 }
 
 /* Hover state */
-th:hover {
-    background-color: #ADD8E6;
-    color: white;
+button:hover, th:hover {
+    background-color: #ADD8E6; /* Slightly darker shade */
+    color: #333;
 }
 
 /* Custom button color */
 #refreshTable, #chooseColumns, #downloadButton {
     background-color: white;
-    color: #007bff;
-    border-color: #007bff;
+    color: #007bff; /* Bootstrap primary blue */
+    border: 1px solid #007bff;
     border-radius: 5px;
 }
 
 #refreshTable:hover, 
 #chooseColumns:hover, 
 #downloadButton:hover {
-    background-color: #ADD8E6;
+    background-color: #E0F0F8; /* Lighter shade */
     border-color: #0056b3;
+    color: #0056b3;
 }
+
+/* Footer styling */
+footer.footer {
+    background-color: #f8f9fa; /* Light gray background */
+    color: #333; /* Dark gray text */
+    padding: 1.5em 0;
+    text-align: right;
+    width: 100%;
+    margin-top: auto;
+    border-top: 1px solid #ddd; /* Gray border at the top */
+}
+
+footer.footer a {
+    color: #333; /* Dark gray text */
+    text-decoration: none;
+    font-size: 1em;
+}
+
+footer.footer a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Dark blue on hover */
+}
+
+footer.footer .mx-2 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+footer.footer .d-flex {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {

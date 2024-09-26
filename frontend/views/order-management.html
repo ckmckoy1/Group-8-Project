@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <!-- DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
     <!-- jQuery UI CSS -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- Custom CSS -->
@@ -16,7 +18,7 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <a class="navbar-brand" href="#">WPO Order Management</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -85,20 +87,20 @@
                             <th>
                                 <button id="shippingMethodFilterButton" class="select-button">Choose...</button>
                                 <ul id="shippingMethodFilterOptions" class="dropdown-options">
-                                    <li data-value="selectAll">Select All</li>
-                                    <li data-value="clearAll">Clear All</li>
-                                    <li data-value="Standard">Standard Shipping (5-7 days)</li>
-                                    <li data-value="Express">Express Shipping (2-3 days)</li>
+                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                                    <li data-value="Standard"><input type="checkbox"> Standard Shipping (5-7 days)</li>
+                                    <li data-value="Express"><input type="checkbox"> Express Shipping (2-3 days)</li>
                                 </ul>
                             </th>
                             <th>
                                 <button id="statusFilterButton" class="select-button">Choose...</button>
                                 <ul id="statusFilterOptions" class="dropdown-options">
-                                    <li data-value="selectAll">Select All</li>
-                                    <li data-value="clearAll">Clear All</li>
-                                    <li data-value="Authorized">Authorized</li>
-                                    <li data-value="Pending">Pending</li>
-                                    <li data-value="Failed">Failed</li>
+                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                                    <li data-value="Authorized"><input type="checkbox"> Authorized</li>
+                                    <li data-value="Pending"><input type="checkbox"> Pending</li>
+                                    <li data-value="Failed"><input type="checkbox"> Failed</li>
                                 </ul>
                             </th>
                             <th><input type="text" id="amountFilter" class="form-control"></th>
@@ -112,11 +114,11 @@
                             <th>
                                 <button id="warehouseStatusFilterButton" class="select-button">Choose...</button>
                                 <ul id="warehouseStatusFilterOptions" class="dropdown-options">
-                                    <li data-value="selectAll">Select All</li>
-                                    <li data-value="clearAll">Clear All</li>
-                                    <li data-value="Settled">Settled</li>
-                                    <li data-value="Pending">Pending</li>
-                                    <li data-value="N/A">N/A</li>
+                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                                    <li data-value="Settled"><input type="checkbox"> Settled</li>
+                                    <li data-value="Pending"><input type="checkbox"> Pending</li>
+                                    <li data-value="N/A"><input type="checkbox"> N/A</li>
                                 </ul>
                             </th>
                         </tr>
@@ -139,52 +141,51 @@
 
     </div>
 
-<!-- Modal for Choose Columns -->
-<div class="modal fade" id="chooseColumnsModal" tabindex="-1" role="dialog" aria-labelledby="chooseColumnsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chooseColumnsModalLabel">Choose Columns</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h6>Available Columns</h6>
-                        <ul id="availableColumns" class="list-group connectedSortable">
-                            <!-- Available columns will be populated here -->
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h6>Selected Columns</h6>
-                        <ul id="selectedColumns" class="list-group connectedSortable">
-                            <!-- Selected columns will be populated here -->
-                        </ul>
+    <!-- Modal for Choose Columns -->
+    <div class="modal fade" id="chooseColumnsModal" tabindex="-1" role="dialog" aria-labelledby="chooseColumnsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Choose Columns</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                   <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Available Columns</h6>
+                            <ul id="availableColumns" class="list-group connectedSortable">
+                                <!-- Available columns will be populated here -->
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Selected Columns</h6>
+                            <ul id="selectedColumns" class="list-group connectedSortable">
+                                <!-- Selected columns will be populated here -->
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="applyColumns" class="btn btn-primary">Apply</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div class="modal-footer">
+                    <button type="button" id="applyColumns" class="btn btn-primary">Apply</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 
     <!-- Modal for Download Options -->
     <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="downloadModalLabel">Download Options</h5>
+                    <h5 class="modal-title">Download Options</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                   <div class="modal-body">
                     <div class="form-group">
                         <label for="downloadFormat">Choose Format</label>
                         <select id="downloadFormat" class="form-control">
@@ -205,26 +206,42 @@
     <!-- Message Section -->
     <div id="message" class="alert alert-danger mt-4" style="display: none;"></div>
 
-    <!-- Footer -->
-    <footer class="footer bg-dark text-white mt-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 d-flex justify-content-end align-items-center">
-                    <a href="#" class="text-white">Privacy Policy</a> 
-                    <span class="mx-2">|</span> <!-- Separator with spacing -->
-                    <a href="#" class="text-white">Terms of Use</a>
-                </div>
+<!-- Footer -->
+<footer class="footer mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-end align-items-center">
+                <a href="#">Privacy Policy</a>
+                <span class="mx-2">|</span>
+                <a href="#">Terms of Use</a>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
+
 
     <!-- Scripts -->
-<!-- jQuery first, then DataTables, and then Bootstrap JS -->
+    <!-- jQuery first, then DataTables, and then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery UI for sortable functionality -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables ColReorder Extension -->
     <script src="https://cdn.datatables.net/colreorder/1.5.6/js/dataTables.colReorder.min.js"></script>
+    <!-- DataTables Buttons Extension (for export buttons) -->
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+    <!-- DataTables Buttons HTML5 Export -->
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+    <!-- DataTables Buttons JSZip (for Excel export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <!-- DataTables Buttons PDFMake (for PDF export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <!-- PDFMake VFS Fonts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    <!-- Custom JS -->
     <script src="../js/orderManagement.js"></script>
 </body>
 </html>

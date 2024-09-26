@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchOrders(isRefresh = false) {
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders');
-            
+
             // Check if the fetch response is successful
             if (!response.ok) {
                 throw new Error('Failed to fetch orders');
@@ -41,55 +41,71 @@ document.addEventListener('DOMContentLoaded', function () {
             // Display orders
             displayOrders(orders);
 
-            } catch (error) {
+        } catch (error) {
             console.error('Error fetching orders:', error);
 
             // Show error message if there's an issue with the fetch
             messageDiv.textContent = 'Error fetching orders. Please try again later.';
             messageDiv.style.display = 'block';
-            }
-            }
-
- // Initialize DataTables with export buttons, filtering, and column reordering
- function initializeDataTable() {
-    table = $('#orderTable').DataTable({
-        paging: true,
-        lengthMenu: [10, 25, 50, 100],
-        searching: true,
-        info: true,
-        ordering: true,
-        pageLength: 10,
-        scrollX: true,
-        scrollY: '50vh',
-        orderCellsTop: true,
-        colReorder: true, // Ensure colReorder is enabled
-        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
-        'rt' +
-        '<"row"<"col-md-6"i><"col-md-6"p>>', // Ensure 'l', 'i', and 'p' are present
-        buttons: [
-            { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
-            { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
-            { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
-        ],
-        language: {
-            lengthMenu: 'Show _MENU_ entries',
-            info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-            paginate: {
-                previous: 'Previous',
-                next: 'Next'
-            }
         }
-    });
+    }
 
-    // Listen for column reorder events
-    table.on('column-reorder', function (e, settings, details) {
-        console.log('Columns reordered');
-    });
+    // Initialize DataTables with export buttons, filtering, and column reordering
+    function initializeDataTable() {
+        table = $('#orderTable').DataTable({
+            paging: true,
+            lengthMenu: [10, 25, 50, 100],
+            searching: true,
+            info: true,
+            ordering: true,
+            pageLength: 10,
+            scrollX: true,
+            scrollY: '50vh',
+            orderCellsTop: true,
+            colReorder: true, // Ensure colReorder is enabled
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"lB><"col-md-6 d-flex justify-content-end"f>>' +
+                'rt' +
+                '<"row"<"col-md-6"i><"col-md-6"p>>', // Ensure 'l', 'i', and 'p' are present
+            buttons: [
+                { extend: 'csv', className: 'buttons-csv', text: 'CSV' },
+                { extend: 'pdf', className: 'buttons-pdf', text: 'PDF' },
+                { extend: 'excel', className: 'buttons-excel', text: 'Excel' }
+            ],
+            language: {
+                lengthMenu: 'Show _MENU_ entries',
+                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+                paginate: {
+                    previous: 'Previous',
+                    next: 'Next'
+                }
+            },
+            columnDefs: [
+                { name: 'Order ID', targets: 0 },
+                { name: 'Customer', targets: 1 },
+                { name: 'Email', targets: 2 },
+                { name: 'Address', targets: 3 },
+                { name: 'Shipping Method', targets: 4 },
+                { name: 'Payment Status', targets: 5 },
+                { name: 'Amount', targets: 6 },
+                { name: 'Card Number', targets: 7 },
+                { name: 'Expiration Date', targets: 8 },
+                { name: 'Billing Zip', targets: 9 },
+                { name: 'Transaction Date', targets: 10 },
+                { name: 'Authorization Token', targets: 11 },
+                { name: 'Authorization Amount', targets: 12 },
+                { name: 'Authorization Expiration', targets: 13 },
+                { name: 'Warehouse Status', targets: 14 },
+            ],
+        });
 
-    addColumnFiltering();
-    table.on('draw', updateTotals); // Update totals on draw
-}
+        // Listen for column reorder events
+        table.on('column-reorder', function (e, settings, details) {
+            console.log('Columns reordered');
+        });
 
+        addColumnFiltering();
+        table.on('draw', updateTotals); // Update totals on draw
+    }
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
@@ -115,6 +131,9 @@ document.addEventListener('DOMContentLoaded', function () {
             orderTableBody.appendChild(row);
         });
 
+        // Initialize DataTable after data is loaded
+        initializeDataTable();
+
         // Adjust and draw the DataTable after loading the data
         table.columns.adjust().draw();
     }
@@ -122,16 +141,49 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle custom dropdowns for filters
     function handleCustomDropdown(dropdownButton, dropdownOptions, callback) {
         // Toggle the dropdown visibility
-        dropdownButton.addEventListener('click', function () {
+        dropdownButton.addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent event bubbling
             dropdownOptions.style.display = dropdownOptions.style.display === 'block' ? 'none' : 'block';
         });
 
         // Handle the dropdown item clicks
         dropdownOptions.addEventListener('click', function (event) {
-            const selectedValue = event.target.getAttribute('data-value');
-            callback(selectedValue);
-            dropdownButton.textContent = event.target.textContent;
-            dropdownOptions.style.display = 'none'; // Hide dropdown after selection
+            event.stopPropagation(); // Prevent event bubbling
+
+            const target = event.target.closest('li');
+            if (!target) return;
+
+            const checkbox = target.querySelector('input[type="checkbox"]');
+            const selectedValue = target.getAttribute('data-value');
+
+            if (selectedValue === 'selectAll') {
+                // Select all options except 'Select All' and 'Clear All'
+                const options = dropdownOptions.querySelectorAll('li');
+                options.forEach(option => {
+                    const value = option.getAttribute('data-value');
+                    const cb = option.querySelector('input[type="checkbox"]');
+                    if (value !== 'selectAll' && value !== 'clearAll') {
+                        cb.checked = true;
+                    }
+                });
+                dropdownButton.textContent = 'Filtered...';
+                callback(getSelectedValues(dropdownOptions));
+            } else if (selectedValue === 'clearAll') {
+                // Clear all selections
+                const options = dropdownOptions.querySelectorAll('li');
+                options.forEach(option => {
+                    const cb = option.querySelector('input[type="checkbox"]');
+                    cb.checked = false;
+                });
+                dropdownButton.textContent = 'Choose...';
+                callback([]);
+            } else {
+                // Toggle the checkbox
+                checkbox.checked = !checkbox.checked;
+                const selectedValues = getSelectedValues(dropdownOptions);
+                dropdownButton.textContent = selectedValues.length > 0 ? 'Filtered...' : 'Choose...';
+                callback(selectedValues);
+            }
         });
 
         // Hide dropdown if clicked outside
@@ -142,31 +194,52 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Example callback function to handle dropdown selection
-    function onDropdownSelection(selectedValue) {
-        if (selectedValue === 'selectAll') {
-            console.log('Select All options');
-        } else if (selectedValue === 'clearAll') {
-            console.log('Clear All options');
+    // Helper function to get selected values
+    function getSelectedValues(dropdownOptions) {
+        const selectedValues = [];
+        const options = dropdownOptions.querySelectorAll('li');
+        options.forEach(option => {
+            const value = option.getAttribute('data-value');
+            const checkbox = option.querySelector('input[type="checkbox"]');
+            if (checkbox.checked && value !== 'selectAll' && value !== 'clearAll') {
+                selectedValues.push(value);
+            }
+        });
+        return selectedValues;
+    }
+
+    // Callback function to handle dropdown selection
+    function onDropdownSelection(selectedValues, columnName) {
+        if (selectedValues.length === 0) {
+            // No filter applied, reset the search for this column
+            table.column(`${columnName}:name`).search('').draw();
         } else {
-            console.log(`Selected: ${selectedValue}`);
+            // Apply the filter with selected values
+            const searchRegex = selectedValues.join('|'); // Create a regex string
+            table.column(`${columnName}:name`).search(searchRegex, true, false).draw();
         }
     }
 
-// Setup dropdown for status filter
-const statusFilterButton = document.getElementById('statusFilterButton');
-const statusFilterOptions = document.getElementById('statusFilterOptions');
-handleCustomDropdown(statusFilterButton, statusFilterOptions, onDropdownSelection);
+    // Setup dropdown for status filter
+    const statusFilterButton = document.getElementById('statusFilterButton');
+    const statusFilterOptions = document.getElementById('statusFilterOptions');
+    handleCustomDropdown(statusFilterButton, statusFilterOptions, function (selectedValues) {
+        onDropdownSelection(selectedValues, 'Payment Status');
+    });
 
-// Setup dropdown for warehouse status filter
-const warehouseStatusFilterButton = document.getElementById('warehouseStatusFilterButton');
-const warehouseStatusFilterOptions = document.getElementById('warehouseStatusFilterOptions');
-handleCustomDropdown(warehouseStatusFilterButton, warehouseStatusFilterOptions, onDropdownSelection);
+    // Setup dropdown for warehouse status filter
+    const warehouseStatusFilterButton = document.getElementById('warehouseStatusFilterButton');
+    const warehouseStatusFilterOptions = document.getElementById('warehouseStatusFilterOptions');
+    handleCustomDropdown(warehouseStatusFilterButton, warehouseStatusFilterOptions, function (selectedValues) {
+        onDropdownSelection(selectedValues, 'Warehouse Status');
+    });
 
-// Setup dropdown for shipping method filter
-const shippingMethodFilterButton = document.getElementById('shippingMethodFilterButton');
-const shippingMethodFilterOptions = document.getElementById('shippingMethodFilterOptions');
-handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, onDropdownSelection);
+    // Setup dropdown for shipping method filter
+    const shippingMethodFilterButton = document.getElementById('shippingMethodFilterButton');
+    const shippingMethodFilterOptions = document.getElementById('shippingMethodFilterOptions');
+    handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, function (selectedValues) {
+        onDropdownSelection(selectedValues, 'Shipping Method');
+    });
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
@@ -181,12 +254,6 @@ handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, on
         });
         $('#addressFilter').on('keyup', function () {
             table.column('Address:name').search(this.value).draw();
-        });
-        $('#shippingMethodFilter').on('change', function () {
-            table.column('Shipping Method:name').search(this.value).draw();
-        });
-        $('#statusFilter').on('change', function () {
-            table.column('Payment Status:name').search(this.value).draw();
         });
         $('#amountFilter').on('keyup', function () {
             table.column('Amount:name').search(this.value).draw();
@@ -206,9 +273,6 @@ handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, on
         $('#authAmountFilter').on('keyup', function () {
             table.column('Authorization Amount:name').search(this.value).draw();
         });
-        $('#warehouseStatusFilter').on('change', function () {
-            table.column('Warehouse Status:name').search(this.value).draw();
-        });
     }
 
     // Update totals function
@@ -227,9 +291,6 @@ handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, on
         $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
         $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
     }
-
-    // Call updateTotals after loading data
-    updateTotals();
 
     // Download functionality
     document.getElementById('downloadButton').addEventListener('click', function () {
@@ -258,67 +319,68 @@ handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, on
         console.log('Refresh Table button clicked');
         fetchOrders(true); // Refreshes the table data
     });
-// Populate column chooser modal
-document.getElementById('chooseColumns').addEventListener('click', function () {
-    $('#chooseColumnsModal').modal('show');
-    populateColumnChooser(); // Populate the column chooser
-});
 
-function populateColumnChooser() {
-    const availableColumns = document.getElementById('availableColumns');
-    const selectedColumns = document.getElementById('selectedColumns');
-
-    availableColumns.innerHTML = '';
-    selectedColumns.innerHTML = '';
-
-    // Populate the columns into the chooser
-    table.columns().every(function (index) {
-        const columnTitle = this.header().textContent.trim();
-        const columnWidth = $(this.header()).outerWidth(); // Capture current column width
-        const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
-
-        // Add the columns to the appropriate list based on visibility
-        if (this.visible()) {
-            selectedColumns.innerHTML += listItem;
-        } else {
-            availableColumns.innerHTML += listItem;
-        }
+    // Populate column chooser modal
+    document.getElementById('chooseColumns').addEventListener('click', function () {
+        $('#chooseColumnsModal').modal('show');
+        populateColumnChooser(); // Populate the column chooser
     });
 
-    // Make both lists sortable
-    $('#selectedColumns, #availableColumns').sortable({
-        connectWith: '#availableColumns, #selectedColumns',
-        placeholder: 'ui-state-highlight',
-        update: function (event, ui) {
-            updateTableColumns();
-        }
-    }).disableSelection();
-}
+    function populateColumnChooser() {
+        const availableColumns = document.getElementById('availableColumns');
+        const selectedColumns = document.getElementById('selectedColumns');
 
-// Function to update table column visibility and order
-function updateTableColumns() {
-    const selectedColumns = document.querySelectorAll('#selectedColumns li');
-    const availableColumns = document.querySelectorAll('#availableColumns li');
+        availableColumns.innerHTML = '';
+        selectedColumns.innerHTML = '';
 
-    // Set visibility for the selected columns
-    selectedColumns.forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(true); // Show selected columns
+        // Populate the columns into the chooser
+        table.columns().every(function (index) {
+            const columnTitle = this.header().textContent.trim();
+            const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+            const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+
+            // Add the columns to the appropriate list based on visibility
+            if (this.visible()) {
+                selectedColumns.innerHTML += listItem;
+            } else {
+                availableColumns.innerHTML += listItem;
+            }
+        });
+
+        // Make both lists sortable
+        $('#selectedColumns, #availableColumns').sortable({
+            connectWith: '#availableColumns, #selectedColumns',
+            placeholder: 'ui-state-highlight',
+            update: function (event, ui) {
+                updateTableColumns();
+            }
+        }).disableSelection();
+    }
+
+    // Function to update table column visibility and order
+    function updateTableColumns() {
+        const selectedColumns = document.querySelectorAll('#selectedColumns li');
+        const availableColumns = document.querySelectorAll('#availableColumns li');
+
+        // Set visibility for the selected columns
+        selectedColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(true); // Show selected columns
+        });
+
+        // Hide columns that were moved to available
+        availableColumns.forEach(item => {
+            const columnIdx = parseInt(item.getAttribute('data-column'));
+            table.column(columnIdx).visible(false); // Hide deselected columns
+        });
+
+        // Apply the new column order for the selected columns
+        const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
+        table.colReorder.order(newOrder); // Reorder columns in the table
+    }
+
+    // Apply column selections and close modal
+    document.getElementById('applyColumns').addEventListener('click', function () {
+        $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
     });
-
-    // Hide columns that were moved to available
-    availableColumns.forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(false); // Hide deselected columns
-    });
-
-    // Apply the new column order for the selected columns
-    const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
-    table.colReorder.order(newOrder); // Reorder columns in the table
-}
-
-// Apply column selections and close modal
-document.getElementById('applyColumns').addEventListener('click', function () {
-    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
-});
 });
