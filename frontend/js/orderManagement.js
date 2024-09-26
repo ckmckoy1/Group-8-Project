@@ -62,7 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollX: true,
             scrollY: '50vh',
             orderCellsTop: true,
-            colReorder: true, // Ensure colReorder is enabled
+            colReorder: {
+                realtime: false // Disable realtime reordering to prevent conflicts
+            },
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
             'rt' +
             '<"row"<"col-md-6"i><"col-md-6"p>>',

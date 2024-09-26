@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WPO Order Management</title>
-    <!-- Bootstrap CSS for styling -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+      <!-- Bootstrap CSS for styling -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- ColReorder Extension -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.6.2/css/colReorder.dataTables.min.css">
     <!-- DataTables Buttons CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
     <!-- jQuery UI CSS -->
@@ -62,7 +64,7 @@
             <div class="col-12 table-container">
                 <table id="orderTable" class="table table-striped table-bordered">
                     <thead>
-                        <tr>
+                        <tr class="header-row">
                             <th data-orderable="true">Order ID</th>
                             <th data-orderable="true">Customer</th>
                             <th data-orderable="true">Email</th>
@@ -79,7 +81,7 @@
                             <th data-orderable="true">Authorization Expiration</th>
                             <th data-orderable="true">Warehouse Status</th>
                         </tr>
-                        <tr>
+                        <tr class="filter-row">
                             <th><input type="text" id="orderIDFilter" class="form-control"></th>
                             <th><input type="text" id="customerFilter" class="form-control"></th>
                             <th><input type="text" id="emailFilter" class="form-control"></th>
