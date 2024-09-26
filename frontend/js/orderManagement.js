@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Hide the error message initially
     messageDiv.style.display = 'none';
 
+    // Initialize the DataTable first
+    initializeDataTable();
+
     // Fetch the orders from the backend when the page loads
     fetchOrders();
 
