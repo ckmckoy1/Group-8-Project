@@ -115,6 +115,11 @@ thead select:hover,
     cursor: default;
 }
 
+.dt-buttons {
+    display: none;
+}
+
+
 /* Styling for 'Choose...' buttons */
 .select-button {
     background-color: white;
