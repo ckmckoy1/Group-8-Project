@@ -70,14 +70,24 @@
                             <th data-orderable="true">Order ID</th>
                             <th data-orderable="true">Customer</th>
                             <th data-orderable="true">Email</th>
-                            <th data-orderable="true">Address</th>
+                            <th data-orderable="true">Street Address</th>
+                            <th data-orderable="true">Unit Number</th>
+                            <th data-orderable="true">City</th>
+                            <th data-orderable="true">State</th>
+                            <th data-orderable="true">Zip Code</th>
                             <th data-orderable="true">Shipping Method</th>
+                            <th data-orderable="true">Shipping Address</th>
+                            <th data-orderable="true">Shipping City</th>
+                            <th data-orderable="true">Shipping State</th>
+                            <th data-orderable="true">Shipping Zip</th>
+                            <th data-orderable="true">Total Amount</th>
                             <th data-orderable="true">Payment Status</th>
-                            <th data-orderable="true">Amount</th>
                             <th data-orderable="true">Card Number</th>
                             <th data-orderable="true">Expiration Date</th>
                             <th data-orderable="true">Billing Zip</th>
                             <th data-orderable="true">Transaction Date</th>
+                            <th data-orderable="true">Order Date</th>
+                            <th data-orderable="true">Order Time</th>
                             <th data-orderable="true">Authorization Token</th>
                             <th data-orderable="true">Authorization Amount</th>
                             <th data-orderable="true">Authorization Expiration</th>
@@ -87,7 +97,11 @@
                             <th><input type="text" id="orderIDFilter" class="form-control"></th>
                             <th><input type="text" id="customerFilter" class="form-control"></th>
                             <th><input type="text" id="emailFilter" class="form-control"></th>
-                            <th><input type="text" id="addressFilter" class="form-control"></th>
+                            <th><input type="text" id="streetAddressFilter" class="form-control"></th>
+                            <th><input type="text" id="unitNumberFilter" class="form-control"></th>
+                            <th><input type="text" id="cityFilter" class="form-control"></th>
+                            <th><input type="text" id="stateFilter" class="form-control"></th>
+                            <th><input type="text" id="zipCodeFilter" class="form-control"></th>
                             <th>
                                 <button id="shippingMethodFilterButton" class="select-button">Choose...</button>
                                 <ul id="shippingMethodFilterOptions" class="dropdown-options">
@@ -97,6 +111,11 @@
                                     <li data-value="Express"><input type="checkbox"> Express Shipping (2-3 days)</li>
                                 </ul>
                             </th>
+                            <th><input type="text" id="shippingAddressFilter" class="form-control"></th>
+                            <th><input type="text" id="shippingCityFilter" class="form-control"></th>
+                            <th><input type="text" id="shippingStateFilter" class="form-control"></th>
+                            <th><input type="text" id="shippingZipFilter" class="form-control"></th>
+                            <th><input type="text" id="totalAmountFilter" class="form-control"></th>
                             <th>
                                 <button id="statusFilterButton" class="select-button">Choose...</button>
                                 <ul id="statusFilterOptions" class="dropdown-options">
@@ -107,14 +126,15 @@
                                     <li data-value="Failed"><input type="checkbox"> Failed</li>
                                 </ul>
                             </th>
-                            <th><input type="text" id="amountFilter" class="form-control"></th>
                             <th><input type="text" id="cardNumberFilter" class="form-control"></th>
-                            <th></th>
+                            <th><input type="text" id="expirationDateFilter" class="form-control"></th>
                             <th><input type="text" id="billingZipFilter" class="form-control"></th>
                             <th><input type="date" id="transactionDateFilter" class="form-control"></th>
+                            <th><input type="date" id="orderDateFilter" class="form-control"></th>
+                            <th><input type="text" id="orderTimeFilter" class="form-control"></th>
                             <th><input type="text" id="authTokenFilter" class="form-control"></th>
                             <th><input type="text" id="authAmountFilter" class="form-control"></th>
-                            <th></th>
+                            <th><input type="date" id="authExpirationFilter" class="form-control"></th>
                             <th>
                                 <button id="warehouseStatusFilterButton" class="select-button">Choose...</button>
                                 <ul id="warehouseStatusFilterOptions" class="dropdown-options">
@@ -127,6 +147,7 @@
                             </th>
                         </tr>
                     </thead>
+                    
                     <tbody id="orderTableBody">
                         <!-- Orders will be dynamically added here by JavaScript -->
                     </tbody>

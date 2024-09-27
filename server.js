@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 
 // Define Mongoose schema and models
 const orderSchema = new mongoose.Schema({
-    OrderID: String,  // Match exactly with the document field
+    OrderID: String,  
     CustomerEmail: String,
     FirstName: String,
     LastName: String,
@@ -57,18 +57,22 @@ const orderSchema = new mongoose.Schema({
     State: String,
     ZipCode: String,
     ShippingMethod: String,
+    ShippingAddress: String,
+    ShippingCity: String,
+    ShippingState: String,
+    ShippingZip: String,
     TotalAmount: Number,
     PaymentStatus: String,
-    CardNumber: String,
+    CardNumber: String,  // Store the last 4 digits only
     ExpirationDate: String,
-    CVV: String,
+    CVV: String,  // You may want to omit this for security reasons
     BillingZipCode: String,
     AuthorizationToken: String,
-    TransactionDateTime: Date,
-    AuthorizationAmount: Number,
-    AuthorizationExpirationDate: Date,
-    WarehouseStatus: String
+    OrderDateTime: Date,
+    OrderDate: Date,
+    OrderTime: String,
 });
+
 
 // Add index on OrderID to optimize querying by OrderID
 orderSchema.index({ OrderID: 1 });
