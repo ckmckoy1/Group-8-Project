@@ -78,22 +78,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             columnDefs: [
-                { name: 'Order ID', targets: 0 },
-                { name: 'Customer', targets: 1 },
-                { name: 'Email', targets: 2 },
-                { name: 'Address', targets: 3 },
-                { name: 'Shipping Method', targets: 4 },
-                { name: 'Payment Status', targets: 5 },
-                { name: 'Amount', targets: 6 },
-                { name: 'Card Number', targets: 7 },
-                { name: 'Expiration Date', targets: 8 },
-                { name: 'Billing Zip', targets: 9 },
-                { name: 'Transaction Date', targets: 10 },
-                { name: 'Authorization Token', targets: 11 },
-                { name: 'Authorization Amount', targets: 12 },
-                { name: 'Authorization Expiration', targets: 13 },
-                { name: 'Warehouse Status', targets: 14 },
-            ],
+                { name: 'Order ID', targets: 0, orderable: true },
+                { name: 'Customer', targets: 1, orderable: true },
+                { name: 'Email', targets: 2, orderable: true },
+                { name: 'Address', targets: 3, orderable: true },
+                { name: 'Shipping Method', targets: 4, orderable: true },
+                { name: 'Payment Status', targets: 5, orderable: true },
+                { name: 'Amount', targets: 6, orderable: true },
+                { name: 'Card Number', targets: 7, orderable: true },
+                { name: 'Expiration Date', targets: 8, orderable: true },
+                { name: 'Billing Zip', targets: 9, orderable: true },
+                { name: 'Transaction Date', targets: 10, orderable: true },
+                { name: 'Authorization Token', targets: 11, orderable: true },
+                { name: 'Authorization Amount', targets: 12, orderable: true },
+                { name: 'Authorization Expiration', targets: 13, orderable: true },
+                { name: 'Warehouse Status', targets: 14, orderable: true }
+            ]
         });
 
         // Listen for column reorder events
