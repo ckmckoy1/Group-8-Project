@@ -8,7 +8,6 @@
     max-width: 1500px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    min-height: 85vh;
 }
 
 
@@ -17,7 +16,7 @@
     overflow-x: auto;
     overflow-y: auto;
     position: relative;
-   /* max-height: 60vh;  Set maximum height if needed */
+    max-height: 60vh; /* Set maximum height if needed */
 }
 
 /* Ensure the table fits within the container */
@@ -114,11 +113,6 @@ thead select:hover,
     border-color: #A0BCCD; /* Maintain the soft grey-blue border */
     cursor: default;
 }
-
-.dt-buttons {
-    display: none;
-}
-
 
 /* Styling for 'Choose...' buttons */
 .select-button {

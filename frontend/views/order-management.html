@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OrderTrail OMS</title>
+    <title>WPO Order Management</title>
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
       <!-- Bootstrap CSS for styling -->
@@ -22,7 +21,7 @@
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#">OrderTrail OMS</a>
+        <a class="navbar-brand" href="#">WPO Order Management</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -206,6 +205,8 @@
         </div>
     </div>
 
+    <!-- Message Section -->
+    <div id="message" class="alert alert-danger mt-4" style="display: none;"></div>
 
 <!-- Footer -->
 <footer class="footer mt-4">
@@ -215,8 +216,6 @@
                 <a href="#">Privacy Policy</a>
                 <span class="mx-2">|</span>
                 <a href="#">Terms of Use</a>
-                <span class="mx-2">|</span>
-                <p>POWERED BY <img src="../assets/trail.svg" width="50" height="50" alt="Trail"> Trailblaze Technologies</p>
             </div>
         </div>
     </div>
@@ -232,7 +231,6 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <!-- DataTables ColReorder Extension -->
     <script src="https://cdn.datatables.net/colreorder/1.5.6/js/dataTables.colReorder.min.js"></script>
-    <script src="../js/ColReorder.v1727296628.js"></script>
     <!-- DataTables Buttons Extension (for export buttons) -->
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <!-- DataTables Buttons HTML5 Export -->
