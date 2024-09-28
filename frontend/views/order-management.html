@@ -61,108 +61,115 @@
             </div>
         </div>
 
-        <!-- Orders Table Scrollable Container -->
-        <div class="row">
-            <div class="col-12 table-container">
-                <table id="orderTable" class="table table-striped table-bordered">
-                    <thead>
-                        <tr class="header-row">
-                            <th data-orderable="true">Order ID</th>
-                            <th data-orderable="true">Customer</th>
-                            <th data-orderable="true">Email</th>
-                            <th data-orderable="true">Street Address</th>
-                            <th data-orderable="true">Unit Number</th>
-                            <th data-orderable="true">City</th>
-                            <th data-orderable="true">State</th>
-                            <th data-orderable="true">Zip Code</th>
-                            <th data-orderable="true">Shipping Method</th>
-                            <th data-orderable="true">Shipping Address</th>
-                            <th data-orderable="true">Shipping City</th>
-                            <th data-orderable="true">Shipping State</th>
-                            <th data-orderable="true">Shipping Zip</th>
-                            <th data-orderable="true">Total Amount</th>
-                            <th data-orderable="true">Payment Status</th>
-                            <th data-orderable="true">Card Number</th>
-                            <th data-orderable="true">Expiration Date</th>
-                            <th data-orderable="true">Billing Zip</th>
-                            <th data-orderable="true">Transaction Date</th>
-                            <th data-orderable="true">Order Date</th>
-                            <th data-orderable="true">Order Time</th>
-                            <th data-orderable="true">Authorization Token</th>
-                            <th data-orderable="true">Authorization Amount</th>
-                            <th data-orderable="true">Authorization Expiration</th>
-                            <th data-orderable="true">Warehouse Status</th>
-                        </tr>
-                        <tr class="filter-row">
-                            <th><input type="text" id="orderIDFilter" class="form-control"></th>
-                            <th><input type="text" id="customerFilter" class="form-control"></th>
-                            <th><input type="text" id="emailFilter" class="form-control"></th>
-                            <th><input type="text" id="streetAddressFilter" class="form-control"></th>
-                            <th><input type="text" id="unitNumberFilter" class="form-control"></th>
-                            <th><input type="text" id="cityFilter" class="form-control"></th>
-                            <th><input type="text" id="stateFilter" class="form-control"></th>
-                            <th><input type="text" id="zipCodeFilter" class="form-control"></th>
-                            <th>
-                                <button id="shippingMethodFilterButton" class="select-button">Choose...</button>
-                                <ul id="shippingMethodFilterOptions" class="dropdown-options">
-                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
-                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
-                                    <li data-value="Standard"><input type="checkbox"> Standard Shipping (5-7 days)</li>
-                                    <li data-value="Express"><input type="checkbox"> Express Shipping (2-3 days)</li>
-                                </ul>
-                            </th>
-                            <th><input type="text" id="shippingAddressFilter" class="form-control"></th>
-                            <th><input type="text" id="shippingCityFilter" class="form-control"></th>
-                            <th><input type="text" id="shippingStateFilter" class="form-control"></th>
-                            <th><input type="text" id="shippingZipFilter" class="form-control"></th>
-                            <th><input type="text" id="totalAmountFilter" class="form-control"></th>
-                            <th>
-                                <button id="statusFilterButton" class="select-button">Choose...</button>
-                                <ul id="statusFilterOptions" class="dropdown-options">
-                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
-                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
-                                    <li data-value="Authorized"><input type="checkbox"> Authorized</li>
-                                    <li data-value="Pending"><input type="checkbox"> Pending</li>
-                                    <li data-value="Failed"><input type="checkbox"> Failed</li>
-                                </ul>
-                            </th>
-                            <th><input type="text" id="cardNumberFilter" class="form-control"></th>
-                            <th><input type="text" id="expirationDateFilter" class="form-control"></th>
-                            <th><input type="text" id="billingZipFilter" class="form-control"></th>
-                            <th><input type="date" id="transactionDateFilter" class="form-control"></th>
-                            <th><input type="date" id="orderDateFilter" class="form-control"></th>
-                            <th><input type="text" id="orderTimeFilter" class="form-control"></th>
-                            <th><input type="text" id="authTokenFilter" class="form-control"></th>
-                            <th><input type="text" id="authAmountFilter" class="form-control"></th>
-                            <th><input type="date" id="authExpirationFilter" class="form-control"></th>
-                            <th>
-                                <button id="warehouseStatusFilterButton" class="select-button">Choose...</button>
-                                <ul id="warehouseStatusFilterOptions" class="dropdown-options">
-                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
-                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
-                                    <li data-value="Settled"><input type="checkbox"> Settled</li>
-                                    <li data-value="Pending"><input type="checkbox"> Pending</li>
-                                    <li data-value="N/A"><input type="checkbox"> N/A</li>
-                                </ul>
-                            </th>
-                        </tr>
-                    </thead>
+      <!-- Orders Table Scrollable Container -->
+<div class="row">
+    <div class="col-12 table-container">
+        <table id="orderTable" class="table table-striped table-bordered">
+            <thead>
+                <tr class="header-row">
+                    <th data-orderable="true">Order ID</th>
+                    <th data-orderable="true">Customer</th>
+                    <th data-orderable="true">Email</th>
+                    <th data-orderable="true">Street Address</th>
+                    <th data-orderable="true">Unit Number</th>
+                    <th data-orderable="true">City</th>
+                    <th data-orderable="true">State</th>
+                    <th data-orderable="true">Zip Code</th>
+                    <th data-orderable="true">Shipping Method</th>
+                    <th data-orderable="true">Shipping Address</th>
+                    <th data-orderable="true">Shipping City</th>
+                    <th data-orderable="true">Shipping State</th>
+                    <th data-orderable="true">Shipping Zip</th>
+                    <th data-orderable="true">Total Amount</th>
+                    <th data-orderable="true">Payment Status</th>
+                    <th data-orderable="true">Card Number (Last 4 digits)</th>
+                    <th data-orderable="true">Card Brand</th>
+                    <th data-orderable="true">Expiration Date</th>
+                    <th data-orderable="true">Billing Zip</th>
+                    <th data-orderable="true">Transaction Date</th>
+                    <th data-orderable="true">Order Date</th>
+                    <th data-orderable="true">Order Time</th>
+                    <th data-orderable="true">Authorization Token</th>
+                    <th data-orderable="true">Authorization Amount</th>
+                    <th data-orderable="true">Authorization Expiration</th>
+                    <th data-orderable="true">Warehouse Status</th>
+                    <th data-orderable="true">Warehouse Approval Date</th>
+                </tr>
+                <tr class="filter-row">
+                    <th><input type="text" id="orderIDFilter" class="form-control"></th>
+                    <th><input type="text" id="customerFilter" class="form-control"></th>
+                    <th><input type="text" id="emailFilter" class="form-control"></th>
+                    <th><input type="text" id="streetAddressFilter" class="form-control"></th>
+                    <th><input type="text" id="unitNumberFilter" class="form-control"></th>
+                    <th><input type="text" id="cityFilter" class="form-control"></th>
+                    <th><input type="text" id="stateFilter" class="form-control"></th>
+                    <th><input type="text" id="zipCodeFilter" class="form-control"></th>
+                    <th>
+                        <button id="shippingMethodFilterButton" class="select-button">Choose...</button>
+                        <ul id="shippingMethodFilterOptions" class="dropdown-options">
+                            <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                            <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                            <li data-value="Standard"><input type="checkbox"> Standard Shipping (5-7 days)</li>
+                            <li data-value="Express"><input type="checkbox"> Express Shipping (2-3 days)</li>
+                        </ul>
+                    </th>
+                    <th><input type="text" id="shippingAddressFilter" class="form-control"></th>
+                    <th><input type="text" id="shippingCityFilter" class="form-control"></th>
+                    <th><input type="text" id="shippingStateFilter" class="form-control"></th>
+                    <th><input type="text" id="shippingZipFilter" class="form-control"></th>
+                    <th><input type="text" id="totalAmountFilter" class="form-control"></th>
+                    <th>
+                        <button id="paymentstatusFilterButton" class="select-button">Choose...</button>
+                        <ul id="paymentstatusFilterOptions" class="dropdown-options">
+                            <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                            <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                            <li data-value="Authorized"><input type="checkbox"> Authorized</li>
+                            <li data-value="Pending"><input type="checkbox"> Pending</li>
+                            <li data-value="Failure - Incorrect Card Details"><input type="checkbox"> Failure - Incorrect Card Details</li>
+                            <li data-value="Failure - Insufficient Funds"><input type="checkbox"> Failure - Insufficient Funds</li>
+                        </ul>
+                    </th>
                     
-                    <tbody id="orderTableBody">
-                        <!-- Orders will be dynamically added here by JavaScript -->
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="6"></td>
-                            <td id="totalAmount">$0.00</td> <!-- Total for Amount column -->
-                            <td colspan="5"></td>
-                            <td id="totalTransactionAmount">$0.00</td> <!-- Total for Transaction Amount column -->
-                            <td colspan="3"></td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
+                    <th><input type="text" id="cardNumberFilter" class="form-control"></th>
+                    <th><input type="text" id="cardBrandFilter" class="form-control"></th>
+                    <th><input type="text" id="expirationDateFilter" class="form-control"></th>
+                    <th><input type="text" id="billingZipFilter" class="form-control"></th>
+                    <th><input type="date" id="transactionDateFilter" class="form-control"></th>
+                    <th><input type="date" id="orderDateFilter" class="form-control"></th>
+                    <th><input type="text" id="orderTimeFilter" class="form-control"></th>
+                    <th><input type="text" id="authTokenFilter" class="form-control"></th>
+                    <th><input type="text" id="authAmountFilter" class="form-control"></th>
+                    <th><input type="date" id="authExpirationFilter" class="form-control"></th>
+                    <th>
+                        <button id="warehouseStatusFilterButton" class="select-button">Choose...</button>
+                        <ul id="warehouseStatusFilterOptions" class="dropdown-options">
+                            <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                            <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                            <li data-value="Settled"><input type="checkbox"> Settled</li>
+                            <li data-value="Pending"><input type="checkbox"> Pending</li>
+                            <li data-value="N/A"><input type="checkbox"> N/A</li>
+                        </ul>
+                    </th>
+                    <th><input type="date" id="warehouseApprovalDateFilter" class="form-control"></th>
+                </tr>
+            </thead>
+            
+            <tbody id="orderTableBody">
+                <!-- Orders will be dynamically added here by JavaScript -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6"></td>
+                    <td id="totalAmount">$0.00</td> <!-- Total for Amount column -->
+                    <td colspan="5"></td>
+                    <td id="totalTransactionAmount">$0.00</td> <!-- Total for Transaction Amount column -->
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
 
     </div>
 

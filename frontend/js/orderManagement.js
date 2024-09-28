@@ -81,19 +81,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', targets: 0, orderable: true },
                 { name: 'Customer', targets: 1, orderable: true },
                 { name: 'Email', targets: 2, orderable: true },
-                { name: 'Address', targets: 3, orderable: true },
-                { name: 'Shipping Method', targets: 4, orderable: true },
-                { name: 'Payment Status', targets: 5, orderable: true },
-                { name: 'Amount', targets: 6, orderable: true },
-                { name: 'Card Number', targets: 7, orderable: true },
-                { name: 'Expiration Date', targets: 8, orderable: true },
-                { name: 'Billing Zip', targets: 9, orderable: true },
-                { name: 'Transaction Date', targets: 10, orderable: true },
-                { name: 'Authorization Token', targets: 11, orderable: true },
-                { name: 'Authorization Amount', targets: 12, orderable: true },
-                { name: 'Authorization Expiration', targets: 13, orderable: true },
-                { name: 'Warehouse Status', targets: 14, orderable: true }
+                { name: 'Street Address', targets: 3, orderable: true }, // Merged address field
+                { name: 'Unit Number', targets: 4, orderable: true },
+                { name: 'City', targets: 5, orderable: true },
+                { name: 'State', targets: 6, orderable: true },
+                { name: 'Zip Code', targets: 7, orderable: true },
+                { name: 'Shipping Method', targets: 8, orderable: true },
+                { name: 'Shipping Address', targets: 9, orderable: true },
+                { name: 'Shipping City', targets: 10, orderable: true },
+                { name: 'Shipping State', targets: 11, orderable: true },
+                { name: 'Shipping Zip', targets: 12, orderable: true },
+                { name: 'Total Amount', targets: 13, orderable: true },
+                { name: 'Payment Status', targets: 14, orderable: true },
+                { name: 'Card Number', targets: 15, orderable: true },
+                { name: 'Card Brand', targets: 16, orderable: true }, // Added Card Brand
+                { name: 'Expiration Date', targets: 17, orderable: true },
+                { name: 'Billing Zip', targets: 18, orderable: true },
+                { name: 'Transaction Date', targets: 19, orderable: true },
+                { name: 'Order Date', targets: 20, orderable: true },
+                { name: 'Order Time', targets: 21, orderable: true },
+                { name: 'Authorization Token', targets: 22, orderable: true },
+                { name: 'Authorization Amount', targets: 23, orderable: true },
+                { name: 'Authorization Expiration', targets: 24, orderable: true },
+                { name: 'Warehouse Status', targets: 25, orderable: true }
             ]
+            
+            
         });
 
         // Listen for column reorder events
@@ -113,14 +126,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${order.OrderID}</td>
                 <td>${order.FirstName} ${order.LastName}</td>
                 <td>${order.CustomerEmail}</td>
-                <td>${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}</td>
+                <td>${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}</td> <!-- Merged address -->
                 <td>${order.ShippingMethod}</td>
-                <td>${order.PaymentStatus}</td>
+                <td>${order.ShippingAddress}</td>
+                <td>${order.ShippingCity}</td>
+                <td>${order.ShippingState}</td>
+                <td>${order.ShippingZip}</td>
                 <td>$${order.TotalAmount.toFixed(2)}</td>
-                <td>**** **** **** ${order.CardNumber.slice(-4)}</td>
+                <td>${order.PaymentStatus}</td> <!-- Handle new payment statuses -->
+                <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- Last 4 digits only -->
+                <td>${order.CardBrand}</td> <!-- New field for Card Brand -->
                 <td>${order.ExpirationDate}</td>
                 <td>${order.BillingZipCode}</td>
                 <td>${new Date(order.TransactionDateTime).toLocaleString()}</td>
+                <td>${order.OrderDate}</td>
+                <td>${order.OrderTime}</td>
                 <td>${order.AuthorizationToken}</td>
                 <td>$${order.AuthorizationAmount.toFixed(2)}</td>
                 <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td>
@@ -128,13 +148,15 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             orderTableBody.appendChild(row);
         });
-
+    
         // Initialize DataTable after data is loaded
         initializeDataTable();
-
+    
         // Adjust and draw the DataTable after loading the data
         table.columns.adjust().draw();
     }
+    
+    
 
     // Handle custom dropdowns for filters
     function handleCustomDropdown(dropdownButton, dropdownOptions, callback) {
@@ -209,21 +231,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // Callback function to handle dropdown selection
     function onDropdownSelection(selectedValues, columnName) {
         if (selectedValues.length === 0) {
-            // No filter applied, reset the search for this column
-            table.column(`${columnName}:name`).search('').draw();
+            table.column(`${columnName}:name`).search('').draw(); // No filter applied
         } else {
-            // Apply the filter with selected values
-            const searchRegex = selectedValues.join('|'); // Create a regex string
-            table.column(`${columnName}:name`).search(searchRegex, true, false).draw();
+            const searchRegex = selectedValues.join('|'); // Create regex string for selected values
+            table.column(`${columnName}:name`).search(searchRegex, true, false).draw(); // Apply filter
         }
     }
+    
 
-    // Setup dropdown for status filter
-    const statusFilterButton = document.getElementById('statusFilterButton');
-    const statusFilterOptions = document.getElementById('statusFilterOptions');
-    handleCustomDropdown(statusFilterButton, statusFilterOptions, function (selectedValues) {
-        onDropdownSelection(selectedValues, 'Payment Status');
-    });
+ // Setup dropdown for payment status filter
+const paymentstatusFilterButton = document.getElementById('paymentstatusFilterButton');
+const paymentstatusFilterOptions = document.getElementById('paymentstatusFilterOptions');
+handleCustomDropdown(paymentstatusFilterButton, paymentstatusFilterOptions, function (selectedValues) {
+    onDropdownSelection(selectedValues, 'Payment Status');
+});
+
 
     // Setup dropdown for warehouse status filter
     const warehouseStatusFilterButton = document.getElementById('warehouseStatusFilterButton');

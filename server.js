@@ -64,14 +64,20 @@ const orderSchema = new mongoose.Schema({
     TotalAmount: Number,
     PaymentStatus: String,
     CardNumber: String,  // Store the last 4 digits only
+    CardBrand: String,
     ExpirationDate: String,
-    CVV: String,  // You may want to omit this for security reasons
     BillingZipCode: String,
     AuthorizationToken: String,
     OrderDateTime: Date,
     OrderDate: Date,
     OrderTime: String,
+    AuthorizationAmount: Number,
+    AuthorizationExpirationDate: Date,  // Use Date instead of String for consistency
+    WarehouseStatus: String,
+    WarehouseApprovalDate: Date,
 });
+
+module.exports = mongoose.model('Order', orderSchema);
 
 
 // Add index on OrderID to optimize querying by OrderID
