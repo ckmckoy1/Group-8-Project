@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Authorization Token', targets: 22, orderable: true },
                 { name: 'Authorization Amount', targets: 23, orderable: true },
                 { name: 'Authorization Expiration', targets: 24, orderable: true },
-                { name: 'Warehouse Status', targets: 25, orderable: true }
+                { name: 'Warehouse Status', targets: 25, orderable: true },
                 { name: 'Warehouse Approval Date', targets: 26, orderable: true }
             ]
         });
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
    // Display orders in the table after initializing DataTable
-function displayOrders(orders) {
+   function displayOrders(orders) {
     // Hide the error message when orders are successfully displayed
     if (messageDiv) {
         messageDiv.style.display = 'none'; // Ensure error message is hidden
@@ -151,7 +151,7 @@ function displayOrders(orders) {
             <td>${order.ShippingMethod}</td>
             
             <!-- Billing Information -->
-            <td>${order.BillingAddress}, ${order.UnitNumber || ''}, ${order.BillingCity}, ${order.BillingState}, ${order.BillingZipCode}</td>
+            <td>${order.BillingAddress || order.StreetAddress}, ${order.UnitNumber || ''}, ${order.BillingCity || order.City}, ${order.BillingState || order.State}, ${order.BillingZipCode}</td>
 
             <td>$${order.TotalAmount.toFixed(2)}</td>
             <td>${order.PaymentStatus}</td>
@@ -165,7 +165,7 @@ function displayOrders(orders) {
             <td>$${order.AuthorizationAmount.toFixed(2)}</td>
             <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td>
             <td>${order.WarehouseStatus || 'N/A'}</td>
-            <td>${order.WarehouseApprovalDate}</td>
+            <td>${order.WarehouseApprovalDate || 'N/A'}</td>
         `;
         orderTableBody.appendChild(row);
     });
@@ -176,6 +176,7 @@ function displayOrders(orders) {
     // Adjust and draw the DataTable after loading the data
     table.columns.adjust().draw();
 }
+
 // Add filtering functionality for individual columns
 function addColumnFiltering() {
     $('#orderIDFilter').on('keyup', function () {
@@ -308,3 +309,4 @@ function updateTableColumns() {
 document.getElementById('applyColumns').addEventListener('click', function () {
     $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
 });
+})
