@@ -9,6 +9,17 @@ import compression from 'compression';
 import helmet from 'helmet';
 import fetch from 'node-fetch'; // Ensure this is installed
 
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const morgan = require('morgan');
+const compression = require('compression');
+const helmet = require('helmet');
+const fetch = require('node-fetch');
+
+
 // Initialize dotenv to read environment variables
 dotenv.config();
 
