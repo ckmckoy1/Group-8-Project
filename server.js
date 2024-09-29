@@ -42,7 +42,7 @@ app.use(express.static('public')); // Serve static files (like CSS, JS, HTML fro
 
 
 // MongoDB connection with a longer timeout (10s) to prevent Heroku timeout issues
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPath-Outfitters', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathOutfitters', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 10000 // Increase timeout for MongoDB to 10 seconds
