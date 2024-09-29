@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Authorization Amount', targets: 23, orderable: true },
                 { name: 'Authorization Expiration', targets: 24, orderable: true },
                 { name: 'Warehouse Status', targets: 25, orderable: true }
+                { name: 'Warehouse Approval Date', targets: 26, orderable: true }
             ]
         });
 
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
         table.on('draw', updateTotals); // Update totals on draw
     }
 
-    // Display orders in the table after initializing DataTable
+
    // Display orders in the table after initializing DataTable
 function displayOrders(orders) {
     // Hide the error message when orders are successfully displayed
@@ -164,6 +165,7 @@ function displayOrders(orders) {
             <td>$${order.AuthorizationAmount.toFixed(2)}</td>
             <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td>
             <td>${order.WarehouseStatus || 'N/A'}</td>
+            <td>${order.WarehouseApprovalDate}</td>
         `;
         orderTableBody.appendChild(row);
     });
@@ -223,6 +225,9 @@ function addColumnFiltering() {
     });
     $('#authAmountFilter').on('keyup', function () {
         table.column('Authorization Amount:name').search(this.value).draw();
+    });
+    $('#warehouseapprovalDateFilter').on('change', function () {
+        table.column('Warehouse Approval Date:name').search(this.value).draw();
     });
 }
 
