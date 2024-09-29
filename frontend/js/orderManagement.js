@@ -147,11 +147,19 @@ document.addEventListener('DOMContentLoaded', function () {
             <td>${order.CustomerEmail}</td>
 
             <!-- Shipping Information -->
-            <td>${order.ShippingAddress}, ${order.ShippingCity}, ${order.ShippingState}, ${order.ShippingZip}</td>
             <td>${order.ShippingMethod}</td>
+            <td>${order.ShippingAddress}</td>
+            <td>${order.UnitNumber}</td>
+            <td>${order.ShippingCity}</td>
+            <td>${order.ShippingState}</td>
+            <td>${order.ShippingZip}</td>
+           
             
             <!-- Billing Information -->
-            <td>${order.BillingAddress || order.StreetAddress}, ${order.UnitNumber || ''}, ${order.BillingCity || order.City}, ${order.BillingState || order.State}, ${order.BillingZipCode}</td>
+            <td>${order.BillingAddress}</td> 
+            <td>${order.BillingCity}</td> 
+            <td>${order.BillingState}</td> 
+            <td>${order.BillingZipCode}</td>
 
             <td>$${order.TotalAmount.toFixed(2)}</td>
             <td>${order.PaymentStatus}</td>
