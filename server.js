@@ -9,16 +9,6 @@ import compression from 'compression';
 import helmet from 'helmet';
 import fetch from 'node-fetch'; // Ensure this is installed
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const morgan = require('morgan');
-const compression = require('compression');
-const helmet = require('helmet');
-const fetch = require('node-fetch');
-
 
 // Initialize dotenv to read environment variables
 dotenv.config();
@@ -42,7 +32,7 @@ app.use(express.static('public')); // Serve static files (like CSS, JS, HTML fro
 
 
 // MongoDB connection with a longer timeout (10s) to prevent Heroku timeout issues
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPathOutfitters', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/WildPath*Outfitters', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 10000 // Increase timeout for MongoDB to 10 seconds
