@@ -3,13 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let table;
     const messageDiv = document.getElementById('message'); // Error message div
 
-  // Hide the error message if the div exists
-  if (messageDiv) {
-    messageDiv.style.display = 'none';
-} else {
-    console.error('Element with ID "message" not found.');
-}
-
+    // Hide the error message if the div exists
+    if (messageDiv) {
+        messageDiv.style.display = 'none';
+    } else {
+        console.error('Element with ID "message" not found.');
+    }
 
     // Fetch the orders from the backend when the page loads
     fetchOrders();
@@ -27,8 +26,10 @@ document.addEventListener('DOMContentLoaded', function () {
             // Parse the JSON response
             const orders = await response.json();
 
-            // If no error, hide the error message
-            messageDiv.style.display = 'none';
+            // Hide the error message if orders are successfully fetched
+            if (messageDiv) {
+                messageDiv.style.display = 'none'; // Make sure to hide the error message here
+            }
 
             // Refresh table if necessary
             if (isRefresh) {
@@ -36,11 +37,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 orderTableBody.innerHTML = '';
             }
 
-            // If orders array is empty, handle that case (if needed)
+            // If orders array is empty, show the "No orders found" message
             if (orders.length === 0) {
-                messageDiv.textContent = 'No orders found.';
-                messageDiv.style.display = 'block';
+                if (messageDiv) {
+                    messageDiv.textContent = 'No orders found.';
+                    messageDiv.style.display = 'block';
+                }
                 return;
+            }
+
+            // If orders are found, display them and hide the error message
+            if (orders.length > 0 && messageDiv) {
+                messageDiv.style.display = 'none'; // Hide the message if orders are present
             }
 
             // Display orders
@@ -50,8 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error fetching orders:', error);
 
             // Show error message if there's an issue with the fetch
-            messageDiv.textContent = 'Error fetching orders. Please try again later.';
-            messageDiv.style.display = 'block';
+            if (messageDiv) {
+                messageDiv.textContent = 'Error fetching orders. Please try again later.';
+                messageDiv.style.display = 'block'; // Show error message on fetch failure
+            }
         }
     }
 
@@ -73,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
             'rt' +
             '<"row"<"col-md-6"i><"col-md-6"p>>',
-       
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -86,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', targets: 0, orderable: true },
                 { name: 'Customer', targets: 1, orderable: true },
                 { name: 'Email', targets: 2, orderable: true },
-                { name: 'Street Address', targets: 3, orderable: true }, // Merged address field
+                { name: 'Street Address', targets: 3, orderable: true },
                 { name: 'Unit Number', targets: 4, orderable: true },
                 { name: 'City', targets: 5, orderable: true },
                 { name: 'State', targets: 6, orderable: true },
@@ -99,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Total Amount', targets: 13, orderable: true },
                 { name: 'Payment Status', targets: 14, orderable: true },
                 { name: 'Card Number', targets: 15, orderable: true },
-                { name: 'Card Brand', targets: 16, orderable: true }, // Added Card Brand
+                { name: 'Card Brand', targets: 16, orderable: true },
                 { name: 'Expiration Date', targets: 17, orderable: true },
                 { name: 'Billing Zip', targets: 18, orderable: true },
                 { name: 'Transaction Date', targets: 19, orderable: true },
@@ -110,8 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Authorization Expiration', targets: 24, orderable: true },
                 { name: 'Warehouse Status', targets: 25, orderable: true }
             ]
-            
-            
         });
 
         // Listen for column reorder events
@@ -125,22 +132,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
+        // Hide the error message when orders are successfully displayed
+        if (messageDiv) {
+            messageDiv.style.display = 'none'; // Ensure error message is hidden
+        }
+
         orders.forEach(order => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${order.OrderID}</td>
                 <td>${order.FirstName} ${order.LastName}</td>
                 <td>${order.CustomerEmail}</td>
-                <td>${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}</td> <!-- Merged address -->
+                <td>${order.StreetAddress}, ${order.UnitNumber || ''}, ${order.City}, ${order.State}, ${order.ZipCode}</td>
                 <td>${order.ShippingMethod}</td>
                 <td>${order.ShippingAddress}</td>
                 <td>${order.ShippingCity}</td>
                 <td>${order.ShippingState}</td>
                 <td>${order.ShippingZip}</td>
                 <td>$${order.TotalAmount.toFixed(2)}</td>
-                <td>${order.PaymentStatus}</td> <!-- Handle new payment statuses -->
-                <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- Last 4 digits only -->
-                <td>${order.CardBrand}</td> <!-- New field for Card Brand -->
+                <td>${order.PaymentStatus}</td>
+                <td>**** **** **** ${order.CardNumber.slice(-4)}</td>
+                <td>${order.CardBrand}</td>
                 <td>${order.ExpirationDate}</td>
                 <td>${order.BillingZipCode}</td>
                 <td>${new Date(order.TransactionDateTime).toLocaleString()}</td>
@@ -153,118 +165,13 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
             orderTableBody.appendChild(row);
         });
-    
+
         // Initialize DataTable after data is loaded
         initializeDataTable();
-    
+
         // Adjust and draw the DataTable after loading the data
         table.columns.adjust().draw();
     }
-    
-    
-
-    // Handle custom dropdowns for filters
-    function handleCustomDropdown(dropdownButton, dropdownOptions, callback) {
-        // Toggle the dropdown visibility
-        dropdownButton.addEventListener('click', function (event) {
-            event.stopPropagation(); // Prevent event bubbling
-            dropdownOptions.style.display = dropdownOptions.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Handle the dropdown item clicks
-        dropdownOptions.addEventListener('click', function (event) {
-            event.stopPropagation(); // Prevent event bubbling
-
-            const target = event.target.closest('li');
-            if (!target) return;
-
-            const checkbox = target.querySelector('input[type="checkbox"]');
-            const selectedValue = target.getAttribute('data-value');
-
-            if (selectedValue === 'selectAll') {
-                // Select all options except 'Select All' and 'Clear All'
-                const options = dropdownOptions.querySelectorAll('li');
-                options.forEach(option => {
-                    const value = option.getAttribute('data-value');
-                    const cb = option.querySelector('input[type="checkbox"]');
-                    if (value !== 'selectAll' && value !== 'clearAll') {
-                        cb.checked = true;
-                    }
-                });
-                dropdownButton.textContent = 'Filtered...';
-                callback(getSelectedValues(dropdownOptions));
-            } else if (selectedValue === 'clearAll') {
-                // Clear all selections
-                const options = dropdownOptions.querySelectorAll('li');
-                options.forEach(option => {
-                    const cb = option.querySelector('input[type="checkbox"]');
-                    cb.checked = false;
-                });
-                dropdownButton.textContent = 'Choose...';
-                callback([]);
-            } else {
-                // Toggle the checkbox
-                checkbox.checked = !checkbox.checked;
-                const selectedValues = getSelectedValues(dropdownOptions);
-                dropdownButton.textContent = selectedValues.length > 0 ? 'Filtered...' : 'Choose...';
-                callback(selectedValues);
-            }
-        });
-
-        // Hide dropdown if clicked outside
-        document.addEventListener('click', function (event) {
-            if (!dropdownButton.contains(event.target) && !dropdownOptions.contains(event.target)) {
-                dropdownOptions.style.display = 'none';
-            }
-        });
-    }
-
-    // Helper function to get selected values
-    function getSelectedValues(dropdownOptions) {
-        const selectedValues = [];
-        const options = dropdownOptions.querySelectorAll('li');
-        options.forEach(option => {
-            const value = option.getAttribute('data-value');
-            const checkbox = option.querySelector('input[type="checkbox"]');
-            if (checkbox.checked && value !== 'selectAll' && value !== 'clearAll') {
-                selectedValues.push(value);
-            }
-        });
-        return selectedValues;
-    }
-
-    // Callback function to handle dropdown selection
-    function onDropdownSelection(selectedValues, columnName) {
-        if (selectedValues.length === 0) {
-            table.column(`${columnName}:name`).search('').draw(); // No filter applied
-        } else {
-            const searchRegex = selectedValues.join('|'); // Create regex string for selected values
-            table.column(`${columnName}:name`).search(searchRegex, true, false).draw(); // Apply filter
-        }
-    }
-    
-
- // Setup dropdown for payment status filter
-const paymentstatusFilterButton = document.getElementById('paymentstatusFilterButton');
-const paymentstatusFilterOptions = document.getElementById('paymentstatusFilterOptions');
-handleCustomDropdown(paymentstatusFilterButton, paymentstatusFilterOptions, function (selectedValues) {
-    onDropdownSelection(selectedValues, 'Payment Status');
-});
-
-
-    // Setup dropdown for warehouse status filter
-    const warehouseStatusFilterButton = document.getElementById('warehouseStatusFilterButton');
-    const warehouseStatusFilterOptions = document.getElementById('warehouseStatusFilterOptions');
-    handleCustomDropdown(warehouseStatusFilterButton, warehouseStatusFilterOptions, function (selectedValues) {
-        onDropdownSelection(selectedValues, 'Warehouse Status');
-    });
-
-    // Setup dropdown for shipping method filter
-    const shippingMethodFilterButton = document.getElementById('shippingMethodFilterButton');
-    const shippingMethodFilterOptions = document.getElementById('shippingMethodFilterOptions');
-    handleCustomDropdown(shippingMethodFilterButton, shippingMethodFilterOptions, function (selectedValues) {
-        onDropdownSelection(selectedValues, 'Shipping Method');
-    });
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
@@ -299,6 +206,7 @@ handleCustomDropdown(paymentstatusFilterButton, paymentstatusFilterOptions, func
             table.column('Authorization Amount:name').search(this.value).draw();
         });
     }
+
 
     // Update totals function
     function updateTotals() {
