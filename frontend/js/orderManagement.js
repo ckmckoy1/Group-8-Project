@@ -95,31 +95,36 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', targets: 0, orderable: true },
                 { name: 'Customer', targets: 1, orderable: true },
                 { name: 'Email', targets: 2, orderable: true },
-                { name: 'Street Address', targets: 3, orderable: true },
-                { name: 'Unit Number', targets: 4, orderable: true },
-                { name: 'City', targets: 5, orderable: true },
-                { name: 'State', targets: 6, orderable: true },
-                { name: 'Zip Code', targets: 7, orderable: true },
-                { name: 'Shipping Method', targets: 8, orderable: true },
-                { name: 'Shipping Address', targets: 9, orderable: true },
-                { name: 'Shipping City', targets: 10, orderable: true },
-                { name: 'Shipping State', targets: 11, orderable: true },
-                { name: 'Shipping Zip', targets: 12, orderable: true },
+            
+                // Shipping Information
+                { name: 'Shipping Method', targets: 3, orderable: true },
+                { name: 'Shipping Address', targets: 4, orderable: true },
+                { name: 'Unit Number', targets: 5, orderable: true },
+                { name: 'Shipping City', targets: 6, orderable: true },
+                { name: 'Shipping State', targets: 7, orderable: true },
+                { name: 'Shipping Zip', targets: 8, orderable: true },
+            
+                // Billing Information
+                { name: 'Billing Address', targets: 9, orderable: true },
+                { name: 'Billing City', targets: 10, orderable: true },
+                { name: 'Billing State', targets: 11, orderable: true },
+                { name: 'Billing Zip', targets: 12, orderable: true },
+            
                 { name: 'Total Amount', targets: 13, orderable: true },
                 { name: 'Payment Status', targets: 14, orderable: true },
                 { name: 'Card Number', targets: 15, orderable: true },
                 { name: 'Card Brand', targets: 16, orderable: true },
                 { name: 'Expiration Date', targets: 17, orderable: true },
-                { name: 'Billing Zip', targets: 18, orderable: true },
-                { name: 'Transaction Date', targets: 19, orderable: true },
-                { name: 'Order Date', targets: 20, orderable: true },
-                { name: 'Order Time', targets: 21, orderable: true },
-                { name: 'Authorization Token', targets: 22, orderable: true },
-                { name: 'Authorization Amount', targets: 23, orderable: true },
-                { name: 'Authorization Expiration', targets: 24, orderable: true },
-                { name: 'Warehouse Status', targets: 25, orderable: true },
-                { name: 'Warehouse Approval Date', targets: 26, orderable: true }
+                { name: 'Transaction Date', targets: 18, orderable: true },
+                { name: 'Order Date', targets: 19, orderable: true },
+                { name: 'Order Time', targets: 20, orderable: true },
+                { name: 'Authorization Token', targets: 21, orderable: true },
+                { name: 'Authorization Amount', targets: 22, orderable: true },
+                { name: 'Authorization Expiration', targets: 23, orderable: true },
+                { name: 'Warehouse Status', targets: 24, orderable: true },
+                { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ]
+            
         });
 
         // Listen for column reorder events
