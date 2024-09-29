@@ -95,42 +95,42 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', targets: 0, orderable: true },
                 { name: 'Customer', targets: 1, orderable: true },
                 { name: 'Email', targets: 2, orderable: true },
-                { name: 'Shipping Method', targets: 3, orderable: true },
-                { name: 'Shipping Address', targets: 4, orderable: true },
-                { name: 'Unit Number', targets: 5, orderable: true },
-                { name: 'Shipping City', targets: 6, orderable: true },
-                { name: 'Shipping State', targets: 7, orderable: true },
-                { name: 'Shipping Zip', targets: 8, orderable: true },
-                { name: 'Billing Address', targets: 9, orderable: true },
-                { name: 'Billing City', targets: 10, orderable: true },
-                { name: 'Billing State', targets: 11, orderable: true },
-                { name: 'Billing Zip', targets: 12, orderable: true },
+                // The following columns will be hidden by default
+                { name: 'Shipping Method', targets: 3, orderable: true, visible: false },
+                { name: 'Shipping Address', targets: 4, orderable: true, visible: false },
+                { name: 'Unit Number', targets: 5, orderable: true, visible: false },
+                { name: 'Shipping City', targets: 6, orderable: true, visible: false },
+                { name: 'Shipping State', targets: 7, orderable: true, visible: false },
+                { name: 'Shipping Zip', targets: 8, orderable: true, visible: false },
+                { name: 'Billing Address', targets: 9, orderable: true, visible: false },
+                { name: 'Billing City', targets: 10, orderable: true, visible: false },
+                { name: 'Billing State', targets: 11, orderable: true, visible: false },
+                { name: 'Order Date', targets: 19, orderable: true, visible: false },
+                { name: 'Order Time', targets: 20, orderable: true, visible: false },
                 { name: 'Total Amount', targets: 13, orderable: true },
                 { name: 'Payment Status', targets: 14, orderable: true },
                 { name: 'Card Number', targets: 15, orderable: true },
                 { name: 'Card Brand', targets: 16, orderable: true },
                 { name: 'Expiration Date', targets: 17, orderable: true },
                 { name: 'Transaction Date', targets: 18, orderable: true },
-                { name: 'Order Date', targets: 19, orderable: true },
-                { name: 'Order Time', targets: 20, orderable: true },
                 { name: 'Authorization Token', targets: 21, orderable: true },
                 { name: 'Authorization Amount', targets: 22, orderable: true },
                 { name: 'Authorization Expiration', targets: 23, orderable: true },
                 { name: 'Warehouse Status', targets: 24, orderable: true },
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ]
-            
-            
         });
-
+    
         // Listen for column reorder events
         table.on('column-reorder', function (e, settings, details) {
             console.log('Columns reordered');
         });
 
-        addColumnFiltering();
-        table.on('draw', updateTotals); // Update totals on draw
-    }
+      // Add column filtering and other functionalities...
+      addColumnFiltering();
+      table.on('draw', updateTotals); // Update totals on draw
+  }
+  
 
 
    // Display orders in the table after initializing DataTable
@@ -282,10 +282,36 @@ document.getElementById('refreshTable').addEventListener('click', function () {
 });
 
 // Populate column chooser modal
-document.getElementById('chooseColumns').addEventListener('click', function () {
-    $('#chooseColumnsModal').modal('show');
-    populateColumnChooser(); // Populate the column chooser
-});
+function populateColumnChooser() {
+    const availableColumns = document.getElementById('availableColumns');
+    const selectedColumns = document.getElementById('selectedColumns');
+
+    availableColumns.innerHTML = '';
+    selectedColumns.innerHTML = '';
+
+    // Populate the columns into the chooser
+    table.columns().every(function (index) {
+        const columnTitle = this.header().textContent.trim();
+        const columnWidth = $(this.header()).outerWidth(); // Capture current column width
+        const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+
+        // Add the columns to the appropriate list based on visibility
+        if (this.visible()) {
+            selectedColumns.innerHTML += listItem;
+        } else {
+            availableColumns.innerHTML += listItem;
+        }
+    });
+
+    // Make both lists sortable
+    $('#selectedColumns, #availableColumns').sortable({
+        connectWith: '#availableColumns, #selectedColumns',
+        placeholder: 'ui-state-highlight',
+        update: function (event, ui) {
+            updateTableColumns();
+        }
+    }).disableSelection();
+}
 
 // Update table column visibility and order
 function updateTableColumns() {
@@ -308,7 +334,6 @@ function updateTableColumns() {
     const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
     table.colReorder.order(newOrder); // Reorder columns in the table
 }
-
 // Apply column selections and close modal
 document.getElementById('applyColumns').addEventListener('click', function () {
     $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
