@@ -64,28 +64,34 @@ const orderSchema = new mongoose.Schema({
     CustomerEmail: String,
     FirstName: String,
     LastName: String,
-    StreetAddress: String,
-    UnitNumber: String,
-    City: String,
-    State: String,
-    ZipCode: String,
+    
+    // Billing Information
+    BillingAddress: String,  
+    UnitNumber: String,      
+    BillingCity: String,     
+    BillingState: String,    
+    BillingZipCode: String,  
+    
+    // Shipping Information
     ShippingMethod: String,
     ShippingAddress: String,
     ShippingCity: String,
     ShippingState: String,
     ShippingZip: String,
+
     TotalAmount: Number,
     PaymentStatus: String,
     CardNumber: String,  // Store the last 4 digits only
     CardBrand: String,
     ExpirationDate: String,
-    BillingZipCode: String,
+    
     AuthorizationToken: String,
     OrderDateTime: Date,
     OrderDate: Date,
     OrderTime: String,
     AuthorizationAmount: Number,
     AuthorizationExpirationDate: Date,
+    
     WarehouseStatus: String,
     WarehouseApprovalDate: Date,
 });

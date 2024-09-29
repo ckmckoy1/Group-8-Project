@@ -6,8 +6,8 @@
     <title>WPO Order Management</title>
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-      <!-- Bootstrap CSS for styling -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- ColReorder Extension -->
     <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.6.2/css/colReorder.dataTables.min.css">
     <!-- DataTables Buttons CSS -->
@@ -71,22 +71,21 @@
                     <th data-orderable="true">Order ID</th>
                     <th data-orderable="true">Customer</th>
                     <th data-orderable="true">Email</th>
-                    <th data-orderable="true">Street Address</th>
-                    <th data-orderable="true">Unit Number</th>
-                    <th data-orderable="true">City</th>
-                    <th data-orderable="true">State</th>
-                    <th data-orderable="true">Zip Code</th>
                     <th data-orderable="true">Shipping Method</th>
                     <th data-orderable="true">Shipping Address</th>
                     <th data-orderable="true">Shipping City</th>
                     <th data-orderable="true">Shipping State</th>
                     <th data-orderable="true">Shipping Zip</th>
+                    <th data-orderable="true">Billing Address</th>
+                    <th data-orderable="true">Unit Number</th>
+                    <th data-orderable="true">Billing City</th>
+                    <th data-orderable="true">Billing State</th>
+                    <th data-orderable="true">Billing Zip</th>
                     <th data-orderable="true">Total Amount</th>
                     <th data-orderable="true">Payment Status</th>
                     <th data-orderable="true">Card Number (Last 4 digits)</th>
                     <th data-orderable="true">Card Brand</th>
                     <th data-orderable="true">Expiration Date</th>
-                    <th data-orderable="true">Billing Zip</th>
                     <th data-orderable="true">Transaction Date</th>
                     <th data-orderable="true">Order Date</th>
                     <th data-orderable="true">Order Time</th>
@@ -100,11 +99,6 @@
                     <th><input type="text" id="orderIDFilter" class="form-control"></th>
                     <th><input type="text" id="customerFilter" class="form-control"></th>
                     <th><input type="text" id="emailFilter" class="form-control"></th>
-                    <th><input type="text" id="streetAddressFilter" class="form-control"></th>
-                    <th><input type="text" id="unitNumberFilter" class="form-control"></th>
-                    <th><input type="text" id="cityFilter" class="form-control"></th>
-                    <th><input type="text" id="stateFilter" class="form-control"></th>
-                    <th><input type="text" id="zipCodeFilter" class="form-control"></th>
                     <th>
                         <button id="shippingMethodFilterButton" class="select-button">Choose...</button>
                         <ul id="shippingMethodFilterOptions" class="dropdown-options">
@@ -118,6 +112,11 @@
                     <th><input type="text" id="shippingCityFilter" class="form-control"></th>
                     <th><input type="text" id="shippingStateFilter" class="form-control"></th>
                     <th><input type="text" id="shippingZipFilter" class="form-control"></th>
+                    <th><input type="text" id="streetAddressFilter" class="form-control"></th>
+                    <th><input type="text" id="unitNumberFilter" class="form-control"></th>
+                    <th><input type="text" id="billingCityFilter" class="form-control"></th>
+                    <th><input type="text" id="billingStateFilter" class="form-control"></th>
+                    <th><input type="text" id="billingZipFilter" class="form-control"></th>
                     <th><input type="text" id="totalAmountFilter" class="form-control"></th>
                     <th>
                         <button id="paymentstatusFilterButton" class="select-button">Choose...</button>
@@ -134,7 +133,6 @@
                     <th><input type="text" id="cardNumberFilter" class="form-control"></th>
                     <th><input type="text" id="cardBrandFilter" class="form-control"></th>
                     <th><input type="text" id="expirationDateFilter" class="form-control"></th>
-                    <th><input type="text" id="billingZipFilter" class="form-control"></th>
                     <th><input type="date" id="transactionDateFilter" class="form-control"></th>
                     <th><input type="date" id="orderDateFilter" class="form-control"></th>
                     <th><input type="text" id="orderTimeFilter" class="form-control"></th>
@@ -154,7 +152,6 @@
                     <th><input type="date" id="warehouseApprovalDateFilter" class="form-control"></th>
                 </tr>
             </thead>
-            
 
             <tbody id="orderTableBody">
                 <!-- Orders will be dynamically added here by JavaScript -->
@@ -171,7 +168,6 @@
         </table>
     </div>
 </div>
-
 
     </div>
 
