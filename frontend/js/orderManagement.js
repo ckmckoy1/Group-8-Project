@@ -95,21 +95,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', targets: 0, orderable: true },
                 { name: 'Customer', targets: 1, orderable: true },
                 { name: 'Email', targets: 2, orderable: true },
-            
-                // Shipping Information
                 { name: 'Shipping Method', targets: 3, orderable: true },
                 { name: 'Shipping Address', targets: 4, orderable: true },
                 { name: 'Unit Number', targets: 5, orderable: true },
                 { name: 'Shipping City', targets: 6, orderable: true },
                 { name: 'Shipping State', targets: 7, orderable: true },
                 { name: 'Shipping Zip', targets: 8, orderable: true },
-            
-                // Billing Information
                 { name: 'Billing Address', targets: 9, orderable: true },
                 { name: 'Billing City', targets: 10, orderable: true },
                 { name: 'Billing State', targets: 11, orderable: true },
                 { name: 'Billing Zip', targets: 12, orderable: true },
-            
                 { name: 'Total Amount', targets: 13, orderable: true },
                 { name: 'Payment Status', targets: 14, orderable: true },
                 { name: 'Card Number', targets: 15, orderable: true },
@@ -124,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Warehouse Status', targets: 24, orderable: true },
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ]
+            
             
         });
 
@@ -147,39 +143,34 @@ document.addEventListener('DOMContentLoaded', function () {
     orders.forEach(order => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${order.OrderID}</td>
-            <td>${order.FirstName} ${order.LastName}</td>
-            <td>${order.CustomerEmail}</td>
-
-            <!-- Shipping Information -->
-            <td>${order.ShippingMethod}</td>
-            <td>${order.ShippingAddress}</td>
-            <td>${order.UnitNumber}</td>
-            <td>${order.ShippingCity}</td>
-            <td>${order.ShippingState}</td>
-            <td>${order.ShippingZip}</td>
-           
-            
-            <!-- Billing Information -->
-            <td>${order.BillingAddress}</td> 
-            <td>${order.BillingCity}</td> 
-            <td>${order.BillingState}</td> 
-            <td>${order.BillingZipCode}</td>
-
-            <td>$${order.TotalAmount.toFixed(2)}</td>
-            <td>${order.PaymentStatus}</td>
-            <td>**** **** **** ${order.CardNumber.slice(-4)}</td>
-            <td>${order.CardBrand}</td>
-            <td>${order.ExpirationDate}</td>
-            <td>${new Date(order.TransactionDateTime).toLocaleString()}</td>
-            <td>${order.OrderDate}</td>
-            <td>${order.OrderTime}</td>
-            <td>${order.AuthorizationToken}</td>
-            <td>$${order.AuthorizationAmount.toFixed(2)}</td>
-            <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td>
-            <td>${order.WarehouseStatus || 'N/A'}</td>
-            <td>${order.WarehouseApprovalDate || 'N/A'}</td>
-        `;
+        <td>${order.OrderID}</td>            <!-- index 0 -->
+        <td>${order.FirstName} ${order.LastName}</td> <!-- index 1 -->
+        <td>${order.CustomerEmail}</td>       <!-- index 2 -->
+        <td>${order.ShippingMethod}</td>      <!-- index 3 -->
+        <td>${order.ShippingAddress}</td>     <!-- index 4 -->
+        <td>${order.UnitNumber}</td>          <!-- index 5 -->
+        <td>${order.ShippingCity}</td>        <!-- index 6 -->
+        <td>${order.ShippingState}</td>       <!-- index 7 -->
+        <td>${order.ShippingZip}</td>         <!-- index 8 -->
+        <td>${order.BillingAddress}</td>      <!-- index 9 -->
+        <td>${order.BillingCity}</td>         <!-- index 10 -->
+        <td>${order.BillingState}</td>        <!-- index 11 -->
+        <td>${order.BillingZipCode}</td>      <!-- index 12 -->
+        <td>$${order.TotalAmount.toFixed(2)}</td> <!-- index 13 -->
+        <td>${order.PaymentStatus}</td>       <!-- index 14 -->
+        <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- index 15 -->
+        <td>${order.CardBrand}</td>           <!-- index 16 -->
+        <td>${order.ExpirationDate}</td>      <!-- index 17 -->
+        <td>${new Date(order.TransactionDateTime).toLocaleString()}</td> <!-- index 18 -->
+        <td>${order.OrderDate}</td>           <!-- index 19 -->
+        <td>${order.OrderTime}</td>           <!-- index 20 -->
+        <td>${order.AuthorizationToken}</td>  <!-- index 21 -->
+        <td>$${order.AuthorizationAmount.toFixed(2)}</td> <!-- index 22 -->
+        <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td> <!-- index 23 -->
+        <td>${order.WarehouseStatus || 'N/A'}</td> <!-- index 24 -->
+        <td>${order.WarehouseApprovalDate || 'N/A'}</td> <!-- index 25 -->
+    `;
+    
         orderTableBody.appendChild(row);
     });
 
