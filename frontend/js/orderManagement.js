@@ -3,8 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
     let table;
     const messageDiv = document.getElementById('message'); // Error message div
 
-    // Hide the error message initially
+  // Hide the error message if the div exists
+  if (messageDiv) {
     messageDiv.style.display = 'none';
+} else {
+    console.error('Element with ID "message" not found.');
+}
+
 
     // Fetch the orders from the backend when the page loads
     fetchOrders();
