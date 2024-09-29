@@ -1,14 +1,24 @@
 // Import dependencies
-import express from 'express';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import morgan from 'morgan';
-import compression from 'compression';
-import helmet from 'helmet';
-import fetch from 'node-fetch'; // Ensure this is installed
+// import express from 'express';
+// import bodyParser from 'body-parser';
+// import mongoose from 'mongoose';
+// import dotenv from 'dotenv';
+// import cors from 'cors';
+// import morgan from 'morgan';
+// import compression from 'compression';
+// import helmet from 'helmet';
+// import fetch from 'node-fetch'; // Ensure this is installed
 
+// Import dependencies using require (CommonJS)
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const morgan = require('morgan');
+const compression = require('compression');
+const helmet = require('helmet');
+const fetch = require('node-fetch');
 
 // Initialize dotenv to read environment variables
 dotenv.config();
