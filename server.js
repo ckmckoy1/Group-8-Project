@@ -20,10 +20,12 @@ app.use(helmet());
 app.use(morgan('combined')); // Logs requests to your console
 app.use(compression());
 app.use(cors({
-    origin: ['https://ckmckoy1.github.io', 'https://group8-a70f0e413328.herokuapp.com'], // Allow requests from GitHub Pages and Heroku
+    origin: ['https://ckmckoy1.github.io', 'https://group8-a70f0e413328.herokuapp.com'], 
     methods: ['GET', 'POST'],
-    credentials: true
+    credentials: true,
+    optionsSuccessStatus: 200  // Some legacy browsers choke on status 204
 }));
+
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files (like CSS, JS, HTML from public folder)
 
@@ -72,19 +74,20 @@ const orderSchema = new mongoose.Schema({
     OrderDate: Date,
     OrderTime: String,
     AuthorizationAmount: Number,
-    AuthorizationExpirationDate: Date,  // Use Date instead of String for consistency
+    AuthorizationExpirationDate: Date,
     WarehouseStatus: String,
     WarehouseApprovalDate: Date,
 });
-
-module.exports = mongoose.model('Order', orderSchema);
-
 
 // Add index on OrderID to optimize querying by OrderID
 orderSchema.index({ OrderID: 1 });
 
 // Use WP-Orders collection within the WildPathOutfitters database
 const Order = mongoose.model('Order', orderSchema, 'WP-Orders');
+
+// Export the Order model
+module.exports = Order;
+
 
 // API route to get a specific order by orderId (new route)
 app.get('/api/orders/:orderId', async (req, res) => {
