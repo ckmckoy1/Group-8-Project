@@ -131,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     extend: 'pdfHtml5',
+                    className: 'd-none', // Hide the button
                     orientation: 'landscape', // Landscape mode
                     pageSize: 'A4', // Use A4 paper size
                     customize: function (doc) {
