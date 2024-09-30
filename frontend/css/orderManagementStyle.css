@@ -140,6 +140,30 @@ footer.footer .d-flex {
     font-size: 1.5em;
 }
 
+/* Adjust the size of Available and Selected Columns boxes */
+#availableColumns, #selectedColumns {
+    height: 300px; /* Increase height of the boxes */
+    width: 100%; /* Ensure full width */
+    overflow-y: auto; /* Enable scrolling if content exceeds the height */
+    background-color: #fff; /* White background */
+    border: 1px solid #A0BCCD; /* Add a border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Add some padding inside the boxes */
+    list-style-type: none; /* Remove bullet points */
+}
+
+#availableColumns li, #selectedColumns li {
+    padding: 8px 12px; /* Increase padding inside the list items */
+    margin-bottom: 5px; /* Add space between the items */
+    background-color: #F0F8FF; /* Light background color for items */
+    cursor: pointer;
+}
+
+#availableColumns li:hover, #selectedColumns li:hover {
+    background-color: #B9D9EB; /* Change background on hover */
+}
+
+
 .modal-body {
     padding: 20px;
     background-color: #F0F8FF; /* AliceBlue background */
