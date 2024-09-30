@@ -169,10 +169,12 @@ footer.footer .d-flex {
     margin-bottom: 5px; /* Add space between the items */
     background-color: #F0F8FF; /* Light background color for items */
     cursor: pointer;
+    width: 100%; /* Make the list items take up the full width of the container */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
 }
 
 #availableColumns li:hover, #selectedColumns li:hover {
-    background-color: #e9ebb9; /* Change background on hover */
+    background-color: #B9D9EB; /* Change background on hover */
 }
 
 
