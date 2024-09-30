@@ -280,6 +280,11 @@ document.getElementById('refreshTable').addEventListener('click', function () {
     fetchOrders(true); // Refreshes the table data
 });
 
+// Choose columns Button
+document.getElementById('chooseColumns').addEventListener('click', function () {
+    populateColumnChooser(); // Populate the modal
+});
+
 // Populate column chooser modal
 function populateColumnChooser() {
     const availableColumns = document.getElementById('availableColumns');
@@ -320,18 +325,20 @@ function updateTableColumns() {
     // Set visibility for the selected columns
     selectedColumns.forEach(item => {
         const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(true); // Show selected columns
+        table.column(columnIdx).visible(true, false); // The second parameter prevents immediate redraw
     });
-
-    // Hide columns that were moved to available
-    availableColumns.forEach(item => {
+     // Hide columns that were moved to available
+     availableColumns.forEach(item => {
         const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(false); // Hide deselected columns
+        table.column(columnIdx).visible(false, false);
     });
 
     // Apply the new column order for the selected columns
     const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
-    table.colReorder.order(newOrder); // Reorder columns in the table
+    table.colReorder.order(newOrder, true); // The second parameter triggers a redraw
+
+    // Adjust columns and redraw the table
+    table.columns.adjust().draw(false); // The parameter false prevents full redraw for performance
 }
 // Apply column selections and close modal
 document.getElementById('applyColumns').addEventListener('click', function () {
