@@ -241,7 +241,7 @@ tfoot td#totalTransactionAmount {
 
 /* Ensure totals row grows with the table */
 tfoot {
-    display: table-row-group;
+    display: table-footer-group;
 }
 
 /* Make the row height adjust if text overflows */
