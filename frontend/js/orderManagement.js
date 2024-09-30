@@ -72,17 +72,19 @@ document.addEventListener('DOMContentLoaded', function () {
             lengthMenu: [10, 25, 50, 100],
             searching: true,
             info: true,
-            ordering: true,
+            ordering: true, // Enable ordering
+            order: [], // Initial no ordering
             pageLength: 10,
             scrollX: true,
             scrollY: '50vh',
             orderCellsTop: true,
             colReorder: {
-                realtime: false // Disable realtime reordering to prevent conflicts
+                realtime: true, // Enable realtime reordering (drag-and-drop)
+                // Optionally, specify any ColReorder options here
             },
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
-            'rt' +
-            '<"row"<"col-md-6"i><"col-md-6"p>>',
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
+                 'rt' +
+                 '<"row"<"col-md-6"i><"col-md-6"p>>',
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
@@ -95,17 +97,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', targets: 0, orderable: true },
                 { name: 'Customer', targets: 1, orderable: true },
                 { name: 'Email', targets: 2, orderable: true },
-                { name: 'Shipping Method', targets: 3, orderable: true, visible: true },
-                { name: 'Shipping Address', targets: 4, orderable: true, visible: true },
-                { name: 'Unit Number', targets: 5, orderable: true, visible: true },
-                { name: 'Shipping City', targets: 6, orderable: true, visible: true },
-                { name: 'Shipping State', targets: 7, orderable: true, visible: true },
-                { name: 'Shipping Zip', targets: 8, orderable: true, visible: true },
-                { name: 'Billing Address', targets: 9, orderable: true, visible: true },
-                { name: 'Billing City', targets: 10, orderable: true, visible: true },
-                { name: 'Billing State', targets: 11, orderable: true, visible: true },
-                { name: 'Order Date', targets: 19, orderable: true, visible: true },
-                { name: 'Order Time', targets: 20, orderable: true, visible: true },
+                { name: 'Shipping Method', targets: 3, orderable: true },
+                { name: 'Shipping Address', targets: 4, orderable: true},
+                { name: 'Unit Number', targets: 5, orderable: true },
+                { name: 'Shipping City', targets: 6, orderable: true },
+                { name: 'Shipping State', targets: 7, orderable: true },
+                { name: 'Shipping Zip', targets: 8, orderable: true },
+                { name: 'Billing Address', targets: 9, orderable: true },
+                { name: 'Billing City', targets: 10, orderable: true },
+                { name: 'Billing State', targets: 11, orderable: true },
+                { name: 'Order Date', targets: 19, orderable: true},
+                { name: 'Order Time', targets: 20, orderable: true },
                 { name: 'Total Amount', targets: 13, orderable: true },
                 { name: 'Payment Status', targets: 14, orderable: true },
                 { name: 'Card Number', targets: 15, orderable: true },
@@ -117,31 +119,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Authorization Expiration', targets: 23, orderable: true },
                 { name: 'Warehouse Status', targets: 24, orderable: true },
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
+            ],
+            buttons: [
+                'csv', 'excel', 'pdf' // Define the buttons you need
             ]
         });
-    
-        // Listen for column reorder events
-        table.on('column-reorder', function (e, settings, details) {
-            console.log('Columns reordered');
-        });
 
-      // Add column filtering and other functionalities...
-      addColumnFiltering();
-      table.on('draw', updateTotals); // Update totals on draw
-  }
-  
+  // Listen for column reorder events
+  table.on('column-reorder', function (e, settings, details) {
+    console.log('Columns reordered');
+    // Optionally, you can sync the modal's lists here if needed
+});
 
+// Add column filtering and other functionalities...
+addColumnFiltering();
+table.on('draw', updateTotals); // Update totals on draw
+}
 
-   // Display orders in the table after initializing DataTable
-   function displayOrders(orders) {
-    // Hide the error message when orders are successfully displayed
-    if (messageDiv) {
-        messageDiv.style.display = 'none'; // Ensure error message is hidden
-    }
+// Display orders in the table after initializing DataTable
+function displayOrders(orders) {
+// Hide the error message when orders are successfully displayed
+if (messageDiv) {
+    messageDiv.style.display = 'none'; // Ensure error message is hidden
+}
 
-    orders.forEach(order => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
+orders.forEach(order => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
         <td>${order.OrderID}</td>            <!-- index 0 -->
         <td>${order.FirstName} ${order.LastName}</td> <!-- index 1 -->
         <td>${order.CustomerEmail}</td>       <!-- index 2 -->
@@ -169,179 +173,179 @@ document.addEventListener('DOMContentLoaded', function () {
         <td>${order.WarehouseStatus || 'N/A'}</td> <!-- index 24 -->
         <td>${order.WarehouseApprovalDate || 'N/A'}</td> <!-- index 25 -->
     `;
-    
-        orderTableBody.appendChild(row);
-    });
 
-    // Initialize DataTable after data is loaded
-    initializeDataTable();
+    orderTableBody.appendChild(row);
+});
 
-    // Adjust and draw the DataTable after loading the data
-    table.columns.adjust().draw();
+// Initialize DataTable after data is loaded
+initializeDataTable();
+
+// Adjust and draw the DataTable after loading the data
+table.columns.adjust().draw();
 }
 
 // Add filtering functionality for individual columns
 function addColumnFiltering() {
-    $('#orderIDFilter').on('keyup', function () {
-        table.column('Order ID:name').search(this.value).draw();
-    });
-    $('#customerFilter').on('keyup', function () {
-        table.column('Customer:name').search(this.value).draw();
-    });
-    $('#emailFilter').on('keyup', function () {
-        table.column('Email:name').search(this.value).draw();
-    });
-    $('#shippingAddressFilter').on('keyup', function () {
-        table.column('Shipping Address:name').search(this.value).draw();
-    });
-    $('#shippingCityFilter').on('keyup', function () {
-        table.column('Shipping City:name').search(this.value).draw();
-    });
-    $('#shippingStateFilter').on('keyup', function () {
-        table.column('Shipping State:name').search(this.value).draw();
-    });
-    $('#shippingZipFilter').on('keyup', function () {
-        table.column('Shipping Zip:name').search(this.value).draw();
-    });
-    $('#billingAddressFilter').on('keyup', function () {
-        table.column('Billing Address:name').search(this.value).draw();
-    });
-    $('#billingCityFilter').on('keyup', function () {
-        table.column('Billing City:name').search(this.value).draw();
-    });
-    $('#billingStateFilter').on('keyup', function () {
-        table.column('Billing State:name').search(this.value).draw();
-    });
-    $('#billingZipFilter').on('keyup', function () {
-        table.column('Billing Zip:name').search(this.value).draw();
-    });
-    $('#amountFilter').on('keyup', function () {
-        table.column('Total Amount:name').search(this.value).draw();
-    });
-    $('#cardNumberFilter').on('keyup', function () {
-        table.column('Card Number:name').search(this.value).draw();
-    });
-    $('#transactionDateFilter').on('change', function () {
-        table.column('Transaction Date:name').search(this.value).draw();
-    });
-    $('#authTokenFilter').on('keyup', function () {
-        table.column('Authorization Token:name').search(this.value).draw();
-    });
-    $('#authAmountFilter').on('keyup', function () {
-        table.column('Authorization Amount:name').search(this.value).draw();
-    });
-    $('#warehouseapprovalDateFilter').on('change', function () {
-        table.column('Warehouse Approval Date:name').search(this.value).draw();
-    });
+$('#orderIDFilter').on('keyup', function () {
+    table.column('Order ID:name').search(this.value).draw();
+});
+$('#customerFilter').on('keyup', function () {
+    table.column('Customer:name').search(this.value).draw();
+});
+$('#emailFilter').on('keyup', function () {
+    table.column('Email:name').search(this.value).draw();
+});
+$('#shippingAddressFilter').on('keyup', function () {
+    table.column('Shipping Address:name').search(this.value).draw();
+});
+$('#shippingCityFilter').on('keyup', function () {
+    table.column('Shipping City:name').search(this.value).draw();
+});
+$('#shippingStateFilter').on('keyup', function () {
+    table.column('Shipping State:name').search(this.value).draw();
+});
+$('#shippingZipFilter').on('keyup', function () {
+    table.column('Shipping Zip:name').search(this.value).draw();
+});
+$('#billingAddressFilter').on('keyup', function () {
+    table.column('Billing Address:name').search(this.value).draw();
+});
+$('#billingCityFilter').on('keyup', function () {
+    table.column('Billing City:name').search(this.value).draw();
+});
+$('#billingStateFilter').on('keyup', function () {
+    table.column('Billing State:name').search(this.value).draw();
+});
+$('#billingZipFilter').on('keyup', function () {
+    table.column('Billing Zip:name').search(this.value).draw();
+});
+$('#amountFilter').on('keyup', function () {
+    table.column('Total Amount:name').search(this.value).draw();
+});
+$('#cardNumberFilter').on('keyup', function () {
+    table.column('Card Number:name').search(this.value).draw();
+});
+$('#transactionDateFilter').on('change', function () {
+    table.column('Transaction Date:name').search(this.value).draw();
+});
+$('#authTokenFilter').on('keyup', function () {
+    table.column('Authorization Token:name').search(this.value).draw();
+});
+$('#authAmountFilter').on('keyup', function () {
+    table.column('Authorization Amount:name').search(this.value).draw();
+});
+$('#warehouseApprovalDateFilter').on('change', function () { // Fixed ID: 'warehouseApprovalDateFilter'
+    table.column('Warehouse Approval Date:name').search(this.value).draw();
+});
 }
 
 // Update totals function
 function updateTotals() {
-    let totalAmount = 0;
-    let totalTransactionAmount = 0;
+let totalAmount = 0;
+let totalTransactionAmount = 0;
 
-    $('#orderTable tbody tr').each(function () {
-        const amount = parseFloat($(this).find('td').eq(9).text().replace('$', '')) || 0;  // Updated index for Total Amount
-        const transactionAmount = parseFloat($(this).find('td').eq(19).text().replace('$', '')) || 0; // Updated index for Authorization Amount
+$('#orderTable tbody tr').each(function () {
+    const amount = parseFloat($(this).find('td').eq(13).text().replace('$', '')) || 0;  // Updated index for Total Amount
+    const transactionAmount = parseFloat($(this).find('td').eq(22).text().replace('$', '')) || 0; // Updated index for Authorization Amount
 
-        totalAmount += amount;
-        totalTransactionAmount += transactionAmount;
-    });
+    totalAmount += amount;
+    totalTransactionAmount += transactionAmount;
+});
 
-    $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
-    $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
+$('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
+$('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
 }
 
 // Download functionality
 document.getElementById('downloadButton').addEventListener('click', function () {
-    $('#downloadModal').modal('show');
+$('#downloadModal').modal('show');
 });
 
 document.getElementById('downloadConfirm').addEventListener('click', function () {
-    const format = document.getElementById('downloadFormat').value;
-    exportTable(format);
-    $('#downloadModal').modal('hide');
+const format = document.getElementById('downloadFormat').value;
+exportTable(format);
+$('#downloadModal').modal('hide');
 });
 
 // Export the table in the selected format
 function exportTable(format) {
-    if (format === 'csv') {
-        table.button('.buttons-csv').trigger();
-    } else if (format === 'pdf') {
-        table.button('.buttons-pdf').trigger();
-    } else if (format === 'excel') {
-        table.button('.buttons-excel').trigger();
-    }
+if (format === 'csv') {
+    table.button('.buttons-csv').trigger();
+} else if (format === 'pdf') {
+    table.button('.buttons-pdf').trigger();
+} else if (format === 'excel') {
+    table.button('.buttons-excel').trigger();
+}
 }
 
 // Refresh table functionality
 document.getElementById('refreshTable').addEventListener('click', function () {
-    console.log('Refresh Table button clicked');
-    fetchOrders(true); // Refreshes the table data
+console.log('Refresh Table button clicked');
+fetchOrders(true); // Refreshes the table data
 });
 
 // Choose columns Button
 document.getElementById('chooseColumns').addEventListener('click', function () {
-    populateColumnChooser(); // Populate the modal
+populateColumnChooser(); // Populate the modal
 });
 
 // Populate column chooser modal
 function populateColumnChooser() {
-    const availableColumns = document.getElementById('availableColumns');
-    const selectedColumns = document.getElementById('selectedColumns');
+const availableColumns = document.getElementById('availableColumns');
+const selectedColumns = document.getElementById('selectedColumns');
 
-    availableColumns.innerHTML = '';
-    selectedColumns.innerHTML = '';
+availableColumns.innerHTML = '';
+selectedColumns.innerHTML = '';
 
-    // Populate the columns into the chooser
-    table.columns().every(function (index) {
-        const columnTitle = this.header().textContent.trim();
-        const columnWidth = $(this.header()).outerWidth(); // Capture current column width
-        const listItem = `<li class="list-group-item" data-column="${index}" style="width:${columnWidth}px;">${columnTitle}</li>`;
+// Populate the columns into the chooser
+table.columns().every(function (index) {
+    const columnTitle = this.header().textContent.trim();
+    const listItem = `<li class="list-group-item" data-column-index="${index}">${columnTitle}</li>`;
 
-        // Add the columns to the appropriate list based on visibility
-        if (this.visible()) {
-            selectedColumns.innerHTML += listItem;
-        } else {
-            availableColumns.innerHTML += listItem;
-        }
-    });
+    // Add the columns to the appropriate list based on visibility
+    if (this.visible()) {
+        selectedColumns.innerHTML += listItem;
+    } else {
+        availableColumns.innerHTML += listItem;
+    }
+});
 
-    // Make both lists sortable
-    $('#selectedColumns, #availableColumns').sortable({
-        connectWith: '#availableColumns, #selectedColumns',
-        placeholder: 'ui-state-highlight',
-        update: function (event, ui) {
-            updateTableColumns();
-        }
-    }).disableSelection();
+// Make both lists sortable and connected
+$('#selectedColumns, #availableColumns').sortable({
+    connectWith: '#availableColumns, #selectedColumns',
+    placeholder: 'ui-state-highlight'
+    // No 'update' callback here to handle updates on Apply button
+}).disableSelection();
 }
 
 // Update table column visibility and order
 function updateTableColumns() {
-    const selectedColumns = document.querySelectorAll('#selectedColumns li');
-    const availableColumns = document.querySelectorAll('#availableColumns li');
+const selectedColumns = document.querySelectorAll('#selectedColumns li');
+const availableColumns = document.querySelectorAll('#availableColumns li');
 
-    // Set visibility for the selected columns
-    selectedColumns.forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(true, false); // The second parameter prevents immediate redraw
-    });
-     // Hide columns that were moved to available
-     availableColumns.forEach(item => {
-        const columnIdx = parseInt(item.getAttribute('data-column'));
-        table.column(columnIdx).visible(false, false);
-    });
+// First, hide all columns
+table.columns().visible(false, false);
 
-    // Apply the new column order for the selected columns
-    const newOrder = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column')));
-    table.colReorder.order(newOrder, true); // The second parameter triggers a redraw
+// Collect the new order based on selected columns
+const newOrder = [];
 
-    // Adjust columns and redraw the table
-    table.columns.adjust().draw(false); // The parameter false prevents full redraw for performance
+// Show selected columns and determine new order
+selectedColumns.forEach(item => {
+    const columnIdx = parseInt(item.getAttribute('data-column-index'));
+    table.column(columnIdx).visible(true, false); // Show the column without redrawing
+    newOrder.push(columnIdx); // Add to new order array
+});
+
+// Reorder the columns based on newOrder
+table.colReorder.order(newOrder, true); // Trigger a redraw
+
+// Adjust columns and redraw the table
+table.columns.adjust().draw(false); // The parameter false prevents a full redraw for performance
 }
+
 // Apply column selections and close modal
 document.getElementById('applyColumns').addEventListener('click', function () {
-    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
+updateTableColumns(); // Update the table based on modal selections
+$('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
+    });
 });
-})

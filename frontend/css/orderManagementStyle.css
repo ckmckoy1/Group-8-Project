@@ -39,6 +39,15 @@ h2 {
     color: #333; /* Dark grey text */
 }
 
+    .ui-state-highlight {
+        height: 2.5em;
+        line-height: 1.2em;
+        background-color: #f0f0f0;
+        border: 1px dashed #ddd;
+        margin-bottom: 5px;
+    }
+
+
 /* Message styling */
 .message {
     padding: 1.2em;
