@@ -121,8 +121,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ],
             buttons: [
-                'csv', 'excel', 'pdf' // Define the buttons you need
+                {
+                    extend: 'csv',
+                    className: 'd-none' // Hide the button
+                },
+                {
+                    extend: 'excel',
+                    className: 'd-none' // Hide the button
+                },
+                {
+                    extend: 'pdf',
+                    className: 'd-none' // Hide the button
+                }
             ]
+
         });
 
   // Listen for column reorder events
@@ -305,28 +317,28 @@ function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
 initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 3);
 initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 14);
 initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 24);
-
 // Download functionality
 document.getElementById('downloadButton').addEventListener('click', function () {
-$('#downloadModal').modal('show');
+    $('#downloadModal').modal('show');
 });
 
 document.getElementById('downloadConfirm').addEventListener('click', function () {
-const format = document.getElementById('downloadFormat').value;
-exportTable(format);
-$('#downloadModal').modal('hide');
+    const format = document.getElementById('downloadFormat').value;
+    exportTable(format);
+    $('#downloadModal').modal('hide');
 });
 
 // Export the table in the selected format
 function exportTable(format) {
-if (format === 'csv') {
-    table.button('.buttons-csv').trigger();
-} else if (format === 'pdf') {
-    table.button('.buttons-pdf').trigger();
-} else if (format === 'excel') {
-    table.button('.buttons-excel').trigger();
+    if (format === 'csv') {
+        table.button('.buttons-csv').trigger();  // Trigger hidden CSV button
+    } else if (format === 'pdf') {
+        table.button('.buttons-pdf').trigger();  // Trigger hidden PDF button
+    } else if (format === 'excel') {
+        table.button('.buttons-excel').trigger(); // Trigger hidden Excel button
+    }
 }
-}
+
 
 // Refresh table functionality
 document.getElementById('refreshTable').addEventListener('click', function () {
