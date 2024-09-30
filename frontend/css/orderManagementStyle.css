@@ -1,6 +1,7 @@
 /* General body styling */
 html, body {
     height: 100%;
+    width: 100%; /* Ensure the body and html are full width */
     background: #F5F8FA; /* Very light blue-grey background */
     padding: 0;
     margin: 0;
@@ -80,13 +81,15 @@ h2 {
 
 /* Footer styling */
 footer.footer {
+    width: 100%; /* Ensure the footer stretches across the full width */
+    margin: 0; /* Remove any margins */
+    padding: 1.5em 0;
     background-color: #B9D9EB; /* Light blue background for footer */
     color: #333; /* Dark grey text */
-    padding: 1.5em 0;
-    text-align: right;
-    width: 100%;
-    margin-top: auto;
     border-top: 1px solid #A0BCCD; /* Soft grey-blue border */
+    display: flex;
+    justify-content: flex-end; /* Align content to the right */
+    align-items: center;
 }
 
 footer.footer a {
@@ -94,6 +97,13 @@ footer.footer a {
     text-decoration: none;
     font-size: 1em;
     text-align: right;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0;
+}
+
+footer.footer img {
+    margin: 0 10px; /* Adjust margin around images */
 }
 
 footer.footer a:hover {
@@ -112,6 +122,8 @@ footer.footer .d-flex {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding: 0; /* Remove extra padding */
+    margin: 0; /* Remove any extra margin */
 }
 
 /* Modal styles */
