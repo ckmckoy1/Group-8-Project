@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize DataTables with export buttons, filtering, and column reordering
     function initializeDataTable() {
         table = $('#orderTable').DataTable({
+            responsive: true,
             paging: true,
             lengthMenu: [10, 25, 50, 100],
             searching: true,
