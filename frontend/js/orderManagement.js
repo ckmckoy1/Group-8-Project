@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ],
             buttons: [
-                'delete', 'this', 'later' // Define the buttons you need
+                'csv', 'excel', 'pdf' // Define the buttons you need
             ]
         });
 
@@ -255,6 +255,56 @@ $('#orderTable tbody tr').each(function () {
 $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
 $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
 }
+
+function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
+    // Toggle dropdown on button click
+    $(`#${buttonId}`).on('click', function (e) {
+        e.stopPropagation();
+        $(`#${optionsId}`).toggle();
+    });
+
+    // Handle clicks on filter options
+    $(`#${optionsId} li`).on('click', function () {
+        const value = $(this).data('value');
+
+        if (value === 'selectAll') {
+            $(`#${optionsId} input[type="checkbox"]`).prop('checked', true);
+        } else if (value === 'clearAll') {
+            $(`#${optionsId} input[type="checkbox"]`).prop('checked', false);
+        } else {
+            // Toggle individual checkbox
+            const checkbox = $(this).find('input[type="checkbox"]');
+            checkbox.prop('checked', !checkbox.prop('checked'));
+        }
+
+        // Close the dropdown after selection
+        $(`#${optionsId}`).hide();
+
+        // Collect selected values
+        let selectedValues = [];
+        $(`#${optionsId} input[type="checkbox"]:checked`).each(function () {
+            selectedValues.push($(this).parent().text().trim());
+        });
+
+        // Apply the filter
+        if (selectedValues.length > 0 && !selectedValues.includes('Select All')) {
+            const regex = selectedValues.join('|');
+            table.column(columnIndex).search(regex, true, false).draw();
+        } else {
+            table.column(columnIndex).search('').draw();
+        }
+    });
+
+    // Hide dropdown when clicking outside
+    $(document).on('click', function () {
+        $(`#${optionsId}`).hide();
+    });
+}
+
+// Initialize all dropdown filters
+initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 3);
+initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 14);
+initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 24);
 
 // Download functionality
 document.getElementById('downloadButton').addEventListener('click', function () {
