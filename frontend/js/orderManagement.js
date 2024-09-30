@@ -130,11 +130,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     className: 'd-none' // Hide the button
                 },
                 {
-                    extend: 'pdf',
-                    className: 'd-none' // Hide the button
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape', // Landscape mode
+                    pageSize: 'A4', // Use A4 paper size
+                    customize: function (doc) {
+                        // Adjust layout to fit content within page
+                        doc.content[1].table.widths = '*'.repeat(doc.content[1].table.body[0].length).split(''); // Auto-width for each column
+                        doc.styles.tableHeader.fontSize = 10; // Smaller font size for header
+                        doc.defaultStyle.fontSize = 8; // Smaller font size for table content
+                    }
                 }
             ]
-
         });
 
   // Listen for column reorder events
@@ -405,7 +411,7 @@ function exportTable(format) {
     if (format === 'csv') {
         table.button('.buttons-csv').trigger();  // Trigger hidden CSV button
     } else if (format === 'pdf') {
-        table.button('.buttons-pdf').trigger();  // Trigger hidden PDF button
+        table.button('.buttons-pdfHtml5').trigger();  // Trigger hidden PDF button
     } else if (format === 'excel') {
         table.button('.buttons-excel').trigger(); // Trigger hidden Excel button
     }
