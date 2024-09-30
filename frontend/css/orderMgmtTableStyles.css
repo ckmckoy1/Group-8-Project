@@ -1,7 +1,6 @@
 /* Main container for content */
 .container-fluid {
     position: relative; /* Ensure it contains its positioned children */
-    /* Removed overflow: hidden; */
     background-color: white;
     padding: 2em;
     margin: 20px auto;
@@ -9,25 +8,19 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     min-height: 80vh; /* Allow the container to be bigger height-wise */
-    display: flex; /* Make it a flex container */
-    flex-direction: column;
-}
 
 /* Scrollable table container */
 .table-container {
     overflow-x: auto;
     overflow-y: auto;
     position: relative;
-    max-height: calc(100vh - 250px); /* Adjust based on navbar and footer heights */
-    flex-grow: 1; /* Allow it to grow and take up available space */
+    max-height: 100vh; /* Set maximum height if needed */
 }
 
 /* Ensure the table fits within the container */
 .table-container table {
     width: 100%;
     max-width: 100%;
-    height: 100%; /* Allow the table to occupy full height */
-    box-sizing: border-box;
 }
 
 /* Adjust column widths based on content */
@@ -35,6 +28,11 @@
 .table-container td {
     width: auto;
 }
+
+/* Remove any forced max-height, allowing rows to grow 
+.table-container {
+    max-height: none;
+} */
 
 /* Table layout and style */
 table {
@@ -75,7 +73,7 @@ table, th, td {
 .filter-row th {
     position: sticky;
     top: 35px; /* Adjust based on the height of the header row */
-    z-index: 1; /* Lower than the header row */
+    z-index: 2; /* Lower than the header row */
     background-color: #B9D9EB; /* Match background color */
 }
 
@@ -243,7 +241,7 @@ tfoot td#totalTransactionAmount {
 
 /* Ensure totals row grows with the table */
 tfoot {
-    display: table-footer-group;
+    display: table-row-group;
 }
 
 /* Make the row height adjust if text overflows */
@@ -270,7 +268,12 @@ th, td {
 }
 
 /* Scrollable header and input row but fixed total */
-/* Removed as it may conflict with flex layout */
+.table-scrollable {
+    max-height: 50vh;
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
+}
 
 /* General DataTables wrapper styling */
 div.dataTables_wrapper {
@@ -390,4 +393,4 @@ tfoot {
     button {
         width: 100%;
     }
-}
+}}
