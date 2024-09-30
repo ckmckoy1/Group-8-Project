@@ -53,7 +53,50 @@
             <div class="col-md-6 d-flex align-items-center">
                 <h2 class="text-left mr-3 mb-0">Payment Items</h2>
                 <button id="refreshTable" class="btn btn-primary mr-2">Refresh Table</button>
-                <button id="chooseColumns" class="btn btn-secondary mr-2">Choose Columns</button>
+                <button id="chooseColumnsButton" class="ui-button ui-widget ui-state-default ui-corner-all js-show_choose_columns extraspaceabove" type="button">
+                    Choose Columns
+                </button>
+                
+                <div class="hidden-popoverlay">
+                    <form id="choose-columns-dialog" class="choose-columns-dialog">
+                        <table class="choose-columns" width="100%" class="ui-widget">
+                            <thead class="ui-widget-header ui-state-default">
+                                <tr>
+                                    <th width="40%">Available Columns</th>
+                                    <th width="20%"></th>
+                                    <th width="40%">Selected Columns</th>
+                                </tr>
+                            </thead>
+                            <tbody class="ui-widget-content">
+                                <tr>
+                                    <td>
+                                        <div class="list available-list">
+                                            <ul id="availableColumns">
+                                                <!-- Available columns will be populated here dynamically -->
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td class="instructions" valign="center">
+                                        <p>Drag columns from one side to the other and up/down to reorder them.</p>
+                                    </td>
+                                    <td>
+                                        <div class="list selected-list">
+                                            <ul id="selectedColumns">
+                                                <!-- Selected columns will be populated here dynamically -->
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                
+                        <div class="buttons">
+                            <button id="applyColumns" class="ui-button ui-widget ui-state-default ui-corner-all js-choose_columns" type="button">Save</button>
+                            <button id="cancelColumns" class="ui-button ui-widget ui-state-default ui-corner-all js-dialog_closer_keep" type="button">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                
                 <button id="downloadButton" class="btn btn-info">Download</button>
             </div>
             <div class="col-md-6 d-flex justify-content-end">
@@ -171,7 +214,7 @@
 
     </div>
 
-    <!-- Modal for Choose Columns -->
+    <!-- Modal for Choose Columns
     <div class="modal fade" id="chooseColumnsModal" tabindex="-1" role="dialog" aria-labelledby="chooseColumnsModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -186,13 +229,13 @@
                         <div class="col-md-6">
                             <h6>Available Columns</h6>
                             <ul id="availableColumns" class="list-group connectedSortable">
-                                <!-- Available columns will be populated here -->
+                               Available columns will be populated here 
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <h6>Selected Columns</h6>
                             <ul id="selectedColumns" class="list-group connectedSortable">
-                                <!-- Selected columns will be populated here -->
+                                 Selected columns will be populated here 
                             </ul>
                         </div>
                     </div>
@@ -203,7 +246,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  -->
 
     <!-- Modal for Download Options -->
     <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
