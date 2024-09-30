@@ -9,6 +9,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     min-height: 80vh; /* Allow the container to be bigger height-wise */
+} /* Added closing brace here */
 
 /* Scrollable table container */
 .table-container {
@@ -17,6 +18,7 @@
     position: relative;
     max-height: 100vh; /* Set maximum height if needed */
 }
+
 
 /* Ensure the table fits within the container */
 .table-container table {
@@ -394,4 +396,4 @@ tfoot {
     button {
         width: 100%;
     }
-}}
+}
