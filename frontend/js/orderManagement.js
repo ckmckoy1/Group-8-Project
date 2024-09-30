@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ],
             buttons: [
-                'csv', 'excel', 'pdf' // Define the buttons you need
+                'delete', 'this', 'later' // Define the buttons you need
             ]
         });
 
