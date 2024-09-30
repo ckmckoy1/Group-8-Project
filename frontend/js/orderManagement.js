@@ -198,58 +198,62 @@ table.columns.adjust().draw();
 
 // Add filtering functionality for individual columns
 function addColumnFiltering() {
-$('#orderIDFilter').on('keyup', function () {
-    table.column('Order ID:name').search(this.value).draw();
-});
-$('#customerFilter').on('keyup', function () {
-    table.column('Customer:name').search(this.value).draw();
-});
-$('#emailFilter').on('keyup', function () {
-    table.column('Email:name').search(this.value).draw();
-});
-$('#shippingAddressFilter').on('keyup', function () {
-    table.column('Shipping Address:name').search(this.value).draw();
-});
-$('#shippingCityFilter').on('keyup', function () {
-    table.column('Shipping City:name').search(this.value).draw();
-});
-$('#shippingStateFilter').on('keyup', function () {
-    table.column('Shipping State:name').search(this.value).draw();
-});
-$('#shippingZipFilter').on('keyup', function () {
-    table.column('Shipping Zip:name').search(this.value).draw();
-});
-$('#billingAddressFilter').on('keyup', function () {
-    table.column('Billing Address:name').search(this.value).draw();
-});
-$('#billingCityFilter').on('keyup', function () {
-    table.column('Billing City:name').search(this.value).draw();
-});
-$('#billingStateFilter').on('keyup', function () {
-    table.column('Billing State:name').search(this.value).draw();
-});
-$('#billingZipFilter').on('keyup', function () {
-    table.column('Billing Zip:name').search(this.value).draw();
-});
-$('#amountFilter').on('keyup', function () {
-    table.column('Total Amount:name').search(this.value).draw();
-});
-$('#cardNumberFilter').on('keyup', function () {
-    table.column('Card Number:name').search(this.value).draw();
-});
-$('#transactionDateFilter').on('change', function () {
-    table.column('Transaction Date:name').search(this.value).draw();
-});
-$('#authTokenFilter').on('keyup', function () {
-    table.column('Authorization Token:name').search(this.value).draw();
-});
-$('#authAmountFilter').on('keyup', function () {
-    table.column('Authorization Amount:name').search(this.value).draw();
-});
-$('#warehouseApprovalDateFilter').on('change', function () { // Fixed ID: 'warehouseApprovalDateFilter'
-    table.column('Warehouse Approval Date:name').search(this.value).draw();
-});
+    $('#orderIDFilter').on('keyup', function () {
+        table.column(0).search(this.value).draw(); // Order ID (column index 0)
+    });
+    $('#customerFilter').on('keyup', function () {
+        table.column(1).search(this.value).draw(); // Customer (column index 1)
+    });
+    $('#emailFilter').on('keyup', function () {
+        table.column(2).search(this.value).draw(); // Email (column index 2)
+    });
+    $('#shippingAddressFilter').on('keyup', function () {
+        table.column(4).search(this.value).draw(); // Shipping Address (column index 4)
+    });
+    $('#unitNumberFilter').on('keyup', function () {
+        table.column(5).search(this.value).draw(); // Unit Number (column index 5)
+    });
+    $('#shippingCityFilter').on('keyup', function () {
+        table.column(6).search(this.value).draw(); // Shipping City (column index 6)
+    });
+    $('#shippingStateFilter').on('keyup', function () {
+        table.column(7).search(this.value).draw(); // Shipping State (column index 7)
+    });
+    $('#shippingZipFilter').on('keyup', function () {
+        table.column(8).search(this.value).draw(); // Shipping Zip (column index 8)
+    });
+    $('#billingAddressFilter').on('keyup', function () {
+        table.column(9).search(this.value).draw(); // Billing Address (column index 9)
+    });
+    $('#billingCityFilter').on('keyup', function () {
+        table.column(10).search(this.value).draw(); // Billing City (column index 10)
+    });
+    $('#billingStateFilter').on('keyup', function () {
+        table.column(11).search(this.value).draw(); // Billing State (column index 11)
+    });
+    $('#billingZipFilter').on('keyup', function () {
+        table.column(12).search(this.value).draw(); // Billing Zip (column index 12)
+    });
+    $('#amountFilter').on('keyup', function () {
+        table.column(13).search(this.value).draw(); // Total Amount (column index 13)
+    });
+    $('#cardNumberFilter').on('keyup', function () {
+        table.column(15).search(this.value).draw(); // Card Number (column index 15)
+    });
+    $('#transactionDateFilter').on('change', function () {
+        table.column(18).search(this.value).draw(); // Transaction Date (column index 18)
+    });
+    $('#authTokenFilter').on('keyup', function () {
+        table.column(21).search(this.value).draw(); // Authorization Token (column index 21)
+    });
+    $('#authAmountFilter').on('keyup', function () {
+        table.column(22).search(this.value).draw(); // Authorization Amount (column index 22)
+    });
+    $('#warehouseApprovalDateFilter').on('change', function () {
+        table.column(25).search(this.value).draw(); // Warehouse Approval Date (column index 25)
+    });
 }
+
 
 // Update totals function
 function updateTotals() {
