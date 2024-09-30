@@ -119,6 +119,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Authorization Expiration', targets: 23, orderable: true },
                 { name: 'Warehouse Status', targets: 24, orderable: true },
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
+            ],
+            buttons: [
+                'csv', 'excel', 'pdf' // Define the buttons you need
             ]
         });
 
