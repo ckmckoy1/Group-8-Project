@@ -77,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function () {
             order: [], // Initial no ordering
             pageLength: 10,
             scrollX: true,
-            scrollY: true,
             scrollCollapse: true,
             orderCellsTop: true,
             colReorder: {
@@ -123,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ],
             buttons: [
-                'csv', 'excel', 'pdf', // Standard buttons
+                'csv', 'excel', 'pdf' // Standard buttons
 
             ],
             footerCallback: function ( row, data, start, end, display ) {
