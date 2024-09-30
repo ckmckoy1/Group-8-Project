@@ -77,7 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
             order: [], // Initial no ordering
             pageLength: 10,
             scrollX: true,
-            scrollY: '50vh',
+            scrollY: true,
+            scrollCollapse: true,
             orderCellsTop: true,
             colReorder: {
                 realtime: true, // Enable realtime reordering (drag-and-drop)
@@ -122,14 +123,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ],
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print', // Standard buttons
-                {
-                    text: 'Delete',
-                    action: function (e, dt, node, config) {
-                        // Define delete action
-                    }
-                },
-                // Define other custom buttons if needed
+                'csv', 'excel', 'pdf', // Standard buttons
+
             ],
             footerCallback: function ( row, data, start, end, display ) {
                 var api = this.api();
