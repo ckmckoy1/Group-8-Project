@@ -357,61 +357,71 @@ populateColumnChooser(); // Populate the modal
 
 // Populate column chooser modal
 function populateColumnChooser() {
-const availableColumns = document.getElementById('availableColumns');
-const selectedColumns = document.getElementById('selectedColumns');
+    const availableColumns = document.getElementById('availableColumns');
+    const selectedColumns = document.getElementById('selectedColumns');
 
-availableColumns.innerHTML = '';
-selectedColumns.innerHTML = '';
+    availableColumns.innerHTML = '';
+    selectedColumns.innerHTML = '';
 
-// Populate the columns into the chooser
-table.columns().every(function (index) {
-    const columnTitle = this.header().textContent.trim();
-    const listItem = `<li class="list-group-item" data-column-index="${index}">${columnTitle}</li>`;
+    // Populate the columns into the chooser
+    table.columns().every(function (index) {
+        const columnTitle = this.header().textContent.trim();
+        const listItem = `<li class="list-group-item" data-column-index="${index}">${columnTitle}</li>`;
 
-    // Add the columns to the appropriate list based on visibility
-    if (this.visible()) {
-        selectedColumns.innerHTML += listItem;
-    } else {
-        availableColumns.innerHTML += listItem;
-    }
-});
+        // Add the columns to the appropriate list based on visibility
+        if (this.visible()) {
+            selectedColumns.innerHTML += listItem;
+        } else {
+            availableColumns.innerHTML += listItem;
+        }
+    });
 
-// Make both lists sortable and connected
-$('#selectedColumns, #availableColumns').sortable({
-    connectWith: '#availableColumns, #selectedColumns',
-    placeholder: 'ui-state-highlight'
-    // No 'update' callback here to handle updates on Apply button
-}).disableSelection();
+    // Make both lists sortable and connected
+    $('#selectedColumns, #availableColumns').sortable({
+        connectWith: '#availableColumns, #selectedColumns',
+        placeholder: 'ui-state-highlight'
+    }).disableSelection();
 }
 
 // Update table column visibility and order
 function updateTableColumns() {
-const selectedColumns = document.querySelectorAll('#selectedColumns li');
-const availableColumns = document.querySelectorAll('#availableColumns li');
+    const selectedColumns = document.querySelectorAll('#selectedColumns li');
 
-// First, hide all columns
-table.columns().visible(false, false);
+    // First, hide all columns
+    table.columns().visible(false, false);
 
-// Collect the new order based on selected columns
-const newOrder = [];
+    // Collect the new order based on selected columns
+    const newOrder = [];
 
-// Show selected columns and determine new order
-selectedColumns.forEach(item => {
-    const columnIdx = parseInt(item.getAttribute('data-column-index'));
-    table.column(columnIdx).visible(true, false); // Show the column without redrawing
-    newOrder.push(columnIdx); // Add to new order array
-});
+    // Show selected columns and determine new order
+    selectedColumns.forEach(item => {
+        const columnIdx = parseInt(item.getAttribute('data-column-index'));
+        table.column(columnIdx).visible(true, false); // Show the column without redrawing
+        newOrder.push(columnIdx); // Add to new order array
+    });
 
-// Reorder the columns based on newOrder
-table.colReorder.order(newOrder, true); // Trigger a redraw
+    // Reorder the columns based on newOrder
+    table.colReorder.order(newOrder, true); // Trigger a redraw
 
-// Adjust columns and redraw the table
-table.columns.adjust().draw(false); // The parameter false prevents a full redraw for performance
+    // Ensure proper alignment by adjusting the columns, headers, and footers
+    table.columns.adjust().draw(false); // Adjust without full redraw for performance
 }
 
 // Apply column selections and close modal
 document.getElementById('applyColumns').addEventListener('click', function () {
-updateTableColumns(); // Update the table based on modal selections
-$('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
-    });
+    updateTableColumns(); // Update the table based on modal selections
+    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
+    ensureAlignment(); // Ensure alignment after columns are applied
+});
+
+// Initialize the modal with columns when the "Choose Columns" button is clicked
+document.getElementById('chooseColumns').addEventListener('click', function () {
+    populateColumnChooser(); // Populate the modal with available and selected columns
+});
+
+// Ensure table headers, footers, and inputs are aligned after column changes
+function ensureAlignment() {
+    // Ensure the table aligns columns, header, footer, and input sizes
+    table.columns.adjust().draw(false); // Adjust and redraw to fix any alignment issues
+}
 });
