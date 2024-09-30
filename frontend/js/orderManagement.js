@@ -122,8 +122,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Warehouse Approval Date', targets: 25, orderable: true }
             ],
             buttons: [
-                'csv', 'excel', 'pdf' // Define the buttons you need
-            ]
+                'copy', 'csv', 'excel', 'pdf', 'print', // Standard buttons
+                {
+                    text: 'Delete',
+                    action: function (e, dt, node, config) {
+                        // Define delete action
+                    }
+                },
+                // Define other custom buttons if needed
+            ],
+            footerCallback: function ( row, data, start, end, display ) {
+                var api = this.api();
+    
+                // Helper function to parse float
+                var parseValue = function (value) {
+                    return parseFloat(value.replace(/[^0-9.-]+/g,"")) || 0;
+                };
+    
+                // Calculate total for 'Total Amount' column (index 13)
+                var totalAmount = api
+                    .column(13)
+                    .data()
+                    .reduce(function (a, b) {
+                        return parseValue(a) + parseValue(b);
+                    }, 0);
+    
+                // Calculate total for 'Authorization Amount' column (index 22)
+                var totalAuthAmount = api
+                    .column(22)
+                    .data()
+                    .reduce(function (a, b) {
+                        return parseValue(a) + parseValue(b);
+                    }, 0);
+    
+                // Update the footer cells
+                $(api.column(13).footer()).html('$' + totalAmount.toFixed(2));
+                $(api.column(22).footer()).html('$' + totalAuthAmount.toFixed(2));
+            }
         });
 
   // Listen for column reorder events
