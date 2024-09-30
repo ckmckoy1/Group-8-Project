@@ -10,10 +10,7 @@ html, body {
     min-height: 100vh;
 }
 
-/* Ensure container-fluid grows to fill the space between navbar and footer */
-.container-fluid {
-    flex-grow: 1;  /* Allows the container to take up the remaining space */
-}
+
 
 .navbar {
     background-color: #B9D9EB; /* Light blue background for navbar */
