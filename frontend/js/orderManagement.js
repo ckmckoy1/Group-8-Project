@@ -82,9 +82,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 realtime: true, // Enable realtime reordering (drag-and-drop)
                 // Optionally, specify any ColReorder options here
             },
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"B><"col-md-6 d-flex justify-content-end"l>>' +
-                 'rt' +
-                 '<"row"<"col-md-6"i><"col-md-6"p>>',
+            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
+            'rt' +
+            '<"row"<"col-md-6"i><"col-md-6"p>>',
             language: {
                 lengthMenu: 'Show _MENU_ entries',
                 info: 'Showing _START_ to _END_ of _TOTAL_ entries',
