@@ -242,11 +242,6 @@ tfoot td#totalTransactionAmount {
     width: auto;
 }
 
-/* Ensure totals row grows with the table */
-tfoot {
-    display: table-footer-group;
-}
-
 /* Align total row with the columns */
 tfoot {
     display: table-footer-group;
