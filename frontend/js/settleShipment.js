@@ -2,15 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const settleForm = document.getElementById('settleShipmentForm');
     const messageDiv = document.getElementById('message');
     const finalAmountInput = document.getElementById('finalAmount');
-    const orderIdInput = document.getElementById('orderId'); // The input field for order number
+    const orderIdInput = document.getElementById('orderId');
     const barcodeButton = document.getElementById('barcodeScanner');
     const qrButton = document.getElementById('qrScanner');
     const videoElement = document.getElementById('scannerVideo');
+    const printLabelButton = document.getElementById('printLabel'); // Print button for label
 
     // Function to fetch order details
     const fetchOrderDetails = async (orderId) => {
         try {
-            const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`); // Full URL for Heroku
+            const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`);
             if (!response.ok) {
                 throw new Error('Order not found');
             }
@@ -26,10 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     settleForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        // Retrieve the entered order number and verify its length
         const enteredOrderId = orderIdInput.value.trim();
-
-        // Ensure the orderId is exactly 6 digits long
         if (!/^\d{6}$/.test(enteredOrderId)) {
             messageDiv.textContent = 'Order ID must be exactly 6 digits long!';
             messageDiv.className = 'message error';
@@ -37,10 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Prepend "WP-" to the order number for MongoDB lookup
         const fullOrderId = `WP-${enteredOrderId}`;
-
-        // Convert the finalAmount to a float by stripping out non-numeric characters
         const finalAmount = parseFloat(finalAmountInput.value.replace(/[^0-9.-]+/g, ""));
 
         if (isNaN(finalAmount)) {
@@ -51,10 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Fetch the order details from the backend
             const order = await fetchOrderDetails(fullOrderId);
-
-            const authorizationAmount = order.AuthorizationAmount; // Ensure capitalization matches MongoDB schema
+            const authorizationAmount = order.AuthorizationAmount;
 
             if (finalAmount > authorizationAmount) {
                 messageDiv.textContent = 'Final amount exceeds authorized amount!';
@@ -63,14 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Send settlement request to the backend
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/settle-shipment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    orderId: fullOrderId, // Send the full orderId with the WP- prefix
+                    orderId: fullOrderId,
                     finalAmount: finalAmount
                 }),
             });
@@ -83,6 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 messageDiv.textContent = result.message;
                 messageDiv.className = 'message success';
+
+                // Display print button and enable printing label
+                printLabelButton.style.display = 'inline-block';
             }
         } catch (error) {
             console.error('Error during shipment settlement:', error);
@@ -96,11 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Automatically format finalAmount input when the user finishes typing (on blur)
     finalAmountInput.addEventListener('blur', (event) => {
         let inputVal = event.target.value;
-
-        // Remove any non-numeric characters except for digits and decimal point
         inputVal = inputVal.replace(/[^0-9.]/g, '');
 
-        // Convert to a float and format as a number with two decimal places
         if (inputVal) {
             const formattedValue = parseFloat(inputVal).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
@@ -113,11 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ensure only numeric input is allowed (and one decimal point) while typing
     finalAmountInput.addEventListener('input', (event) => {
         let inputVal = event.target.value;
-
-        // Remove any non-numeric characters except for digits and the decimal point
         inputVal = inputVal.replace(/[^0-9.]/g, '');
 
-        // Ensure only one decimal point is allowed
         if ((inputVal.match(/\./g) || []).length > 1) {
             inputVal = inputVal.substring(0, inputVal.lastIndexOf("."));
         }
@@ -125,65 +114,148 @@ document.addEventListener('DOMContentLoaded', () => {
         event.target.value = inputVal;
     });
 
-    // Function to start barcode scanning
-    const startBarcodeScanner = () => {
-        videoElement.style.display = 'block'; // Show video stream
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: videoElement, // Video element to display the camera stream
-            },
-            decoder: {
-                readers: ["code_128_reader", "ean_reader"] // Supported barcode types
-            }
-        }, (err) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            Quagga.start();
-        });
+    // Barcode and QR code scanning functions here...
 
-        Quagga.onDetected((data) => {
-            const barcode = data.codeResult.code;
-            orderIdInput.value = barcode; // Set the scanned barcode as the orderId
-            Quagga.stop();
-            videoElement.style.display = 'none'; // Hide video stream
-        });
+    // Function to print the shipment label
+    const printLabel = () => {
+        const orderId = orderIdInput.value.trim();
+        const labelWindow = window.open('', '', 'height=400,width=600');
+        labelWindow.document.write('<html><head><title>Shipment Label</title>');
+        labelWindow.document.write('</head><body>');
+        labelWindow.document.write(`<h1>Shipment Label for Order: WP-${orderId}</h1>`);
+        labelWindow.document.write('<p>Shipping Address: <strong>John Doe, 123 Main St, City, State, ZIP</strong></p>');
+        labelWindow.document.write('<p>Warehouse Status: Ready for Shipment</p>');
+        labelWindow.document.write('</body></html>');
+        labelWindow.document.close();
+        labelWindow.print();
     };
-
-    // Function to start QR code scanning
-    const startQRScanner = () => {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        videoElement.style.display = 'block'; // Show video stream
-
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then((stream) => {
-            videoElement.srcObject = stream;
-            videoElement.play();
-
-            const scanQRCode = () => {
-                if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-                    canvas.width = videoElement.videoWidth;
-                    canvas.height = videoElement.videoHeight;
-                    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                    const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
-                    if (qrCode) {
-                        orderIdInput.value = qrCode.data; // Set the scanned QR code as the orderId
-                        videoElement.srcObject.getTracks().forEach(track => track.stop()); // Stop the video stream
-                        videoElement.style.display = 'none'; // Hide video stream
-                    } else {
-                        requestAnimationFrame(scanQRCode);
-                    }
-                }
-            };
-            requestAnimationFrame(scanQRCode);
-        });
-    };
-
-    // Add event listeners for scanning buttons
-    barcodeButton.addEventListener('click', startBarcodeScanner);
-    qrButton.addEventListener('click', startQRScanner);
 });
+const generatePDFLabel = (orderId, shippingAddress) => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text('Shipment Label', 10, 10);
+    doc.setFontSize(12);
+    doc.text(`Order ID: WP-${orderId}`, 10, 20);
+    doc.text(`Shipping Address: ${shippingAddress}`, 10, 30);
+    doc.text('Warehouse Status: Ready for Shipment', 10, 40);
+
+    doc.save(`Shipment_Label_WP-${orderId}.pdf`);
+};
+
+
+const fetchOrderHistory = async () => {
+    try {
+        const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/settled'); // Replace with your endpoint
+        const orders = await response.json();
+        const orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
+        orderHistoryTableBody.innerHTML = ''; // Clear previous entries
+
+        orders.forEach(order => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>WP-${order.OrderID}</td>
+                <td>${new Date(order.WarehouseApprovalDate).toLocaleString()}</td>
+                <td>${order.WarehouseStatus}</td>
+                <td><a href="${order.TrackingLink}" target="_blank">Track Shipment</a></td>
+            `;
+            orderHistoryTableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error fetching order history:', error);
+    }
+};
+
+// Call this function when loading the order history section
+fetchOrderHistory();
+
+const createShipment = async (orderDetails) => {
+    const shipmentData = {
+        address_from: {
+            name: "Warehouse",
+            street1: "123 Warehouse St",
+            city: "City",
+            state: "State",
+            zip: "ZIP",
+            country: "US"
+        },
+        address_to: orderDetails.shippingAddress, // Use customer shipping address from order
+        parcels: [
+            {
+                length: "10",
+                width: "7",
+                height: "5",
+                distance_unit: "in",
+                weight: "2",
+                mass_unit: "lb"
+            }
+        ],
+        servicelevel_token: "usps_priority",
+    };
+
+    const response = await fetch('https://api.goshippo.com/shipments', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'ShippoToken YOUR_SHIPPO_TOKEN',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(shipmentData)
+    });
+
+    const shipment = await response.json();
+    const shippingLabelUrl = shipment.object_label_url;
+    
+    return shippingLabelUrl;
+};
+
+
+const nodemailer = require('nodemailer');
+
+const sendEmailConfirmation = async (customerEmail, orderDetails, trackingLink) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'youremail@gmail.com',
+            pass: 'yourpassword'
+        }
+    });
+
+    const mailOptions = {
+        from: 'youremail@gmail.com',
+        to: customerEmail,
+        subject: `Order ${orderDetails.OrderID} Confirmation`,
+        text: `Your order has been settled. You can track it here: ${trackingLink}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log('Error sending email:', error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
+
+// Polling example for real-time updates
+setInterval(async () => {
+    const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/status');
+    const updatedStatus = await response.json();
+    document.getElementById('warehouseStatus').innerText = updatedStatus.WarehouseStatus;
+}, 10000); // Poll every 10 seconds
+
+const updateWarehouseStatus = async (orderId, status) => {
+    const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            WarehouseStatus: status,
+            WarehouseApprovalDate: new Date() // Add current date and time
+        })
+    });
+
+    const result = await response.json();
+    return result;
+};

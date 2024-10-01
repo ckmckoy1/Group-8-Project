@@ -61,9 +61,20 @@ main {
     border-radius: 6px;
     box-sizing: border-box;
 }
+/* Remove spinner for Chrome, Safari, Edge, and Opera */
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
+/* Remove spinner for Firefox */
 .form-group input[type="number"] {
     -moz-appearance: textfield;
+}
+
+/* Align text to the right */
+.form-group input[type="number"] {
     text-align: right;
 }
 
