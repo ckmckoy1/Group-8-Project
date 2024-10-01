@@ -131,11 +131,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     extend: 'pdfHtml5',
-                    className: 'd-none', // Hide the button
+                    className: 'd-none', // Hide the button, but it should still be accessible via JavaScript
                     orientation: 'landscape', // Landscape mode
                     pageSize: 'A4', // Use A4 paper size
                     customize: function (doc) {
-                        // Adjust layout to fit content within page
+                        // Adjust layout to fit content within the page
                         doc.content[1].table.widths = '*'.repeat(doc.content[1].table.body[0].length).split(''); // Auto-width for each column
                         doc.styles.tableHeader.fontSize = 10; // Smaller font size for header
                         doc.defaultStyle.fontSize = 8; // Smaller font size for table content
@@ -413,10 +413,12 @@ document.getElementById('downloadConfirm').addEventListener('click', function ()
 
 // Export the table in the selected format
 function exportTable(format) {
+    console.log("Selected format: " + format);  // Check which format is being selected
     if (format === 'csv') {
         table.button('.buttons-csv').trigger();  // Trigger hidden CSV button
     } else if (format === 'pdf') {
-        table.button('.buttons-pdfHtml5').trigger();  // Trigger hidden PDF button
+        console.log("PDF export triggered");  // Add a log to ensure the PDF trigger happens
+        table.button('.buttons-pdfHtml5').trigger();  // Ensure correct PDF button is triggered
     } else if (format === 'excel') {
         table.button('.buttons-excel').trigger(); // Trigger hidden Excel button
     }
@@ -487,11 +489,17 @@ function updateTableColumns() {
 }
 
 // Apply column selections and close modal
+// document.getElementById('applyColumns').addEventListener('click', function () {
+  //   updateTableColumns(); // Update the table based on modal selections
+   //  $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
+   //  ensureAlignment(); // Ensure alignment after columns are applied
+// });
+
 document.getElementById('applyColumns').addEventListener('click', function () {
-    updateTableColumns(); // Update the table based on modal selections
-    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
-    ensureAlignment(); // Ensure alignment after columns are applied
+    $('#chooseColumnsModal').modal('hide'); // Close the modal
+    console.log("Modal hide triggered"); // Add a log to see if this is called
 });
+
 
 // Initialize the modal with columns when the "Choose Columns" button is clicked
 document.getElementById('chooseColumns').addEventListener('click', function () {
