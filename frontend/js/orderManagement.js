@@ -65,99 +65,100 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Initialize DataTables with export buttons, filtering, and column reordering
-    function initializeDataTable() {
-        table = $('#orderTable').DataTable({
-            paging: true,
-            lengthMenu: [10, 25, 50, 100],
-            searching: true,
-            info: true,
-            ordering: true, // Enable ordering
-            order: [], // Initial no ordering
-            pageLength: 10,
-            scrollX: true,
-            scrollY: '50vh',
-            orderCellsTop: true,
-            colReorder: {
-                realtime: true, // Enable realtime reordering (drag-and-drop)
-                // Optionally, specify any ColReorder options here
+// Initialize DataTables with export buttons, filtering, and column reordering
+function initializeDataTable() {
+    table = $('#orderTable').DataTable({
+        paging: true,
+        lengthMenu: [10, 25, 50, 100],
+        searching: true,
+        info: true,
+        ordering: true, // Enable ordering
+        order: [], // Initial no ordering
+        pageLength: 10,
+        scrollX: true,
+        scrollY: '50vh',
+        orderCellsTop: true,
+        colReorder: {
+            realtime: true, // Enable realtime reordering (drag-and-drop)
+        },
+        dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
+             'rt' +
+             '<"row"<"col-md-6"i><"col-md-6"p>>',
+        language: {
+            lengthMenu: 'Show _MENU_ entries',
+            info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+            paginate: {
+                previous: 'Previous',
+                next: 'Next'
+            }
+        },
+        columnDefs: [
+            { name: 'Order ID', targets: 0, orderable: true },
+            { name: 'Customer', targets: 1, orderable: true },
+            { name: 'Email', targets: 2, orderable: true },
+            { name: 'Shipping Method', targets: 3, orderable: true },
+            { name: 'Shipping Address', targets: 4, orderable: true },
+            { name: 'Unit Number', targets: 5, orderable: true },
+            { name: 'Shipping City', targets: 6, orderable: true },
+            { name: 'Shipping State', targets: 7, orderable: true },
+            { name: 'Shipping Zip', targets: 8, orderable: true },
+            { name: 'Billing Address', targets: 9, orderable: true },
+            { name: 'Billing City', targets: 10, orderable: true },
+            { name: 'Billing State', targets: 11, orderable: true },
+            { name: 'Order Date', targets: 19, orderable: true },
+            { name: 'Order Time', targets: 20, orderable: true },
+            { name: 'Total Amount', targets: 13, orderable: true },
+            { name: 'Payment Status', targets: 14, orderable: true },
+            { name: 'Card Number', targets: 15, orderable: true },
+            { name: 'Card Brand', targets: 16, orderable: true },
+            { name: 'Expiration Date', targets: 17, orderable: true },
+            { name: 'Order Date Time', targets: 18, orderable: true },
+            { name: 'Authorization Token', targets: 21, orderable: true },
+            { name: 'Authorization Amount', targets: 22, orderable: true },
+            { name: 'Authorization Expiration', targets: 23, orderable: true },
+            { name: 'Warehouse Status', targets: 24, orderable: true },
+            { name: 'Warehouse Approval Date', targets: 25, orderable: true }
+        ],
+        buttons: [
+            {
+                extend: 'csv',
+                className: 'd-none' // Hide the button
             },
-            dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
-            'rt' +
-            '<"row"<"col-md-6"i><"col-md-6"p>>',
-            language: {
-                lengthMenu: 'Show _MENU_ entries',
-                info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-                paginate: {
-                    previous: 'Previous',
-                    next: 'Next'
-                }
+            {
+                extend: 'excel',
+                className: 'd-none' // Hide the button
             },
-            columnDefs: [
-                { name: 'Order ID', targets: 0, orderable: true },
-                { name: 'Customer', targets: 1, orderable: true },
-                { name: 'Email', targets: 2, orderable: true },
-                { name: 'Shipping Method', targets: 3, orderable: true },
-                { name: 'Shipping Address', targets: 4, orderable: true},
-                { name: 'Unit Number', targets: 5, orderable: true },
-                { name: 'Shipping City', targets: 6, orderable: true },
-                { name: 'Shipping State', targets: 7, orderable: true },
-                { name: 'Shipping Zip', targets: 8, orderable: true },
-                { name: 'Billing Address', targets: 9, orderable: true },
-                { name: 'Billing City', targets: 10, orderable: true },
-                { name: 'Billing State', targets: 11, orderable: true },
-                { name: 'Order Date', targets: 19, orderable: true},
-                { name: 'Order Time', targets: 20, orderable: true },
-                { name: 'Total Amount', targets: 13, orderable: true },
-                { name: 'Payment Status', targets: 14, orderable: true },
-                { name: 'Card Number', targets: 15, orderable: true },
-                { name: 'Card Brand', targets: 16, orderable: true },
-                { name: 'Expiration Date', targets: 17, orderable: true },
-                { name: 'Order Date Time', targets: 18, orderable: true },
-                { name: 'Authorization Token', targets: 21, orderable: true },
-                { name: 'Authorization Amount', targets: 22, orderable: true },
-                { name: 'Authorization Expiration', targets: 23, orderable: true },
-                { name: 'Warehouse Status', targets: 24, orderable: true },
-                { name: 'Warehouse Approval Date', targets: 25, orderable: true }
-            ],
-            buttons: [
-                {
-                    extend: 'csv',
-                    className: 'd-none' // Hide the button
-                },
-                {
-                    extend: 'excel',
-                    className: 'd-none' // Hide the button
-                },
-                {
-                    extend: 'pdfHtml5',
-                    className: 'd-none', // Hide the button, but it should still be accessible via JavaScript
-                    orientation: 'landscape', // Landscape mode
-                    pageSize: 'A4', // Use A4 paper size
-                    customize: function (doc) {
-                        // Adjust layout to fit content within the page
-                        doc.content[1].table.widths = '*'.repeat(doc.content[1].table.body[0].length).split(''); // Auto-width for each column
-                        doc.styles.tableHeader.fontSize = 10; // Smaller font size for header
-                        doc.defaultStyle.fontSize = 8; // Smaller font size for table content
-                    }
+            {
+                extend: 'pdfHtml5',
+                className: 'd-none', // Hide the button, but it should still be accessible via JavaScript
+                orientation: 'landscape', // Landscape mode
+                pageSize: 'A4', // Use A4 paper size
+                customize: function (doc) {
+                    doc.content[1].table.widths = '*'.repeat(doc.content[1].table.body[0].length).split(''); // Auto-width for each column
+                    doc.styles.tableHeader.fontSize = 10; // Smaller font size for header
+                    doc.defaultStyle.fontSize = 8; // Smaller font size for table content
                 }
-            ]
-        });
+            }
+        ],
+        footerCallback: function (row, data, start, end, display) {
+            updateTotals();
+        }
+    });
 
-  
-// Hook into the draw event to ensure totals are updated after the table is drawn
-table.on('draw', updateTotals);
-      
-  // Listen for column reorder events
-  table.on('column-reorder', function (e, settings, details) {
-    console.log('Columns reordered');
-    // Optionally, you can sync the modal's lists here if needed
-});
+    // Hook into the draw event to ensure totals are updated after the table is drawn
+    table.on('draw', updateTotals);
 
-// Add column filtering and other functionalities...
-addColumnFiltering();
-table.on('draw', updateTotals); // Update totals on draw
+    // Listen for column reorder events
+    table.on('column-reorder', function (e, settings, details) {
+        console.log('Columns reordered');
+    });
+
+    addColumnFiltering();
 }
+
+// Call initializeDataTable when the orders are displayed
+initializeDataTable();
+
 
 // Display orders in the table after initializing DataTable
 function displayOrders(orders) {
@@ -276,19 +277,19 @@ function addColumnFiltering() {
 
 // Update totals function
 function updateTotals() {
-let totalAmount = 0;
-let totalTransactionAmount = 0;
+    let totalAmount = 0;
+    let totalTransactionAmount = 0;
 
-$('#orderTable tbody tr').each(function () {
-    const amount = parseFloat($(this).find('td').eq(13).text().replace('$', '')) || 0;  // Updated index for Total Amount
-    const transactionAmount = parseFloat($(this).find('td').eq(22).text().replace('$', '')) || 0; // Updated index for Authorization Amount
+    $('#orderTable tbody tr').each(function () {
+        const amount = parseFloat($(this).find('td').eq(13).text().replace('$', '')) || 0;  // Updated index for Total Amount
+        const transactionAmount = parseFloat($(this).find('td').eq(22).text().replace('$', '')) || 0; // Updated index for Authorization Amount
 
-    totalAmount += amount;
-    totalTransactionAmount += transactionAmount;
-});
+        totalAmount += amount;
+        totalTransactionAmount += transactionAmount;
+    });
 
-$('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
-$('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
+    $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
+    $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
 }
 
 function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
