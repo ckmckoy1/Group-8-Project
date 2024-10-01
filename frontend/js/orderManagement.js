@@ -144,6 +144,10 @@ document.addEventListener('DOMContentLoaded', function () {
             ]
         });
 
+  
+// Hook into the draw event to ensure totals are updated after the table is drawn
+table.on('draw', updateTotals);
+      
   // Listen for column reorder events
   table.on('column-reorder', function (e, settings, details) {
     console.log('Columns reordered');
