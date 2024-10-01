@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Card Number', targets: 15, orderable: true },
                 { name: 'Card Brand', targets: 16, orderable: true },
                 { name: 'Expiration Date', targets: 17, orderable: true },
-                { name: 'Transaction Date', targets: 18, orderable: true },
+                { name: 'Order Date Time', targets: 18, orderable: true },
                 { name: 'Authorization Token', targets: 21, orderable: true },
                 { name: 'Authorization Amount', targets: 22, orderable: true },
                 { name: 'Authorization Expiration', targets: 23, orderable: true },
@@ -187,7 +187,7 @@ orders.forEach(order => {
         <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- index 15 -->
         <td>${order.CardBrand}</td>           <!-- index 16 -->
         <td>${order.ExpirationDate}</td>      <!-- index 17 -->
-        <td>${new Date(order.TransactionDateTime).toLocaleString()}</td> <!-- index 18 -->
+        <td>${new Date(order.OrderDateTime).toLocaleString()}</td> <!-- index 18 -->
         <td>${order.OrderDate}</td>           <!-- index 19 -->
         <td>${order.OrderTime}</td>           <!-- index 20 -->
         <td>${order.AuthorizationToken}</td>  <!-- index 21 -->
@@ -251,8 +251,8 @@ function addColumnFiltering() {
     $('#cardNumberFilter').on('keyup', function () {
         table.column(15).search(this.value).draw(); // Card Number (column index 15)
     });
-    $('#transactionDateFilter').on('change', function () {
-        table.column(18).search(this.value).draw(); // Transaction Date (column index 18)
+    $('#OrderDateFilter').on('change', function () {
+        table.column(18).search(this.value).draw(); // Order Date (column index 18)
     });
     $('#authTokenFilter').on('keyup', function () {
         table.column(21).search(this.value).draw(); // Authorization Token (column index 21)
