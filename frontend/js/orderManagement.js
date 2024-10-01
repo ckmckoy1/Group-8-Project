@@ -167,6 +167,13 @@ if (messageDiv) {
 }
 
 orders.forEach(order => {
+    const formatDateAndTime = (dateString) => {
+        const date = new Date(dateString);
+        const formattedDate = date.toLocaleDateString('en-US'); // Format as MM/DD/YYYY
+        const formattedTime = date.toLocaleTimeString('en-US'); // Format as HH:mm:ss AM/PM
+        return `${formattedDate} ${formattedTime}`; // Combine both for a full datetime
+    };
+
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>${order.OrderID}</td>            <!-- index 0 -->
@@ -187,18 +194,19 @@ orders.forEach(order => {
         <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- index 15 -->
         <td>${order.CardBrand}</td>           <!-- index 16 -->
         <td>${order.ExpirationDate}</td>      <!-- index 17 -->
-        <td>${new Date(order.OrderDateTime).toLocaleString()}</td> <!-- index 18 -->
+        <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 18, formatted -->
         <td>${order.OrderDate}</td>           <!-- index 19 -->
         <td>${order.OrderTime}</td>           <!-- index 20 -->
         <td>${order.AuthorizationToken}</td>  <!-- index 21 -->
         <td>$${order.AuthorizationAmount.toFixed(2)}</td> <!-- index 22 -->
-        <td>${new Date(order.AuthorizationExpirationDate).toLocaleString()}</td> <!-- index 23 -->
+        <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 23, formatted -->
         <td>${order.WarehouseStatus || 'N/A'}</td> <!-- index 24 -->
-        <td>${order.WarehouseApprovalDate || 'N/A'}</td> <!-- index 25 -->
+        <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 25, formatted -->
     `;
 
     orderTableBody.appendChild(row);
 });
+
 
 // Initialize DataTable after data is loaded
 initializeDataTable();
