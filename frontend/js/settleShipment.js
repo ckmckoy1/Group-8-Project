@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return order;
         } catch (error) {
             console.error('Error fetching order details:', error);
-            throw error;
+            throw new Error('Unable to find order number. Please check that the number is correct or try again.');
         }
     };
 
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const enteredOrderId = orderIdInput.value.trim();
         if (!/^\d{6}$/.test(enteredOrderId)) {
-            messageDiv.textContent = 'Order ID must be exactly 6 digits long!';
+            messageDiv.textContent = 'You must enter a 6-digit number for the Order ID.';
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
             return;
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const authorizationAmount = order.AuthorizationAmount;
 
             if (finalAmount > authorizationAmount) {
-                messageDiv.textContent = 'Final amount exceeds authorized amount!';
+                messageDiv.textContent = 'Final amount exceeds the authorized amount!';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
                 return;
@@ -80,8 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 printLabelButton.style.display = 'inline-block';
             }
         } catch (error) {
-            console.error('Error during shipment settlement:', error);
-            messageDiv.textContent = 'Error: Something went wrong!';
+            messageDiv.textContent = error.message;
             messageDiv.className = 'message error';
         }
 
@@ -114,7 +113,67 @@ document.addEventListener('DOMContentLoaded', () => {
         event.target.value = inputVal;
     });
 
-    // Barcode and QR code scanning functions here...
+    // Function to start barcode scanning
+    const startBarcodeScanner = () => {
+        videoElement.style.display = 'block'; // Show video stream
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: videoElement, // Video element to display the camera stream
+            },
+            decoder: {
+                readers: ["code_128_reader", "ean_reader"] // Supported barcode types
+            }
+        }, (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            Quagga.start();
+        });
+
+        Quagga.onDetected((data) => {
+            const barcode = data.codeResult.code;
+            orderIdInput.value = barcode; // Set the scanned barcode as the orderId
+            Quagga.stop();
+            videoElement.style.display = 'none'; // Hide video stream
+        });
+    };
+
+    // Function to start QR code scanning
+    const startQRScanner = () => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        videoElement.style.display = 'block'; // Show video stream
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then((stream) => {
+            videoElement.srcObject = stream;
+            videoElement.play();
+
+            const scanQRCode = () => {
+                if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                    canvas.width = videoElement.videoWidth;
+                    canvas.height = videoElement.videoHeight;
+                    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                    const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+                    if (qrCode) {
+                        orderIdInput.value = qrCode.data; // Set the scanned QR code as the orderId
+                        videoElement.srcObject.getTracks().forEach(track => track.stop()); // Stop the video stream
+                        videoElement.style.display = 'none'; // Hide video stream
+                    } else {
+                        requestAnimationFrame(scanQRCode);
+                    }
+                }
+            };
+            requestAnimationFrame(scanQRCode);
+        });
+    };
+
+    // Event listeners for barcode and QR code scanners
+    barcodeButton.addEventListener('click', startBarcodeScanner);
+    qrButton.addEventListener('click', startQRScanner);
 
     // Function to print the shipment label
     const printLabel = () => {
@@ -130,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         labelWindow.print();
     };
 });
+
 const generatePDFLabel = (orderId, shippingAddress) => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
