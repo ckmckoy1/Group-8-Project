@@ -17,7 +17,7 @@ html, body {
     background-color: #B9D9EB; /* Light blue background for navbar */
     border-bottom: 1px solid #A0BCCD; /* Soft grey-blue border */
     margin-bottom: 0;
-    padding: 0.7em 0;
+    padding: 0.2em 0; /* Reduced padding for top and bottom */
 }
 
 .navbar-brand {
@@ -273,6 +273,15 @@ button:hover, th:hover {
     border-color: #0056b3;
     color: #003d80; /* Darker blue text */
 }
+
+.uniform-btn {
+    width: 150px; /* Adjust the width as needed */
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+
+  .nowrap-text {
+    white-space: nowrap; /* Prevent text wrapping */
+  }
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
