@@ -267,7 +267,8 @@ button:hover, th:hover {
 
 #refreshTable:hover, 
 #chooseColumns:hover, 
-#downloadButton:hover {
+#downloadButton:hover,
+#clearFilters:hover {
     background-color: #D6EAF5; /* Lighter shade */
     border-color: #0056b3;
     color: #003d80; /* Darker blue text */
