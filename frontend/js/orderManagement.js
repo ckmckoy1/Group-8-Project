@@ -105,19 +105,19 @@ function initializeDataTable() {
             { name: 'Billing Address', targets: 9, orderable: true },
             { name: 'Billing City', targets: 10, orderable: true },
             { name: 'Billing State', targets: 11, orderable: true },
-            { name: 'Order Date', targets: 19, orderable: true },
-            { name: 'Order Time', targets: 20, orderable: true },
-            { name: 'Total Amount', targets: 13, orderable: true },
-            { name: 'Payment Status', targets: 14, orderable: true },
-            { name: 'Card Number', targets: 15, orderable: true },
-            { name: 'Card Brand', targets: 16, orderable: true },
-            { name: 'Expiration Date', targets: 17, orderable: true },
-            { name: 'Order Date Time', targets: 18, orderable: true },
-            { name: 'Authorization Token', targets: 21, orderable: true },
-            { name: 'Authorization Amount', targets: 22, orderable: true },
-            { name: 'Authorization Expiration', targets: 23, orderable: true },
-            { name: 'Warehouse Status', targets: 24, orderable: true },
-            { name: 'Warehouse Approval Date', targets: 25, orderable: true }
+            { name: 'Total Amount', targets: 12, orderable: true }, // Moved Total Amount to correct index
+            { name: 'Payment Status', targets: 13, orderable: true },
+            { name: 'Card Number', targets: 14, orderable: true },
+            { name: 'Card Brand', targets: 15, orderable: true },
+            { name: 'Expiration Date', targets: 16, orderable: true },
+            { name: 'Order Date Time', targets: 17, orderable: true }, // Corrected Order Date Time
+            { name: 'Order Date', targets: 18, orderable: true },
+            { name: 'Order Time', targets: 19, orderable: true },
+            { name: 'Authorization Token', targets: 20, orderable: true },
+            { name: 'Authorization Amount', targets: 21, orderable: true },
+            { name: 'Authorization Expiration', targets: 22, orderable: true },
+            { name: 'Warehouse Status', targets: 23, orderable: true },
+            { name: 'Warehouse Approval Date', targets: 24, orderable: true }
         ],
         buttons: [
             {
