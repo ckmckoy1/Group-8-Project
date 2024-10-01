@@ -258,7 +258,7 @@ button:hover, th:hover {
 }
 
 /* Custom button color */
-#refreshTable, #chooseColumns, #downloadButton {
+#refreshTable, #chooseColumns, #downloadButton, #clearFilters {
     background-color: white;
     color: #0056b3; /* Dark blue text */
     border: 1px solid #A0BCCD; /* Soft grey-blue border */
