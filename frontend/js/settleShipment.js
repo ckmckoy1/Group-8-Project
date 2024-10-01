@@ -8,7 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoElement = document.getElementById('scannerVideo');
     const printLabelButton = document.getElementById('printLabel'); // Print button for label
 
-    // Function to fetch order details
+    // Request camera permission only when needed
+    const requestCameraPermission = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            return stream;
+        } catch (error) {
+            console.error('Camera access denied:', error);
+            messageDiv.textContent = 'Camera access denied. Please enable camera access to scan barcodes or QR codes.';
+            messageDiv.className = 'message error';
+            messageDiv.style.display = 'block';
+        }
+    };
+
+    // Stop the camera stream after use
+    const stopCameraStream = (stream) => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+    };
+
+    // Function to fetch order details with proper error handling
     const fetchOrderDetails = async (orderId) => {
         try {
             const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`);
@@ -114,7 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to start barcode scanning
-    const startBarcodeScanner = () => {
+    const startBarcodeScanner = async () => {
+        const stream = await requestCameraPermission();
+        if (!stream) return;
+
         videoElement.style.display = 'block'; // Show video stream
         Quagga.init({
             inputStream: {
@@ -128,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, (err) => {
             if (err) {
                 console.error(err);
+                stopCameraStream(stream);
                 return;
             }
             Quagga.start();
@@ -137,38 +161,40 @@ document.addEventListener('DOMContentLoaded', () => {
             const barcode = data.codeResult.code;
             orderIdInput.value = barcode; // Set the scanned barcode as the orderId
             Quagga.stop();
+            stopCameraStream(stream);
             videoElement.style.display = 'none'; // Hide video stream
         });
     };
 
     // Function to start QR code scanning
-    const startQRScanner = () => {
+    const startQRScanner = async () => {
+        const stream = await requestCameraPermission();
+        if (!stream) return;
+
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         videoElement.style.display = 'block'; // Show video stream
 
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then((stream) => {
-            videoElement.srcObject = stream;
-            videoElement.play();
+        videoElement.srcObject = stream;
+        videoElement.play();
 
-            const scanQRCode = () => {
-                if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-                    canvas.width = videoElement.videoWidth;
-                    canvas.height = videoElement.videoHeight;
-                    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                    const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
-                    if (qrCode) {
-                        orderIdInput.value = qrCode.data; // Set the scanned QR code as the orderId
-                        videoElement.srcObject.getTracks().forEach(track => track.stop()); // Stop the video stream
-                        videoElement.style.display = 'none'; // Hide video stream
-                    } else {
-                        requestAnimationFrame(scanQRCode);
-                    }
+        const scanQRCode = () => {
+            if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+                if (qrCode) {
+                    orderIdInput.value = qrCode.data; // Set the scanned QR code as the orderId
+                    stopCameraStream(stream);
+                    videoElement.style.display = 'none'; // Hide video stream
+                } else {
+                    requestAnimationFrame(scanQRCode);
                 }
-            };
-            requestAnimationFrame(scanQRCode);
-        });
+            }
+        };
+        requestAnimationFrame(scanQRCode);
     };
 
     // Event listeners for barcode and QR code scanners
@@ -189,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
         labelWindow.print();
     };
 });
+
 
 const generatePDFLabel = (orderId, shippingAddress) => {
     const { jsPDF } = window.jspdf;
