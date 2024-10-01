@@ -156,10 +156,6 @@ function initializeDataTable() {
     addColumnFiltering();
 }
 
-// Call initializeDataTable when the orders are displayed
-initializeDataTable();
-
-
 // Display orders in the table after initializing DataTable
 function displayOrders(orders) {
 // Hide the error message when orders are successfully displayed
