@@ -1,23 +1,24 @@
 /* General styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #f3f3f3; /* Softer background for better contrast */
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
 /* Header styling */
 .header {
-    background-color: #4CAF50;
+    background-color: #2b6777; /* Darker, more calming blue */
     color: white;
-    padding: 10px 0;
+    padding: 15px 0;
     text-align: center;
-    font-family:font-family: 'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .header h1 {
     margin: 0;
-    font-size: 50px;
+    font-size: 40px; /* Reduced font size for smaller screens */
 }
 
 /* Center the form container */
@@ -25,38 +26,39 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 60px); /* Adjust to prevent overlap with header */
+    height: calc(100vh - 80px); /* Adjust height for larger header */
+    padding: 0 10px; /* Add padding for better spacing on mobile */
 }
 
 /* Settle shipment form container */
 .settle-shipment-container {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px; /* Increased max width for better layout */
     text-align: center;
 }
 
 /* Form input fields */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #555;
 }
 
 .form-group input {
     width: calc(100% - 20px);
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 12px; /* Increased padding for touch accessibility */
+    font-size: 15px; /* Larger font for better readability */
+    border: 1px solid #ccc;
+    border-radius: 6px;
     box-sizing: border-box;
 }
 
@@ -66,33 +68,34 @@ main {
 }
 
 .form-group input:focus {
-    border-color: #4CAF50;
+    border-color: #2b6777; /* Match with header color */
     outline: none;
 }
 
 /* Submit button */
 .submit-button {
-    background-color: #4CAF50;
+    background-color: #2b6777;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 16px;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 18px; /* Larger button for easier interaction */
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%; /* Make the button take up full width for easier access */
 }
 
 .submit-button:hover {
-    background-color: #45a049;
+    background-color: #25555e; /* Slightly darker shade on hover */
 }
 
 /* Message styling */
 .message {
     display: none;
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px;
     color: white;
 }
 
@@ -104,35 +107,75 @@ main {
     background-color: #f44336;
 }
 
-        /* Style for the prefix and input */
-        .order-id-container {
-            display: flex;
-            align-items: center;
-        }
-        .order-id-prefix {
-            padding: 0 5px;
-            font-size: 1rem;
-            background-color: #f0f0f0; /* Make it look like it's part of the input */
-            border: 1px solid #ccc;
-            border-right: none;
-            border-radius: 5px 0 0 5px;
-        }
-        #orderId {
-            border-radius: 0 5px 5px 0; /* Rounded corners for the input box */
-            border-left: none;
-        }
+/* Style for the prefix and input */
+.order-id-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-/* Responsive design */
+.order-id-prefix {
+    padding: 0 10px;
+    font-size: 16px; /* Larger prefix font */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+}
+
+#orderId {
+    border-radius: 0 6px 6px 0;
+    border-left: none;
+    padding: 12px;
+    font-size: 16px; /* Larger input font */
+}
+
+/* Video for barcode/QR scanning */
+#scannerVideo {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    display: none; /* Initially hidden */
+}
+
+/* Responsive design for mobile */
 @media (max-width: 600px) {
+    .header h1 {
+        font-size: 30px; /* Reduce title size on mobile */
+    }
+
     .settle-shipment-container {
         padding: 15px;
+        box-shadow: none; /* Remove shadow for flatter design on mobile */
     }
 
     .form-group input {
-        font-size: 13px;
+        font-size: 14px;
+        padding: 10px;
     }
 
     .submit-button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .message {
         font-size: 14px;
+        padding: 10px;
+    }
+
+    .order-id-prefix {
+        font-size: 14px;
+        padding: 0 8px;
+    }
+
+    #orderId {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #scannerVideo {
+        height: 200px; /* Adjust height for smaller screens */
     }
 }

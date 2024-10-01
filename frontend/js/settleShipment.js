@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageDiv = document.getElementById('message');
     const finalAmountInput = document.getElementById('finalAmount');
     const orderIdInput = document.getElementById('orderId'); // The input field for order number
+    const barcodeButton = document.getElementById('barcodeScanner');
+    const qrButton = document.getElementById('qrScanner');
+    const videoElement = document.getElementById('scannerVideo');
 
     // Function to fetch order details
     const fetchOrderDetails = async (orderId) => {
@@ -121,4 +124,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
         event.target.value = inputVal;
     });
+
+    // Function to start barcode scanning
+    const startBarcodeScanner = () => {
+        videoElement.style.display = 'block'; // Show video stream
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: videoElement, // Video element to display the camera stream
+            },
+            decoder: {
+                readers: ["code_128_reader", "ean_reader"] // Supported barcode types
+            }
+        }, (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            Quagga.start();
+        });
+
+        Quagga.onDetected((data) => {
+            const barcode = data.codeResult.code;
+            orderIdInput.value = barcode; // Set the scanned barcode as the orderId
+            Quagga.stop();
+            videoElement.style.display = 'none'; // Hide video stream
+        });
+    };
+
+    // Function to start QR code scanning
+    const startQRScanner = () => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        videoElement.style.display = 'block'; // Show video stream
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then((stream) => {
+            videoElement.srcObject = stream;
+            videoElement.play();
+
+            const scanQRCode = () => {
+                if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                    canvas.width = videoElement.videoWidth;
+                    canvas.height = videoElement.videoHeight;
+                    context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                    const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+                    if (qrCode) {
+                        orderIdInput.value = qrCode.data; // Set the scanned QR code as the orderId
+                        videoElement.srcObject.getTracks().forEach(track => track.stop()); // Stop the video stream
+                        videoElement.style.display = 'none'; // Hide video stream
+                    } else {
+                        requestAnimationFrame(scanQRCode);
+                    }
+                }
+            };
+            requestAnimationFrame(scanQRCode);
+        });
+    };
+
+    // Add event listeners for scanning buttons
+    barcodeButton.addEventListener('click', startBarcodeScanner);
+    qrButton.addEventListener('click', startQRScanner);
 });
