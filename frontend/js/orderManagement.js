@@ -489,16 +489,25 @@ function updateTableColumns() {
 }
 
 // Apply column selections and close modal
-// document.getElementById('applyColumns').addEventListener('click', function () {
-  //   updateTableColumns(); // Update the table based on modal selections
-   //  $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
-   //  ensureAlignment(); // Ensure alignment after columns are applied
-// });
-
 document.getElementById('applyColumns').addEventListener('click', function () {
-    $('#chooseColumnsModal').modal('hide'); // Close the modal
-    console.log("Modal hide triggered"); // Add a log to see if this is called
+    try {
+        updateTableColumns(); // Update the table based on modal selections
+    } catch (error) {
+        console.error("Error in updateTableColumns: ", error);
+    }
+    
+    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
+
+    // Ensuring the table remains properly aligned after columns are updated
+    try {
+        ensureAlignment(); // Ensure alignment after columns are applied
+    } catch (error) {
+        console.error("Error in ensureAlignment: ", error);
+    }
+
+    console.log("Modal hide triggered and columns updated"); // Log for debugging purposes
 });
+
 
 
 // Initialize the modal with columns when the "Choose Columns" button is clicked
