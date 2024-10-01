@@ -247,6 +247,13 @@ tfoot {
     display: table-footer-group;
 }
 
+/* Align total row with the columns */
+tfoot {
+    display: table-footer-group;
+    background-color: white;
+}
+
+
 /* Make the row height adjust if text overflows */
 th, td {
     white-space: normal;
@@ -316,11 +323,6 @@ div.dataTables_length {
     background-color: #D6EAF5; /* Lighter shade of blue */
 }
 
-/* Align total row with the columns */
-tfoot {
-    display: table-row-group;
-    background-color: white;
-}
 
 /* Table striped rows */
 .table-striped tr:nth-child(even) {

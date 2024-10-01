@@ -141,7 +141,18 @@ function initializeDataTable() {
             }
         ],
         footerCallback: function (row, data, start, end, display) {
-            updateTotals();
+            let totalAmount = 0;
+            let totalTransactionAmount = 0;
+    
+            // Loop through displayed rows
+            data.forEach(function(rowData) {
+                totalAmount += parseFloat(rowData[13].replace('$', '')) || 0;
+                totalTransactionAmount += parseFloat(rowData[22].replace('$', '')) || 0;
+            });
+    
+            // Update the footer totals
+            $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
+            $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
         }
     });
 
