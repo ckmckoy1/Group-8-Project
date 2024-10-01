@@ -270,6 +270,23 @@ function addColumnFiltering() {
     });
 }
 
+// Clear all filters
+document.getElementById('clearFilters').addEventListener('click', function() {
+    // Clear each individual column search filter
+    table.columns().search('').draw();
+
+    // Reset the filter input fields (assuming you have inputs for each column)
+    document.querySelectorAll('.filter-row input').forEach(input => input.value = '');
+
+    // If you have dropdown filters, reset their states too
+    document.querySelectorAll('.dropdown-options input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
+    
+    // If you have dropdown buttons, reset the button text to the default (e.g., "Choose...")
+    document.querySelectorAll('.select-button').forEach(button => button.textContent = 'Choose...');
+
+    console.log('All filters cleared');
+});
+
 
 // Update totals function
 function updateTotals() {
