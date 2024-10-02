@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalAmountInput = document.getElementById('finalAmount');
     const orderIdInput = document.getElementById('orderId');
     const barcodeButton = document.getElementById('barcodeScanner');
-    const qrButton = document.getElementById('qrScanner');
+    // const qrButton = document.getElementById('qrScanner'); // Removed QR Button
     const videoElement = document.getElementById('scannerVideo');
     const printLabelButton = document.getElementById('printLabel'); // Print button for label
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return stream;
         } catch (error) {
             console.error('Camera access denied:', error);
-            messageDiv.textContent = 'Camera access denied. Please enable camera access to scan barcodes or QR codes.';
+            messageDiv.textContent = 'Camera access denied. Please enable camera access to scan barcodes.';
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
         }
@@ -166,40 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Function to start QR code scanning
-    const startQRScanner = async () => {
-        const stream = await requestCameraPermission();
-        if (!stream) return;
-
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        videoElement.style.display = 'block'; // Show video stream
-
-        videoElement.srcObject = stream;
-        videoElement.play();
-
-        const scanQRCode = () => {
-            if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-                const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
-                if (qrCode) {
-                    orderIdInput.value = qrCode.data; // Set the scanned QR code as the orderId
-                    stopCameraStream(stream);
-                    videoElement.style.display = 'none'; // Hide video stream
-                } else {
-                    requestAnimationFrame(scanQRCode);
-                }
-            }
-        };
-        requestAnimationFrame(scanQRCode);
-    };
-
-    // Event listeners for barcode and QR code scanners
+    // Event listener for barcode scanner
     barcodeButton.addEventListener('click', startBarcodeScanner);
-    qrButton.addEventListener('click', startQRScanner);
 
     // Function to print the shipment label
     const printLabel = () => {
@@ -214,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
         labelWindow.document.close();
         labelWindow.print();
     };
+
+    // Attach the printLabel function to the print button
+    printLabelButton.addEventListener('click', printLabel);
 });
 
 
@@ -297,52 +268,65 @@ const createShipment = async (orderDetails) => {
 };
 
 
-const nodemailer = require('nodemailer');
+// Nodemailer cannot be used on the client-side.
+// Remove or comment out the following lines to prevent errors.
+// const nodemailer = require('nodemailer');
 
-const sendEmailConfirmation = async (customerEmail, orderDetails, trackingLink) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'youremail@gmail.com',
-            pass: 'yourpassword'
-        }
-    });
+// const sendEmailConfirmation = async (customerEmail, orderDetails, trackingLink) => {
+//     const transporter = nodemailer.createTransport({
+//         service: 'gmail',
+//         auth: {
+//             user: 'youremail@gmail.com',
+//             pass: 'yourpassword'
+//         }
+//     });
 
-    const mailOptions = {
-        from: 'youremail@gmail.com',
-        to: customerEmail,
-        subject: `Order ${orderDetails.OrderID} Confirmation`,
-        text: `Your order has been settled. You can track it here: ${trackingLink}`
-    };
+//     const mailOptions = {
+//         from: 'youremail@gmail.com',
+//         to: customerEmail,
+//         subject: `Order ${orderDetails.OrderID} Confirmation`,
+//         text: `Your order has been settled. You can track it here: ${trackingLink}`
+//     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log('Error sending email:', error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
-};
+//     transporter.sendMail(mailOptions, (error, info) => {
+//         if (error) {
+//             console.log('Error sending email:', error);
+//         } else {
+//             console.log('Email sent: ' + info.response);
+//         }
+//     });
+// };
 
 // Polling example for real-time updates
 setInterval(async () => {
-    const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/status');
-    const updatedStatus = await response.json();
-    document.getElementById('warehouseStatus').innerText = updatedStatus.WarehouseStatus;
+    try {
+        const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/status');
+        const updatedStatus = await response.json();
+        const warehouseStatusElement = document.getElementById('warehouseStatus');
+        if (warehouseStatusElement) {
+            warehouseStatusElement.innerText = updatedStatus.WarehouseStatus;
+        }
+    } catch (error) {
+        console.error('Error fetching updated status:', error);
+    }
 }, 10000); // Poll every 10 seconds
 
 const updateWarehouseStatus = async (orderId, status) => {
-    const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            WarehouseStatus: status,
-            WarehouseApprovalDate: new Date() // Add current date and time
-        })
-    });
+    try {
+        const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                WarehouseStatus: status,
+                WarehouseApprovalDate: new Date() // Add current date and time
+            })
+        });
 
-    const result = await response.json();
-    return result;
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Error updating warehouse status:', error);
+    }
 };
