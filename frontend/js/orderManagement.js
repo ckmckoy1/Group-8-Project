@@ -174,6 +174,17 @@ if (messageDiv) {
     messageDiv.style.display = 'none'; // Ensure error message is hidden
 }
 
+// Function to format date as "MM/DD/YYYY"
+const formatDate = (dateString) => {
+    if (!dateString) return ''; // Handle null or undefined case
+    
+    const date = new Date(dateString);
+    const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    
+    return formattedDate;
+};
+
+// Loop through each order and create table rows dynamically
 orders.forEach(order => {
     const formatDateAndTime = (dateString) => {
         const date = new Date(dateString);
@@ -181,6 +192,7 @@ orders.forEach(order => {
         const formattedTime = date.toLocaleTimeString('en-US'); // Format as HH:mm:ss AM/PM
         return `${formattedDate} ${formattedTime}`; // Combine both for a full datetime
     };
+
 
     const row = document.createElement('tr');
     row.innerHTML = `
