@@ -203,7 +203,7 @@ orders.forEach(order => {
         <td>${order.CardBrand}</td>           <!-- index 16 -->
         <td>${order.ExpirationDate}</td>      <!-- index 17 -->
         <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 18, formatted -->
-        <td>${order.OrderDate}</td>           <!-- index 19 -->
+        <td>${formatDate(order.OrderDate)}</td>           <!-- index 19 -->
         <td>${order.OrderTime}</td>           <!-- index 20 -->
         <td>${order.AuthorizationToken}</td>  <!-- index 21 -->
         <td>$${order.AuthorizationAmount.toFixed(2)}</td> <!-- index 22 -->
