@@ -79,7 +79,7 @@ main {
 
 .form-group h3 {
     font-size: 18px; /* Step title font size */
-    margin-bottom: 10px; /* Space below step titles */
+    margin-bottom: 20px; /* Space below step titles */
 }
 
 .form-group label {
