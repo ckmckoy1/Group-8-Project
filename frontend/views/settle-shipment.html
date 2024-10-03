@@ -15,15 +15,15 @@
         <div class="settle-shipment-container">
             <form id="settleShipmentForm">
                 <div class="form-group">
-                    <small class="info-text">Click the "Scan" button to scan the barcode or enter the Order ID to pull the order.</small>
+                    <small class="info-text">Click the "Scan" button to scan the barcode or enter the Order ID to pull the order. Then enter Final Amount to settlement shipment.</small>
                     <button type="button" id="barcodeScanner" class="action-button">
-                        <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="180" height="100" class="icon"> Scan
+                        <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="160" height="100" class="icon"> Scan
                     </button>
                     <video id="scannerVideo" style="display: none;"></video>
                 </div>
 
                 <div class="form-group">
-                    <label for="orderId">Order ID:</label>
+                    <label for="orderId"></label>
                     <div class="order-id-container">
                         <span class="order-id-prefix">WP-</span>
                         <input type="text" id="orderId" name="orderId" placeholder="Enter Order Number" required>

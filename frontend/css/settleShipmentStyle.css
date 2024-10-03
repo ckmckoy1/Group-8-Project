@@ -35,9 +35,9 @@ main {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 25px;
+    padding: 30px; /* Increased padding */
     width: 100%;
-    max-width: 450px; /* Increased max width for better layout */
+    max-width: 500px; /* Increased max width for better layout */
     text-align: center;
 }
 
@@ -61,6 +61,15 @@ main {
     border-radius: 6px;
     box-sizing: border-box;
 }
+
+/* Instruction Text */
+.info-text {
+    font-size: 18px; /* Increased font size */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 10px; /* Space below the text */
+    color: #555; /* Adjust color for contrast */
+}
+
 /* Remove spinner for Chrome, Safari, Edge, and Opera */
 .form-group input[type="number"]::-webkit-outer-spin-button,
 .form-group input[type="number"]::-webkit-inner-spin-button {
