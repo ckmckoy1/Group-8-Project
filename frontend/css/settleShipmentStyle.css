@@ -38,7 +38,7 @@ main {
     padding: 40px; /* Increased padding for more space */
     width: 100%;
     max-width: 600px; /* Increased max width for better layout */
-    text-align: center;
+    text-align: left; /* Align text to the left */
 }
 
 /* Form input fields */
@@ -62,7 +62,7 @@ main {
     width: calc(100% - 20px);
     padding: 12px; /* Increased padding for touch accessibility */
     font-size: 15px; /* Larger font for better readability */
-    border: 1px solid #ccc;
+    border: 1px solid #aaa; /* More visible border */
     border-radius: 6px;
     box-sizing: border-box;
 }
@@ -137,24 +137,30 @@ main {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    justify-content: center; /* Center align items */
 }
 
 .order-id-prefix {
     padding: 0 10px;
     font-size: 16px; /* Larger prefix font */
     background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa; /* More visible border */
     border-right: none;
     border-radius: 6px 0 0 6px;
 }
 
 #orderId {
+    width: 150px; /* Set a shorter width for the input box */
     border-radius: 0 6px 6px 0;
     border-left: none;
     padding: 12px;
     font-size: 16px; /* Larger input font */
-    flex-grow: 1; /* Allow input to grow to fill space */
+}
+
+/* "or" text */
+.or-text {
+    margin: 0 10px; /* Space around the "or" text */
+    font-size: 16px; /* Match input and prefix font size */
+    align-self: center; /* Center vertically */
 }
 
 /* Video for barcode/QR scanning */
