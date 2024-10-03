@@ -14,13 +14,14 @@
     <main>
         <div class="settle-shipment-container">
             <h2>Order Shipping Settlement</h2>
+            <h3>Click the "Scan" button to scan the barcode or enter the Order ID to pull the order. Then enter the Final Amount  and click the Settlement Shipment button to settle the order.</h3>
             <form id="settleShipmentForm">
                 <div class="form-group">
                     <h3>Step 1: Scan Barcode or Enter Order ID</h3>
-                    <small class="info-text">Click the "Scan" button to scan the barcode or enter the Order ID to pull the order. Then enter the Final Amount to settle the shipment.</small>
+                    <small class="info-text"></small>
                     <div class="order-id-container">
                         <button type="button" id="barcodeScanner" class="action-button">
-                            <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" class="icon"> Scan
+                            <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="180" height="100" class="icon"> Scan
                         </button>
                         <span class="or-text">or</span>
                         <span class="order-id-prefix">WP-</span>
@@ -31,11 +32,11 @@
 
                 <div class="form-group">
                     <h3>Step 2: Enter Final Amount</h3>
-                    <label for="finalAmount">Final Shipment Amount:</label>
+                    <label for="finalAmount"></label>
                     <input type="text" id="finalAmount" name="finalAmount" placeholder="Enter Final Amount" required>
                 </div>
                 
-                <h3>Step 3: Submit</h3>
+                <h3>Step 3: Click Settle Shipment Button</h3>
                 <button type="submit" class="submit-button">Settle Shipment</button>
 
                 <div id="message" class="message" style="display: none;"></div>

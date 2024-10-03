@@ -41,6 +41,37 @@ main {
     text-align: left; /* Align text to the left */
 }
 
+/* Action button styling */
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the icon and text */
+    padding: 0 10px; /* Horizontal padding for a comfortable click area */
+    background-color: #2b6777; /* Match header color */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px; /* Set a consistent font size */
+    cursor: pointer;
+    margin-right: 10px; /* Space to the right of the button */
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #25555e; /* Slightly darker shade on hover */
+}
+
+/* Style for the Order Shipping Settlement header */
+.settle-shipment-container h2 {
+    text-align: center; /* Center the text */
+    text-decoration: underline; /* Underline the text */
+    font-size: 24px; /* Adjust font size as needed */
+    margin-bottom: 30px; /* Space below the header */
+    color: #333; /* Adjust color if needed */
+}
+
+
+
 /* Form input fields */
 .form-group {
     margin-bottom: 20px;
@@ -149,7 +180,7 @@ main {
 }
 
 #orderId {
-    width: 150px; /* Set a shorter width for the input box */
+    width: 200px; /* Set a shorter width for the input box */
     border-radius: 0 6px 6px 0;
     border-left: none;
     padding: 12px;
