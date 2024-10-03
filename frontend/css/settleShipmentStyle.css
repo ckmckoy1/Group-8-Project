@@ -35,15 +35,20 @@ main {
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 30px; /* Increased padding */
+    padding: 40px; /* Increased padding for more space */
     width: 100%;
-    max-width: 500px; /* Increased max width for better layout */
+    max-width: 600px; /* Increased max width for better layout */
     text-align: center;
 }
 
 /* Form input fields */
 .form-group {
     margin-bottom: 20px;
+}
+
+.form-group h3 {
+    font-size: 18px; /* Step title font size */
+    margin-bottom: 10px; /* Space below step titles */
 }
 
 .form-group label {
@@ -132,6 +137,7 @@ main {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    justify-content: center; /* Center align items */
 }
 
 .order-id-prefix {
@@ -148,6 +154,7 @@ main {
     border-left: none;
     padding: 12px;
     font-size: 16px; /* Larger input font */
+    flex-grow: 1; /* Allow input to grow to fill space */
 }
 
 /* Video for barcode/QR scanning */
