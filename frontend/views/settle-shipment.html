@@ -15,8 +15,9 @@
         <div class="settle-shipment-container">
             <form id="settleShipmentForm">
                 <div class="form-group">
+                    <small class="info-text">Click the "Scan" button to scan the barcode or enter the Order ID to pull the order.</small>
                     <button type="button" id="barcodeScanner" class="action-button">
-                        <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" class="icon"> Scan
+                        <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="180" height="100" class="icon"> Scan
                     </button>
                     <video id="scannerVideo" style="display: none;"></video>
                 </div>
@@ -27,7 +28,6 @@
                         <span class="order-id-prefix">WP-</span>
                         <input type="text" id="orderId" name="orderId" placeholder="Enter Order Number" required>
                     </div>
-                    <small class="info-text">Click the "Scan" button to scan the barcode or enter the Order ID to pull the order.</small>
                 </div>
 
                 <div class="form-group">
