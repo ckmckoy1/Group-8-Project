@@ -194,25 +194,7 @@ thead select:hover,
     z-index: 9999;
 }
 
-/* Ensure dropdown-options are not clipped by parent containers */
-.table-container {
-    overflow: visible; /* Change from 'auto' to 'visible' if dropdowns are being clipped */
-    position: relative;
-    margin-top: 5px;
-    max-height: 110vh; /* Set maximum height if needed */
-}
 
-/* Ensure the dropdown button is above the table */
-.select-button {
-    position: relative; /* Establish a new stacking context */
-    z-index: 10000; /* Higher than dropdown-options if needed */
-}
-
-/* Optional: Increase z-index for table if necessary */
-.table-container table {
-    position: relative;
-    z-index: 1;
-}
 
 /* Ensure input boxes and select controls inside headers adjust size */
 thead input.form-control, thead select.form-control {
