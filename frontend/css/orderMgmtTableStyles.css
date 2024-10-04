@@ -10,6 +10,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     min-height: 120vh; /* Allow the container to be bigger height-wise */
+}    
 
 /* Scrollable table container */
 .table-container {
@@ -74,7 +75,7 @@ table, th, td {
 
 /* Style for the filter row */
 .filter-row th {
-    position: sticky;
+    position: relative;
     top: 35px; /* Adjust based on the height of the header row */
     z-index: 2; /* Lower than the header row */
     background-color: #B9D9EB; /* Match background color */
@@ -168,6 +169,7 @@ thead select:hover,
     padding: 0;
     color: #333;
     font-size: 1em;
+    z-index: 1000; /* Ensure it's above other elements */
 }
 
 /* Dropdown item styling */
@@ -395,4 +397,4 @@ div.dataTables_length {
     button {
         width: 100%;
     }
-}}
+}

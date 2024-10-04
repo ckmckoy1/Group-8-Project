@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     className: 'd-none' // Hide the button
                 },
                 {
-                    extend: 'pdfHtml5',
+                    extend: 'pdf',
                     className: 'd-none', // Hide the button, but it should still be accessible via JavaScript
                     orientation: 'landscape', // Landscape mode
                     pageSize: 'A4', // Use A4 paper size
@@ -346,52 +346,55 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
     }
 
-    // Initialize dropdown filters
     function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
         const filterButton = document.getElementById(buttonId);
         const filterOptions = document.getElementById(optionsId);
         const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
-
+    
         // Toggle dropdown on button click
         filterButton.addEventListener('click', function (e) {
             e.stopPropagation();
             filterOptions.style.display = filterOptions.style.display === 'none' ? 'block' : 'none';
         });
-
+    
         // Hide dropdown when clicking outside
         document.addEventListener('click', function () {
             filterOptions.style.display = 'none';
         });
-
-        // Handle selection and filtering logic
+    
+        // Prevent dropdown from closing when clicking inside
         filterOptions.addEventListener('click', function (e) {
-            if (e.target.tagName === 'INPUT') {
-                const selectedOption = e.target.parentNode.getAttribute('data-value');
-
-                if (selectedOption === 'selectAll') {
-                    // Select all options except "Clear All"
-                    checkboxes.forEach((checkbox) => {
-                        if (checkbox.parentNode.getAttribute('data-value') !== 'clearAll') {
-                            checkbox.checked = true;
-                        }
-                    });
-                } else if (selectedOption === 'clearAll') {
-                    // Clear all options, including "Select All"
-                    checkboxes.forEach((checkbox) => {
-                        checkbox.checked = false;
-                    });
-                    filterButton.textContent = 'Choose...'; // Reset button text
-                } else {
-                    // Deselect "Clear All" and "Select All" if any individual option is checked
-                    document.querySelector(`[data-value="clearAll"] input`).checked = false;
-                    document.querySelector(`[data-value="selectAll"] input`).checked = false;
-                }
-
-                // Update the table with selected filters
-                updateTableFilter(columnIndex, checkboxes);
+            e.stopPropagation();
+        });
+    
+        // Handle selection and filtering logic
+        filterOptions.addEventListener('change', function (e) {
+            const selectedOption = e.target.parentNode.getAttribute('data-value');
+    
+            if (selectedOption === 'selectAll') {
+                // Select all options except "Clear All"
+                checkboxes.forEach((checkbox) => {
+                    if (checkbox.parentNode.getAttribute('data-value') !== 'clearAll') {
+                        checkbox.checked = true;
+                    }
+                });
+            } else if (selectedOption === 'clearAll') {
+                // Clear all options, including "Select All"
+                checkboxes.forEach((checkbox) => {
+                    checkbox.checked = false;
+                });
+                filterButton.textContent = 'Choose...'; // Reset button text
+            } else {
+                // Deselect "Clear All" and "Select All" if any individual option is checked
+                document.querySelector(`[data-value="clearAll"] input`).checked = false;
+                document.querySelector(`[data-value="selectAll"] input`).checked = false;
             }
+    
+            // Update the table with selected filters
+            updateTableFilter(columnIndex, checkboxes);
         });
     }
+    
 
     // Update the table based on selected filters
     function updateTableFilter(columnIndex, checkboxes) {
@@ -440,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function () {
             table.button('.buttons-csv').trigger(); // Trigger hidden CSV button
         } else if (format === 'pdf') {
             console.log('PDF export triggered'); // Add a log to ensure the PDF trigger happens
-            table.button('.buttons-pdfHtml5').trigger(); // Ensure correct PDF button is triggered
+            table.button('.buttons-pdf').trigger(); // Ensure correct PDF button is triggered
         } else if (format === 'excel') {
             table.button('.buttons-excel').trigger(); // Trigger hidden Excel button
         }
