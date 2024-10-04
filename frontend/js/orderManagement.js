@@ -169,71 +169,76 @@ function initializeDataTable() {
 
 // Display orders in the table after initializing DataTable
 function displayOrders(orders) {
-// Hide the error message when orders are successfully displayed
-if (messageDiv) {
-    messageDiv.style.display = 'none'; // Ensure error message is hidden
-}
+    // Hide the error message when orders are successfully displayed
+    if (messageDiv) {
+        messageDiv.style.display = 'none'; // Ensure error message is hidden
+    }
 
-// Function to format date as "MM/DD/YYYY"
-const formatDate = (dateString) => {
-    if (!dateString) return ''; // Handle null or undefined case
-    
-    const date = new Date(dateString);
-    const formattedDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    
-    return formattedDate;
-};
+    // Function to format date as "MM/DD/YYYY"
+    const formatDate = (dateString) => {
+        if (!dateString) return ''; // Handle null or undefined case
+        
+        const date = new Date(dateString);
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure two digits
+        const day = String(date.getDate()).padStart(2, '0');        // Ensure two digits
+        const year = date.getFullYear();
+        const formattedDate = `${month}/${day}/${year}`;
+        
+        return formattedDate;
+    };
 
-// Loop through each order and create table rows dynamically
-orders.forEach(order => {
+    // Function to format date and time as "MM/DD/YYYY HH:MM:SS AM/PM"
     const formatDateAndTime = (dateString) => {
+        if (!dateString) return ''; // Handle null or undefined case
+
         const date = new Date(dateString);
         const formattedDate = date.toLocaleDateString('en-US'); // Format as MM/DD/YYYY
-        const formattedTime = date.toLocaleTimeString('en-US'); // Format as HH:mm:ss AM/PM
+        const formattedTime = date.toLocaleTimeString('en-US'); // Format as HH:MM:SS AM/PM
         return `${formattedDate} ${formattedTime}`; // Combine both for a full datetime
     };
 
+    // Loop through each order and create table rows dynamically
+    orders.forEach(order => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${order.OrderID}</td>                         <!-- index 0 -->
+            <td>${order.FirstName} ${order.LastName}</td>      <!-- index 1 -->
+            <td>${order.CustomerEmail}</td>                    <!-- index 2 -->
+            <td>${order.ShippingMethod}</td>                   <!-- index 3 -->
+            <td>${order.ShippingAddress}</td>                  <!-- index 4 -->
+            <td>${order.UnitNumber}</td>                       <!-- index 5 -->
+            <td>${order.ShippingCity}</td>                     <!-- index 6 -->
+            <td>${order.ShippingState}</td>                    <!-- index 7 -->
+            <td>${order.ShippingZip}</td>                      <!-- index 8 -->
+            <td>${order.BillingAddress}</td>                   <!-- index 9 -->
+            <td>${order.BillingCity}</td>                      <!-- index 10 -->
+            <td>${order.BillingState}</td>                     <!-- index 11 -->
+            <td>${order.BillingZipCode}</td>                   <!-- index 12 -->
+            <td>$${order.TotalAmount.toFixed(2)}</td>          <!-- index 13 -->
+            <td>${order.PaymentStatus}</td>                    <!-- index 14 -->
+            <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- index 15 -->
+            <td>${order.CardBrand}</td>                        <!-- index 16 -->
+            <td>${order.ExpirationDate}</td>                   <!-- index 17 -->
+            <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 18, formatted -->
+            <td>${formatDate(order.OrderDate)}</td>             <!-- index 19, formatted -->
+            <td>${order.OrderTime}</td>                        <!-- index 20 -->
+            <td>${order.AuthorizationToken}</td>               <!-- index 21 -->
+            <td>$${order.AuthorizationAmount.toFixed(2)}</td> <!-- index 22 -->
+            <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 23, formatted -->
+            <td>${order.WarehouseStatus || 'N/A'}</td>        <!-- index 24 -->
+            <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 25, formatted -->
+        `;
 
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${order.OrderID}</td>            <!-- index 0 -->
-        <td>${order.FirstName} ${order.LastName}</td> <!-- index 1 -->
-        <td>${order.CustomerEmail}</td>       <!-- index 2 -->
-        <td>${order.ShippingMethod}</td>      <!-- index 3 -->
-        <td>${order.ShippingAddress}</td>     <!-- index 4 -->
-        <td>${order.UnitNumber}</td>          <!-- index 5 -->
-        <td>${order.ShippingCity}</td>        <!-- index 6 -->
-        <td>${order.ShippingState}</td>       <!-- index 7 -->
-        <td>${order.ShippingZip}</td>         <!-- index 8 -->
-        <td>${order.BillingAddress}</td>      <!-- index 9 -->
-        <td>${order.BillingCity}</td>         <!-- index 10 -->
-        <td>${order.BillingState}</td>        <!-- index 11 -->
-        <td>${order.BillingZipCode}</td>      <!-- index 12 -->
-        <td>$${order.TotalAmount.toFixed(2)}</td> <!-- index 13 -->
-        <td>${order.PaymentStatus}</td>       <!-- index 14 -->
-        <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- index 15 -->
-        <td>${order.CardBrand}</td>           <!-- index 16 -->
-        <td>${order.ExpirationDate}</td>      <!-- index 17 -->
-        <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 18, formatted -->
-        <td>${order.OrderDate}</td>           <!-- index 19 -->
-        <td>${order.OrderTime}</td>           <!-- index 20 -->
-        <td>${order.AuthorizationToken}</td>  <!-- index 21 -->
-        <td>$${order.AuthorizationAmount.toFixed(2)}</td> <!-- index 22 -->
-        <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 23, formatted -->
-        <td>${order.WarehouseStatus || 'N/A'}</td> <!-- index 24 -->
-        <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 25, formatted -->
-    `;
+        orderTableBody.appendChild(row);
+    });
 
-    orderTableBody.appendChild(row);
-});
+    // Initialize DataTable after data is loaded
+    initializeDataTable();
 
-
-// Initialize DataTable after data is loaded
-initializeDataTable();
-
-// Adjust and draw the DataTable after loading the data
-table.columns.adjust().draw();
+    // Adjust and draw the DataTable after loading the data
+    table.columns.adjust().draw();
 }
+
 
 // Add filtering functionality for individual columns
 function addColumnFiltering() {
