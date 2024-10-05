@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Required fields by section
     const requiredFieldsSection1 = ['email', 'phone', 'firstName', 'lastName', 'address', 'city', 'state', 'zip'];
-    const requiredFieldsSection2 = ['cardNumber', 'expDate', 'securityCode', 'zipCode'];
+    const requiredFieldsSection2 = ['cardNumber', 'expDate', 'securityCode', 'billingAddress', 'billingCity', 'billingState', 'billingZipCode'];
 
     // Function to add asterisk for missing fields
     function addAsteriskForMissingFields(fieldId) {
@@ -112,14 +112,23 @@ document.addEventListener('DOMContentLoaded', function () {
         e.target.value = input;
     });
 
-    // Copy shipping ZIP code to billing if checkbox is checked
-    document.getElementById('sameAsShipping').addEventListener('change', function (e) {
-        if (e.target.checked) {
-            document.getElementById('zipCode').value = document.getElementById('zip').value;
-        } else {
-            document.getElementById('zipCode').value = '';
-        }
-    });
+// Event listener for the "Same as Shipping" checkbox
+document.getElementById('sameAsShipping').addEventListener('change', function (e) {
+    if (e.target.checked) {
+        // Copy values from shipping address to billing address
+        document.getElementById('billingAddress').value = document.getElementById('address').value;
+        document.getElementById('billingCity').value = document.getElementById('city').value;
+        document.getElementById('billingState').value = document.getElementById('state').value;
+        document.getElementById('billingZipCode').value = document.getElementById('zip').value;
+    } else {
+        // Clear billing address fields when unchecked
+        document.getElementById('billingAddress').value = '';
+        document.getElementById('billingCity').value = '';
+        document.getElementById('billingState').value = '';
+        document.getElementById('billingZipCode').value = '';
+    }
+});
+
 
     // Validate the expiration date
     const isCardExpired = (expDate) => {
@@ -159,7 +168,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
         const expDate = document.getElementById('expDate').value;
         const securityCode = document.getElementById('securityCode').value;
-        const billingZipCode = document.getElementById('zipCode').value;
+        const billingAddress = document.getElementById('billingAddress').value;
+        const billingCity = document.getElementById('billingCity').value;
+        const billingState = document.getElementById('billingState').value;
+        const billingZipCode = document.getElementById('billingZipCode').value;
 
         // Check card expiration
         if (isCardExpired(expDate)) {
@@ -185,11 +197,11 @@ document.addEventListener('DOMContentLoaded', function () {
             phone,
             address: `${address} ${unitNumber}, ${city}, ${state}, ${zip}`,
             shippingMethod,
+            billingAddress: `${billingAddress}, ${billingCity}, ${billingState}, ${billingZipCode}`,
             paymentDetails: {
                 cardNumber,
                 expDate,
-                securityCode,
-                billingZipCode
+                securityCode
             }
         };
 

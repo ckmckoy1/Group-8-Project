@@ -117,6 +117,17 @@
                                         </div>
                                     </div>
 
+                                    <!-- Country Dropdown -->
+                                    <div class="form-group">
+                                        <label for="country">Country</label>
+                                        <select id="country" name="country" required>
+                                            <option value="">Select Country</option>
+                                            <!-- Include all countries here -->
+                                            <option value="US" selected>United States</option>
+                                            <!-- ... other countries ... -->
+                                        </select>
+                                    </div>
+
                                     <div class="form-group">
                                         <input type="text" id="address" name="address" required placeholder="Address">
                                     </div>
@@ -195,21 +206,42 @@
                                         <label for="billingName" class="floating-label">Name on card *</label>
                                     </div>
                                     
-                                    <div class="form-group billing-header">    
-                                        <p>Billing Address</p>
-                                    </div>                                    
-                                    <div class="checkbox-group-pair">
-                                        <div class="checkbox-group">
-                                            <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
-                                            <label for="sameAsShipping">Same as Billing?</label>
-                                        </div>
+                                <!-- Billing Address Section -->
+                                <div class="form-group billing-header">    
+                                    <p>Billing Address</p>
+                                </div>                                    
+                                <div class="checkbox-group-pair">
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
+                                        <label for="sameAsShipping">Same as Shipping?</label>
                                     </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="zipCode" class="floating-label">ZIP Code *</label>
-                                        <input type="text" id="zipCode" name="zipCode" required placeholder="">
-                                    </div>
-                                    <button type="button" class="continue-btn" id="continueToReview">CONTINUE TO REVIEW</button>
+                                </div>
+
+                                <!-- Street Address -->
+                                <div class="form-group">
+                                    <input type="text" id="billingAddress" name="billingAddress" required placeholder="Address">
+                                    <label for="billingAddress" class="floating-label">Address *</label>
+                                </div>
+
+                                <!-- City -->
+                                <div class="form-group">
+                                    <input type="text" id="billingCity" name="billingCity" required placeholder="City">
+                                    <label for="billingCity" class="floating-label">City *</label>
+                                </div>
+
+                                <!-- State -->
+                                <div class="form-group">
+                                    <input type="text" id="billingState" name="billingState" required placeholder="State / Region">
+                                    <label for="billingState" class="floating-label">State / Region *</label>
+                                </div>
+
+                                <!-- ZIP Code -->
+                                <div class="form-group">
+                                    <input type="text" id="billingZipCode" name="billingZipCode" required placeholder="ZIP / Postal Code">
+                                    <label for="billingZipCode" class="floating-label">ZIP / Postal Code *</label>
+                                </div>
+
+                                <button type="button" class="continue-btn" id="continueToReview">CONTINUE TO REVIEW</button>
 
                                 </div>
                             </div>
@@ -304,6 +336,8 @@
         </nav>
         <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
     </footer>
+
+
 
 <!-- Chat Popup -->
 <div id="chatPopupOverlay">
