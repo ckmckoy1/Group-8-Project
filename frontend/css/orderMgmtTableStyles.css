@@ -10,6 +10,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     min-height: 120vh; /* Allow the container to be bigger height-wise */
+}   
 
 /* Scrollable table container */
 .table-container {
@@ -72,11 +73,12 @@ table, th, td {
     overflow-wrap: normal;
 }
 
-/* Style for the filter row */
+/* Adjust the top value based on the actual height of the header row */
 .filter-row th {
     position: sticky;
-    top: 35px; /* Adjust based on the height of the header row */
-    z-index: 2; /* Lower than the header row */
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
+    top: 0; /* Change from 35px to 0 */
+    z-index: 1; /* Lower than the header row */
     background-color: #B9D9EB; /* Match background color */
 }
 
@@ -393,4 +395,4 @@ div.dataTables_length {
     button {
         width: 100%;
     }
-}}
+}
