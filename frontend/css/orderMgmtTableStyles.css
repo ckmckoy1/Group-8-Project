@@ -10,7 +10,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     min-height: 120vh; /* Allow the container to be bigger height-wise */
-}   
+}    
 
 /* Scrollable table container */
 .table-container {
@@ -170,6 +170,7 @@ thead select:hover,
     padding: 0;
     color: #333;
     font-size: 1em;
+    z-index: 1000; /* Ensure it's above other elements */
 }
 
 /* Dropdown item styling */
@@ -195,6 +196,8 @@ thead select:hover,
     display: none;
     z-index: 9999;
 }
+
+
 
 /* Ensure input boxes and select controls inside headers adjust size */
 thead input.form-control, thead select.form-control {
