@@ -33,11 +33,7 @@
     width: auto;
 }
 
-thead,
-.header-row th,
-.filter-row th {
-    margin: 0;
-}
+
 
 /* Table layout and style */
 table {
@@ -53,6 +49,22 @@ table, th, td {
     padding: 12px;
     text-align: left;
     word-wrap: break-word;
+}
+
+/* Remove bottom border from header cells */
+.header-row th {
+    border-bottom: none;
+}
+
+/* Remove top border from filter row cells */
+.filter-row th {
+    border-top: none;
+}
+
+thead,
+.header-row th,
+.filter-row th {
+    margin: 0;
 }
 
 /* Style for the header row */
