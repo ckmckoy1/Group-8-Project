@@ -17,7 +17,7 @@
     overflow-x: auto;
     overflow-y: auto;
     position: relative;
-    margin-top: 5px;
+    margin-top: 0;
     max-height: 110vh; /* Set maximum height if needed */
 }
 
@@ -33,10 +33,11 @@
     width: auto;
 }
 
-/* Remove any forced max-height, allowing rows to grow 
-.table-container {
-    max-height: none;
-} */
+thead,
+.header-row th,
+.filter-row th {
+    margin: 0;
+}
 
 /* Table layout and style */
 table {
