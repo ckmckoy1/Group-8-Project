@@ -10,14 +10,13 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     min-height: 120vh; /* Allow the container to be bigger height-wise */
-}    
 
 /* Scrollable table container */
 .table-container {
     overflow-x: auto;
     overflow-y: auto;
     position: relative;
-    margin-top: 0;
+    margin-top: 5px;
     max-height: 110vh; /* Set maximum height if needed */
 }
 
@@ -33,7 +32,10 @@
     width: auto;
 }
 
-
+/* Remove any forced max-height, allowing rows to grow 
+.table-container {
+    max-height: none;
+} */
 
 /* Table layout and style */
 table {
@@ -49,22 +51,6 @@ table, th, td {
     padding: 12px;
     text-align: left;
     word-wrap: break-word;
-}
-
-/* Remove bottom border from header cells */
-.header-row th {
-    border-bottom: none;
-}
-
-/* Remove top border from filter row cells */
-.filter-row th {
-    border-top: none;
-}
-
-thead,
-.header-row th,
-.filter-row th {
-    margin: 0;
 }
 
 /* Style for the header row */
@@ -86,12 +72,11 @@ thead,
     overflow-wrap: normal;
 }
 
-/* Adjust the top value based on the actual height of the header row */
+/* Style for the filter row */
 .filter-row th {
     position: sticky;
-    border: 1px solid #A0BCCD; /* Soft grey-blue border */
-    top: 0; /* Change from 35px to 0 */
-    z-index: 1; /* Lower than the header row */
+    top: 35px; /* Adjust based on the height of the header row */
+    z-index: 2; /* Lower than the header row */
     background-color: #B9D9EB; /* Match background color */
 }
 
@@ -183,7 +168,6 @@ thead select:hover,
     padding: 0;
     color: #333;
     font-size: 1em;
-    z-index: 1000; /* Ensure it's above other elements */
 }
 
 /* Dropdown item styling */
@@ -209,8 +193,6 @@ thead select:hover,
     display: none;
     z-index: 9999;
 }
-
-
 
 /* Ensure input boxes and select controls inside headers adjust size */
 thead input.form-control, thead select.form-control {
@@ -411,4 +393,4 @@ div.dataTables_length {
     button {
         width: 100%;
     }
-}
+}}

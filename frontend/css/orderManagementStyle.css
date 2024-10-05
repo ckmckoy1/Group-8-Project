@@ -82,7 +82,6 @@ h2 {
 }
 
 /* Footer styling */
-/* Footer styling */
 footer.footer {
     width: 100%; /* Ensure the footer stretches across the full width */
     margin: 0; /* Remove any margins */
@@ -95,20 +94,18 @@ footer.footer {
     align-items: center;
 }
 
-/* Ensure the inner container uses full available space */
-footer.footer .container {
-    display: flex;
-    justify-content: flex-end; /* Align items to the right */
-    align-items: center; /* Center vertically */
-}
-
-/* Style for the links and images within the footer */
 footer.footer a {
     color: #333; /* Dark grey text */
     text-decoration: none;
     font-size: 1em;
+    text-align: right;
     margin-left: 10px;
     margin-right: 10px;
+    padding: 0;
+}
+
+footer.footer img {
+    margin: 0 10px; /* Adjust margin around images */
 }
 
 footer.footer a:hover {
@@ -116,16 +113,12 @@ footer.footer a:hover {
     color: #0056b3; /* Dark blue on hover */
 }
 
-footer.footer img {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-/* Adjust spacing between elements */
+/* Add spacing between the links */
 footer.footer .mx-2 {
     margin-left: 10px;
     margin-right: 10px;
 }
+
 /* Flexbox to align the links properly in a row */
 footer.footer .d-flex {
     display: flex;
