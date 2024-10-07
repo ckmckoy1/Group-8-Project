@@ -188,32 +188,34 @@
                                     <button type="button" class="continue-btn" id="continueToPayment">CONTINUE TO PAYMENT</button>
                             </div>
 
-                            <!-- Section 2: Payment -->
-                            <div id="paymentSection" class="form-section collapsed">
-                                <h3 onclick="toggleSection('paymentSection')">2. PAYMENT</h3>
-                                <div class="form-content">
-                                    <div class="form-group">    
-                                        <p>Please select from the payment options below.</p>
-                                    </div>   
-                                    <div class="radio-group">
-                                        <input type="radio" id="PaymentOption1" name="paymentMethod" value="creditCard" checked>
-                                        <label for="PaymentOption1">Credit Card</label>
-                                        <img src="../assets/visa.svg" width="50" height="55">
-                                        <img src="../assets/amex.svg" width="50" height="55">
-                                        <img src="../assets/mastercard.svg" width="50" height="55">
-                                        <img src="../assets/discover.svg" width="50" height="55">
-                                    </div>
-                                    <div class="radio-group">
-                                        <input type="radio" id="PaymentOption2" name="paymentMethod" value="klarna">
-                                        <label for="PaymentOption2">Klarna</label>
-                                        <img src="../assets/klarna.svg" width="50" height="55">
-                                    </div>
-                                    <div class="radio-group">
-                                        <input type="radio" id="PaymentOption3" name="paymentMethod" value="paypal">
-                                        <label for="PaymentOption3">PayPal</label>
-                                        <img src="../assets/paypal.svg" width="50" height="55">
-                                    </div>
-                                    
+                    <!-- Section 2: Payment -->
+                    <div id="paymentSection" class="form-section collapsed">
+                        <h3 onclick="toggleSection('paymentSection')">2. PAYMENT</h3>
+                        <div class="form-content">
+                            <div class="form-group">    
+                                <p>Please select from the payment options below.</p>
+                            </div>   
+                            <div class="radio-group">
+                                <input type="radio" id="PaymentOption1" name="paymentMethod" value="creditCard" checked>
+                                <label for="PaymentOption1">Credit Card</label>
+                                <img src="../assets/visa.svg" width="50" height="55" alt="Visa">
+                                <img src="../assets/amex.svg" width="50" height="55" alt="Amex">
+                                <img src="../assets/mastercard.svg" width="50" height="55" alt="MasterCard">
+                                <img src="../assets/discover.svg" width="50" height="55" alt="Discover">
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="PaymentOption2" name="paymentMethod" value="klarna">
+                                <label for="PaymentOption2">Klarna</label>
+                                <img src="../assets/klarna.svg" width="50" height="55" alt="Klarna">
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="PaymentOption3" name="paymentMethod" value="paypal">
+                                <label for="PaymentOption3">PayPal</label>
+                                <img src="../assets/paypal.svg" width="50" height="55" alt="PayPal">
+                            </div>
+                            
+                                <!-- Credit Card Payment Fields -->
+                                <div id="creditCardFields">
                                     <div class="form-group">
                                         <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
                                         <label for="cardNumber" class="floating-label">Card Number *</label>
@@ -273,6 +275,23 @@
 
                                 </div>
                             </div>
+                        </div>
+
+                                                            <!-- Klarna Payment Option -->
+                                <div id="klarnaPayment" style="display: none;">
+                                    <button type="button" class="continue-btn" id="klarnaButton">Continue To Pay Over Time With Klarna</button>
+                                </div>
+
+                                <!-- PayPal Payment Option -->
+                                <div id="paypalPayment" style="display: none;">
+                                    <p>Selecting PayPal Checkout will direct you to the PayPal website to complete your order.</p>
+                                    <button type="button" class="continue-btn" id="paypalButton">
+                                        <img src="../assets/paypal_logo.png" alt="PayPal Logo" style="vertical-align: middle; width: 100px; height: auto;" />
+                                        Checkout
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
                             <!-- Section 3: Review Order -->
                             <div id="reviewOrderSection" class="form-section collapsed">

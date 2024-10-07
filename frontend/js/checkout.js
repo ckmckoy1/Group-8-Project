@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Order Total (Assuming $50.00 for this example)
         const orderTotal = 50.00;
+    // Event listener for payment method change
+    const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
+    paymentMethodInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            handlePaymentMethodChange();
+        });
+    });
 
         // Shipping methods mapping
         const shippingMethods = {
@@ -133,6 +140,51 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     
+
+    // Function to handle payment method change
+    function handlePaymentMethodChange() {
+        const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+        const creditCardFields = document.getElementById('creditCardFields');
+        const klarnaPayment = document.getElementById('klarnaPayment');
+        const paypalPayment = document.getElementById('paypalPayment');
+        const reviewOrderSection = document.getElementById('reviewOrderSection');
+
+        if (selectedMethod === 'creditCard') {
+            creditCardFields.style.display = 'block';
+            klarnaPayment.style.display = 'none';
+            paypalPayment.style.display = 'none';
+            reviewOrderSection.style.display = 'block'; // Show Section 3
+        } else if (selectedMethod === 'klarna') {
+            creditCardFields.style.display = 'none';
+            klarnaPayment.style.display = 'block';
+            paypalPayment.style.display = 'none';
+            reviewOrderSection.style.display = 'none'; // Hide Section 3
+        } else if (selectedMethod === 'paypal') {
+            creditCardFields.style.display = 'none';
+            klarnaPayment.style.display = 'none';
+            paypalPayment.style.display = 'block';
+            reviewOrderSection.style.display = 'none'; // Hide Section 3
+        }
+    }
+
+    // Initialize payment method display
+    handlePaymentMethodChange();
+
+    // Event listener for Klarna button
+    document.getElementById('klarnaButton').addEventListener('click', function () {
+        // Implement your Klarna payment integration here
+        alert('Redirecting to Klarna payment gateway...');
+        // For example, redirect to Klarna checkout page
+        // window.location.href = 'https://www.klarna.com/checkout-url';
+    });
+
+    // Event listener for PayPal button
+    document.getElementById('paypalButton').addEventListener('click', function () {
+        // Implement your PayPal payment integration here
+        alert('Redirecting to PayPal...');
+        // For example, redirect to PayPal checkout page
+        // window.location.href = 'https://www.paypal.com/checkout-url';
+    });
 
     function getCardBrand(number) {
         // Remove all non-digit characters from the input
