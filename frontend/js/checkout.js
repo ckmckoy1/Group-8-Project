@@ -128,10 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
         let input = e.target.value.replace(/\D/g, '');
         input = input.match(/.{1,4}/g)?.join(' ') || input;
         e.target.value = input;
-        
+
         // Get the card brand
         const cardBrand = getCardBrand(e.target.value);
-        
+
         // Update the card brand display
         const cardBrandDisplay = document.getElementById('cardBrandDisplay');
         if (cardBrand !== 'Unknown') {
@@ -187,21 +187,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function getCardBrand(number) {
-        // Remove all non-digit characters from the input
         const sanitized = number.replace(/\D/g, '');
-        
-        // Define patterns for different card brands
+
         const patterns = [
-            { brand: 'Visa', pattern: /^4[0-9]{0,}$/ },
-            { brand: 'MasterCard', pattern: /^(5[1-5]|2[2-7])[0-9]{0,}$/ },
-            { brand: 'American Express', pattern: /^3[47][0-9]{0,}$/ },
-            { brand: 'Discover', pattern: /^(6011|65|64[4-9])[0-9]{0,}$/ },
-            { brand: 'Diners Club', pattern: /^3(0[0-5]|[68])[0-9]{0,}$/ },
-            { brand: 'JCB', pattern: /^(?:2131|1800|35)[0-9]{0,}$/ },
-            // Add more patterns as needed
+            { brand: 'Visa', pattern: /^4[0-9]{12}(?:[0-9]{3})?$/ },
+            { brand: 'MasterCard', pattern: /^(5[1-5][0-9]{14}|2[2-7][0-9]{14})$/ },
+            { brand: 'American Express', pattern: /^3[47][0-9]{13}$/ },
+            { brand: 'Discover', pattern: /^6(?:011|5[0-9]{2})[0-9]{12}$/ },
+            // Add patterns for other card brands if needed
         ];
-        
-        // Check the card number against each pattern
+
         for (const { brand, pattern } of patterns) {
             if (pattern.test(sanitized)) {
                 return brand;
@@ -293,18 +288,21 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('sameAsShipping').addEventListener('change', function (e) {
         if (e.target.checked) {
             const shippingAddress = document.getElementById('address').value;
+            const shippingUnitNumber = document.getElementById('unitNumber').value;
             const shippingCity = document.getElementById('city').value;
             const shippingState = document.getElementById('state').value;
             const shippingZip = document.getElementById('zip').value;
 
             // Copy values from shipping to billing fields
             document.getElementById('billingAddress').value = shippingAddress || '';
+            document.getElementById('billingUnitNumber').value = shippingUnitNumber || '';
             document.getElementById('billingCity').value = shippingCity || '';
             document.getElementById('billingState').value = shippingState || '';
             document.getElementById('billingZipCode').value = shippingZip || '';
         } else {
             // Clear billing address fields when unchecked
             document.getElementById('billingAddress').value = '';
+            document.getElementById('billingUnitNumber').value = '';
             document.getElementById('billingCity').value = '';
             document.getElementById('billingState').value = '';
             document.getElementById('billingZipCode').value = '';
@@ -333,6 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Validate payment section before final submission
         const isSection2Valid = validateSection(requiredFieldsSection2);
         if (!isSection2Valid) {
+            displayMessage('Please complete all required payment fields.', 'error');
             return;
         }
 
@@ -350,6 +349,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const expDate = document.getElementById('expDate').value;
         const securityCode = document.getElementById('securityCode').value;
         const billingAddress = document.getElementById('billingAddress').value;
+        const billingUnitNumber = document.getElementById('billingUnitNumber').value;
         const billingCity = document.getElementById('billingCity').value;
         const billingState = document.getElementById('billingState').value;
         const billingZipCode = document.getElementById('billingZipCode').value;
@@ -360,15 +360,43 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Determine mock URL based on card number (first digit simulation)
-        let mockUrl;
-        if (cardNumber.startsWith('4111')) {
-            mockUrl = mockEndpointSuccess;
-        } else if (cardNumber.startsWith('5105')) {
-            mockUrl = mockEndpointFailureDetails;
-        } else {
-            mockUrl = mockEndpointFailureFunds;
+        // Get the card brand
+        const cardBrand = getCardBrand(cardNumber);
+
+        if (cardBrand === 'Unknown') {
+            displayMessage('Error: Unknown card brand. Please check your card number.', 'error');
+            return;
         }
+
+        // Determine mock URL based on card number
+        let mockUrl;
+
+        // Create a mapping of card numbers to mock endpoints
+        const cardNumberToEndpointMap = {
+            // Success Cases
+            '4111111111111111': mockEndpointSuccess, // Visa
+            '5555555555554444': mockEndpointSuccess, // MasterCard
+            '378282246310005': mockEndpointSuccess,  // American Express
+            '6011111111111117': mockEndpointSuccess, // Discover
+
+            // Invalid Card Details Cases
+            '4000000000000002': mockEndpointFailureDetails, // Visa
+            '5105105105105100': mockEndpointFailureDetails, // MasterCard
+            '371449635398431': mockEndpointFailureDetails,  // American Express
+            '6011000990139424': mockEndpointFailureDetails, // Discover
+
+            // Insufficient Funds Cases
+            '4000000000009995': mockEndpointFailureFunds, // Visa
+            '2223000048400011': mockEndpointFailureFunds, // MasterCard
+            '378734493671000': mockEndpointFailureFunds,  // American Express
+            '6011000400000000': mockEndpointFailureFunds, // Discover
+        };
+
+        // Get the sanitized card number (without spaces)
+        const sanitizedCardNumber = cardNumber.replace(/\s/g, '');
+
+        // Set the mock URL based on the card number
+        mockUrl = cardNumberToEndpointMap[sanitizedCardNumber] || mockEndpointFailureFunds; // Default to insufficient funds if not found
 
         // Prepare order data
         const orderData = {
@@ -376,14 +404,28 @@ document.addEventListener('DOMContentLoaded', function () {
             lastName,
             email,
             phone,
-            address: `${address} ${unitNumber}, ${city}, ${state}, ${zip}`,
+            shippingAddress: {
+                address,
+                unitNumber,
+                city,
+                state,
+                zip,
+            },
             shippingMethod,
-            billingAddress: `${billingAddress}, ${billingCity}, ${billingState}, ${billingZipCode}`,
+            billingAddress: {
+                address: billingAddress,
+                unitNumber: billingUnitNumber,
+                city: billingCity,
+                state: billingState,
+                zipCode: billingZipCode,
+            },
             paymentDetails: {
                 cardNumber,
                 expDate,
-                securityCode
-            }
+                securityCode,
+                cardBrand,
+            },
+            orderTotal,
         };
 
         try {
@@ -394,22 +436,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    OrderId: 'ORD000123',
                     CardDetails: {
                         Number: cardNumber,
                         ExpirationDate: expDate,
                         CVC: securityCode,
                         NameOnCard: `${firstName} ${lastName}`
                     },
-                    AuthorizationAmount: 50.00
+                    AuthorizationAmount: orderTotal
                 })
             });
 
             const paymentResult = await paymentResponse.json();
 
+            // Include paymentResult in orderData
+            orderData.paymentResult = paymentResult;
+
             if (paymentResult.Success) {
-                // Send order details to MongoDB after payment success
-                const orderResponse = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders', {
+                // Send order details to your backend server (e.g., to MongoDB)
+                const orderResponse = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -419,11 +463,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const orderResult = await orderResponse.json();
 
-                if (!orderResponse.ok) {
-                    displayMessage(`Error: ${orderResult.message}`, 'error');
-                } else {
+                if (orderResponse.ok) {
                     displayMessage(`Order submitted successfully! Order ID: ${orderResult.orderId}`, 'success');
                     popupOverlay.classList.add('show'); // Show success popup
+                } else {
+                    displayMessage(`Error: ${orderResult.message}`, 'error');
                 }
             } else {
                 // Handle payment failure

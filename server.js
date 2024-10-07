@@ -1,14 +1,3 @@
-// Import dependencies
-// import express from 'express';
-// import bodyParser from 'body-parser';
-// import mongoose from 'mongoose';
-// import dotenv from 'dotenv';
-// import cors from 'cors';
-// import morgan from 'morgan';
-// import compression from 'compression';
-// import helmet from 'helmet';
-// import fetch from 'node-fetch'; // Ensure this is installed
-
 // Import dependencies using require (CommonJS)
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -18,7 +7,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const compression = require('compression');
 const helmet = require('helmet');
-const fetch = require('node-fetch');
 
 // Initialize dotenv to read environment variables
 dotenv.config();
@@ -31,7 +19,7 @@ app.use(helmet());
 app.use(morgan('combined')); // Logs requests to your console
 app.use(compression());
 app.use(cors({
-    origin: ['https://ckmckoy1.github.io', 'https://group8-a70f0e413328.herokuapp.com'], 
+    origin: ['https://ckmckoy1.github.io', 'https://group8-a70f0e413328.herokuapp.com'],
     methods: ['GET', 'POST'],
     credentials: true,
     optionsSuccessStatus: 200  // Some legacy browsers choke on status 204
@@ -60,21 +48,22 @@ app.get('/', (req, res) => {
 
 // Define Mongoose schema and models
 const orderSchema = new mongoose.Schema({
-    OrderID: String,  
+    OrderID: String,
     CustomerEmail: String,
     FirstName: String,
     LastName: String,
     
     // Billing Information
-    BillingAddress: String,  
-    UnitNumber: String,      
-    BillingCity: String,     
-    BillingState: String,    
-    BillingZipCode: String,  
+    BillingAddress: String,
+    BillingUnitNumber: String,
+    BillingCity: String,
+    BillingState: String,
+    BillingZipCode: String,
     
     // Shipping Information
     ShippingMethod: String,
     ShippingAddress: String,
+    ShippingUnitNumber: String,
     ShippingCity: String,
     ShippingState: String,
     ShippingZip: String,
@@ -94,6 +83,8 @@ const orderSchema = new mongoose.Schema({
     
     WarehouseStatus: String,
     WarehouseApprovalDate: Date,
+
+    PaymentResult: mongoose.Schema.Types.Mixed, // To store the paymentResult object
 });
 
 // Add index on OrderID to optimize querying by OrderID
@@ -105,8 +96,7 @@ const Order = mongoose.model('Order', orderSchema, 'WP-Orders');
 // Export the Order model
 module.exports = Order;
 
-
-// API route to get a specific order by orderId (new route)
+// API route to get a specific order by OrderID
 app.get('/api/orders/:orderId', async (req, res) => {
     const { orderId } = req.params;
     try {
@@ -120,76 +110,67 @@ app.get('/api/orders/:orderId', async (req, res) => {
     }
 });
 
-
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
-    const { firstName, lastName, address, cardDetails } = req.body;
+    const {
+        firstName,
+        lastName,
+        email,
+        phone,
+        shippingAddress,
+        shippingMethod,
+        billingAddress,
+        paymentDetails,
+        orderTotal,
+        paymentResult, // Include paymentResult from client
+    } = req.body;
 
-    // Auto-generate orderId for new orders
+    // Auto-generate OrderID for new orders
     const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
 
-    // Mock Endpoint URLs
-    const mockEndpointSuccess = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
-    const mockEndpointFailureDetails = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
-    const mockEndpointFailureFunds = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient';
-
-    // Determine mock URL based on card details (simulated)
-    let mockUrl;
-    if (cardDetails.number.startsWith('4111')) {
-        mockUrl = mockEndpointSuccess;
-    } else if (cardDetails.number.startsWith('5105')) {
-        mockUrl = mockEndpointFailureDetails;
-    } else {
-        mockUrl = mockEndpointFailureFunds;
-    }
-
     try {
-        // Send a request to the mock payment endpoint
-        const responseStart = Date.now(); // Start tracking time for the external request
-        const response = await fetch(mockUrl, { method: 'POST' });
-        const data = await response.json();
-        console.log(`Mock payment request took ${Date.now() - responseStart}ms`); // Log how long the mock payment request took
+        // Create a new order document
+        const newOrder = new Order({
+            OrderID: orderId,
+            CustomerEmail: email,
+            FirstName: firstName,
+            LastName: lastName,
+            // Billing Information
+            BillingAddress: billingAddress.address,
+            BillingUnitNumber: billingAddress.unitNumber,
+            BillingCity: billingAddress.city,
+            BillingState: billingAddress.state,
+            BillingZipCode: billingAddress.zipCode,
+            // Shipping Information
+            ShippingMethod: shippingMethod,
+            ShippingAddress: shippingAddress.address,
+            ShippingUnitNumber: shippingAddress.unitNumber,
+            ShippingCity: shippingAddress.city,
+            ShippingState: shippingAddress.state,
+            ShippingZip: shippingAddress.zip,
+            // Payment and Order Details
+            TotalAmount: orderTotal,
+            PaymentStatus: paymentResult.Success ? 'Authorized' : 'Failed',
+            CardNumber: paymentDetails.cardNumber.slice(-4), // Store last 4 digits only
+            CardBrand: paymentDetails.cardBrand,
+            ExpirationDate: paymentDetails.expDate,
+            AuthorizationToken: paymentResult.AuthorizationToken || null,
+            AuthorizationAmount: paymentResult.AuthorizedAmount || null,
+            AuthorizationExpirationDate: paymentResult.TokenExpirationDate ? new Date(paymentResult.TokenExpirationDate) : null,
+            OrderDateTime: new Date(),
+            WarehouseStatus: 'Pending',
+            // Store the entire paymentResult for reference
+            PaymentResult: paymentResult,
+        });
 
-        // If the payment is successful, store the order details in MongoDB
-        if (data.Success) {
-            const newOrder = new Order({
-                orderId,
-                firstName,
-                lastName,
-                address,
-                cardDetails: {
-                    number: cardDetails.number.slice(-4), // Only save the last 4 digits
-                    expirationDate: cardDetails.expirationDate,
-                    cvv: cardDetails.cvv,
-                    zipCode: cardDetails.zipCode
-                },
-                authorizationToken: data.AuthorizationToken,
-                authorizedAmount: data.AuthorizedAmount,
-                tokenExpirationDate: new Date(data.TokenExpirationDate),
-                transactionDateTime: new Date(),
-                status: 'Success'
-            });
+        await newOrder.save();
 
-            const saveStart = Date.now(); // Track how long saving to MongoDB takes
-            await newOrder.save();
-            console.log(`Saving order to MongoDB took ${Date.now() - saveStart}ms`);
-
-            // Send response back to the client
-            res.json({
-                message: 'Payment authorized successfully!',
-                orderId: newOrder.orderId,
-                authorizationToken: data.AuthorizationToken,
-                authorizedAmount: data.AuthorizedAmount,
-                tokenExpirationDate: data.TokenExpirationDate
-            });
-        } else {
-            // Handle payment failure cases
-            res.status(400).json({
-                message: `Payment failed: ${data.Reason}`
-            });
-        }
+        res.json({
+            message: paymentResult.Success ? 'Order saved successfully!' : `Order failed: ${paymentResult.Reason}`,
+            orderId: orderId,
+        });
     } catch (error) {
-        res.status(500).json({ message: 'Server error during payment processing', error: error.message });
+        res.status(500).json({ message: 'Server error during order processing', error: error.message });
     }
 });
 
@@ -250,8 +231,6 @@ app.post('/api/settle-shipment', async (req, res) => {
         return res.status(500).json({ message: 'Unable to access the database.', error: err.message });
     }
 });
-
-
 
 // Catch-all route for undefined paths
 app.use((req, res) => {
