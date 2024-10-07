@@ -13,6 +13,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const mockEndpointFailureDetails = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
     const mockEndpointFailureFunds = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient';
 
+        // Order Total (Assuming $50.00 for this example)
+        const orderTotal = 50.00;
+
+        // Shipping methods mapping
+        const shippingMethods = {
+            'Standard': { daysMin: 5, daysMax: 7, cost: 0.00 },
+            'Expedited': { daysMin: 3, daysMax: 4, cost: 9.00 },
+            'Rush': { daysMin: 1, daysMax: 2, cost: 25.00 }
+        };
 
     // Required fields by section
     const requiredFieldsSection1 = ['email', 'phone', 'firstName', 'lastName', 'address', 'city', 'state', 'zip'];
@@ -149,6 +158,72 @@ document.addEventListener('DOMContentLoaded', function () {
         return 'Unknown';
     }
     
+  // Function to update shipping options with estimated dates and costs
+  function updateShippingOptions() {
+    const today = new Date();
+
+    Object.keys(shippingMethods).forEach(method => {
+        const shippingInfo = shippingMethods[method];
+        const estDays = shippingInfo.daysMax; // Since daysMin and daysMax are the same
+        const estDeliveryDate = new Date(today);
+        estDeliveryDate.setDate(estDeliveryDate.getDate() + estDays);
+
+        // Format the estimated delivery date
+        const options = { weekday: 'long', month: 'short', day: 'numeric' };
+        const estDateStr = `Est. arrival ${estDeliveryDate.toLocaleDateString(undefined, options)}`;
+
+        // Update the estimated date in the HTML
+        document.getElementById(`${method.toLowerCase()}EstDate`).textContent = estDateStr;
+
+        // Determine the shipping cost
+        let shippingCost = shippingInfo.cost;
+        if (method === 'Standard' && orderTotal >= 35.00) {
+            shippingCost = 0;
+        }
+
+        // Update the shipping cost in the HTML
+        document.getElementById(`${method.toLowerCase()}Cost`).textContent = `$${shippingCost.toFixed(2)}`;
+    });
+}
+
+// Function to calculate shipping cost
+function calculateShippingCost() {
+    const selectedMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+    const shippingInfo = shippingMethods[selectedMethod];
+
+    let shippingCost = shippingInfo.cost;
+
+    // If Standard Shipping and order total >= $35, shipping is free
+    if (selectedMethod === 'Standard' && orderTotal >= 35.00) {
+        shippingCost = 0;
+    }
+
+    return shippingCost;
+}
+
+    // Function to update order summary
+    function updateOrderSummary() {
+        // Calculate and display shipping cost
+        const shippingCost = calculateShippingCost();
+        document.getElementById('shippingCostDisplay').textContent = shippingCost.toFixed(2);
+
+        // Calculate and display grand total
+        const grandTotal = orderTotal + shippingCost;
+        document.getElementById('grandTotalDisplay').textContent = grandTotal.toFixed(2);
+    }
+
+    // Event listeners to update order summary when shipping method changes
+    const shippingMethodInputs = document.querySelectorAll('input[name="shippingMethod"]');
+    shippingMethodInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            updateOrderSummary();
+        });
+    });
+
+    // Initialize on page load
+    updateShippingOptions();
+    updateOrderSummary();
+
 
 // Event listener for the "Same as Shipping" checkbox
 document.getElementById('sameAsShipping').addEventListener('change', function (e) {
