@@ -107,10 +107,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Auto-format card number as #### #### #### ####
     document.getElementById('cardNumber').addEventListener('input', function (e) {
+        // Auto-format the card number
         let input = e.target.value.replace(/\D/g, '');
         input = input.match(/.{1,4}/g)?.join(' ') || input;
         e.target.value = input;
+        
+        // Get the card brand
+        const cardBrand = getCardBrand(e.target.value);
+        
+        // Update the card brand display
+        const cardBrandDisplay = document.getElementById('cardBrandDisplay');
+        if (cardBrand !== 'Unknown') {
+            cardBrandDisplay.textContent = `Card Type: ${cardBrand}`;
+        } else {
+            cardBrandDisplay.textContent = '';
+        }
     });
+    
+
+    function getCardBrand(number) {
+        // Remove all non-digit characters from the input
+        const sanitized = number.replace(/\D/g, '');
+        
+        // Define patterns for different card brands
+        const patterns = [
+            { brand: 'Visa', pattern: /^4[0-9]{0,}$/ },
+            { brand: 'MasterCard', pattern: /^(5[1-5]|2[2-7])[0-9]{0,}$/ },
+            { brand: 'American Express', pattern: /^3[47][0-9]{0,}$/ },
+            { brand: 'Discover', pattern: /^(6011|65|64[4-9])[0-9]{0,}$/ },
+            { brand: 'Diners Club', pattern: /^3(0[0-5]|[68])[0-9]{0,}$/ },
+            { brand: 'JCB', pattern: /^(?:2131|1800|35)[0-9]{0,}$/ },
+            // Add more patterns as needed
+        ];
+        
+        // Check the card number against each pattern
+        for (const { brand, pattern } of patterns) {
+            if (pattern.test(sanitized)) {
+                return brand;
+            }
+        }
+        return 'Unknown';
+    }
+    
 
 // Event listener for the "Same as Shipping" checkbox
 document.getElementById('sameAsShipping').addEventListener('change', function (e) {
