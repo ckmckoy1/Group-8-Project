@@ -27,23 +27,21 @@
                 </div>
             </div>
         </div>
-<!-- Top Bar with Search, Logo, and Cart -->
-<div class="top-bar">
-    <div class="search-bar">
-        <input type="text" placeholder="Search...">
-        <img src="../assets/search.svg" width="20" height="20" alt="Search">
-    </div>
-    <div class="logo">
-        <h1>Wild Path Outfitters <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Compass"></h1>
-    </div>
-    <div class="cart-icon">
-        <a href="../cart.html">
-            <img src="../assets/cart.svg" width="20" height="20" alt="Shopping Cart Icon">
-        </a>
-    </div>
-</div>
-        
-
+        <!-- Top Bar with Search, Logo, and Cart -->
+        <div class="top-bar">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <img src="../assets/search.svg" width="20" height="20" alt="Search">
+            </div>
+            <div class="logo">
+                <h1>Wild Path Outfitters <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Compass"></h1>
+            </div>
+            <div class="cart-icon">
+                <a href="../cart.html">
+                    <img src="../assets/cart.svg" width="20" height="20" alt="Shopping Cart Icon">
+                </a>
+            </div>
+        </div>
         <div class="banner">
             <nav class="nav">
                 <a href="#">Women</a>
@@ -55,9 +53,8 @@
                 <a href="#">About Us</a>
             </nav>
         </div>
-    
     </header>
-    
+
     <!-- Popup for Order Complete -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
@@ -67,9 +64,9 @@
             </div>
         </div>
     </div>
-    
+
     <main class="main-content">
-        <div class="container">    
+        <div class="container">
             <section class="checkout-container">
                 <h2>Checkout</h2>
                 <div class="sign-in">
@@ -77,120 +74,110 @@
                     <a href="#">+ Add my Adventure Rewards Number</a>
                 </div>
 
-                <div class="checkout-content">
-                    <!-- Left Column: Form for Checkout Sections -->
-                    <div class="checkout-form-section">
-                        <form id="checkoutForm" autocomplete="on" onsubmit="return validateForm()">
-                            <!-- Section 1: Shipping & Delivery Details -->
-                            <div id="shippingSection" class="form-section show">
-                                <h3 onclick="toggleSection('shippingSection')">1. SHIPPING & DELIVERY</h3>
-                                <div class="form-content show">
-                                    <!-- Contact Info -->
-                                    <div class="form-group">
-                                        <label for="Contact Info Group">Contact Info</label>
-                                    </div>
-
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <input type="email" id="email" name="email" required placeholder="Email *">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="tel" id="phone" name="phone" required placeholder="Phone Number *">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <p>For delivery purposes only</p>
-                                    </div>
-
-                                    <!-- Shipping Address -->
-                                    <div class="form-group">
-                                        <label for="Shipping Address Group">Shipping Address</label>
-                                    </div>
-
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <input type="text" id="firstName" name="firstName" required placeholder="First Name *">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" id="lastName" name="lastName" required placeholder="Last Name *">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="text" id="address" name="address" required placeholder="Address *">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor (Optional)">
-                                    </div>
-
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <input type="text" id="city" name="city" required placeholder="City *">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" id="state" name="state" required placeholder="State / Region *">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code *">
-                                        </div>
-                                            <!-- Country Dropdown -->
-                                            <div class="form-group">
-                                            <select id="country" name="country" required>
-                                           <option value="">Select Country</option>
-                                           <!-- Include all countries here -->
-                                           <option value="US" selected>United States</option>
-                                           <!-- ... other countries ... -->
-                                          </select>
-                                          </div>
-                                    </div>
-
-       
-
-<!-- Shipping Method Selection -->
-<p>Select your preferred shipping method: *</p>
-
-<div class="radio-group">
-    <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
-    <label for="standard">
-        Standard Delivery
-        <span id="standardEstDate" style="color: lightgrey;"></span>
-        <span id="standardCost"></span>
-    </label>
-</div>
-
-<div class="radio-group">
-    <input type="radio" id="expedited" name="shippingMethod" value="Expedited" required>
-    <label for="expedited">
-        Expedited Delivery
-        <span id="expeditedEstDate" style="color: lightgrey;"></span>
-        <span id="expeditedCost"></span>
-    </label>
-</div>
-
-<div class="radio-group">
-    <input type="radio" id="rush" name="shippingMethod" value="Rush" required>
-    <label for="rush">
-        Rush Delivery
-        <span id="rushEstDate" style="color: lightgrey;"></span>
-        <span id="rushCost"></span>
-    </label>
-</div>
-
-                                    <button type="button" class="continue-btn" id="continueToPayment">CONTINUE TO PAYMENT</button>
+                <form id="checkoutForm" autocomplete="on" onsubmit="return validateForm()">
+                    <!-- Section 1: Shipping & Delivery Details -->
+                    <div id="shippingSection" class="form-section show">
+                        <h3 onclick="toggleSection('shippingSection')">1. SHIPPING & DELIVERY</h3>
+                        <div class="form-content show">
+                            <!-- Contact Info -->
+                            <div class="form-group">
+                                <label for="Contact Info Group">Contact Info</label>
                             </div>
+
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <input type="email" id="email" name="email" required placeholder="Email *">
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" id="phone" name="phone" required placeholder="Phone Number *">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <p>For delivery purposes only</p>
+                            </div>
+
+                            <!-- Shipping Address -->
+                            <div class="form-group">
+                                <label for="Shipping Address Group">Shipping Address</label>
+                            </div>
+
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <input type="text" id="firstName" name="firstName" required placeholder="First Name *">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Last Name *">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="address" name="address" required placeholder="Address *">
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor (Optional)">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="city" name="city" required placeholder="City *">
+                            </div>
+
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <input type="text" id="state" name="state" required placeholder="State / Region *">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code *">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <select id="country" name="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="US" selected>United States</option>
+                                    <!-- ... other countries ... -->
+                                </select>
+                            </div>
+
+                            <!-- Shipping Method Selection -->
+                            <p>Select your preferred shipping method: *</p>
+                            <div class="radio-group">
+                                <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
+                                <label for="standard">
+                                    Standard Delivery
+                                    <span id="standardEstDate" style="color: lightgrey;"></span>
+                                    <span id="standardCost"></span>
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="expedited" name="shippingMethod" value="Expedited" required>
+                                <label for="expedited">
+                                    Expedited Delivery
+                                    <span id="expeditedEstDate" style="color: lightgrey;"></span>
+                                    <span id="expeditedCost"></span>
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="rush" name="shippingMethod" value="Rush" required>
+                                <label for="rush">
+                                    Rush Delivery
+                                    <span id="rushEstDate" style="color: lightgrey;"></span>
+                                    <span id="rushCost"></span>
+                                </label>
+                            </div>
+                            <button type="button" class="continue-btn" id="continueToPayment">CONTINUE TO PAYMENT</button>
+                        </div>
+                    </div>
 
                     <!-- Section 2: Payment -->
                     <div id="paymentSection" class="form-section collapsed">
                         <h3 onclick="toggleSection('paymentSection')">2. PAYMENT</h3>
                         <div class="form-content">
-                            <div class="form-group">    
+                            <div class="form-group">
                                 <p>Please select from the payment options below.</p>
-                            </div>   
+                            </div>
                             <div class="radio-group">
                                 <input type="radio" id="PaymentOption1" name="paymentMethod" value="creditCard" checked>
                                 <label for="PaymentOption1">Credit Card</label>
@@ -209,15 +196,15 @@
                                 <label for="PaymentOption3">PayPal</label>
                                 <img src="../assets/paypal.svg" width="50" height="55" alt="PayPal">
                             </div>
-                            
-                                <!-- Credit Card Payment Fields -->
-                                <div id="creditCardFields">
-                                    <div class="form-group">
-                                        <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
-                                        <label for="cardNumber" class="floating-label">Card Number *</label>
-                                        <span id="cardBrandDisplay" style="margin-left: 10px; font-weight: bold;"></span>
-                                    </div>
-                                    <div class="form-group-pair">
+
+                            <!-- Credit Card Payment Fields -->
+                            <div id="creditCardFields">
+                                <div class="form-group">
+                                    <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
+                                    <label for="cardNumber" class="floating-label">Card Number *</label>
+                                    <span id="cardBrandDisplay" style="margin-left: 10px; font-weight: bold;"></span>
+                                </div>
+                                <div class="form-group-pair">
                                     <div class="form-group">
                                         <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
                                         <label for="expDate" class="floating-label">Expiry Date *</label>
@@ -226,16 +213,16 @@
                                         <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
                                         <label for="securityCode" class="floating-label">Security Code *</label>
                                     </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" id="billingName" name="billingName" required placeholder="John Doe">
-                                        <label for="billingName" class="floating-label">Name on card *</label>
-                                    </div>
-                                    
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="billingName" name="billingName" required placeholder="John Doe">
+                                    <label for="billingName" class="floating-label">Name on card *</label>
+                                </div>
+
                                 <!-- Billing Address Section -->
-                                <div class="form-group billing-header">    
+                                <div class="form-group billing-header">
                                     <p>Billing Address</p>
-                                </div>                                    
+                                </div>
                                 <div class="checkbox-group-pair">
                                     <div class="checkbox-group">
                                         <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
@@ -268,85 +255,80 @@
                                 </div>
 
                                 <button type="button" class="continue-btn" id="continueToReview">CONTINUE TO REVIEW</button>
-
-                                </div>
                             </div>
                         </div>
-
-                                                            <!-- Klarna Payment Option -->
-                                <div id="klarnaPayment" style="display: none;">
-                                    <button type="button" class="continue-btn" id="klarnaButton">Continue To Pay Over Time With Klarna</button>
-                                </div>
-
-                                <!-- PayPal Payment Option -->
-                                <div id="paypalPayment" style="display: none;">
-                                    <p>Selecting PayPal Checkout will direct you to the PayPal website to complete your order.</p>
-                                    <button type="button" class="continue-btn" id="paypalButton">
-                                        <img src="../assets/paypal_logo.png" alt="PayPal Logo" style="vertical-align: middle; width: 100px; height: auto;" />
-                                        Checkout
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                            <!-- Section 3: Review Order -->
-                            <div id="reviewOrderSection" class="form-section collapsed">
-                                <h3 onclick="toggleSection('reviewOrderSection')">3. REVIEW ORDER</h3>
-                                <div class="form-content">
-                                    <div class="form-group">    
-                                        <p>Please review your information and place your order via the Place Order button below.</p>
-                                    </div>   
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <p>SUBTOTAL</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <p>$47.13</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <p>STANDARD DELIVERY</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <p>$0.00</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <p>ESTIMATED TAX</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <p>$2.87</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group-pair">
-                                        <div class="form-group">
-                                            <p>TOTAL</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <p>$50.00</p>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-group-pair">
-                                        <div class="checkbox-group">
-                                            <input type="checkbox" id="signupforoffers" name="signupforoffers">
-                                            <label for="signupforoffers"> Sign up for email subscription for special offers, new products, and more!</label>
-                                        </div>
-                                    </div>
-
-                                    <!-- Message div for displaying success or error messages -->
-                                    <div id="message"></div>
-
-                                    <button type="submit" class="submit-button">PLACE ORDER</button>
-                                    <div class="form-group agreement">  
-                                    <p>By placing your order, you agree to Wild Path Outfitters' <a href="#">Privacy Policy</a> and <a href="#">Terms of Sale</a>.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                     </div>
-                </div>
+
+                    <!-- Klarna Payment Option -->
+                    <div id="klarnaPayment" style="display: none;">
+                        <button type="button" class="continue-btn" id="klarnaButton">Continue To Pay Over Time With Klarna</button>
+                    </div>
+
+                    <!-- PayPal Payment Option -->
+                    <div id="paypalPayment" style="display: none;">
+                        <p>Selecting PayPal Checkout will direct you to the PayPal website to complete your order.</p>
+                        <button type="button" class="continue-btn" id="paypalButton">
+                            <img src="../assets/paypal.svg" alt="PayPal Logo" style="vertical-align: middle; width: 100px; height: auto;" />
+                            Checkout
+                        </button>
+                    </div>
+
+                    <!-- Section 3: Review Order -->
+                    <div id="reviewOrderSection" class="form-section collapsed">
+                        <h3 onclick="toggleSection('reviewOrderSection')">3. REVIEW ORDER</h3>
+                        <div class="form-content">
+                            <div class="form-group">
+                                <p>Please review your information and place your order via the Place Order button below.</p>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>SUBTOTAL</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$47.13</p>
+                                </div>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>STANDARD DELIVERY</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$0.00</p>
+                                </div>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>ESTIMATED TAX</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$2.87</p>
+                                </div>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>TOTAL</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$50.00</p>
+                                </div>
+                            </div>
+                            <div class="checkbox-group-pair">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="signupforoffers" name="signupforoffers">
+                                    <label for="signupforoffers"> Sign up for email subscription for special offers, new products, and more!</label>
+                                </div>
+                            </div>
+
+                            <!-- Message div for displaying success or error messages -->
+                            <div id="message"></div>
+
+                            <button type="submit" class="submit-button">PLACE ORDER</button>
+                            <div class="form-group agreement">
+                                <p>By placing your order, you agree to Wild Path Outfitters' <a href="#">Privacy Policy</a> and <a href="#">Terms of Sale</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </section>
 
             <!-- Right Column: Order Summary -->
@@ -360,7 +342,7 @@
                 <hr>
                 <h3>Grand Total: $50.00</h3>
                 <hr>
-                <img src="../assets/mountain_beanie.jpg">
+                <img src="../assets/mountain_beanie.jpg" alt="Mountain Beanie">
             </aside>
         </div>
     </main>
@@ -380,15 +362,12 @@
         <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
     </footer>
 
-
-
-<!-- Chat Popup -->
-<div id="chatPopupOverlay">
-    <div id="chatPopup">
-        <img src="../assets/chat.svg" width="50" height="50" alt="Chat">
+    <!-- Chat Popup -->
+    <div id="chatPopupOverlay">
+        <div id="chatPopup">
+            <img src="../assets/chat.svg" width="50" height="50" alt="Chat">
+        </div>
     </div>
-</div>
-
 
     <!-- Popup for Feedback -->
     <div class="popup-overlay" id="feedbackPopupOverlay">
@@ -400,7 +379,7 @@
         </div>
     </div>
 
-    <script src="../js/checkout.js"> </script>
+    <script src="../js/checkout.js"></script>
 </body>
 
 </html>
