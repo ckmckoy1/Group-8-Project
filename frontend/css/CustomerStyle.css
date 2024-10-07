@@ -379,6 +379,25 @@ input[required]:not(.invalid) {
     border: 1px solid #ccc;
 }
 
+select {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.25em;
+    border: 1px solid #ccc;
+    outline: none;
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
+select:focus {
+    border-color: #05668d; /* Optional: change border color when focused */
+}
+
+select option {
+    color: #333; /* Text color for options */
+}
+
+
 /* Form sections */
 .form-section .form-content {
     display: none;
