@@ -278,21 +278,31 @@ function calculateShippingCost() {
 
 
 // Event listener for the "Same as Shipping" checkbox
-document.getElementById('sameAsShipping').addEventListener('change', function (e) {
-    if (e.target.checked) {
-        // Copy values from shipping address to billing address
-        document.getElementById('billingAddress').value = document.getElementById('address').value;
-        document.getElementById('billingCity').value = document.getElementById('city').value;
-        document.getElementById('billingState').value = document.getElementById('state').value;
-        document.getElementById('billingZipCode').value = document.getElementById('zip').value;
-    } else {
-        // Clear billing address fields when unchecked
-        document.getElementById('billingAddress').value = '';
-        document.getElementById('billingCity').value = '';
-        document.getElementById('billingState').value = '';
-        document.getElementById('billingZipCode').value = '';
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('sameAsShipping').addEventListener('change', function (e) {
+        if (e.target.checked) {
+            const shippingAddress = document.getElementById('address').value;
+            const shippingCity = document.getElementById('city').value;
+            const shippingState = document.getElementById('state').value;
+            const shippingZip = document.getElementById('zip').value;
+
+            console.log('Shipping Address:', shippingAddress, shippingCity, shippingState, shippingZip); // Debugging
+
+            // Copy values from shipping to billing fields
+            document.getElementById('billingAddress').value = shippingAddress || '';
+            document.getElementById('billingCity').value = shippingCity || '';
+            document.getElementById('billingState').value = shippingState || '';
+            document.getElementById('billingZipCode').value = shippingZip || '';
+        } else {
+            // Clear billing address fields when unchecked
+            document.getElementById('billingAddress').value = '';
+            document.getElementById('billingCity').value = '';
+            document.getElementById('billingState').value = '';
+            document.getElementById('billingZipCode').value = '';
+        }
+    });
 });
+
 
 
     // Validate the expiration date

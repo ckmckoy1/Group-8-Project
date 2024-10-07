@@ -334,15 +334,24 @@
             <aside class="order-summary">
                 <h3>Order Summary</h3>
                 <p>Items in Cart: 1</p>
-                <p>Total: $43.14</p>
+                <p>Total: $47.13</p>
                 <hr>
-                <p>Shipping: $3.99</p>
+                
+                <!-- Shipping Cost dynamically updated -->
+                <p>Shipping: $<span id="shippingCostDisplay">0.00</span></p>
+
+                <!-- Tax amount (static for now, but you can make it dynamic as needed) -->
                 <p>Tax: $2.87</p>
+                
                 <hr>
-                <h3>Grand Total: $50.00</h3>
+                
+                <!-- Grand Total dynamically updated -->
+                <h3>Grand Total: $<span id="grandTotalDisplay">50.00</span></h3>
+                
                 <hr>
                 <img src="../assets/mountain_beanie.jpg" alt="Mountain Beanie">
             </aside>
+
         </div>
     </main>
 
