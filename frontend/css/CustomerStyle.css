@@ -380,14 +380,16 @@ input[required]:not(.invalid) {
     border: 1px solid #ccc;
 }
 
+
 select {
     width: 100%;
-    padding: 16px;
+    padding: 20px 10px 10px;
     font-size: 1.25em;
     border: 1px solid #ccc;
     outline: none;
     box-sizing: border-box;
     background-color: transparent;
+    color: #aaa; 
 }
 
 select:focus {
@@ -395,7 +397,7 @@ select:focus {
 }
 
 select option {
-    color: #333; /* Text color for options */
+    color: #aaa; /* Text color for options */
 }
 
 
