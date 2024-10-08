@@ -320,6 +320,7 @@ input:not(:placeholder-shown) + .floating-label {
 .checkbox-group {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .checkbox-group input[type="checkbox"] {
