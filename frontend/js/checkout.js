@@ -2,16 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
-    const messageDiv = document.getElementById('message'); // Make sure this element exists in your HTML
+    const messageDiv = document.getElementById('message'); // Ensure this element exists in your HTML
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
     const continueToReviewBtn = document.getElementById('continueToReview');
-
-    // Mock Endpoint URLs
-    const mockEndpointSuccess = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
-    const mockEndpointFailureDetails = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
-    const mockEndpointFailureFunds = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient';
 
     // Order Total (Assuming $50.00 for this example)
     const orderTotal = 50.00;
@@ -348,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
         const expDate = document.getElementById('expDate').value;
         const securityCode = document.getElementById('securityCode').value;
-        const billingAddress = document.getElementById('billingAddress').value;
+        const billingAddressField = document.getElementById('billingAddress').value;
         const billingUnitNumber = document.getElementById('billingUnitNumber').value;
         const billingCity = document.getElementById('billingCity').value;
         const billingState = document.getElementById('billingState').value;
@@ -368,36 +363,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Determine mock URL based on card number
-        let mockUrl;
-
-        // Create a mapping of card numbers to mock endpoints
-        const cardNumberToEndpointMap = {
-            // Success Cases
-            '4111111111111111': mockEndpointSuccess, // Visa
-            '5555555555554444': mockEndpointSuccess, // MasterCard
-            '378282246310005': mockEndpointSuccess,  // American Express
-            '6011111111111117': mockEndpointSuccess, // Discover
-
-            // Invalid Card Details Cases
-            '4000000000000002': mockEndpointFailureDetails, // Visa
-            '5105105105105100': mockEndpointFailureDetails, // MasterCard
-            '371449635398431': mockEndpointFailureDetails,  // American Express
-            '6011000990139424': mockEndpointFailureDetails, // Discover
-
-            // Insufficient Funds Cases
-            '4000000000009995': mockEndpointFailureFunds, // Visa
-            '2223000048400011': mockEndpointFailureFunds, // MasterCard
-            '378734493671000': mockEndpointFailureFunds,  // American Express
-            '6011000400000000': mockEndpointFailureFunds, // Discover
-        };
-
-        // Get the sanitized card number (without spaces)
-        const sanitizedCardNumber = cardNumber.replace(/\s/g, '');
-
-        // Set the mock URL based on the card number
-        mockUrl = cardNumberToEndpointMap[sanitizedCardNumber] || mockEndpointFailureFunds; // Default to insufficient funds if not found
-
         // Prepare order data
         const orderData = {
             firstName,
@@ -413,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             shippingMethod,
             billingAddress: {
-                address: billingAddress,
+                address: billingAddressField,
                 unitNumber: billingUnitNumber,
                 city: billingCity,
                 state: billingState,
@@ -422,60 +387,34 @@ document.addEventListener('DOMContentLoaded', function () {
             paymentDetails: {
                 cardNumber,
                 expDate,
-                securityCode,
+                cvv: securityCode,
+                cardHolderName: `${firstName} ${lastName}`,
                 cardBrand,
             },
             orderTotal,
         };
 
         try {
-            // Send a request to the mock payment endpoint
-            const paymentResponse = await fetch(mockUrl, {
+            // Send order details to your backend server (e.g., to MongoDB)
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    CardDetails: {
-                        Number: cardNumber,
-                        ExpirationDate: expDate,
-                        CVC: securityCode,
-                        NameOnCard: `${firstName} ${lastName}`
-                    },
-                    AuthorizationAmount: orderTotal
-                })
+                body: JSON.stringify(orderData),
             });
 
-            const paymentResult = await paymentResponse.json();
+            const result = await response.json();
 
-            // Include paymentResult in orderData
-            orderData.paymentResult = paymentResult;
-
-            if (paymentResult.Success) {
-                // Send order details to your backend server (e.g., to MongoDB)
-                const orderResponse = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(orderData),
-                });
-
-                const orderResult = await orderResponse.json();
-
-                if (orderResponse.ok) {
-                    displayMessage(`Order submitted successfully! Order ID: ${orderResult.orderId}`, 'success');
-                    popupOverlay.classList.add('show'); // Show success popup
-                } else {
-                    displayMessage(`Error: ${orderResult.message}`, 'error');
-                }
+            if (response.ok) {
+                displayMessage(`Order submitted successfully! Order ID: ${result.orderId}`, 'success');
+                popupOverlay.classList.add('show'); // Show success popup
             } else {
-                // Handle payment failure
-                displayMessage(`Payment failed: ${paymentResult.Reason}`, 'error');
+                displayMessage(`Error: ${result.message}`, 'error');
             }
         } catch (error) {
-            console.error('Error during payment or order submission:', error);
-            displayMessage('Error: Something went wrong!', 'error');
+            console.error('Error during order submission:', error);
+            displayMessage('Error: Something went wrong during order submission!', 'error');
         }
     });
 
