@@ -217,6 +217,14 @@ app.post('/api/checkout', async (req, res) => {
       );
     }
 
+        // Map paymentResult fields to existing order fields
+        const paymentStatus = paymentResult.Success ? 'Authorized' : 'Failed';
+        const authorizationToken = paymentResult.AuthorizationToken || null;
+        const authorizationAmount = paymentResult.AuthorizedAmount || null;
+        const authorizationExpirationDate = paymentResult.TokenExpirationDate
+            ? new Date(paymentResult.TokenExpirationDate)
+            : null;
+
     // Now create a new order document, including paymentResult
     const newOrder = new Order({
       OrderID: orderId,
