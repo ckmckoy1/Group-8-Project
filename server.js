@@ -132,19 +132,18 @@ module.exports = Order;
 
 // API route to get a specific order by OrderID
 app.get('/api/orders/:orderId', async (req, res) => {
-  const { orderId } = req.params;
-  try {
-    const order = await Order.findOne({ OrderID: orderId });
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+    const { orderId } = req.params;
+    try {
+        const order = await Order.findOne({ OrderID: orderId }).select('-__v'); // Exclude the __v field from the result
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.json(order);  // The response will not include the __v field
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to retrieve order', error: err.message });
     }
-    res.json(order);
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: 'Failed to retrieve order', error: err.message });
-  }
 });
+
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
