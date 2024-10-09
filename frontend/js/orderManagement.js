@@ -220,7 +220,7 @@ function displayOrders(orders) {
             <td>${order.BillingZipCode}</td>                   <!-- index 12 -->
             <td>$${order.TotalAmount.toFixed(2)}</td>          <!-- index 13 -->
             <td>${order.PaymentStatus}</td>                    <!-- index 14 -->
-            <td>**** **** **** ${order.CardNumber.slice(-4)}</td> <!-- index 15 -->
+            <td>**** **** **** ${order.CardNumber}</td> <!-- index 15 -->
             <td>${order.CardBrand}</td>                        <!-- index 16 -->
             <td>${order.ExpirationDate}</td>                   <!-- index 17 -->
             <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 18, formatted -->
