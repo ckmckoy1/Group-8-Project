@@ -98,27 +98,30 @@ function initializeDataTable() {
             { name: 'Email', targets: 2, orderable: true },
             { name: 'Shipping Method', targets: 3, orderable: true },
             { name: 'Shipping Address', targets: 4, orderable: true },
-            { name: 'Unit Number', targets: 5, orderable: true },
+            { name: 'Shipping Unit Number', targets: 5, orderable: true }, // Updated: Shipping Unit Number
             { name: 'Shipping City', targets: 6, orderable: true },
             { name: 'Shipping State', targets: 7, orderable: true },
             { name: 'Shipping Zip', targets: 8, orderable: true },
             { name: 'Billing Address', targets: 9, orderable: true },
-            { name: 'Billing City', targets: 10, orderable: true },
-            { name: 'Billing State', targets: 11, orderable: true },
-            { name: 'Total Amount', targets: 12, orderable: true }, // Moved Total Amount to correct index
-            { name: 'Payment Status', targets: 13, orderable: true },
-            { name: 'Card Number', targets: 14, orderable: true },
-            { name: 'Card Brand', targets: 15, orderable: true },
-            { name: 'Expiration Date', targets: 16, orderable: true },
-            { name: 'Order Date Time', targets: 17, orderable: true }, // Corrected Order Date Time
-            { name: 'Order Date', targets: 18, orderable: true },
-            { name: 'Order Time', targets: 19, orderable: true },
-            { name: 'Authorization Token', targets: 20, orderable: true },
-            { name: 'Authorization Amount', targets: 21, orderable: true },
-            { name: 'Authorization Expiration', targets: 22, orderable: true },
-            { name: 'Warehouse Status', targets: 23, orderable: true },
-            { name: 'Warehouse Approval Date', targets: 24, orderable: true }
+            { name: 'Billing Unit Number', targets: 10, orderable: true }, // NEW: Billing Unit Number
+            { name: 'Billing City', targets: 11, orderable: true }, // Adjusted target index
+            { name: 'Billing State', targets: 12, orderable: true }, // Adjusted target index
+            { name: 'Billing Zip', targets: 13, orderable: true }, // Adjusted target index
+            { name: 'Total Amount', targets: 14, orderable: true }, // Adjusted target index
+            { name: 'Payment Status', targets: 15, orderable: true }, // Adjusted target index
+            { name: 'Card Number', targets: 16, orderable: true }, // Adjusted target index
+            { name: 'Card Brand', targets: 17, orderable: true }, // Adjusted target index
+            { name: 'Expiration Date', targets: 18, orderable: true }, // Adjusted target index
+            { name: 'Order Date Time', targets: 19, orderable: true }, // Adjusted target index
+            { name: 'Order Date', targets: 20, orderable: true }, // Adjusted target index
+            { name: 'Order Time', targets: 21, orderable: true }, // Adjusted target index
+            { name: 'Authorization Token', targets: 22, orderable: true }, // Adjusted target index
+            { name: 'Authorization Amount', targets: 23, orderable: true }, // Adjusted target index
+            { name: 'Authorization Expiration', targets: 24, orderable: true }, // Adjusted target index
+            { name: 'Warehouse Status', targets: 25, orderable: true }, // Adjusted target index
+            { name: 'Warehouse Approval Date', targets: 26, orderable: true } // Adjusted target index
         ],
+        
         buttons: [
             {
                 extend: 'csv',
@@ -206,11 +209,12 @@ function displayOrders(orders) {
             <td>${order.CustomerEmail}</td>                    <!-- index 2 -->
             <td>${order.ShippingMethod}</td>                   <!-- index 3 -->
             <td>${order.ShippingAddress}</td>                  <!-- index 4 -->
-            <td>${order.UnitNumber}</td>                       <!-- index 5 -->
+            <td>${order.ShippingUnitNumber || ''}</td>         <!-- index 5 -->
             <td>${order.ShippingCity}</td>                     <!-- index 6 -->
             <td>${order.ShippingState}</td>                    <!-- index 7 -->
             <td>${order.ShippingZip}</td>                      <!-- index 8 -->
             <td>${order.BillingAddress}</td>                   <!-- index 9 -->
+            <td>${order.BillingUnitNumber || ''}</td>          <!-- NEW Billing Unit Number -->
             <td>${order.BillingCity}</td>                      <!-- index 10 -->
             <td>${order.BillingState}</td>                     <!-- index 11 -->
             <td>${order.BillingZipCode}</td>                   <!-- index 12 -->
@@ -223,9 +227,9 @@ function displayOrders(orders) {
             <td>${formatDate(order.OrderDate)}</td>             <!-- index 19, formatted -->
             <td>${order.OrderTime}</td>                        <!-- index 20 -->
             <td>${order.AuthorizationToken}</td>               <!-- index 21 -->
-            <td>$${order.AuthorizationAmount.toFixed(2)}</td> <!-- index 22 -->
+            <td>$${order.AuthorizationAmount.toFixed(2)}</td>  <!-- index 22 -->
             <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 23, formatted -->
-            <td>${order.WarehouseStatus || 'N/A'}</td>        <!-- index 24 -->
+            <td>${order.WarehouseStatus || 'N/A'}</td>         <!-- index 24 -->
             <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 25, formatted -->
         `;
 
@@ -238,7 +242,6 @@ function displayOrders(orders) {
     // Adjust and draw the DataTable after loading the data
     table.columns.adjust().draw();
 }
-
 
 // Add filtering functionality for individual columns
 function addColumnFiltering() {
@@ -254,8 +257,8 @@ function addColumnFiltering() {
     $('#shippingAddressFilter').on('keyup', function () {
         table.column(4).search(this.value).draw(); // Shipping Address (column index 4)
     });
-    $('#unitNumberFilter').on('keyup', function () {
-        table.column(5).search(this.value).draw(); // Unit Number (column index 5)
+    $('#shippingUnitNumberFilter').on('keyup', function () {
+        table.column(5).search(this.value).draw(); // Shipping Unit Number (column index 5) - Updated label
     });
     $('#shippingCityFilter').on('keyup', function () {
         table.column(6).search(this.value).draw(); // Shipping City (column index 6)
@@ -269,34 +272,38 @@ function addColumnFiltering() {
     $('#billingAddressFilter').on('keyup', function () {
         table.column(9).search(this.value).draw(); // Billing Address (column index 9)
     });
+    $('#billingUnitNumberFilter').on('keyup', function () {
+        table.column(10).search(this.value).draw(); // Billing Unit Number (column index 10) - Added
+    });
     $('#billingCityFilter').on('keyup', function () {
-        table.column(10).search(this.value).draw(); // Billing City (column index 10)
+        table.column(11).search(this.value).draw(); // Billing City (column index 11)
     });
     $('#billingStateFilter').on('keyup', function () {
-        table.column(11).search(this.value).draw(); // Billing State (column index 11)
+        table.column(12).search(this.value).draw(); // Billing State (column index 12)
     });
     $('#billingZipFilter').on('keyup', function () {
-        table.column(12).search(this.value).draw(); // Billing Zip (column index 12)
+        table.column(13).search(this.value).draw(); // Billing Zip (column index 13)
     });
     $('#amountFilter').on('keyup', function () {
-        table.column(13).search(this.value).draw(); // Total Amount (column index 13)
+        table.column(14).search(this.value).draw(); // Total Amount (column index 14)
     });
     $('#cardNumberFilter').on('keyup', function () {
-        table.column(15).search(this.value).draw(); // Card Number (column index 15)
+        table.column(16).search(this.value).draw(); // Card Number (column index 16)
     });
     $('#OrderDateFilter').on('change', function () {
-        table.column(18).search(this.value).draw(); // Order Date (column index 18)
+        table.column(19).search(this.value).draw(); // Order Date (column index 19)
     });
     $('#authTokenFilter').on('keyup', function () {
-        table.column(21).search(this.value).draw(); // Authorization Token (column index 21)
+        table.column(22).search(this.value).draw(); // Authorization Token (column index 22)
     });
     $('#authAmountFilter').on('keyup', function () {
-        table.column(22).search(this.value).draw(); // Authorization Amount (column index 22)
+        table.column(23).search(this.value).draw(); // Authorization Amount (column index 23)
     });
     $('#warehouseApprovalDateFilter').on('change', function () {
-        table.column(25).search(this.value).draw(); // Warehouse Approval Date (column index 25)
+        table.column(26).search(this.value).draw(); // Warehouse Approval Date (column index 26)
     });
 }
+
 
 // Clear all filters
 document.getElementById('clearFilters').addEventListener('click', function() {
