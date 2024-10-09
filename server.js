@@ -178,7 +178,7 @@ app.post('/api/checkout', async (req, res) => {
     if (!card) {
       // Card details are incorrect
       const response = await fetch(
-        'https://run.mocky.io/v3/023b1b8c-c9dd-40a5-a3bd-b21bcde402d4'
+        'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails'
       );
       const data = await response.json();
 
@@ -186,7 +186,7 @@ app.post('/api/checkout', async (req, res) => {
     } else if (orderTotal > card.FundsAvailable) {
       // Insufficient funds
       const response = await fetch(
-        'https://run.mocky.io/v3/ef002405-2fd7-4c62-87ee-42b0142cc588'
+        'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient'
       );
       const data = await response.json();
 
@@ -194,7 +194,7 @@ app.post('/api/checkout', async (req, res) => {
     } else {
       // Successful transaction
       const response = await fetch(
-        'https://run.mocky.io/v3/266bd809-da31-49a2-9e05-7a379d941741'
+        'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success'
       );
       const data = await response.json();
 
