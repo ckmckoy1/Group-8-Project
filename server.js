@@ -224,41 +224,52 @@ app.post('/api/checkout', async (req, res) => {
             ? new Date(paymentResult.TokenExpirationDate)
             : null;
 
-    // Now create a new order document, including paymentResult
-    const newOrder = new Order({
-      OrderID: orderId,
-      CustomerEmail: email,
-      FirstName: firstName,
-      LastName: lastName,
-      // Billing Information
-      BillingAddress: billingAddress.address,
-      BillingUnitNumber: billingAddress.unitNumber,
-      BillingCity: billingAddress.city,
-      BillingState: billingAddress.state,
-      BillingZipCode: billingAddress.zipCode,
-      // Shipping Information
-      ShippingMethod: shippingMethod,
-      ShippingAddress: shippingAddress.address,
-      ShippingUnitNumber: shippingAddress.unitNumber,
-      ShippingCity: shippingAddress.city,
-      ShippingState: shippingAddress.state,
-      ShippingZip: shippingAddress.zip,
-      // Payment and Order Details
-      TotalAmount: orderTotal,
-      PaymentStatus: paymentResult.Success ? 'Authorized' : 'Failed',
-      CardNumber: paymentDetails.cardNumber.slice(-4), // Store last 4 digits only
-      CardBrand: paymentDetails.cardBrand,
-      ExpirationDate: paymentDetails.expDate,
-      AuthorizationToken: paymentResult.AuthorizationToken
-        ? `${orderId}_${paymentResult.AuthorizationToken}`
-        : null,
-      AuthorizationAmount: paymentResult.AuthorizedAmount || null,
-      AuthorizationExpirationDate: paymentResult.TokenExpirationDate
-        ? new Date(paymentResult.TokenExpirationDate)
-        : null,
-      OrderDateTime: new Date(),
-      WarehouseStatus: 'Pending',
-    });
+// Now create a new order document, including paymentResult
+const orderDateTime = new Date();  // Current date and time
+const orderDate = orderDateTime.toISOString().split('T')[0];  // Extract the date part (YYYY-MM-DD)
+const orderTime = orderDateTime.toTimeString().split(' ')[0];  // Extract the time part (HH:MM:SS)
+
+const newOrder = new Order({
+  OrderID: orderId,
+  CustomerEmail: email,
+  FirstName: firstName,
+  LastName: lastName,
+
+  // Shipping Information
+  ShippingMethod: shippingMethod,
+  ShippingAddress: shippingAddress.address,
+  ShippingCity: shippingAddress.city,
+  ShippingState: shippingAddress.state,
+  ShippingZip: shippingAddress.zip,
+  ShippingUnitNumber: shippingAddress.unitNumber,
+
+  // Billing Information
+  BillingAddress: billingAddress.address,
+  BillingCity: billingAddress.city,
+  BillingState: billingAddress.state,
+  BillingZipCode: billingAddress.zipCode,
+  BillingUnitNumber: billingAddress.unitNumber,
+
+  // Payment and Order Details
+  TotalAmount: orderTotal,
+  PaymentStatus: paymentResult.Success ? 'Authorized' : 'Failed',
+  CardNumber: paymentDetails.cardNumber.slice(-4), // Store last 4 digits only
+  CardBrand: paymentDetails.cardBrand,
+  ExpirationDate: paymentDetails.expDate,
+  AuthorizationToken: paymentResult.AuthorizationToken
+    ? `${orderId}_${paymentResult.AuthorizationToken}`
+    : null,
+  OrderDateTime: orderDateTime,  // Full date and time
+  OrderDate: orderDate,  // Date part
+  OrderTime: orderTime,  // Time part
+  AuthorizationAmount: paymentResult.AuthorizedAmount || null,
+  AuthorizationExpirationDate: paymentResult.TokenExpirationDate
+    ? new Date(paymentResult.TokenExpirationDate)
+    : null,
+  WarehouseStatus: 'Pending',
+  WarehouseApprovalDate: null,
+});
+
 
     await newOrder.save();
 
