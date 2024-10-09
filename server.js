@@ -259,8 +259,6 @@ app.post('/api/checkout', async (req, res) => {
         : null,
       OrderDateTime: new Date(),
       WarehouseStatus: 'Pending',
-      // Store the entire paymentResult for reference
-      PaymentResult: paymentResult,
     });
 
     await newOrder.save();
