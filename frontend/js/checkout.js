@@ -1,3 +1,5 @@
+// checkout.js
+
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
@@ -28,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Required fields by section
     const requiredFieldsSection1 = ['email', 'phone', 'firstName', 'lastName', 'address', 'city', 'state', 'zip'];
-    const requiredFieldsSection2 = ['cardNumber', 'expDate', 'securityCode', 'billingAddress', 'billingCity', 'billingState', 'billingZipCode'];
+    const requiredFieldsSection2 = ['cardNumber', 'expDate', 'securityCode', 'billingName', 'billingAddress', 'billingCity', 'billingState', 'billingZipCode'];
 
     // Function to add asterisk for missing fields
     function addAsteriskForMissingFields(fieldId) {
@@ -206,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         Object.keys(shippingMethods).forEach(method => {
             const shippingInfo = shippingMethods[method];
-            const estDays = shippingInfo.daysMax; // Since daysMin and daysMax are the same
+            const estDays = shippingInfo.daysMax;
             const estDeliveryDate = new Date(today);
             estDeliveryDate.setDate(estDeliveryDate.getDate() + estDays);
 
@@ -343,7 +345,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
         const expDate = document.getElementById('expDate').value;
         const securityCode = document.getElementById('securityCode').value;
-        const billingAddressField = document.getElementById('billingAddress').value;
+        const billingName = document.getElementById('billingName').value;
+        const billingAddress = document.getElementById('billingAddress').value;
         const billingUnitNumber = document.getElementById('billingUnitNumber').value;
         const billingCity = document.getElementById('billingCity').value;
         const billingState = document.getElementById('billingState').value;
@@ -378,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             shippingMethod,
             billingAddress: {
-                address: billingAddressField,
+                address: billingAddress,
                 unitNumber: billingUnitNumber,
                 city: billingCity,
                 state: billingState,
@@ -388,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cardNumber,
                 expDate,
                 cvv: securityCode,
-                cardHolderName: `${firstName} ${lastName}`,
+                cardHolderName: billingName,
                 cardBrand,
             },
             orderTotal,
@@ -396,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Send order details to your backend server (e.g., to MongoDB)
-            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
+            const response = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -419,5 +422,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Close popup functionality
-    closePopup.addEventListener('click', () => popupOverlay.classList.remove('show'));
+    closePopup.addEventListener('click', () => {
+        popupOverlay.classList.remove('show');
+        // Optionally, reset the form after successful submission
+        // checkoutForm.reset();
+    });
+
+    // Function to toggle sections (if needed)
+    window.toggleSection = function (sectionId) {
+        const section = document.getElementById(sectionId);
+        const content = section.querySelector('.form-content');
+        if (content.style.display === 'block' || content.style.display === '') {
+            content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
+        }
+    };
 });
