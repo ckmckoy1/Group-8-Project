@@ -226,7 +226,7 @@ const formatDateAndTime = (dateObj) => {
             <td>${formatDate(order.OrderDate)}</td>             <!-- index 20, updated to handle $date format -->
             <td>${order.OrderTime}</td>                        <!-- index 21 -->
             <td>${order.AuthorizationToken}</td>               <!-- index 22 -->
-            <td>$${order.AuthorizationAmount.toFixed(2)}</td>  <!-- index 23 -->
+            <td>${order.AuthorizationAmount !== null ? `$${order.AuthorizationAmount.toFixed(2)}` : 'N/A'}</td>  <!-- index 23 -->
             <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 24, updated to handle $date format -->
             <td>${order.WarehouseStatus || 'N/A'}</td>         <!-- index 25 -->
             <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 26 -->
