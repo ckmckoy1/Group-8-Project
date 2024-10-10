@@ -262,7 +262,7 @@ const newOrder = new Order({
   OrderDateTime: orderDateTime,  // Full date and time
   OrderDate: orderDate,  // Date part
   OrderTime: orderTime,  // Time part
-  AuthorizationAmount: paymentResult.AuthorizedAmount || null,
+  AuthorizationAmount: paymentResult.AuthorizedAmount || 0,
   AuthorizationExpirationDate: paymentResult.TokenExpirationDate
     ? new Date(paymentResult.TokenExpirationDate)
     : null,
