@@ -229,6 +229,7 @@ const orderDateTime = new Date();  // Current date and time
 const orderDate = orderDateTime.toISOString().split('T')[0];  // Extract the date part (YYYY-MM-DD)
 const orderTime = orderDateTime.toTimeString().split(' ')[0];  // Extract the time part (HH:MM:SS)
 
+// Ensure consistent date format by storing dates as ISO strings
 const newOrder = new Order({
   OrderID: orderId,
   CustomerEmail: email,
@@ -259,12 +260,15 @@ const newOrder = new Order({
   AuthorizationToken: paymentResult.AuthorizationToken
     ? `${orderId}_${paymentResult.AuthorizationToken}`
     : null,
-  OrderDateTime: orderDateTime,  // Full date and time
-  OrderDate: orderDate,  // Date part
+  
+  // Store dates as ISO strings to avoid the $date format issue
+  OrderDateTime: orderDateTime.toISOString(),  // Full date and time as ISO string
+  OrderDate: orderDate,  // Date part as ISO string
   OrderTime: orderTime,  // Time part
+  
   AuthorizationAmount: paymentResult.AuthorizedAmount || null,
   AuthorizationExpirationDate: paymentResult.TokenExpirationDate
-    ? new Date(paymentResult.TokenExpirationDate)
+    ? new Date(paymentResult.TokenExpirationDate).toISOString()
     : null,
   WarehouseStatus: 'Pending',
   WarehouseApprovalDate: null,
