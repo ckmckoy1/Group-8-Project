@@ -149,8 +149,8 @@ function initializeDataTable() {
     
             // Loop through displayed rows
             data.forEach(function(rowData) {
-                totalAmount += parseFloat(rowData[13].replace('$', '')) || 0;
-                totalTransactionAmount += parseFloat(rowData[22].replace('$', '')) || 0;
+                totalAmount += parseFloat(rowData[14].replace('$', '')) || 0;
+                totalTransactionAmount += parseFloat(rowData[23].replace('$', '')) || 0;
             });
     
             // Update the footer totals
@@ -329,8 +329,8 @@ function updateTotals() {
     let totalTransactionAmount = 0;
 
     $('#orderTable tbody tr').each(function () {
-        const amount = parseFloat($(this).find('td').eq(13).text().replace('$', '')) || 0;  // Updated index for Total Amount
-        const transactionAmount = parseFloat($(this).find('td').eq(22).text().replace('$', '')) || 0; // Updated index for Authorization Amount
+        const amount = parseFloat($(this).find('td').eq(14).text().replace('$', '')) || 0;  // Updated index for Total Amount
+        const transactionAmount = parseFloat($(this).find('td').eq(23).text().replace('$', '')) || 0; // Updated index for Authorization Amount
 
         totalAmount += amount;
         totalTransactionAmount += transactionAmount;
