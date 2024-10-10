@@ -223,13 +223,12 @@ app.post('/api/checkout', async (req, res) => {
         const authorizationExpirationDate = paymentResult.TokenExpirationDate
             ? new Date(paymentResult.TokenExpirationDate)
             : null;
-
 // Now create a new order document, including paymentResult
 const orderDateTime = new Date();  // Current date and time
 const orderDate = orderDateTime.toISOString().split('T')[0];  // Extract the date part (YYYY-MM-DD)
 const orderTime = orderDateTime.toTimeString().split(' ')[0];  // Extract the time part (HH:MM:SS)
 
-// Ensure consistent date format by storing dates as ISO strings
+// Ensure dates are stored as plain ISO strings
 const newOrder = new Order({
   OrderID: orderId,
   CustomerEmail: email,
@@ -260,16 +259,17 @@ const newOrder = new Order({
   AuthorizationToken: paymentResult.AuthorizationToken
     ? `${orderId}_${paymentResult.AuthorizationToken}`
     : null,
-  
-  // Store dates as ISO strings to avoid the $date format issue
-  OrderDateTime: orderDateTime.toISOString(),  // Full date and time as ISO string
-  OrderDate: orderDate,  // Date part as ISO string
-  OrderTime: orderTime,  // Time part
-  
+
+  // Store dates as strings instead of Date objects to avoid the $date field
+  OrderDateTime: orderDateTime.toISOString(),  // Full date and time as a string
+  OrderDate: orderDate,  // Date part as a string (YYYY-MM-DD)
+  OrderTime: orderTime,  // Time part as a string (HH:MM:SS),
+
   AuthorizationAmount: paymentResult.AuthorizedAmount || null,
   AuthorizationExpirationDate: paymentResult.TokenExpirationDate
     ? new Date(paymentResult.TokenExpirationDate).toISOString()
     : null,
+
   WarehouseStatus: 'Pending',
   WarehouseApprovalDate: null,
 });
