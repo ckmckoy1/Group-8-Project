@@ -216,13 +216,37 @@ app.post('/api/checkout', async (req, res) => {
       );
     }
 
-        // Map paymentResult fields to existing order fields
-        const paymentStatus = paymentResult.Success ? 'Authorized' : 'Failed';
-        const authorizationToken = paymentResult.AuthorizationToken || null;
-        const authorizationAmount = paymentResult.AuthorizedAmount || null;
-        const authorizationExpirationDate = paymentResult.TokenExpirationDate
-            ? new Date(paymentResult.TokenExpirationDate)
-            : null;
+  // Determine PaymentStatus and related fields based on paymentResult
+  let paymentStatus;
+  let authorizationAmount;
+  let authorizationToken;
+  let authorizationExpirationDate;
+  let warehouseStatus;
+
+  if (paymentResult.Success) {
+    paymentStatus = 'Success';
+    authorizationAmount = paymentResult.AuthorizedAmount || orderTotal;
+    authorizationToken = paymentResult.AuthorizationToken
+      ? `${orderId}_${paymentResult.AuthorizationToken}`
+      : null;
+    authorizationExpirationDate = paymentResult.TokenExpirationDate
+      ? new Date(paymentResult.TokenExpirationDate)
+      : null;
+    warehouseStatus = 'Pending';
+  } else {
+    // Determine specific failure reason
+    if (paymentResult.Reason && paymentResult.Reason.includes('insufficient')) {
+      paymentStatus = 'Failure - Insufficient Funds';
+    } else if (paymentResult.Reason && paymentResult.Reason.includes('incorrect')) {
+      paymentStatus = 'Failure - Incorrect Card Details';
+    } else {
+      paymentStatus = 'Failure - Unknown Reason';
+    }
+    authorizationAmount = 0;
+    authorizationToken = null;
+    authorizationExpirationDate = null;
+    warehouseStatus = 'N/A';
+  }
 
 // Now create a new order document, including paymentResult
 const orderDateTime = new Date();  // Current date and time
@@ -250,43 +274,40 @@ const newOrder = new Order({
   BillingZipCode: billingAddress.zipCode,
   BillingUnitNumber: billingAddress.unitNumber,
 
-  // Payment and Order Details
-  TotalAmount: orderTotal,
-  PaymentStatus: paymentResult.Success ? 'Authorized' : 'Failed',
-  CardNumber: paymentDetails.cardNumber.slice(-4), // Store last 4 digits only
-  CardBrand: paymentDetails.cardBrand,
-  ExpirationDate: paymentDetails.expDate,
-  AuthorizationToken: paymentResult.AuthorizationToken
-    ? `${orderId}_${paymentResult.AuthorizationToken}`
-    : null,
-  OrderDateTime: orderDateTime,  // Full date and time
-  OrderDate: orderDate,  // Date part
-  OrderTime: orderTime,  // Time part
-  AuthorizationAmount: paymentResult.AuthorizedAmount || 0,
-  AuthorizationExpirationDate: paymentResult.TokenExpirationDate
-    ? new Date(paymentResult.TokenExpirationDate)
-    : null,
-  WarehouseStatus: 'Pending',
-  WarehouseApprovalDate: null,
-});
+
+      // Payment and Order Details
+      TotalAmount: orderTotal,
+      PaymentStatus: paymentStatus,
+      CardNumber: paymentDetails.cardNumber.slice(-4), // Store last 4 digits only
+      CardBrand: paymentDetails.cardBrand,
+      ExpirationDate: paymentDetails.expDate,
+      AuthorizationToken: authorizationToken,
+      OrderDateTime: orderDateTime, // Full date and time
+      OrderDate: new Date(orderDate), // Date part as Date object
+      OrderTime: orderTime, // Time part as string
+      AuthorizationAmount: authorizationAmount,
+      AuthorizationExpirationDate: authorizationExpirationDate,
+      WarehouseStatus: warehouseStatus,
+      WarehouseApprovalDate: null,
+    });
 
 
     await newOrder.save();
 
     res.json({
-      message: paymentResult.Success
-        ? 'Order saved successfully!'
-        : `Order failed: ${paymentResult.Reason}`,
-      orderId: orderId,
-    });
-  } catch (error) {
-    console.error('Error during order processing:', error.message);
-    res.status(500).json({
-      message: 'Server error during order processing',
-      error: error.message,
-    });
-  }
-});
+        message: paymentStatus === 'Success'
+          ? 'Order saved successfully!'
+          : `Order failed: ${paymentStatus.replace('Failure - ', '')}`,
+        orderId: orderId,
+      });
+    } catch (error) {
+      console.error('Error during order processing:', error.message);
+      res.status(500).json({
+        message: 'Server error during order processing',
+        error: error.message,
+      });
+    }
+  });
 
 // Route to fetch all orders (for Order Management UI)
 app.get('/api/orders', async (req, res) => {
