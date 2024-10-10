@@ -30,47 +30,6 @@ header {
     z-index: 1001;
 }
 
-/* Define a primary color variable for easier maintenance */
-:root {
-    --primary-bg-color: #05668d;
-    --primary-text-color: white;
-}
-
-/* Style the right-section */
-.right-section {
-    background-color: var(--primary-bg-color);
-    padding: 15px; /* Adds spacing inside the container */
-    color: var(--primary-text-color); /* Ensures text is readable */
-    display: flex; /* Aligns child elements horizontally */
-    justify-content: space-between; /* Distributes space evenly */
-    align-items: center; /* Vertically centers the items */
-    border-radius: 8px; /* Optional: Adds rounded corners */
-}
-
-/* Style for Find_Location and Sign_In sections */
-.right-section .Find_Location,
-.right-section .Sign_In {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Adds space between the image and text */
-}
-
-/* Style the links inside Sign_In */
-.right-section .Sign_In a {
-    color: var(--primary-text-color);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.right-section .Sign_In a:hover {
-    text-decoration: underline;
-}
-
-/* Optional: Style the images for better alignment */
-.right-section img {
-    display: inline-block;
-}
-
 
 .promo-bar {
     display: flex;
