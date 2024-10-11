@@ -146,17 +146,22 @@ function initializeDataTable() {
         footerCallback: function (row, data, start, end, display) {
             let totalAmount = 0;
             let totalTransactionAmount = 0;
-    
+        
             // Loop through displayed rows
             data.forEach(function(rowData) {
-                totalAmount += parseFloat(rowData[14].replace('$', '')) || 0;
-                totalTransactionAmount += parseFloat(rowData[23].replace('$', '')) || 0;
+                totalAmount += parseFloat(rowData[14].replace('$', '').replace(/,/g, '')) || 0;
+                totalTransactionAmount += parseFloat(rowData[23].replace('$', '').replace(/,/g, '')) || 0;
             });
-    
+        
+            // Format numbers with commas
+            const formattedTotalAmount = totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const formattedTotalTransactionAmount = totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
             // Update the footer totals
-            $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
-            $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
+            $('#totalAmount').text(`$${formattedTotalAmount}`);
+            $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
         }
+        
     });
 
     // Hook into the draw event to ensure totals are updated after the table is drawn
@@ -329,16 +334,24 @@ function updateTotals() {
     let totalTransactionAmount = 0;
 
     $('#orderTable tbody tr').each(function () {
-        const amount = parseFloat($(this).find('td').eq(14).text().replace('$', '')) || 0;  // Updated index for Total Amount
-        const transactionAmount = parseFloat($(this).find('td').eq(23).text().replace('$', '')) || 0; // Updated index for Authorization Amount
+        const amountText = $(this).find('td').eq(14).text().replace('$', '').replace(/,/g, '');
+        const transactionAmountText = $(this).find('td').eq(23).text().replace('$', '').replace(/,/g, '');
+
+        const amount = parseFloat(amountText) || 0;
+        const transactionAmount = parseFloat(transactionAmountText) || 0;
 
         totalAmount += amount;
         totalTransactionAmount += transactionAmount;
     });
 
-    $('#totalAmount').text(`$${totalAmount.toFixed(2)}`);
-    $('#totalTransactionAmount').text(`$${totalTransactionAmount.toFixed(2)}`);
+    // Format numbers with commas
+    const formattedTotalAmount = totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const formattedTotalTransactionAmount = totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    $('#totalAmount').text(`$${formattedTotalAmount}`);
+    $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
 }
+
 
 function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
     // Toggle dropdown on button click
