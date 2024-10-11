@@ -74,11 +74,34 @@ header {
 .promo-bar a {
     color: #ffb703;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .promo-bar a:hover {
     text-decoration: underline;
 }
+
+.Find_Deals {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Find_Deals a {
+    color: #ffb703; /* Ensure links maintain the desired color */
+    text-decoration: none;
+}
+
+.Find_Deals a:hover {
+    text-decoration: underline;
+}
+
+/* Style the SVG icon */
+.Find_Deals svg {
+    color: #ffb703; /* Desired color for the SVG */
+    /* Optional: Adjust the SVG size or other properties if needed */
+}
+
 
 /* Top Bar */
 .top-bar {
@@ -611,6 +634,45 @@ hr {
     font-size: 1em;
     text-align: center;
 }
+
+/* Loading Overlay Styles */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000; /* Ensure it sits above other elements */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Spinner Styles */
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #ffb703; /* Brand color */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1.2s linear infinite;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 
 /* Responsive Layout */
 @media (min-width: 769px) {

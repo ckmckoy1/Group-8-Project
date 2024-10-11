@@ -16,11 +16,19 @@
                 <img src="../assets/mountain.svg" width="20" height="20" alt="Mountain"> Earn Rewards On Purchases
             </div>
             <div class="Find_Deals">
-                WINTER OUTERWEAR 20-40% OFF | <a href="#">VIEW DEALS</a>
+                WINTER OUTERWEAR 20-40% OFF | 
+                <a href="#" class="view-deals">
+                    VIEW DEALS
+                    <!-- Inline SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z"/>
+                    </svg>
+                </a>
             </div>
+                               
             <div class="right-section">
                 <div class="Find_Location">
-                    <img src="../assets/mountain_location.svg" width="20" height="20" alt="Location"> The Outlet Shoppes at Atlanta
+                    <img src="../assets/mountain_location.svg" width="20" height="20" alt="Location"> The Outlet Shoppes at Atlanta |
                 </div>
                 <div class="Sign_In">
                     <img src="../assets/account.svg" width="20" height="20" alt="Account"> <a href="#">Sign In / Sign Up</a>
@@ -396,6 +404,12 @@
     </div>
 
     <script src="../js/checkout.js"></script>
+
+    <!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay" aria-hidden="true" role="alert" aria-live="assertive">
+    <div class="spinner" aria-label="Loading"></div>
+</div>
+
 </body>
 
 </html>

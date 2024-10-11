@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
     const messageDiv = document.getElementById('message'); // Ensure this element exists in your HTML
+    const loadingOverlay = document.getElementById('loadingOverlay');
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
@@ -39,6 +40,19 @@ document.addEventListener('DOMContentLoaded', function () {
             label.innerHTML += ' <span class="asterisk" style="color: red;">*</span>';
         }
     }
+
+// Function to show the loading overlay
+function showLoading() {
+    loadingOverlay.classList.add('active');
+    loadingOverlay.setAttribute('aria-hidden', 'false');
+}
+
+// Function to hide the loading overlay
+function hideLoading() {
+    loadingOverlay.classList.remove('active');
+    loadingOverlay.setAttribute('aria-hidden', 'true');
+}
+
 
     // Function to validate a specific section
     function validateSection(requiredFields) {
@@ -325,6 +339,9 @@ document.addEventListener('DOMContentLoaded', function () {
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+    // Show the loading screen
+        showLoading();
+
         // Validate payment section before final submission
         const isSection2Valid = validateSection(requiredFieldsSection2);
         if (!isSection2Valid) {
@@ -419,6 +436,10 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error during order submission:', error);
             displayMessage('Error: Something went wrong during order submission!', 'error');
         }
+        finally {
+        // Hide the loading screen regardless of success or failure
+        hideLoading();
+    }
     });
 
     // Close popup functionality
