@@ -91,7 +91,7 @@ h2 {
 /* Footer Styling */
 footer.footer {
     width: 100%; /* Ensure the footer spans the full width */
-    padding: 1.5em 0;
+    padding: 1em 0;
     background-color: #B9D9EB; /* Light blue background for footer */
     color: #333; /* Dark grey text */
     border-top: 1px solid #A0BCCD; /* Soft grey-blue border */
