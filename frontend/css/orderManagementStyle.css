@@ -14,11 +14,19 @@ html, body {
 
 
 .navbar {
-    background-color: #B9D9EB; /* Light blue background for navbar */
+    background-color: white;
     border-bottom: 1px solid #A0BCCD; /* Soft grey-blue border */
     margin-bottom: 0;
-    padding: 0.2em 0; /* Reduced padding for top and bottom */
+    padding-top: 0.2em;    /* Reduced top padding */
+    padding-bottom: 0.2em; /* Reduced bottom padding */
 }
+
+
+.navbar-logo {
+    height: 50px; /* Adjust as needed */
+    width: auto;   /* Maintains aspect ratio */
+}
+
 
 .navbar-brand {
     font-size: 2em;
@@ -92,7 +100,7 @@ h2 {
 footer.footer {
     width: 100%; /* Ensure the footer spans the full width */
     padding: 1em 0;
-    background-color: #B9D9EB; /* Light blue background for footer */
+    background-color: white;
     color: #333; /* Dark grey text */
     border-top: 1px solid #A0BCCD; /* Soft grey-blue border */
 }
@@ -301,6 +309,10 @@ button:hover, th:hover {
 
     .order-management-container {
         padding: 0.8em;
+    }
+
+    .navbar-logo {
+        height: 35px;
     }
 
     .row.mb-3 {

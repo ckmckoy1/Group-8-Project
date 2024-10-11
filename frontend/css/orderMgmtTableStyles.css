@@ -3,13 +3,15 @@
 .container-fluid {
     position: relative; /* Ensure it contains its positioned children */
     background-color: white;
-    flex-grow: 1;  /* Allows the container to take up the remaining space */
-    padding: 2em;
+    flex-grow: 1; /* Allows the container to take up the remaining space */
+    padding: 1em;
     margin: 20px auto;
-    max-width: 1500px;
+    max-width: 1470px; /* Adjust this value to control the container's width */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     min-height: 120vh; /* Allow the container to be bigger height-wise */
+}
+   
 
 /* Scrollable table container */
 .table-container {
