@@ -81,25 +81,57 @@ header {
     text-decoration: underline;
 }
 
+/* Parent div styling */
 .Find_Deals {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: center; /* Vertically center items */
+    gap: 10px; /* Space between text and link */
+    font-size: 1.2em;/* Base font size */
+    /* Optional: Adjust padding and margin as needed */
+    padding: 10px;
 }
 
-.Find_Deals a {
-    color: #ffb703; /* Ensure links maintain the desired color */
-    text-decoration: none;
+/* Wrapper link styling */
+.Find_Deals .view-deals {
+    color: #ffb703; /* Desired color for link and SVG */
+    display: inline-flex;
+    align-items: center; /* Vertically center text and SVG */
+    gap: 5px; /* Space between text and SVG */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make link text bold */
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    cursor: pointer; /* Change cursor to pointer on hover */
 }
 
-.Find_Deals a:hover {
-    text-decoration: underline;
+/* SVG Styling */
+.Find_Deals .view-deals svg {
+    color: #ffb703; /* Ensure SVG inherits the link color */
+    transition: transform 0.2s ease; /* Smooth transform on hover */
+    width: 1em; /* Relative sizing */
+    height: 1em;
+    vertical-align: middle; /* Align SVG vertically with text */
 }
 
-/* Style the SVG icon */
-.Find_Deals svg {
-    color: #ffb703; /* Desired color for the SVG */
-    /* Optional: Adjust the SVG size or other properties if needed */
+/* Hover Effects */
+.Find_Deals .view-deals:hover {
+    color: #e0a800; /* Slightly darker shade on hover */
+}
+
+.Find_Deals .view-deals:hover svg {
+    transform: translateX(2px); /* Move SVG slightly to the right on hover */
+}
+
+/* Reset margins and padding for link and SVG */
+.Find_Deals .view-deals,
+.Find_Deals .view-deals svg {
+    margin: 0;
+    padding: 0;
+}
+
+/* Focus state for accessibility */
+.Find_Deals .view-deals:focus {
+    outline: 2px dashed #ffb703; /* Visible focus outline */
+    outline-offset: 2px;
 }
 
 
