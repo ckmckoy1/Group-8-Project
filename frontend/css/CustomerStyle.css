@@ -86,9 +86,9 @@ header {
     display: flex;
     align-items: center; /* Vertically center items */
     gap: 10px; /* Space between text and link */
-    font-size: 1.2em;/* Base font size */
+    font-size: 1.1em;/* Base font size */
     /* Optional: Adjust padding and margin as needed */
-    padding: 10px;
+    padding: 4px;
 }
 
 /* Wrapper link styling */
