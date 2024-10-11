@@ -15,7 +15,7 @@ html, body {
 
 .navbar {
     background-color: white;
-    border-bottom: 1px solid #A0BCCD; /* Soft grey-blue border */
+    border-bottom: 1.5px solid #A0BCCD; /* Soft grey-blue border */
     margin-bottom: 0;
     padding-top: 0.2em;    /* Reduced top padding */
     padding-bottom: 0.2em; /* Reduced bottom padding */
@@ -101,7 +101,7 @@ footer.footer {
     width: 100%; /* Ensure the footer spans the full width */
     padding: 1em 0;
     background-color: white;
-    color: #333; /* Dark grey text */
+    color: #333;
     border-top: 1px solid #A0BCCD; /* Soft grey-blue border */
 }
 
