@@ -109,8 +109,9 @@
                         <ul id="shippingMethodFilterOptions" class="dropdown-options">
                             <li data-value="selectAll"><input type="checkbox"> Select All</li>
                             <li data-value="clearAll"><input type="checkbox"> Clear All</li>
-                            <li data-value="Standard"><input type="checkbox"> Standard Shipping (5-7 days)</li>
-                            <li data-value="Express"><input type="checkbox"> Express Shipping (2-3 days)</li>
+                            <li data-value="Standard"><input type="checkbox"> Standard</li>
+                            <li data-value="Express"><input type="checkbox"> Express</li>
+                            <li data-value="Rush"><input type="checkbox"> Rush</li>
                         </ul>
                     </th>
                     <th><input type="text" id="shippingAddressFilter" class="form-control"></th>
@@ -129,7 +130,7 @@
                         <ul id="paymentstatusFilterOptions" class="dropdown-options">
                             <li data-value="selectAll"><input type="checkbox"> Select All</li>
                             <li data-value="clearAll"><input type="checkbox"> Clear All</li>
-                            <li data-value="Authorized"><input type="checkbox"> Authorized</li>
+                            <li data-value="Authorized"><input type="checkbox"> Success</li>
                             <li data-value="Pending"><input type="checkbox"> Pending</li>
                             <li data-value="Failure - Incorrect Card Details"><input type="checkbox"> Failure - Incorrect Card Details</li>
                             <li data-value="Failure - Insufficient Funds"><input type="checkbox"> Failure - Insufficient Funds</li>
@@ -164,12 +165,23 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <!-- Columns 1-13: Empty -->
                     <td colspan="13"></td>
-                    <td id="totalAmount">$0.00</td> <!-- Total for Amount column -->
+                    
+                    <!-- Column 14: Total Amount -->
+                    <td id="totalAmount">$0.00</td>
+                    
+                    <!-- Columns 15-22: Empty -->
                     <td colspan="8"></td>
-                    <td id="totalTransactionAmount">$0.00</td> <!-- Total for Transaction Amount column -->
+                    
+                    <!-- Column 23: Total Transaction Amount -->
+                    <td id="totalTransactionAmount">$0.00</td>
+                    
+                    <!-- Columns 24-26: Empty -->
+                    <td colspan="3"></td>
                 </tr>
             </tfoot>
+            
         </table>
     </div>
 </div>
