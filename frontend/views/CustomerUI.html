@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Wild Path Outfitters</title>
     <link rel="stylesheet" href="../css/CustomerStyle.css">
-    <link rel="icon" href="../assets/compass.png" type="image/png">
+    <link rel="icon" href="../assets/compass-logo.png" type="image/png">
 </head>
 
 <body>
@@ -42,7 +42,7 @@
                 <img src="../assets/search.svg" width="20" height="20" alt="Search">
             </div>
             <div class="logo">
-                <h1>Wild Path Outfitters <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Compass"></h1>
+                <h1>Wild Path Outfitters <img src="../assets/compass.svg" width="50" height="50" alt="Compass"></h1>
             </div>
             <div class="cart-icon">
                 <a href="../cart.html">
@@ -51,15 +51,36 @@
             </div>
         </div>
         <div class="banner">
-            <nav class="nav">
-                <a href="#">Women</a>
-                <a href="#">Men</a>
-                <a href="#">Kids</a>
-                <a href="#">Gear & Home</a>
-                <a href="#">Shoes</a>
-                <a href="#">Clearance</a>
-                <a href="#">About Us</a>
-            </nav>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Women</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Men</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Kids</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Gear & Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Shoes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Clearance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>            
         </div>
     </header>
 
@@ -79,7 +100,7 @@
                 <h2>Checkout</h2>
                 <div class="sign-in">
                     <p>Sign in to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
-                    <a href="#">+ Add my Adventure Rewards Number</a>
+                    <a href="#">+ Add my Navigator Rewards Number</a>
                 </div>
 
                 <form id="checkoutForm" autocomplete="on">
@@ -371,20 +392,118 @@
         </div>
     </main>
 
+
     <footer class="footer">
-        <nav class="footer-nav">
-            <a href="#">Store Locator</a>
-            <a href="#">Navigator Rewards</a>
-            <a href="#">Help</a>
-            <a href="#">Customer Service</a>
-            <a href="#">Return Policy</a>
-            <a href="#">Shipping</a>
-            <a href="#">Contact Us</a>
-            <a href="#">Sign In / Register</a>
-            <a href="#">Privacy Policy</a>
-        </nav>
-        <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
+        <div class="footer-container">
+            <!-- Store Locator -->
+            <section class="footer-section">
+                <img src="../assets/mountain_location.svg" width="40" height="40" alt="Location">
+                <h3>Store Locator</h3>
+                <p>Find one of over 250 Wild Path Outfitters in North America.</p>
+            </section>
+    
+            <!-- Adventure Rewards -->
+            <section class="footer-section">
+                <img src="../assets/mountain.svg" width="40" height="40" alt="Mountain">
+                <h3>Navigator Rewards</h3>
+                <p>Sign up today to start earning rewards!</p>
+            </section>
+    
+            <!-- Vision Statement -->
+            <section class="footer-section">
+                <img src="../assets/compass.svg" width="40" height="40" alt="Compass">
+                <h3>Mission Statement</h3>
+                <p>Wild Path Outfitters is dedicated to providing sustainable outdoor equipment and apparel, inspiring individuals to explore and protect the natural world.</p>
+            </section>
+
+            <!-- Help -->
+            <section class="footer-section">
+                <h3>Help</h3>
+                <ul>
+                    <li><a href="#">Customer Service</a></li>
+                    <li><a href="#">Track Your Order</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Start a Return</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Payment Options</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </section>
+    
+            <!-- Shopping -->
+            <section class="footer-section">
+                <h3>Shopping</h3>
+                <ul>
+                    <li><a href="#">Sign In / Register</a></li>
+                    <li><a href="#">Adventure Rewards</a></li>
+                    <li><a href="#">Buy Gift Cards</a></li>
+                    <li><a href="#">Promos and Coupons</a></li>
+                </ul>
+            </section>
+    
+            <!-- Find Your Fit -->
+            <section class="footer-section">
+                <h3>Find Your Fit</h3>
+                <ul>
+                    <li><a href="#">Price Match Policy</a></li>
+                    <li><a href="#">EB Credit Card</a></li>
+                    <li><a href="#">Learn More</a></li>
+                    <li><a href="#">Visit a Store</a></li>
+                    <li><a href="#">Store Locator</a></li>
+                </ul>
+            </section>
+    
+            <!-- About Us -->
+            <section class="footer-section">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Affiliate Program</a></li>
+                    <li><a href="#">Land Acknowledgement</a></li>
+                </ul>
+            </section>
+    
+            <!-- Privacy Policy -->
+            <section class="footer-section">
+                <h3>Privacy Policy</h3>
+                <ul>
+                    <li><a href="#">Your Privacy Choices</a></li>
+                    <li><a href="#">CA Supply Chains Act</a></li>
+                    <li><a href="#">Notice at Collection</a></li>
+                    <li><a href="#">Do Not Contact Me</a></li>
+                    <li><a href="#">Accessibility Statement</a></li>
+                    <li><a href="#">Forced Labor Report</a></li>
+                </ul>
+            </section>
+    
+            <!-- Newsletter Signup -->
+            <section class="footer-section">
+                <h3>Newsletter Signup</h3>
+                <p>Be the first to know and earn rewards and be the first to hear about sales and special offers.</p>
+                <form class="newsletter-form">
+                    <button type="submit">Sign Up</button>
+                </form>
+                <img src="../assets/facebook.svg" width="20" height="20" alt="Facebook">
+                <img src="../assets/youtube.svg" width="20" height="20" alt="Youtube">
+                <img src="../assets/instagram.svg" width="20" height="20" alt="Instagram">
+                <img src="../assets/pinterest.svg" width="20" height="20" alt="Pinterest">
+                <img src="../assets/twitter.svg" width="20" height="20" alt="Twitter">
+            </section>
+    
+            <!-- Session and Legal -->
+            <section class="footer-section">
+                <h3>Session and Legal</h3>
+                <ul>
+                    <li>Session ID #272 611 633</li>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+                <p>&copy; 2024 Wild Path Outfitters. All Rights Reserved.</p>
+            </section>
+        </div>
     </footer>
+    
 
     <!-- Chat Popup -->
     <div id="chatPopupOverlay">

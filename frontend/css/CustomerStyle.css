@@ -533,6 +533,117 @@ hr {
     font-weight: bold;
 }
 
+/* Reset default browser styles for lists */
+.footer-nav ul,
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Footer Container */
+.footer {
+    background-color: #f8f8f8; /* Light gray background */
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Footer Sections */
+.footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Footer Links */
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #333; /* Highlight link on hover */
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* Newsletter Form */
+.newsletter-form {
+    display: flex;
+    margin-top: 10px;
+}
+
+
+.newsletter-form button {
+    padding: 15px 18px;
+    font-size: 0.9em;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    margin-top: 20px;
+}
+
+.newsletter-form button:hover {
+    background-color: #e0a800;
+}
+
+/* Session and Legal */
+.footer-section:last-child p {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-form input[type="email"],
+    .newsletter-form button {
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    .newsletter-form button {
+        margin-top: 10px;
+    }
+}
+
+
 /* Error Message Styling */
 .error-message {
     color: #d32f2f;
