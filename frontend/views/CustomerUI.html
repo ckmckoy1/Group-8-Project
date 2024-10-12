@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Wild Path Outfitters</title>
     <link rel="stylesheet" href="../css/CustomerStyle.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="icon" href="../assets/compass-logo.png" type="image/png">
 </head>
 
@@ -99,7 +102,7 @@
             <section class="checkout-container">
                 <h2>Secure Checkout <img src="../assets/lock.svg" width="30" height="30" alt="Lock"> </h2>
                 <div class="sign-in">
-                    <p>Sign in to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
+                    <p><a href="#">Sign in</a> to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
                     <a href="#">+ Add my Navigator Rewards Number</a>
                 </div>
 
@@ -399,25 +402,38 @@
             <div class="footer-row top-row">
                 <!-- Store Locator -->
                 <section class="footer-section">
-                    <img src="../assets/mountain_location.svg" width="40" height="40" alt="Location">
-                    <h3>Store Locator</h3>
-                    <p>Find one of over 250 Wild Path Outfitters in North America.</p>
+                    <div class="footer-section-content">
+                        <img src="../assets/mountain_location.svg" width="40" height="40" alt="Location">
+                        <div class="footer-text">
+                            <h3>Store Locator</h3>
+                            <p>Find one of over 250 Wild Path Outfitters in North America.</p>
+                        </div>
+                    </div>
                 </section>
-    
+            
                 <!-- Navigator Rewards -->
                 <section class="footer-section">
-                    <img src="../assets/mountain.svg" width="40" height="40" alt="Mountain">
-                    <h3>Navigator Rewards</h3>
-                    <p>Sign up today to start earning rewards!</p>
+                    <div class="footer-section-content">
+                        <img src="../assets/mountain.svg" width="40" height="40" alt="Mountain">
+                        <div class="footer-text">
+                            <h3>Navigator Rewards</h3>
+                            <p>Sign up today to start earning rewards!</p>
+                        </div>
+                    </div>
                 </section>
-    
+            
                 <!-- Mission Statement -->
                 <section class="footer-section">
-                    <img src="../assets/compass.svg" width="40" height="40" alt="Compass">
-                    <h3>Mission Statement</h3>
-                    <p>Wild Path Outfitters is dedicated to providing sustainable outdoor equipment and apparel, inspiring individuals to explore and protect the natural world.</p>
+                    <div class="footer-section-content">
+                        <img src="../assets/compass.svg" width="40" height="40" alt="Compass">
+                        <div class="footer-text">
+                            <h3>Mission Statement</h3>
+                            <p>Wild Path Outfitters is dedicated to providing sustainable outdoor equipment and apparel, inspiring individuals to explore and protect the natural world.</p>
+                        </div>
+                    </div>
                 </section>
             </div>
+            
     
             <!-- Middle Row -->
             <div class="footer-row middle-row">
@@ -453,7 +469,9 @@
                         <li><a href="#">Price Match Policy</a></li>
                         <li><a href="#">EB Credit Card</a></li>
                         <li><a href="#">Learn More</a></li>
-                        <li><a href="#">Visit a Store</a></li>
+                    </ul>
+                    <h3>Visit a Store</h3>
+                    <ul>
                         <li><a href="#">Store Locator</a></li>
                     </ul>
                 </section>
@@ -503,7 +521,6 @@
             <div class="footer-row bottom-row">
                 <!-- Session and Legal -->
                 <section class="footer-section">
-                    <h3>Session and Legal</h3>
                     <ul>
                         <li>Session ID #272 611 633</li>
                         <li><a href="#">Terms of Use</a></li>
@@ -535,6 +552,8 @@
     </div>
 
     <script src="../js/checkout.js"></script>
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Loading Overlay -->
 <div class="loading-overlay" id="loadingOverlay" aria-hidden="true" role="alert" aria-live="assertive">

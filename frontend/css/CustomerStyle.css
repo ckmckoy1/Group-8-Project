@@ -180,7 +180,7 @@ header {
     font-size: 3.5em;
     font-weight: bold;
     text-align: center;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: "interstate", Helvetica, Arial, sans-serif;
     color: #333;
     gap: 10px;
     display: flex;
@@ -217,6 +217,9 @@ header {
     padding: 0;                  /* Remove default padding */
     margin: 0;                   /* Remove default margin */
     gap: var(--spacing-sm);      /* Space between nav items */
+    text-align: center;
+    align-items: center;
+
 }
 
 
@@ -236,6 +239,9 @@ header {
     font-weight: bold;               /* Bold text */
     padding: var(--spacing-xs) var(--spacing-sm); /* Padding around links */
     transition: color var(--transition-fast);      /* Smooth color transition */
+    align-items: center;
+    text-align: center;
+}
 }
 
 /* Hover and Active States */
@@ -276,6 +282,7 @@ header {
 
 .checkout-container a {
     color: #ffb703;
+    border-bottom: 1px solid  #ffb703;
 }
 
 /* Form Layout */
@@ -546,12 +553,32 @@ hr {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: var(--spacing-lg);
+    border-bottom: 1px solid  #333;
 }
 
 /* Top Row */
 .footer-row.top-row {
     justify-content: space-between;
 }
+
+/* Footer Sections */
+.footer-section {
+    flex: 1 1 30%;
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-sm);
+}
+
+/* Footer Section Content */
+.footer-section-content {
+    display: flex;
+    align-items: center;
+}
+
+.footer-section-content img {
+    margin-right: var(--spacing-sm);
+    flex-shrink: 0;
+}
+
 
 /* Middle Row */
 .footer-row.middle-row {
@@ -566,6 +593,7 @@ hr {
     cursor: pointer;
     border: none;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .newsletter-form button:hover {
@@ -587,7 +615,7 @@ hr {
 
 .footer-section h3 {
     font-size: 1.25em;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
     color: var(--color-text);
 }
 
