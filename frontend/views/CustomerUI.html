@@ -390,25 +390,94 @@
 
             <!-- Right Column: Order Summary -->
             <aside class="order-summary">
-                <h3>Order Summary</h3>
-                <p>Items in Cart: 1</p>
-                <p>Total: $47.13</p>
-             
-                
-                <!-- Shipping Cost dynamically updated -->
-                <p>Shipping: $<span id="shippingCostDisplay">0.00</span></p>
+                <div class="order-summary-top">
+                <!-- Header Section -->
+                <div class="order-summary-header">
+                    <h3>ORDER SUMMARY</h3>
+                    <a href="#" class="order-summary-help">HELP</a>
+                </div>
 
-                <!-- Tax amount (static for now, but you can make it dynamic as needed) -->
-                <p>Tax: $2.87</p>
-                
-              
-                
-                <!-- Grand Total dynamically updated -->
-                <h3>Grand Total: $<span id="grandTotalDisplay">50.00</span></h3>
-                
-           
-                <img src="../assets/mountain_beanie.jpg" alt="Mountain Beanie">
+                <!-- Merchandise Total -->
+                <div class="order-summary-section">
+                    <div class="order-summary-label">
+                        <span>Merchandise Total (1 Item)</span>
+                    </div>
+                    <div class="order-summary-value">
+                        <span>$47.13</span>
+                    </div>
+                </div>
+
+                <!-- Order Subtotal -->
+                <div class="order-summary-section">
+                    <div class="order-summary-label">
+                        <span>Order Subtotal</span>
+                    </div>
+                    <div class="order-summary-value">
+                        <span>$47.13</span>
+                    </div>
+                </div>
+
+                <!-- Estimated Tax -->
+                <div class="order-summary-section">
+                    <div class="order-summary-label">
+                        <span>Estimated Tax</span>
+                    </div>
+                    <div class="order-summary-value">
+                        <span>$2.87</span>
+                    </div>
+                </div>
+
+                <!-- Estimated Shipping -->
+                <div class="order-summary-section">
+                    <div class="order-summary-label">
+                        <span>Estimated Shipping</span>
+                    </div>
+                    <div class="order-summary-value">
+                        $<span id="shippingCostDisplay">0.00</span>
+                    </div>
+                </div>
+
+                <!-- Total -->
+                <div class="order-summary-section total">
+                    <div class="order-summary-label">
+                        <span>Total</span>
+                    </div>
+                    <div class="order-summary-value">
+                        $<span id="grandTotalDisplay">50.00</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="order-summary-middle">
+                <!-- Product Image -->
+                    <div class="order-summary-product">
+                    <img src="../assets/mountain_beanie.jpg" alt="Mountain Beanie">
+                    </div>
+                </div> 
+               
+                <div class="order-summary-bottom"> 
+                <!-- Discounts Section -->
+                <div class="order-summary-section discounts">
+                    <h4>Discounts</h4>
+                    <ul class="discount-list">
+                        <li>
+                            <span>Promo Code</span>
+                            <a href="#" class="apply-discount">+</a>
+                        </li>
+                        <li>
+                            <span>Adventure Rewards</span>
+                            <a href="#" class="apply-discount">+</a>
+                        </li>
+                    </ul>
+                    <p class="rewards-info">
+                        Join Adventure Rewards to earn up to 5% on your purchases.
+                    </p>
+                </div>
+            </div> 
+
+
             </aside>
+
 
         </div>
     </main>
