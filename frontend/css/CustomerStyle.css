@@ -603,7 +603,6 @@ select option {
 }
 
 .order-summary-section.discounts h4 {
-    text-align: center;
     margin-bottom: 20px;
     color: #023047; /* Dark blue for contrast */
 }
@@ -619,6 +618,7 @@ select option {
 .discounts h4 {
     margin-bottom: 10px;
     font-size: 1.1em;
+    font-weight: bold;
 }
 
 .discount-list {
@@ -943,7 +943,6 @@ select option {
 .footer-section ul li a:focus {
     color: var(--color-text);
     font-weight: bold;
-    font-size: 1em;
 }
 
 .social-media-icons {
