@@ -177,26 +177,26 @@ header {
 }
 
 .top-bar .logo {
-    text-align: center;
-    font-family: "interstate", Helvetica, Arial, sans-serif;
-    color: #333;
-    gap: 10px;
+    gap: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    padding: 0;
 }
 
 .top-bar .logo .wpo-title {
-    height: 70px; /* Adjust as needed */
+    height: 45px; /* Adjust as needed */
     width: auto;   /* Maintains aspect ratio */
 }
-
-/* Example: Increase specificity */
+/* Logo Images */
 .top-bar .logo img {
     margin: 0;
     padding: 0;
-    height: 70px; /* For .wpo-title */
-    width: auto;
+    display: block; /* Eliminates inline spacing */
+    height: auto; /* Allows responsive scaling */
+    max-height: 70px; /* Set a maximum height */
+    width: auto; /* Maintains aspect ratio */
 }
 
 .logo img {
@@ -206,7 +206,7 @@ header {
 
 
 .top-bar .logo .wpo-logo {
-    height: 60px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
     width: auto;   /* Maintains aspect ratio */
 
 }
