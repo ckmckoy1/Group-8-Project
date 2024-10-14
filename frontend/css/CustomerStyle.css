@@ -305,8 +305,9 @@ header {
 }
 
 .checkout-container a {
-    color: #ffb703;
-    border-bottom: 1px solid  #ffb703; 
+    color: #05668d;
+    border-bottom: 1px solid   #05668d;
+    font-weight: bold;
 }
 
 .checkout-container .express-checkout {
