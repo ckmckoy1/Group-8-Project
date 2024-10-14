@@ -41,18 +41,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-// Function to show the loading overlay
-function showLoading() {
-    loadingOverlay.classList.add('active');
-    loadingOverlay.setAttribute('aria-hidden', 'false');
-}
+    // Function to show the loading overlay
+    function showLoading() {
+        loadingOverlay.classList.add('active');
+        loadingOverlay.setAttribute('aria-hidden', 'false');
+    }
 
-// Function to hide the loading overlay
-function hideLoading() {
-    loadingOverlay.classList.remove('active');
-    loadingOverlay.setAttribute('aria-hidden', 'true');
-}
-
+    // Function to hide the loading overlay
+    function hideLoading() {
+        loadingOverlay.classList.remove('active');
+        loadingOverlay.setAttribute('aria-hidden', 'true');
+    }
 
     // Function to validate a specific section
     function validateSection(requiredFields) {
@@ -231,7 +230,10 @@ function hideLoading() {
             const estDateStr = `Est. arrival ${estDeliveryDate.toLocaleDateString(undefined, options)}`;
 
             // Update the estimated date in the HTML
-            document.getElementById(`${method.toLowerCase()}EstDate`).textContent = estDateStr;
+            const estDateElement = document.getElementById(`${method.toLowerCase()}EstDate`);
+            if (estDateElement) {
+                estDateElement.textContent = estDateStr;
+            }
 
             // Determine the shipping cost
             let shippingCost = shippingInfo.cost;
@@ -240,7 +242,10 @@ function hideLoading() {
             }
 
             // Update the shipping cost in the HTML
-            document.getElementById(`${method.toLowerCase()}Cost`).textContent = `$${shippingCost.toFixed(2)}`;
+            const costElement = document.getElementById(`${method.toLowerCase()}Cost`);
+            if (costElement) {
+                costElement.textContent = `$${shippingCost.toFixed(2)}`;
+            }
         });
     }
 
@@ -339,13 +344,14 @@ function hideLoading() {
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-    // Show the loading screen
+        // Show the loading screen
         showLoading();
 
         // Validate payment section before final submission
         const isSection2Valid = validateSection(requiredFieldsSection2);
         if (!isSection2Valid) {
             displayMessage('Please complete all required payment fields.', 'error');
+            hideLoading(); // Ensure loading overlay is hidden on error
             return;
         }
 
@@ -372,6 +378,7 @@ function hideLoading() {
         // Check card expiration
         if (isCardExpired(expDate)) {
             displayMessage('Error: Your card has expired.', 'error');
+            hideLoading();
             return;
         }
 
@@ -380,6 +387,7 @@ function hideLoading() {
 
         if (cardBrand === 'Unknown') {
             displayMessage('Error: Unknown card brand. Please check your card number.', 'error');
+            hideLoading();
             return;
         }
 
@@ -414,6 +422,18 @@ function hideLoading() {
             orderTotal,
         };
 
+        // Include discounts if applied
+        const promoCode = document.getElementById('promoCodeInput').value.trim();
+        const rewardNumber = document.getElementById('rewardNumberInput').value.trim();
+
+        if (promoCode) {
+            orderData.promoCode = promoCode;
+        }
+
+        if (rewardNumber) {
+            orderData.rewardNumber = rewardNumber;
+        }
+
         try {
             // Send order details to your backend server (e.g., to MongoDB)
             const response = await fetch('/api/checkout', {
@@ -437,9 +457,9 @@ function hideLoading() {
             displayMessage('Error: Something went wrong during order submission!', 'error');
         }
         finally {
-        // Hide the loading screen regardless of success or failure
-        hideLoading();
-    }
+            // Hide the loading screen regardless of success or failure
+            hideLoading();
+        }
     });
 
     // Close popup functionality
@@ -459,4 +479,116 @@ function hideLoading() {
             content.style.display = 'block';
         }
     };
+
+    /* ------------------ NEW CODE FOR ORDER SUMMARY TOGGLE ------------------ */
+
+    // Function to handle the toggle of Order Summary Details
+    function setupOrderSummaryToggle() {
+        const toggleHeader = document.getElementById('orderSummaryToggle');
+        const toggleArrow = document.getElementById('toggleArrow');
+        const orderDetails = document.getElementById('orderSummaryDetails');
+
+        if (!toggleHeader || !toggleArrow || !orderDetails) {
+            console.warn('Order Summary Toggle elements not found in the DOM.');
+            return;
+        }
+
+        function toggleOrderDetails() {
+            const isHidden = orderDetails.classList.contains('hidden');
+            if (isHidden) {
+                orderDetails.classList.remove('hidden');
+                orderDetails.classList.add('visible');
+                toggleArrow.textContent = '-'; // Change to minus
+                toggleHeader.setAttribute('aria-expanded', 'true');
+            } else {
+                orderDetails.classList.remove('visible');
+                orderDetails.classList.add('hidden');
+                toggleArrow.textContent = '+'; // Change to plus
+                toggleHeader.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        // Event listener for click
+        toggleHeader.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior if any
+            toggleOrderDetails();
+        });
+
+        // Enable keyboard accessibility
+        toggleHeader.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleOrderDetails();
+            }
+        });
+
+        // Initialize the section as expanded
+        orderDetails.classList.add('visible');
+        toggleArrow.textContent = '-'; // Initial arrow
+        toggleHeader.setAttribute('aria-expanded', 'true');
+    }
+
+    // Call the setup function after DOM content is loaded
+    setupOrderSummaryToggle();
+
+    /* ------------------ END OF NEW CODE ------------------ */
+
+    /* ------------------ NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
+
+    // Function to handle the toggle of Discounts Items
+    function setupDiscountsToggle() {
+        const toggleButtons = document.querySelectorAll('.toggle-discount');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+                const discountHeader = event.target.closest('.discount-header');
+                const discountType = discountHeader.getAttribute('data-discount');
+                const discountContent = document.getElementById(`${discountType}Content`);
+
+                const isHidden = discountContent.classList.contains('hidden');
+
+                if (isHidden) {
+                    discountContent.classList.remove('hidden');
+                    discountContent.classList.add('visible');
+                    button.textContent = '-';
+                    button.setAttribute('aria-expanded', 'true');
+                } else {
+                    discountContent.classList.remove('visible');
+                    discountContent.classList.add('hidden');
+                    button.textContent = '+';
+                    button.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Enable keyboard accessibility
+            button.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const discountHeader = event.target.closest('.discount-header');
+                    const discountType = discountHeader.getAttribute('data-discount');
+                    const discountContent = document.getElementById(`${discountType}Content`);
+
+                    const isHidden = discountContent.classList.contains('hidden');
+
+                    if (isHidden) {
+                        discountContent.classList.remove('hidden');
+                        discountContent.classList.add('visible');
+                        button.textContent = '-';
+                        button.setAttribute('aria-expanded', 'true');
+                    } else {
+                        discountContent.classList.remove('visible');
+                        discountContent.classList.add('hidden');
+                        button.textContent = '+';
+                        button.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        });
+    }
+
+    // Initialize Discounts Toggle
+    setupDiscountsToggle();
+
+    /* ------------------ END OF NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
 });

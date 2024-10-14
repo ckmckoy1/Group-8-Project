@@ -643,6 +643,173 @@ select option {
     border-radius: 4px;
 }
 
+/* Middle Section: Items in Order */
+.order-summary-middle {
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+/* Toggle Header */
+.order-summary-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.order-summary-toggle h4 {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.toggle-arrow {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+
+/* Order Details */
+.order-summary-details {
+    margin-top: 10px;
+}
+
+/* Shipping Address */
+.shipping-address {
+    margin-bottom: 20px;
+}
+
+.shipping-address p {
+    margin: 5px 0 0 0;
+    line-height: 1.4;
+}
+
+/* Product Details */
+.product-details {
+    display: flex;
+    align-items: center;
+}
+
+.order-summary-product {
+    flex: 0 0 80px;
+    margin-right: 15px;
+}
+
+.order-summary-product img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-info strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.product-info p {
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+}
+
+.product-actions a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 0.9em;
+}
+
+.product-actions a:hover {
+    text-decoration: underline;
+}
+
+/* Product Actions Separator */
+.product-actions a + a {
+    margin-left: 5px;
+}
+
+/* Discounts Section */
+.order-summary-section.discounts {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.discount-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.discount-item {
+    margin-bottom: 15px;
+}
+
+.discount-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.discount-header span {
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.toggle-discount {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    color: #007BFF;
+}
+
+.toggle-discount:focus {
+    outline: 2px solid #007BFF;
+}
+
+.discount-content {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.discount-content.hidden {
+    display: none;
+}
+
+.discount-content.visible {
+    display: flex;
+}
+
+.discount-content input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.apply-button {
+    padding: 8px 16px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.apply-button:hover {
+    background-color: #0056b3;
+}
+
+.rewards-info {
+    font-size: 0.9em;
+    color: #555;
+}
+
 
 /* Footer */
 .footer {

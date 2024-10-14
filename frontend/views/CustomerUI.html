@@ -448,32 +448,72 @@
                 </div>
 
             </div>
-            <div class="order-summary-middle">
-                <!-- Product Image -->
-                    <div class="order-summary-product">
-                    <img src="../assets/mountain_beanie.jpg" alt="Mountain Beanie">
-                    </div>
-                </div> 
-               
-                <div class="order-summary-bottom"> 
-                <!-- Discounts Section -->
-                <div class="order-summary-section discounts">
-                    <h4>Discounts</h4>
-                    <ul class="discount-list">
-                        <li>
-                            <span>Promo Code</span>
-                            <a href="#" class="apply-discount">+</a>
-                        </li>
-                        <li>
-                            <span>Adventure Rewards</span>
-                            <a href="#" class="apply-discount">+</a>
-                        </li>
-                    </ul>
-                    <p class="rewards-info">
-                        Join Adventure Rewards to earn up to 5% on your purchases.
-                    </p>
+ <!-- Middle Section: Items in Order -->
+ <div class="order-summary-middle">
+    <!-- Toggle Header -->
+    <div class="order-summary-toggle" id="orderSummaryToggle">
+        <h4>Items in Order (1) <span class="toggle-arrow" id="toggleArrow">&#9650;</span> <!-- Up Arrow --></h4>
+        
+    </div>
+
+    <!-- Order Details (Initially Visible) -->
+    <div class="order-summary-details" id="orderSummaryDetails">
+        <!-- Shipping to Address -->
+        <div class="shipping-address">
+            <strong>Ship to Address</strong>
+        </div>
+
+        <!-- Product Details -->
+        <div class="product-details">
+            <!-- Product Image -->
+            <div class="order-summary-product">
+                <img src="../assets/mountain_beanie.jpg" alt="Mountain Beanie">
+            </div>
+            <!-- Product Info -->
+            <div class="product-info">
+                <strong>Mountain Hat</strong>
+                <p>Size: Adult<br>Color: Multi<br>Qty: 1</p>
+                <div class="product-actions">
+                    <a href="#" class="edit-product">Edit</a> | 
+                    <a href="#" class="remove-product">Remove</a>
                 </div>
-            </div> 
+            </div>
+        </div>
+    </div>
+    <div class="order-summary-bottom"> 
+        <!-- Discounts Section -->
+        <div class="order-summary-section discounts">
+            <h4>Discounts</h4>
+            <ul class="discount-list">
+                <!-- Promo Code Item -->
+                <li class="discount-item">
+                    <div class="discount-header" data-discount="promo">
+                        <span>Promo Code</span>
+                        <button class="toggle-discount" aria-expanded="true" aria-controls="promoContent">-</button>
+                    </div>
+                    <div class="discount-content visible" id="promoContent">
+                        <input type="text" id="promoCodeInput" placeholder="Enter promo code (optional)">
+                        <button class="apply-button" id="applyPromo">Apply</button>
+                    </div>
+                </li>
+                <!-- Adventure Rewards Item -->
+                <li class="discount-item">
+                    <div class="discount-header" data-discount="rewards">
+                        <span>Adventure Rewards</span>
+                        <button class="toggle-discount" aria-expanded="true" aria-controls="rewardsContent">-</button>
+                    </div>
+                    <div class="discount-content visible" id="rewardsContent">
+                        <input type="text" id="rewardNumberInput" placeholder="Enter reward number">
+                        <button class="apply-button" id="applyRewards">Apply</button>
+                    </div>
+                </li>
+            </ul>
+            <p class="rewards-info">
+                Join Adventure Rewards to earn up to 5% on your purchases.
+            </p>
+        </div>
+    </div>
+    
 
 
             </aside>
