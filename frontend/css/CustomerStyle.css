@@ -217,7 +217,7 @@ header {
     padding: 5px;
     text-align: center;
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.3em;
     width: 100%;
     box-sizing: border-box;
     position: sticky;
@@ -239,19 +239,19 @@ header {
     justify-content: space-around;  /* Align items to the right */
     padding: 0;                  /* Remove default padding */
     margin: 0;                   /* Remove default margin */
-    gap: var(--spacing-sm);      /* Space between nav items */
+    gap: 50px;      /* Space between nav items */
     text-align: center;
     align-items: center;
 
 }
 
 
-.banner .nav a {
+.banner .navbar-nav a {
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
-.banner .nav a:hover {
+.banner .navbar-nav a:hover {
     color: #ffb703;
 }
 
@@ -857,6 +857,15 @@ select option {
     justify-content: space-between;
 }
 
+.footer-row.top-row h3 {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.footer-row.top-row p {
+    margin-bottom: 20px;
+}
+
 /* Footer Sections */
 .footer-section {
     flex: 1 1 30%;
@@ -871,7 +880,7 @@ select option {
 }
 
 .footer-section-content img {
-    margin-right: var(--spacing-sm);
+    margin-right: var(--spacing-md);
     flex-shrink: 0;
 }
 
@@ -879,10 +888,21 @@ select option {
 /* Middle Row */
 .footer-row.middle-row {
     justify-content: space-between;
+    margin-top: 20px;
+}
+
+.footer-row.middle-row h3{
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.footer-row.middle-row .social-media-icons {
+    margin-bottom: 20px;
+    gap: 15px;
 }
 
 .newsletter-form button {
-    padding: 15px 50px;
+    padding: 10px 70px;
     font-size: 0.9em;
     background-color: #333;
     color: #fff;
@@ -900,6 +920,7 @@ select option {
 .footer-row.bottom-row {
     justify-content: center;
     text-align: center;
+    margin-top: 20px;
 }
 
 /* Footer Sections */
@@ -935,7 +956,7 @@ select option {
 .footer-section ul li a {
     text-decoration: none;
     color: #555;
-    font-size: 0.9em;
+    font-size: 0.8em;
     transition: color var(--transition-fast);
 }
 
