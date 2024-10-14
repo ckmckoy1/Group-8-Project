@@ -597,6 +597,19 @@ select option {
 }
 
 /* Discounts Section */
+.order-summary-section.discounts {
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.order-summary-section.discounts h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #023047; /* Dark blue for contrast */
+}
+
+
+/* Discounts Section */
 .discounts {
     margin-top: 20px;
     padding-top: 10px;
