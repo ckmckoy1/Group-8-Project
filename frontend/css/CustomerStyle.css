@@ -140,7 +140,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 5px;
+    padding: 45px 25px;
     width: 100%;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -176,9 +176,7 @@ header {
     margin-right: 20px;
 }
 
-.top-bar .logo h1 {
-    font-size: 3.5em;
-    font-weight: bold;
+.top-bar .logo {
     text-align: center;
     font-family: "interstate", Helvetica, Arial, sans-serif;
     color: #333;
@@ -188,18 +186,45 @@ header {
     justify-content: center;
 }
 
+.top-bar .logo .wpo-title {
+    height: 70px; /* Adjust as needed */
+    width: auto;   /* Maintains aspect ratio */
+}
+
+/* Example: Increase specificity */
+.top-bar .logo img {
+    margin: 0;
+    padding: 0;
+    height: 70px; /* For .wpo-title */
+    width: auto;
+}
+
+.logo img {
+    margin: 0;
+    padding: 0;
+}
+
+
+.top-bar .logo .wpo-logo {
+    height: 60px; /* Adjust as needed */
+    width: auto;   /* Maintains aspect ratio */
+
+}
+
 .banner {
     background-color: #023047;
     color: #fff;
-    padding: 15px;
+    padding: 5px;
     text-align: center;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.2em;
     width: 100%;
     box-sizing: border-box;
     position: sticky;
     top: 66px;
     z-index: 999;
+    text-align: center;
+    align-items: center;
 }
 
 .banner .nav {
