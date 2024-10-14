@@ -489,9 +489,9 @@
                 <li class="discount-item">
                     <div class="discount-header" data-discount="promo">
                         <span>Promo Code</span>
-                        <button class="toggle-discount" aria-expanded="true" aria-controls="promoContent">-</button>
+                        <button class="toggle-discount" aria-expanded="false" aria-controls="promoContent">+</button>
                     </div>
-                    <div class="discount-content visible" id="promoContent">
+                    <div class="discount-content hidden" id="promoContent">
                         <input type="text" id="promoCodeInput" placeholder="Enter promo code (optional)">
                         <button class="apply-button" id="applyPromo">Apply</button>
                     </div>
@@ -500,9 +500,9 @@
                 <li class="discount-item">
                     <div class="discount-header" data-discount="rewards">
                         <span>Adventure Rewards</span>
-                        <button class="toggle-discount" aria-expanded="true" aria-controls="rewardsContent">-</button>
+                        <button class="toggle-discount" aria-expanded="false" aria-controls="rewardsContent">+</button>
                     </div>
-                    <div class="discount-content visible" id="rewardsContent">
+                    <div class="discount-content hidden" id="rewardsContent">
                         <input type="text" id="rewardNumberInput" placeholder="Enter reward number">
                         <button class="apply-button" id="applyRewards">Apply</button>
                     </div>
@@ -511,8 +511,11 @@
             <p class="rewards-info">
                 Join Adventure Rewards to earn up to 5% on your purchases.
             </p>
+            <!-- Message Display -->
+            <div id="message" class="message"></div>
         </div>
     </div>
+    
     
     
 
