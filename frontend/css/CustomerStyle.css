@@ -223,8 +223,6 @@ header {
     position: sticky;
     top: 66px;
     z-index: 999;
-    text-align: center;
-    align-items: center;
 }
 
 .banner .nav {
@@ -262,7 +260,7 @@ header {
     color: #fff;                     /* Link color */
     font-size: 1em;                  /* Adjust font size as needed */
     font-weight: bold;               /* Bold text */
-    padding: var(--spacing-xs) var(--spacing-sm); /* Padding around links */
+    padding: var(--spacing-md) var(--spacing-md); /* Padding around links */
     transition: color var(--transition-fast);      /* Smooth color transition */
     align-items: center;
     text-align: center;
@@ -299,6 +297,7 @@ header {
 
 .checkout-container h3 {
     border-bottom: 1px solid #333;
+    font-size: 1.2em;
 }
 
 .checkout-container h2 {
@@ -307,7 +306,13 @@ header {
 
 .checkout-container a {
     color: #ffb703;
- /*   border-bottom: 1px solid  #ffb703; */
+    border-bottom: 1px solid  #ffb703; 
+}
+
+.checkout-container .express-checkout {
+    border: 3px solid #023047;
+    padding: 10px;
+    margin-bottom: 30px;
 }
 
 /* Form Layout */
@@ -530,14 +535,14 @@ select option {
 .order-summary {
     padding: 20px;
     max-width: 450px;
-    font-family: Arial, sans-serif; /* Ensure consistent font */
+    font-family: "interstate", Helvetica, Arial, sans-serif;
 }
 
 .order-summary-top {
     padding: 20px;
     border: 1px solid #ddd;
     background-color: #e5e5e5;
-    font-family: Arial, sans-serif; /* Ensure consistent font */
+    font-family: "interstate", Helvetica, Arial, sans-serif;
 }
 
 
@@ -766,11 +771,11 @@ select option {
     border: none;
     font-size: 1.2em;
     cursor: pointer;
-    color: #007BFF;
+    color: #333;
 }
 
 .toggle-discount:focus {
-    outline: 2px solid #007BFF;
+    outline: 2px solid #333;
 }
 
 .discount-content {
@@ -805,7 +810,7 @@ select option {
 }
 
 .apply-button:hover {
-    background-color: #333;
+    background-color: #05668d;
 }
 
 .rewards-info {
@@ -864,7 +869,7 @@ select option {
 }
 
 .newsletter-form button {
-    padding: 15px 18px;
+    padding: 15px 50px;
     font-size: 0.9em;
     background-color: #333;
     color: #fff;
@@ -875,7 +880,7 @@ select option {
 }
 
 .newsletter-form button:hover {
-    background-color: #e0a800;
+    background-color: #05668d;
 }
 
 /* Bottom Row */
