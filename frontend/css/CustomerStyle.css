@@ -316,6 +316,10 @@ header {
     margin-bottom: 30px;
 }
 
+.checkout-container .express-checkout p {
+ font-size: 0.9em;
+}
+
 /* Form Layout */
 .form-group-pair, .form-group {
     display: flex;
