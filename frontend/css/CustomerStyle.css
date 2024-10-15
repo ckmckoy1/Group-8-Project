@@ -661,15 +661,22 @@ select option {
 }
 
 .order-summary-product img {
-    max-width: 100%;
-    height: auto;
+    width:auto;
+    height: 200px;
     border-radius: 4px;
+    margin-left: 10px;
 }
 
 /* Middle Section: Items in Order */
 .order-summary-middle {
-    margin-top: 20px;
-    border-top: 1px solid #ddd;
+    margin-top: 0px;
+    border: 1px solid #333;
+    padding-top: 20px;
+}
+
+/* Middle Section: Items in Order */
+.order-summary-bottom {
+    margin-top: 0px;
     padding-top: 20px;
 }
 
@@ -717,11 +724,6 @@ select option {
     margin-right: 15px;
 }
 
-.order-summary-product img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-}
 
 .product-info {
     flex: 1;
