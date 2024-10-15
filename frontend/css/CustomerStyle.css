@@ -546,7 +546,7 @@ select option {
 .order-summary-top {
     padding: 20px;
     border: 1px solid #ddd;
-    background-color: #e5e5e5;
+    background-color: 	#E8E8E8;
     font-family: "interstate", Helvetica, Arial, sans-serif;
 }
 
@@ -838,10 +838,11 @@ select option {
 
 /* Footer */
 .footer {
-    background-color: var(--color-footer-bg);
+    background-color: 	#E8E8E8;
     color: var(--color-text);
     font-family: "interstate", Helvetica, Arial, sans-serif;
     padding: var(--spacing-xl) var(--spacing-lg);
+    border-top: 1px solid  #333;
 }
 
 .footer-container {
@@ -860,6 +861,7 @@ select option {
 /* Top Row */
 .footer-row.top-row {
     justify-content: space-between;
+    margin-top: 30px;
 }
 
 .footer-row.top-row h3 {
@@ -868,7 +870,7 @@ select option {
 }
 
 .footer-row.top-row p {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 /* Footer Sections */
@@ -928,6 +930,7 @@ select option {
     margin-top: 20px;
 }
 
+
 /* Footer Sections */
 .footer-section {
     flex: 1 1 30%;
@@ -963,6 +966,7 @@ select option {
     color: #555;
     font-size: 0.8em;
     transition: color var(--transition-fast);
+    gap: 20px;
 }
 
 .footer-section ul li a:hover,
@@ -1011,6 +1015,7 @@ select option {
     justify-content: center;
     gap: var(--spacing-md);
     flex-wrap: wrap;
+    gap: 6px;
 }
 
 .footer-row.bottom-row ul li {
