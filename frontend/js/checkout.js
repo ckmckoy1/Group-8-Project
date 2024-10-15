@@ -592,4 +592,105 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ------------------ END OF NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
 
+    function displayShippingDetails() {
+        // Get input values for Shipping and Contact Info
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const address = document.getElementById("address").value;
+        const unitNumber = document.getElementById("unitNumber").value;
+        const city = document.getElementById("city").value;
+        const state = document.getElementById("state").value;
+        const zip = document.getElementById("zip").value;
+    
+        // Display the Shipping and Contact Info
+        let shippingDetailsHTML = `
+            <h3 onclick="toggleSection('shippingSection')">1. SHIPPING & DELIVERY</h3>
+            <div class="contact-info">
+                <p><strong>Contact Info</strong> <button onclick="editSection('shippingSection')">Edit</button></p>
+                <p>Email: ${email}</p>
+                <p>Phone Number: ${phone}</p>
+            </div>
+            <div class="shipping-address">
+                <p><strong>Shipping Address</strong> <button onclick="editSection('shippingSection')">Edit</button></p>
+                <p>${firstName} ${lastName}</p>
+                <p>${address}${unitNumber ? `, ${unitNumber}` : ''}</p>
+                <p>${city}, ${state} ${zip}</p>
+            </div>
+        `;
+    
+        // Replace shipping section content with display text
+        const shippingSection = document.getElementById("shippingSection");
+        shippingSection.innerHTML = shippingDetailsHTML;
+    
+        // Move to the Shipping Method section
+        document.getElementById("paymentSection").classList.add("show");
+        document.getElementById("paymentSection").classList.remove("collapsed");
+        document.getElementById("shippingSection").classList.add("collapsed");
+        document.getElementById("shippingSection").classList.remove("show");
+    }
+    
+    function displayPaymentDetails() {
+        // Get selected shipping method
+        const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
+    
+        // Display the selected shipping method
+        let shippingMethodHTML = `
+            <h3 onclick="toggleSection('paymentSection')">2. SHIPPING METHOD</h3>
+            <div class="shipping-method">
+                <p><strong>Selected Shipping Method</strong> <button onclick="editSection('paymentSection')">Edit</button></p>
+                <p>${shippingMethod}</p>
+            </div>
+        `;
+    
+        // Replace payment section content with display text
+        const paymentSection = document.getElementById("paymentSection");
+        paymentSection.innerHTML = shippingMethodHTML;
+    
+        // Move to Billing Section
+        document.getElementById("reviewOrderSection").classList.add("show");
+        document.getElementById("reviewOrderSection").classList.remove("collapsed");
+        document.getElementById("paymentSection").classList.add("collapsed");
+        document.getElementById("paymentSection").classList.remove("show");
+    }
+    
+    function displayBillingDetails() {
+        // Get input values for billing information
+        const cardNumber = document.getElementById("cardNumber").value;
+        const billingName = document.getElementById("billingName").value;
+        const billingAddress = document.getElementById("billingAddress").value;
+        const billingCity = document.getElementById("billingCity").value;
+        const billingState = document.getElementById("billingState").value;
+        const billingZip = document.getElementById("billingZipCode").value;
+    
+        // Display the Billing Information
+        let billingDetailsHTML = `
+            <h3 onclick="toggleSection('reviewOrderSection')">3. BILLING INFORMATION</h3>
+            <div class="billing-info">
+                <p><strong>Billing Information</strong> <button onclick="editSection('reviewOrderSection')">Edit</button></p>
+                <p>Cardholder Name: ${billingName}</p>
+                <p>Card Number: **** **** **** ${cardNumber.slice(-4)}</p>
+                <p>Billing Address: ${billingAddress}, ${billingCity}, ${billingState}, ${billingZip}</p>
+            </div>
+        `;
+    
+        // Replace billing section content with display text
+        const reviewOrderSection = document.getElementById("reviewOrderSection");
+        reviewOrderSection.innerHTML = billingDetailsHTML;
+    }
+    
+    function editSection(sectionId) {
+        // Allow editing of the section again by unhiding the content
+        const section = document.getElementById(sectionId);
+        section.classList.add("show");
+        section.classList.remove("collapsed");
+    }
+    
+    // Attach the functions to the respective buttons
+    document.getElementById("continueToPayment").addEventListener("click", displayShippingDetails);
+    document.getElementById("continueToReview").addEventListener("click", displayPaymentDetails);
+    document.querySelector(".submit-button").addEventListener("click", displayBillingDetails);
+    
+
 });

@@ -8,7 +8,6 @@ html, body {
     overflow-x: hidden;
 }
 
-
 body {
     font-family: "interstate", Helvetica, Arial, sans-serif;
     background-color: #f4f4f9;
@@ -1276,6 +1275,29 @@ select option {
     height: 80px;
     animation: spin 1.2s linear infinite;
 }
+
+/* temporary, delete later */
+.shipping-method, .billing-info {
+    padding: 15px 0;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+.shipping-method p, .billing-info p {
+    margin: 5px 0;
+    line-height: 1.6;
+    font-size: 1em;
+}
+
+.shipping-method button, .billing-info button {
+    background: none;
+    color: #05668d;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 0.9em;
+}
+
 
 
 @keyframes spin {
