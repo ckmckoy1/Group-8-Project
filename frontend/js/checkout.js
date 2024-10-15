@@ -591,4 +591,5 @@ document.addEventListener('DOMContentLoaded', function () {
     setupDiscountsToggle();
 
     /* ------------------ END OF NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
+
 });
