@@ -825,16 +825,16 @@ select option {
 
 .discount-content input {
     flex: 1;
-    padding: 8px;
+    padding: 8px 16x;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    font-size: 0.7em;
+ 
 }
 
 .apply-button {
     padding: 8px 16px;
     background-color: #333;
     border: none;
-    border-radius: 4px;
     color: #fff;
     cursor: pointer;
 }
