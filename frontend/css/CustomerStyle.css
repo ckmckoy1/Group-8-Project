@@ -536,6 +536,15 @@ select option {
     display: block;
 }
 
+.reviewOrderSection .form-group {
+    margin:0;
+}
+
+
+.reviewOrderSection .form-group .form-group-pair {
+    margin:0;
+}
+
 /* Order Summary Container */
 .order-summary {
     padding: 20px;
