@@ -1,34 +1,36 @@
 /* General styling */
+/* Apply Flexbox to the body */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f3f3; /* Softer background for better contrast */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
-    color: #333;
 }
 
-/* Header styling */
+/* Header should not shrink */
 .header {
-    background-color: #2b6777; /* Darker, more calming blue */
+    background-color: #2b6777;
     color: white;
     padding: 15px 0;
     text-align: center;
     font-family: 'Courier New', Courier, monospace;
+    flex-shrink: 0;
+}
+
+/* Main takes the remaining space */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center content vertically and horizontally */
+    padding: 20px 10px;
+    flex-direction: column; /* Stack elements vertically */
 }
 
 .header h1 {
     margin: 0;
     font-size: 40px; /* Reduced font size for smaller screens */
-}
-
-/* Center the form container */
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 80px); /* Adjust height for larger header */
-    padding: 20px 10px; /* Add padding for better spacing on mobile */
-    flex-direction: column; /* Stack elements vertically */
 }
 
 /* Settle shipment form container */
