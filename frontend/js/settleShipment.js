@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalAmountInput = document.getElementById('finalAmount');
     const orderIdInput = document.getElementById('orderId');
     const barcodeButton = document.getElementById('barcodeScanner');
-    // const qrButton = document.getElementById('qrScanner'); // Removed QR Button
     const videoElement = document.getElementById('scannerVideo');
     const printLabelButton = document.getElementById('printLabel'); // Print button for label
 
@@ -47,15 +46,30 @@ document.addEventListener('DOMContentLoaded', () => {
     settleForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const enteredOrderId = orderIdInput.value.trim();
-        if (!/^\d{6}$/.test(enteredOrderId)) {
-            messageDiv.textContent = 'You must enter a 6-digit number for the Order ID.';
-            messageDiv.className = 'message error';
-            messageDiv.style.display = 'block';
-            return;
+        let enteredOrderId = orderIdInput.value.trim();
+
+        // Check if the enteredOrderId already includes the prefix
+        if (!enteredOrderId.startsWith('WP-')) {
+            // Validate that the order ID is a 6-digit number
+            const orderIdNumber = enteredOrderId;
+            if (!/^\d{6}$/.test(orderIdNumber)) {
+                messageDiv.textContent = 'You must enter a 6-digit number for the Order ID.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+                return;
+            }
+            enteredOrderId = `WP-${orderIdNumber}`;
+        } else {
+            // Validate that after 'WP-' there are exactly 6 digits
+            const orderIdNumber = enteredOrderId.slice(3);
+            if (!/^\d{6}$/.test(orderIdNumber)) {
+                messageDiv.textContent = 'You must enter a 6-digit number for the Order ID after WP-.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
+                return;
+            }
         }
 
-        const fullOrderId = `WP-${enteredOrderId}`;
         const finalAmount = parseFloat(finalAmountInput.value.replace(/[^0-9.-]+/g, ""));
 
         if (isNaN(finalAmount)) {
@@ -66,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const order = await fetchOrderDetails(fullOrderId);
+            const order = await fetchOrderDetails(enteredOrderId);
             const authorizationAmount = order.AuthorizationAmount;
 
             if (finalAmount > authorizationAmount) {
@@ -82,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    orderId: fullOrderId,
+                    orderId: enteredOrderId,
                     finalAmount: finalAmount
                 }),
             });
@@ -144,6 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: "Live",
                 type: "LiveStream",
                 target: videoElement, // Video element to display the camera stream
+                constraints: {
+                    facingMode: "environment" // Prefer the back camera
+                }
             },
             decoder: {
                 readers: ["code_128_reader", "ean_reader"] // Supported barcode types
@@ -152,6 +169,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (err) {
                 console.error(err);
                 stopCameraStream(stream);
+                messageDiv.textContent = 'Error initializing barcode scanner.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
                 return;
             }
             Quagga.start();
@@ -159,7 +179,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Quagga.onDetected((data) => {
             const barcode = data.codeResult.code;
-            orderIdInput.value = barcode; // Set the scanned barcode as the orderId
+            // Check if barcode already has the prefix
+            if (!barcode.startsWith('WP-')) {
+                orderIdInput.value = barcode;
+            } else {
+                orderIdInput.value = barcode.slice(3); // Remove 'WP-' prefix for consistency
+            }
             Quagga.stop();
             stopCameraStream(stream);
             videoElement.style.display = 'none'; // Hide video stream
@@ -170,163 +195,103 @@ document.addEventListener('DOMContentLoaded', () => {
     barcodeButton.addEventListener('click', startBarcodeScanner);
 
     // Function to print the shipment label
-    const printLabel = () => {
+    const printLabel = async () => {
         const orderId = orderIdInput.value.trim();
-        const labelWindow = window.open('', '', 'height=400,width=600');
-        labelWindow.document.write('<html><head><title>Shipment Label</title>');
-        labelWindow.document.write('</head><body>');
-        labelWindow.document.write(`<h1>Shipment Label for Order: WP-${orderId}</h1>`);
-        labelWindow.document.write('<p>Shipping Address: <strong>John Doe, 123 Main St, City, State, ZIP</strong></p>');
-        labelWindow.document.write('<p>Warehouse Status: Ready for Shipment</p>');
-        labelWindow.document.write('</body></html>');
-        labelWindow.document.close();
-        labelWindow.print();
+        try {
+            const order = await fetchOrderDetails(orderId);
+            const shippingAddress = order.ShippingAddress; // Assuming the API returns this field
+
+            const labelWindow = window.open('', '', 'height=600,width=800');
+            labelWindow.document.write('<html><head><title>Shipment Label</title>');
+            labelWindow.document.write('<style>');
+            labelWindow.document.write('body { font-family: Arial, sans-serif; padding: 20px; }');
+            labelWindow.document.write('</style>');
+            labelWindow.document.write('</head><body>');
+            labelWindow.document.write(`<h1>Shipment Label for Order: ${orderId}</h1>`);
+            labelWindow.document.write(`<p><strong>Shipping Address:</strong> ${shippingAddress.name}, ${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}</p>`);
+            labelWindow.document.write('<p><strong>Warehouse Status:</strong> Ready for Shipment</p>');
+            labelWindow.document.write('</body></html>');
+            labelWindow.document.close();
+            labelWindow.focus();
+            labelWindow.print();
+            labelWindow.close();
+        } catch (error) {
+            console.error('Error printing label:', error);
+            messageDiv.textContent = 'Error printing label. Please try again.';
+            messageDiv.className = 'message error';
+            messageDiv.style.display = 'block';
+        }
     };
 
     // Attach the printLabel function to the print button
     printLabelButton.addEventListener('click', printLabel);
-});
 
+    // Function to generate and download PDF label (optional enhancement)
+    const generatePDFLabel = async (orderId, shippingAddress) => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-const generatePDFLabel = (orderId, shippingAddress) => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text('Shipment Label', 10, 10);
+        doc.setFontSize(12);
+        doc.text(`Order ID: ${orderId}`, 10, 20);
+        doc.text(`Shipping Address: ${shippingAddress.name}, ${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}`, 10, 30);
+        doc.text('Warehouse Status: Ready for Shipment', 10, 40);
 
-    doc.setFontSize(16);
-    doc.text('Shipment Label', 10, 10);
-    doc.setFontSize(12);
-    doc.text(`Order ID: WP-${orderId}`, 10, 20);
-    doc.text(`Shipping Address: ${shippingAddress}`, 10, 30);
-    doc.text('Warehouse Status: Ready for Shipment', 10, 40);
-
-    doc.save(`Shipment_Label_WP-${orderId}.pdf`);
-};
-
-
-const fetchOrderHistory = async () => {
-    try {
-        const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/settled'); // Replace with your endpoint
-        const orders = await response.json();
-        const orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
-        orderHistoryTableBody.innerHTML = ''; // Clear previous entries
-
-        orders.forEach(order => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>WP-${order.OrderID}</td>
-                <td>${new Date(order.WarehouseApprovalDate).toLocaleString()}</td>
-                <td>${order.WarehouseStatus}</td>
-                <td><a href="${order.TrackingLink}" target="_blank">Track Shipment</a></td>
-            `;
-            orderHistoryTableBody.appendChild(row);
-        });
-    } catch (error) {
-        console.error('Error fetching order history:', error);
-    }
-};
-
-// Call this function when loading the order history section
-fetchOrderHistory();
-
-const createShipment = async (orderDetails) => {
-    const shipmentData = {
-        address_from: {
-            name: "Warehouse",
-            street1: "123 Warehouse St",
-            city: "City",
-            state: "State",
-            zip: "ZIP",
-            country: "US"
-        },
-        address_to: orderDetails.shippingAddress, // Use customer shipping address from order
-        parcels: [
-            {
-                length: "10",
-                width: "7",
-                height: "5",
-                distance_unit: "in",
-                weight: "2",
-                mass_unit: "lb"
-            }
-        ],
-        servicelevel_token: "usps_priority",
+        doc.save(`Shipment_Label_${orderId}.pdf`);
     };
 
-    const response = await fetch('https://api.goshippo.com/shipments', {
-        method: 'POST',
-        headers: {
-            'Authorization': 'ShippoToken YOUR_SHIPPO_TOKEN',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(shipmentData)
-    });
+    // Fetch and display order history
+    const fetchOrderHistory = async () => {
+        try {
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/settled'); // Replace with your endpoint
+            if (!response.ok) {
+                throw new Error('Failed to fetch order history.');
+            }
+            const orders = await response.json();
+            const orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
+            orderHistoryTableBody.innerHTML = ''; // Clear previous entries
 
-    const shipment = await response.json();
-    const shippingLabelUrl = shipment.object_label_url;
-    
-    return shippingLabelUrl;
-};
-
-
-// Nodemailer cannot be used on the client-side.
-// Remove or comment out the following lines to prevent errors.
-// const nodemailer = require('nodemailer');
-
-// const sendEmailConfirmation = async (customerEmail, orderDetails, trackingLink) => {
-//     const transporter = nodemailer.createTransport({
-//         service: 'gmail',
-//         auth: {
-//             user: 'youremail@gmail.com',
-//             pass: 'yourpassword'
-//         }
-//     });
-
-//     const mailOptions = {
-//         from: 'youremail@gmail.com',
-//         to: customerEmail,
-//         subject: `Order ${orderDetails.OrderID} Confirmation`,
-//         text: `Your order has been settled. You can track it here: ${trackingLink}`
-//     };
-
-//     transporter.sendMail(mailOptions, (error, info) => {
-//         if (error) {
-//             console.log('Error sending email:', error);
-//         } else {
-//             console.log('Email sent: ' + info.response);
-//         }
-//     });
-// };
-
-// Polling example for real-time updates
-setInterval(async () => {
-    try {
-        const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/status');
-        const updatedStatus = await response.json();
-        const warehouseStatusElement = document.getElementById('warehouseStatus');
-        if (warehouseStatusElement) {
-            warehouseStatusElement.innerText = updatedStatus.WarehouseStatus;
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>WP-${order.OrderID}</td>
+                    <td>${new Date(order.WarehouseApprovalDate).toLocaleString()}</td>
+                    <td>${order.WarehouseStatus}</td>
+                    <td><a href="${order.TrackingLink}" target="_blank">Track Shipment</a></td>
+                `;
+                orderHistoryTableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Error fetching order history:', error);
+            const orderHistoryContainer = document.querySelector('.order-history-container');
+            orderHistoryContainer.innerHTML += `<p class="message error">Error fetching order history.</p>`;
         }
-    } catch (error) {
-        console.error('Error fetching updated status:', error);
-    }
-}, 10000); // Poll every 10 seconds
+    };
 
-const updateWarehouseStatus = async (orderId, status) => {
-    try {
-        const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                WarehouseStatus: status,
-                WarehouseApprovalDate: new Date() // Add current date and time
-            })
-        });
+    // Call this function when loading the order history section
+    fetchOrderHistory();
 
-        const result = await response.json();
-        return result;
-    } catch (error) {
-        console.error('Error updating warehouse status:', error);
-    }
-};
+    // Polling example for real-time updates
+    setInterval(async () => {
+        try {
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/status');
+            if (!response.ok) {
+                throw new Error('Failed to fetch updated status.');
+            }
+            const updatedStatus = await response.json();
+            const warehouseStatusElement = document.getElementById('warehouseStatus');
+            if (warehouseStatusElement) {
+                warehouseStatusElement.innerText = updatedStatus.WarehouseStatus;
+            }
+        } catch (error) {
+            console.error('Error fetching updated status:', error);
+            const warehouseStatusElement = document.getElementById('warehouseStatus');
+            if (warehouseStatusElement) {
+                warehouseStatusElement.innerText = 'Error fetching status.';
+            }
+        }
+    }, 10000); // Poll every 10 seconds
+
+    // Optional: Remove or handle unused functions like createShipment and updateWarehouseStatus
+});

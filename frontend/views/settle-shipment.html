@@ -14,7 +14,7 @@
     <main>
         <div class="settle-shipment-container">
             <h2>Order Shipping Settlement</h2>
-            <h3>Click the "Scan" button to scan the barcode or enter the Order ID to pull the order. Then enter the Final Amount  and click the Settlement Shipment button to settle the order.</h3>
+            <h3>Click the "Scan" button to scan the barcode or enter the Order ID to pull the order. Then enter the Final Amount and click the Settlement Shipment button to settle the order.</h3>
             <form id="settleShipmentForm">
                 <div class="form-group">
                     <h3>Step 1: Scan Barcode or Enter Order ID</h3>
@@ -32,8 +32,9 @@
 
                 <div class="form-group">
                     <h3>Step 2: Enter Final Amount</h3>
-                    <label for="finalAmount"></label>
-                    <input type="text" id="finalAmount" name="finalAmount" placeholder="Enter Final Amount" required>
+                    <label for="finalAmount">Final Amount</label>
+                    <!-- Changed input type to number with step for decimal values -->
+                    <input type="number" id="finalAmount" name="finalAmount" placeholder="Enter Final Amount" required step="0.01" min="0">
                 </div>
                 
                 <h3>Step 3: Click Settle Shipment Button</h3>
@@ -43,7 +44,31 @@
             </form>
             
             <!-- Print after approval -->
-            <button id="printLabel" style="display:none;" onclick="printLabel()">Print Shipment Label</button>
+            <button id="printLabel" style="display:none;">Print Shipment Label</button>
+
+            <!-- Order History Section -->
+            <div class="order-history-container">
+                <h2>Order History</h2>
+                <table class="order-history-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Approval Date</th>
+                            <th>Status</th>
+                            <th>Tracking Link</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderHistoryTableBody">
+                        <!-- Order history will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Warehouse Status Display -->
+            <div class="warehouse-status-container">
+                <h2>Warehouse Status</h2>
+                <p id="warehouseStatus">Loading status...</p>
+            </div>
         </div>
     </main>
 

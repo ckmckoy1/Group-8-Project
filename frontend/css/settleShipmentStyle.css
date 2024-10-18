@@ -27,7 +27,8 @@ main {
     justify-content: center;
     align-items: center;
     height: calc(100vh - 80px); /* Adjust height for larger header */
-    padding: 0 10px; /* Add padding for better spacing on mobile */
+    padding: 20px 10px; /* Add padding for better spacing on mobile */
+    flex-direction: column; /* Stack elements vertically */
 }
 
 /* Settle shipment form container */
@@ -37,8 +38,9 @@ main {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 40px; /* Increased padding for more space */
     width: 100%;
-    max-width: 600px; /* Increased max width for better layout */
+    max-width: 800px; /* Increased max width for better layout */
     text-align: left; /* Align text to the left */
+    margin-bottom: 30px; /* Space below the container */
 }
 
 /* Action button styling */
@@ -70,7 +72,11 @@ main {
     color: #333; /* Adjust color if needed */
 }
 
-
+.settle-shipment-container h3 {
+    font-size: 16px; /* Reduced font size for better readability */
+    margin-bottom: 20px; /* Space below instructions */
+    color: #555; /* Adjust color for contrast */
+}
 
 /* Form input fields */
 .form-group {
@@ -79,7 +85,7 @@ main {
 
 .form-group h3 {
     font-size: 18px; /* Step title font size */
-    margin-bottom: 20px; /* Space below step titles */
+    margin-bottom: 10px; /* Space below step titles */
 }
 
 .form-group label {
@@ -90,7 +96,7 @@ main {
 }
 
 .form-group input {
-    width: calc(100% - 20px);
+    width: 100%; /* Full width for better responsiveness */
     padding: 12px; /* Increased padding for touch accessibility */
     font-size: 15px; /* Larger font for better readability */
     border: 1px solid #aaa; /* More visible border */
@@ -168,6 +174,7 @@ main {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
 .order-id-prefix {
@@ -180,14 +187,13 @@ main {
 }
 
 #orderId {
-    width: 200px; /* Set a shorter width for the input box */
+    flex: 1; /* Allow the input to take remaining space */
     border-radius: 0 6px 6px 0;
     border-left: none;
     padding: 12px;
     font-size: 16px; /* Larger input font */
 }
 
-/* "or" text */
 .or-text {
     margin: 0 10px; /* Space around the "or" text */
     font-size: 16px; /* Match input and prefix font size */
@@ -203,13 +209,83 @@ main {
     display: none; /* Initially hidden */
 }
 
+/* Order History Table Styling */
+.order-history-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.order-history-container h2 {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.order-history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-history-table th,
+.order-history-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.order-history-table th {
+    background-color: #2b6777;
+    color: white;
+}
+
+.order-history-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.order-history-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Warehouse Status Styling */
+.warehouse-status-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.warehouse-status-container h2 {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.warehouse-status-container p {
+    font-size: 18px;
+    color: #555;
+}
+
 /* Responsive design for mobile */
 @media (max-width: 600px) {
     .header h1 {
         font-size: 30px; /* Reduce title size on mobile */
     }
 
-    .settle-shipment-container {
+    .settle-shipment-container,
+    .order-history-container,
+    .warehouse-status-container {
         padding: 15px;
         box-shadow: none; /* Remove shadow for flatter design on mobile */
     }
@@ -241,5 +317,15 @@ main {
 
     #scannerVideo {
         height: 200px; /* Adjust height for smaller screens */
+    }
+
+    .order-history-table th,
+    .order-history-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .warehouse-status-container p {
+        font-size: 16px;
     }
 }
