@@ -20,8 +20,8 @@
                     <h3>Step 1: Scan Barcode or Enter Order ID</h3>
                     <small class="info-text"></small>
                     <div class="order-id-container">
-                        <button type="button" id="barcodeScanner" class="action-button">
-                            <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="180" height="100" class="icon"> Scan
+                        <button type="button" id="barcodeScanner" class="action-button" aria-label="Scan Barcode">
+                            <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="24" height="24" class="icon"> Scan
                         </button>
                         <span class="or-text">or</span>
                         <span class="order-id-prefix">WP-</span>
@@ -30,11 +30,11 @@
                     <p id="scannerInstructions" class="scanner-instructions" style="display: none;">
                         Please align the barcode within the frame to scan.
                     </p>
-                    <video id="scannerVideo" style="display: none;"></video>
                     <div id="loadingSpinner" class="loading-spinner" style="display: none;">
                         <img src="../assets/loading-spinner.gif" alt="Loading..." width="50" height="50">
                         <p>Initializing camera...</p>
                     </div>
+                    <video id="scannerVideo" style="display: none;"></video>
                 </div>
 
                 <div class="form-group">

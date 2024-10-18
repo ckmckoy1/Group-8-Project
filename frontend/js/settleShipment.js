@@ -154,6 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const startBarcodeScanner = async () => {
         loadingSpinner.style.display = 'flex'; // Show loading spinner
         scannerInstructions.style.display = 'block'; // Show instructions
+        messageDiv.textContent = 'Initializing camera...';
+        messageDiv.className = 'message';
+        messageDiv.style.display = 'block';
+
         const stream = await requestCameraPermission();
         if (!stream) {
             loadingSpinner.style.display = 'none'; // Hide loading spinner
@@ -187,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             Quagga.start();
+            messageDiv.style.display = 'none'; // Hide initializing message
         });
 
         Quagga.onProcessed((result) => {
@@ -315,6 +320,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }, 10000); // Poll every 10 seconds
-
-    // Optional: Remove or handle unused functions like createShipment and updateWarehouseStatus
 });
