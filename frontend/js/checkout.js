@@ -138,17 +138,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let input = e.target.value.replace(/\D/g, '');
         input = input.match(/.{1,4}/g)?.join(' ') || input;
         e.target.value = input;
-
-        // Get the card brand
-        const cardBrand = getCardBrand(e.target.value);
-
-        // Update the card brand display
-        const cardBrandDisplay = document.getElementById('cardBrandDisplay');
-        if (cardBrand !== 'Unknown') {
-            cardBrandDisplay.textContent = `Card Type: ${cardBrand}`;
-        } else {
-            cardBrandDisplay.textContent = '';
-        }
     });
 
     // Function to handle payment method change
@@ -339,6 +328,81 @@ document.addEventListener('DOMContentLoaded', function () {
         messageDiv.className = `message ${type}`;
         messageDiv.style.display = 'block';
     };
+
+    /* ------------------ NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
+
+    // Function to mask card number and CVV
+    function setupSensitiveDataMasking() {
+        const cardNumberInput = document.getElementById('cardNumber');
+        const cvvInput = document.getElementById('securityCode');
+
+        if (cardNumberInput) {
+            // Handle blur event for card number
+            cardNumberInput.addEventListener('blur', function () {
+                const value = cardNumberInput.value.replace(/\s/g, ''); // Remove spaces
+                if (value.length >= 4) {
+                    const lastFour = value.slice(-4);
+                    const masked = '*'.repeat(value.length - 4) + lastFour;
+                    // Format with spaces (e.g., "**** **** **** 1234")
+                    const formattedMasked = masked.replace(/(.{4})/g, '$1 ').trim();
+                    cardNumberInput.setAttribute('data-original-value', cardNumberInput.value); // Store original value
+                    cardNumberInput.value = formattedMasked;
+                }
+            });
+
+            // Handle focus event for card number
+            cardNumberInput.addEventListener('focus', function () {
+                const originalValue = cardNumberInput.getAttribute('data-original-value');
+                if (originalValue) {
+                    cardNumberInput.value = originalValue;
+                }
+            });
+        }
+
+        if (cvvInput) {
+            // Handle blur event for CVV
+            cvvInput.addEventListener('blur', function () {
+                const value = cvvInput.value;
+                if (value.length > 0) {
+                    const masked = '*'.repeat(value.length);
+                    cvvInput.setAttribute('data-original-value', cvvInput.value); // Store original value
+                    cvvInput.value = masked;
+                }
+            });
+
+            // Handle focus event for CVV
+            cvvInput.addEventListener('focus', function () {
+                const originalValue = cvvInput.getAttribute('data-original-value');
+                if (originalValue) {
+                    cvvInput.value = originalValue;
+                }
+            });
+        }
+
+        // Restore original values before form submission
+        checkoutForm.addEventListener('submit', function (event) {
+            // Restore card number
+            if (cardNumberInput) {
+                const originalCardNumber = cardNumberInput.getAttribute('data-original-value');
+                if (originalCardNumber) {
+                    cardNumberInput.value = originalCardNumber;
+                }
+            }
+
+            // Restore CVV
+            if (cvvInput) {
+                const originalCVV = cvvInput.getAttribute('data-original-value');
+                if (originalCVV) {
+                    cvvInput.value = originalCVV;
+                }
+            }
+        });
+    }
+
+    // Initialize masking functionality
+    setupSensitiveDataMasking();
+
+    /* ------------------ END OF NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
 
     // Final submission
     checkoutForm.addEventListener('submit', async (event) => {
