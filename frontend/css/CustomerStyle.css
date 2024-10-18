@@ -844,12 +844,15 @@ select option {
 }
 
 /* Remove border and background from the arrow image */
-.order-summary-toggle .toggle-button img {
+.order-summary-toggle .toggle-button {
     border: none;
     background: none;
     display: block; /* Removes any inline spacing */
 }
 
+.order-summary-toggle .toggle-button img{
+    display: block; /* Removes any inline spacing */
+}
 
 /* Order Details */
 .order-summary-details {
