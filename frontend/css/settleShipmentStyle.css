@@ -1,4 +1,334 @@
-/* Existing CSS */
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3; /* Softer background for better contrast */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Header styling */
+.header {
+    background-color: #2b6777; /* Darker, more calming blue */
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 40px; /* Reduced font size for smaller screens */
+}
+
+/* Center the form container */
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px); /* Adjust height for larger header */
+    padding: 20px 10px; /* Add padding for better spacing on mobile */
+    flex-direction: column; /* Stack elements vertically */
+}
+
+/* Settle shipment form container */
+.settle-shipment-container {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px; /* Increased padding for more space */
+    width: 100%;
+    max-width: 800px; /* Increased max width for better layout */
+    text-align: left; /* Align text to the left */
+    margin-bottom: 30px; /* Space below the container */
+}
+
+/* Action button styling */
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the icon and text */
+    padding: 0 10px; /* Horizontal padding for a comfortable click area */
+    background-color: #2b6777; /* Match header color */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px; /* Set a consistent font size */
+    cursor: pointer;
+    margin-right: 10px; /* Space to the right of the button */
+    transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #25555e; /* Slightly darker shade on hover */
+}
+
+/* Style for the Order Shipping Settlement header */
+.settle-shipment-container h2 {
+    text-align: center; /* Center the text */
+    text-decoration: underline; /* Underline the text */
+    font-size: 24px; /* Adjust font size as needed */
+    margin-bottom: 30px; /* Space below the header */
+    color: #333; /* Adjust color if needed */
+}
+
+.settle-shipment-container h3 {
+    font-size: 16px; /* Reduced font size for better readability */
+    margin-bottom: 20px; /* Space below instructions */
+    color: #555; /* Adjust color for contrast */
+}
+
+/* Form input fields */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group h3 {
+    font-size: 18px; /* Step title font size */
+    margin-bottom: 10px; /* Space below step titles */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%; /* Full width for better responsiveness */
+    padding: 12px; /* Increased padding for touch accessibility */
+    font-size: 15px; /* Larger font for better readability */
+    border: 1px solid #aaa; /* More visible border */
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Instruction Text */
+.info-text {
+    font-size: 18px; /* Increased font size */
+    font-weight: bold; /* Bold text */
+    margin-bottom: 10px; /* Space below the text */
+    color: #555; /* Adjust color for contrast */
+}
+
+/* Remove spinner for Chrome, Safari, Edge, and Opera */
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Remove spinner for Firefox */
+.form-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Align text to the right */
+.form-group input[type="number"] {
+    text-align: right;
+}
+
+.form-group input:focus {
+    border-color: #2b6777; /* Match with header color */
+    outline: none;
+}
+
+/* Submit button */
+.submit-button {
+    background-color: #2b6777;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 18px; /* Larger button for easier interaction */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make the button take up full width for easier access */
+}
+
+.submit-button:hover {
+    background-color: #25555e; /* Slightly darker shade on hover */
+}
+
+/* Message styling */
+.message {
+    display: none;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    color: white;
+}
+
+.message.success {
+    background-color: #4CAF50;
+}
+
+.message.error {
+    background-color: #f44336;
+}
+
+/* Style for the prefix and input */
+.order-id-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.order-id-prefix {
+    padding: 0 10px;
+    font-size: 16px; /* Larger prefix font */
+    background-color: #f0f0f0;
+    border: 1px solid #aaa; /* More visible border */
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+}
+
+#orderId {
+    flex: 1; /* Allow the input to take remaining space */
+    border-radius: 0 6px 6px 0;
+    border-left: none;
+    padding: 12px;
+    font-size: 16px; /* Larger input font */
+}
+
+.or-text {
+    margin: 0 10px; /* Space around the "or" text */
+    font-size: 16px; /* Match input and prefix font size */
+    align-self: center; /* Center vertically */
+}
+
+/* Video for barcode/QR scanning */
+#scannerVideo {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    display: none; /* Initially hidden */
+}
+
+/* Order History Table Styling */
+.order-history-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.order-history-container h2 {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.order-history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-history-table th,
+.order-history-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.order-history-table th {
+    background-color: #2b6777;
+    color: white;
+}
+
+.order-history-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.order-history-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Warehouse Status Styling */
+.warehouse-status-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.warehouse-status-container h2 {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.warehouse-status-container p {
+    font-size: 18px;
+    color: #555;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 30px; /* Reduce title size on mobile */
+    }
+
+    .settle-shipment-container,
+    .order-history-container,
+    .warehouse-status-container {
+        padding: 15px;
+        box-shadow: none; /* Remove shadow for flatter design on mobile */
+    }
+
+    .form-group input {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .submit-button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .message {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .order-id-prefix {
+        font-size: 14px;
+        padding: 0 8px;
+    }
+
+    #orderId {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #scannerVideo {
+        height: 200px; /* Adjust height for smaller screens */
+    }
+
+    .order-history-table th,
+    .order-history-table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .warehouse-status-container p {
+        font-size: 16px;
+    }
+}
 
 /* Loading Spinner Styling */
 .loading-spinner {
