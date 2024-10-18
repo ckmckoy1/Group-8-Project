@@ -311,6 +311,69 @@ header {
     margin-bottom: 30px;
 }
 
+
+/* Express Checkout Container */
+.checkout-container .express-checkout {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align items to the start (left) */
+    padding: 0;
+    margin: 0;
+}
+
+/* Style the Heading */
+.checkout-container .express-checkout h4 {
+    margin-bottom: 10px; /* Adjust spacing below the heading */
+    font-size: 1.2em;
+    color: #333;
+    display: flex;
+    align-items: center; /* Vertically center the question mark icon */
+}
+
+/* Style the Paragraph */
+.checkout-container .express-checkout p {
+    margin-bottom: 20px; /* Adjust spacing below the paragraph */
+    font-size: 1em;
+    color: #555;
+}
+
+/* Checkout Options Container */
+.checkout-container .express-checkout .checkout-options { 
+    display: flex;
+    justify-content: center; /* Center images horizontally */
+    gap: 20px;               /* Increase the gap between images */
+    width: 100%;             /* Make the container take full width */
+}
+
+/* Style the Images */
+.checkout-container .express-checkout .checkout-options img {
+    height: auto;            /* Maintain aspect ratio */
+    width: 90px;             /* Set a consistent width */
+    /* Remove any additional spacing */
+    margin: 0;
+    padding: 0;
+    display: block;          /* Ensure images are block-level to prevent extra space */
+}
+
+/* Optional: Add Hover Effects to Images */
+.checkout-container .express-checkout .checkout-options img:hover {
+    transform: scale(1.05);  /* Slightly enlarge the image on hover */
+    transition: transform 0.2s ease;
+}
+
+
+.checkout-container .express-checkout img {
+    align-items: center;
+    gap: 5px;
+    gap: var(--spacing-xs);
+    
+}
+
+.checkout-container .express-checkout img:hover {
+    transform: scale(1.1);
+}
+
+
 .checkout-container .express-checkout p {
  font-size: 0.9em;
 }
@@ -898,7 +961,6 @@ select option {
     display: block; /* Eliminates inline spacing */
 }
 
-}
 
 /* Middle Row */
 .footer-row.middle-row {
@@ -1023,6 +1085,7 @@ select option {
     height: 24px;
     cursor: pointer;
     transition: transform var(--transition-fast);
+    
 }
 
 .social-media-icons img:hover {
@@ -1313,6 +1376,7 @@ select option {
         transform: translateY(0);
     }
 }
+
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -1322,12 +1386,12 @@ select option {
         opacity: 1;
         transform: translateX(0);
     }
+} /* Added missing closing brace here */
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
 
 /* Responsive Layout */
 @media (min-width: 769px) {
