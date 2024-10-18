@@ -428,7 +428,7 @@
                     </div>
                 
                     <!-- Order Subtotal -->
-                    <div class="order-summary-section">
+                    <div class="order-summary-section no-border">
                         <div class="order-summary-label">
                             <span class="label-bold">Order Subtotal</span>
                         </div>
@@ -437,26 +437,26 @@
                         </div>
                     </div>
                 
-                    <!-- Estimated Tax -->
-                    <div class="order-summary-section">
-                        <div class="order-summary-label">
-                            <span>Estimated Tax</span>
-                        </div>
-                        <div class="order-summary-value">
-                            <span>$2.87</span>
-                        </div>
+                <!-- Estimated Tax -->
+                <div class="order-summary-section no-border estimated-tax">
+                    <div class="order-summary-label">
+                        <span>Estimated Tax</span>
                     </div>
-                
-                    <!-- Estimated Shipping -->
-                    <div class="order-summary-section">
-                        <div class="order-summary-label">
-                            <span>Estimated Shipping</span>
-                        </div>
-                        <div class="order-summary-value">
-                            $<span id="shippingCostDisplay">0.00</span>
-                        </div>
+                    <div class="order-summary-value">
+                        <span>$2.87</span>
                     </div>
-                
+                </div>
+
+                <!-- Estimated Shipping -->
+                <div class="order-summary-section estimated-shipping">
+                    <div class="order-summary-label">
+                        <span>Estimated Shipping</span>
+                    </div>
+                    <div class="order-summary-value">
+                        $<span id="shippingCostDisplay">0.00</span>
+                    </div>
+                </div>
+
                     <!-- Total -->
                     <div class="order-summary-section total">
                         <div class="order-summary-label">
@@ -467,6 +467,7 @@
                         </div>
                     </div>
                 </div>
+                
                 
  <!-- Middle Section: Items in Order -->
  <div class="order-summary-middle">

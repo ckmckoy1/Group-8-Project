@@ -624,14 +624,14 @@ select option {
 /* Order Summary Container */
 .order-summary {
     padding: 20px;
-    max-width: 450px;
+    max-width: 600px;
     font-family: "interstate", Helvetica, Arial, sans-serif;
 }
 
 .order-summary-top {
     padding: 20px;
     border: 1px solid #ddd;
-    background-color: 	#E8E8E8;
+    background-color: 	#F0F0F0;
     font-family: "interstate", Helvetica, Arial, sans-serif;
 }
 
@@ -646,14 +646,16 @@ select option {
 .order-summary-header h3 {
     font-size: 1em; /* Larger font size */
     font-weight: bold; /* Bold text */
+    margin: 0; /* Remove default margin */
 }
 
 .order-summary-help {
     display: flex;
     align-items: center;
-    font-size: 0.9em; /* Slightly smaller font size */
+    font-size: 0.8em; /* Slightly smaller font size */
     font-weight: normal; /* Normal weight */
     color: #555; /* Grey color for HELP text */
+    text-decoration: none; /* Remove underline */
 }
 
 .order-summary-help img {
@@ -665,18 +667,19 @@ select option {
 /* Labels */
 .order-summary-label .label-bold {
     font-weight: bold; /* Bold text */
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 .order-summary-label .label-muted {
     color: #888; /* Grey color */
-    font-size: 0.9em;
+    font-size: 0.8em;
     margin-left: 5px; /* Space between bold label and muted text */
 }
 
 /* Values */
 .order-summary-value .value-bold {
     font-weight: bold; /* Bold text for prices */
+    color: #333; /* Standard text color */
 }
 
 .order-summary-value span {
@@ -690,7 +693,7 @@ select option {
     justify-content: space-between;
     align-items: center;
     padding: 10px 0; /* Vertical padding */
-    border-bottom: 1px solid #ddd; /* Line under each section */
+    border-bottom: 1px solid #B8B8B8; /* Line under each section */
 }
 
 .order-summary-section:last-child {
@@ -699,14 +702,28 @@ select option {
 
 /* Total Section */
 .order-summary-section.total {
-    font-size: 1.2em; /* Slightly larger font */
+    font-size: 1em; /* Slightly larger font */
     font-weight: bold; /* Bold text */
     padding-top: 15px;
+    border-bottom: none; /* No border for total */
 }
 
-/* Adjustments for Total Section */
-.order-summary-section.total .order-summary-value .value-bold {
-    color: #333; /* Ensure the total price is bold and standard color */
+/* Remove Bottom Border for Sections with 'no-border' Class */
+.order-summary-section.no-border {
+    border-bottom: none;
+    padding: 4px 0; /* Further reduce padding for these sections */
+}
+
+/* Specific adjustments for Estimated Tax */
+.order-summary-section.estimated-tax {
+    padding: 4px 0; /* Reduced padding */
+    border-bottom: none; /* No border */
+}
+
+/* Specific adjustments for Estimated Shipping */
+.order-summary-section.estimated-shipping {
+    padding: 4px 0; /* Reduced padding */
+    /* Retain border if needed */
 }
 
 /* Removing Bold from Estimated Tax and Shipping */
@@ -721,18 +738,6 @@ select option {
     font-weight: normal; /* Normal weight */
     color: #333; /* Standard color */
 }
-/* Discounts Section */
-.order-summary-section.discounts {
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.order-summary-section.discounts h4 {
-    margin-bottom: 20px;
-    color: #023047; /* Dark blue for contrast */
-}
-
-
 /* Discounts Section */
 .discounts {
     margin-top: 20px;
