@@ -923,11 +923,40 @@ select option {
     border: none;
     margin-top: 20px;
     margin-bottom: 20px;
+    white-space: nowrap; /* Prevent text from wrapping */
 }
 
 .newsletter-form button:hover {
     background-color: #05668d;
 }
+
+/* Download Apps Container */
+.download-apps {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: left;    /* Center them horizontally */
+    padding: 0;
+    margin: 0;
+}
+
+/* Remove any spacing between the anchor tags */
+.download-apps a {
+    display: block; /* Ensure the links take up full width */
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the images */
+.download-apps a img {
+    display: block;       /* Remove inline spacing */
+    margin: 10px;         /* Maintain aspect ratio */
+    margin-right: 50px;            /* Remove any default margins */
+    padding: 0;           /* Remove any default padding */
+    height: auto;         /* Set desired height */
+    width: 200px;          /* Maintain aspect ratio */
+}
+
+
 
 /* Bottom Row */
 .footer-row.bottom-row {
