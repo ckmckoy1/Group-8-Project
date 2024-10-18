@@ -27,13 +27,19 @@
                         <span class="order-id-prefix">WP-</span>
                         <input type="text" id="orderId" name="orderId" placeholder="Enter Order Number" required>
                     </div>
+                    <p id="scannerInstructions" class="scanner-instructions" style="display: none;">
+                        Please align the barcode within the frame to scan.
+                    </p>
                     <video id="scannerVideo" style="display: none;"></video>
+                    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                        <img src="../assets/loading-spinner.gif" alt="Loading..." width="50" height="50">
+                        <p>Initializing camera...</p>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <h3>Step 2: Enter Final Amount</h3>
                     <label for="finalAmount">Final Amount</label>
-                    <!-- Changed input type to number with step for decimal values -->
                     <input type="number" id="finalAmount" name="finalAmount" placeholder="Enter Final Amount" required step="0.01" min="0">
                 </div>
                 

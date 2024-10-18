@@ -6,17 +6,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const barcodeButton = document.getElementById('barcodeScanner');
     const videoElement = document.getElementById('scannerVideo');
     const printLabelButton = document.getElementById('printLabel'); // Print button for label
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const scannerInstructions = document.getElementById('scannerInstructions');
 
     // Request camera permission only when needed
     const requestCameraPermission = async () => {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
             return stream;
         } catch (error) {
             console.error('Camera access denied:', error);
             messageDiv.textContent = 'Camera access denied. Please enable camera access to scan barcodes.';
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
+            return null;
         }
     };
 
@@ -149,8 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to start barcode scanning
     const startBarcodeScanner = async () => {
+        loadingSpinner.style.display = 'flex'; // Show loading spinner
+        scannerInstructions.style.display = 'block'; // Show instructions
         const stream = await requestCameraPermission();
-        if (!stream) return;
+        if (!stream) {
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
+            scannerInstructions.style.display = 'none'; // Hide instructions
+            return;
+        }
 
         videoElement.style.display = 'block'; // Show video stream
         Quagga.init({
@@ -164,17 +173,42 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             decoder: {
                 readers: ["code_128_reader", "ean_reader"] // Supported barcode types
-            }
+            },
+            locate: true, // Enable localization of barcode in the image
         }, (err) => {
+            loadingSpinner.style.display = 'none'; // Hide loading spinner
             if (err) {
                 console.error(err);
                 stopCameraStream(stream);
                 messageDiv.textContent = 'Error initializing barcode scanner.';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
+                scannerInstructions.style.display = 'none'; // Hide instructions
                 return;
             }
             Quagga.start();
+        });
+
+        Quagga.onProcessed((result) => {
+            const drawingCtx = Quagga.canvas.ctx.overlay,
+                  drawingCanvas = Quagga.canvas.dom.overlay;
+
+            if (result) {
+                if (result.boxes) {
+                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                    result.boxes.filter(box => box !== result.box).forEach(box => {
+                        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: 'green', lineWidth: 2});
+                    });
+                }
+
+                if (result.box) {
+                    Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: '#00F', lineWidth: 2});
+                }
+
+                if (result.codeResult && result.codeResult.code) {
+                    Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
+                }
+            }
         });
 
         Quagga.onDetected((data) => {
@@ -188,6 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
             Quagga.stop();
             stopCameraStream(stream);
             videoElement.style.display = 'none'; // Hide video stream
+            scannerInstructions.style.display = 'none'; // Hide instructions
+            messageDiv.textContent = 'Barcode scanned successfully.';
+            messageDiv.className = 'message success';
+            messageDiv.style.display = 'block';
         });
     };
 
@@ -225,21 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Attach the printLabel function to the print button
     printLabelButton.addEventListener('click', printLabel);
-
-    // Function to generate and download PDF label (optional enhancement)
-    const generatePDFLabel = async (orderId, shippingAddress) => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        doc.setFontSize(16);
-        doc.text('Shipment Label', 10, 10);
-        doc.setFontSize(12);
-        doc.text(`Order ID: ${orderId}`, 10, 20);
-        doc.text(`Shipping Address: ${shippingAddress.name}, ${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}`, 10, 30);
-        doc.text('Warehouse Status: Ready for Shipment', 10, 40);
-
-        doc.save(`Shipment_Label_${orderId}.pdf`);
-    };
 
     // Fetch and display order history
     const fetchOrderHistory = async () => {
