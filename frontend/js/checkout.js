@@ -480,15 +480,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    /* ------------------ NEW CODE FOR ORDER SUMMARY TOGGLE ------------------ */
+    /* ------------------ UPDATED CODE FOR ORDER SUMMARY TOGGLE ------------------ */
 
     // Function to handle the toggle of Order Summary Details
     function setupOrderSummaryToggle() {
-        const toggleHeader = document.getElementById('orderSummaryToggle');
-        const toggleArrow = document.getElementById('toggleArrow');
-        const orderDetails = document.getElementById('orderSummaryDetails');
+        const toggleButton = document.getElementById('toggleButton'); // Reference to the toggle button
+        const toggleArrow = toggleButton.querySelector('.toggle-arrow'); // Reference to the arrow image/SVG within the button
+        const orderDetails = document.getElementById('orderSummaryDetails'); // Reference to the order details section
 
-        if (!toggleHeader || !toggleArrow || !orderDetails) {
+        if (!toggleButton || !toggleArrow || !orderDetails) {
             console.warn('Order Summary Toggle elements not found in the DOM.');
             return;
         }
@@ -498,24 +498,24 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isHidden) {
                 orderDetails.classList.remove('hidden');
                 orderDetails.classList.add('visible');
-                toggleArrow.classList.add('rotated'); // Rotate the arrow
-                toggleButton.setAttribute('aria-expanded', 'true'); // Corrected to toggleButton
+                toggleArrow.classList.add('rotated'); // Rotate the arrow via CSS
+                toggleButton.setAttribute('aria-expanded', 'true'); // Update accessibility attribute
             } else {
                 orderDetails.classList.remove('visible');
                 orderDetails.classList.add('hidden');
-                toggleArrow.classList.remove('rotated'); // Reset the arrow rotation
-                toggleButton.setAttribute('aria-expanded', 'false'); // Corrected to toggleButton
+                toggleArrow.classList.remove('rotated'); // Reset the arrow rotation via CSS
+                toggleButton.setAttribute('aria-expanded', 'false'); // Update accessibility attribute
             }
         }
 
         // Event listener for click
-        toggleHeader.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default link behavior if any
+        toggleButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default behavior if any
             toggleOrderDetails();
         });
 
-        // Enable keyboard accessibility
-        toggleHeader.addEventListener('keydown', function (event) {
+        // Enable keyboard accessibility (Enter and Space keys)
+        toggleButton.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 toggleOrderDetails();
@@ -523,15 +523,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Initialize the section as expanded
-        orderDetails.classList.add('visible');
-        toggleArrow.textContent = '-'; // Initial arrow
-        toggleHeader.setAttribute('aria-expanded', 'true');
+        orderDetails.classList.add('visible'); // Show order details
+        toggleArrow.classList.add('rotated'); // Rotate the arrow to indicate expanded state
+        toggleButton.setAttribute('aria-expanded', 'true'); // Set accessibility attribute
     }
 
     // Call the setup function after DOM content is loaded
     setupOrderSummaryToggle();
 
-    /* ------------------ END OF NEW CODE ------------------ */
+    /* ------------------ END OF UPDATED CODE FOR ORDER SUMMARY TOGGLE ------------------ */
 
     /* ------------------ NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
 
@@ -592,21 +592,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ------------------ END OF NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
 
-// Function to update the cart badge number
-function updateCartBadge(count) {
-    const cartBadge = document.querySelector('.cart-badge');
-    if (cartBadge) {
-        cartBadge.textContent = count;
-        cartBadge.style.display = count > 0 ? 'flex' : 'none'; // Show badge only if count > 0
+    // Function to update the cart badge number
+    function updateCartBadge(count) {
+        const cartBadge = document.querySelector('.cart-badge');
+        if (cartBadge) {
+            cartBadge.textContent = count;
+            cartBadge.style.display = count > 0 ? 'flex' : 'none'; // Show badge only if count > 0
+        }
     }
-}
 
-// Example Usage:
-// Update the badge to show 3 items
-updateCartBadge(1);
+    // Example Usage:
+    // Update the badge to show 1 item
+    updateCartBadge(1);
 
-// Example: Clear the badge when the cart is empty
-// updateCartBadge(0);
-
-
+    // Example: Clear the badge when the cart is empty
+    // updateCartBadge(0);
 });
