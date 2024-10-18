@@ -592,4 +592,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ------------------ END OF NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
 
+// Function to update the cart badge number
+function updateCartBadge(count) {
+    const cartBadge = document.querySelector('.cart-badge');
+    if (cartBadge) {
+        cartBadge.textContent = count;
+        cartBadge.style.display = count > 0 ? 'flex' : 'none'; // Show badge only if count > 0
+    }
+}
+
+// Example Usage:
+// Update the badge to show 3 items
+updateCartBadge(1);
+
+// Example: Clear the badge when the cart is empty
+// updateCartBadge(0);
+
+
 });

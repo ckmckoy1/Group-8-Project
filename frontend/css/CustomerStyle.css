@@ -171,11 +171,38 @@ header {
     cursor: pointer;
 }
 
-.top-bar .cart-icon img {
-    width: 40px;
-    height: 40px;
-    margin-right: 20px;
+/* Shopping Cart Icon Container */
+.cart-icon {
+    position: relative; /* Establishes a positioning context for the badge */
+    display: inline-block; /* Ensures the container wraps the content */
+    cursor: pointer; /* Changes cursor to pointer on hover */
 }
+
+/* Cart Image Styling */
+.cart-icon .cart-image {
+    width: 40px; /* Adjust the size as needed */
+    height: 40px;
+    display: block; /* Removes any inline spacing */
+}
+
+/* Cart Badge Styling */
+.cart-badge {
+    position: absolute; /* Positions the badge relative to the cart-icon container */
+    top: -5px; /* Adjust to position vertically */
+    right: -5px; /* Adjust to position horizontally */
+    background-color:  #05668d;
+    color: white; /* Text color */
+    border-radius: 50%; /* Makes the badge circular */
+    padding: 2px 6px; /* Adjusts the size of the badge */
+    font-size: 12px; /* Text size */
+    font-weight: bold; /* Makes the number bold */
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); /* Optional: Adds a slight shadow for depth */
+    pointer-events: none; /* Allows clicks to pass through to the cart icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 .top-bar .logo {
     gap: 0px;
