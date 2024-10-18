@@ -21,7 +21,6 @@ a {
 }
 /* Header */
 header {
-    background-color: #333;
     color: #fff;
     padding: 2px;
     font-size: 0.75em;
@@ -112,6 +111,21 @@ header {
     height: 1em;
     vertical-align: middle; /* Align SVG vertically with text */
 }
+
+/* styles.css */
+
+.location-link {
+    color: white; /* Sets the text and SVG color to white */
+    text-decoration: none; /* Optional: Removes the underline from the link */
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between text and SVG */
+}
+
+.location-link:hover {
+    color: #f0f0f0; /* Optional: Slight color change on hover */
+}
+
 
 /* Hover Effects */
 .Find_Deals .view-deals:hover {
