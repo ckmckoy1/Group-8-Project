@@ -498,13 +498,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isHidden) {
                 orderDetails.classList.remove('hidden');
                 orderDetails.classList.add('visible');
-                toggleArrow.textContent = '-'; // Change to minus
-                toggleHeader.setAttribute('aria-expanded', 'true');
+                toggleArrow.classList.add('rotated'); // Rotate the arrow
+                toggleButton.setAttribute('aria-expanded', 'true'); // Corrected to toggleButton
             } else {
                 orderDetails.classList.remove('visible');
                 orderDetails.classList.add('hidden');
-                toggleArrow.textContent = '+'; // Change to plus
-                toggleHeader.setAttribute('aria-expanded', 'false');
+                toggleArrow.classList.remove('rotated'); // Reset the arrow rotation
+                toggleButton.setAttribute('aria-expanded', 'false'); // Corrected to toggleButton
             }
         }
 

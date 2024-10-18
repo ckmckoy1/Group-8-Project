@@ -748,13 +748,18 @@ select option {
 .discounts {
     margin-top: 20px;
     padding-top: 10px;
-    border-top: 1px solid #ddd;
+  
 }
 
 .discounts h4 {
     margin-bottom: 10px;
     font-size: 1.1em;
     font-weight: bold;
+    border-bottom: 1px solid #333;
+}
+
+.discount-item {
+    border-bottom: 1px solid #333;
 }
 
 .discount-list {
@@ -783,6 +788,9 @@ select option {
 .rewards-info {
     font-size: 0.9em;
     color: #555;
+    border: 3px solid #023047;
+    padding: 7px;
+    text-align: center;
 }
 
 /* Product Image */
@@ -824,15 +832,42 @@ select option {
     font-size: 1.1em;
 }
 
+/* Toggle Arrow SVG Styling */
 .toggle-arrow {
-    font-size: 1.2em;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease; /* Smooth rotation transition */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    vertical-align: middle; /* Align vertically with the text */
+    width: 24px; /* Ensures consistent sizing */
+    height: 24px; /* Ensures consistent sizing */
+    margin-left: 20px; /* Space between text and arrow */
+    border: none;
 }
+
+/* Remove border and background from the arrow image */
+.order-summary-toggle .toggle-button img {
+    border: none;
+    background: none;
+    display: block; /* Removes any inline spacing */
+}
+
 
 /* Order Details */
 .order-summary-details {
     margin-top: 10px;
 }
+/* Order Details Transition */
+.order-summary-details {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+    max-height: 1000px; /* Large enough to accommodate content */
+    opacity: 1;
+}
+
+.order-summary-details.hidden {
+    max-height: 0;
+    opacity: 0;
+}
+
 
 /* Shipping Address */
 .shipping-address {
@@ -870,6 +905,18 @@ select option {
     line-height: 1.4;
 }
 
+/* Edit Cart Link Styling */
+.edit-cart {
+    display: block; /* Makes the link a block-level element */
+    width: 100%; /* Spans the full width of the container */
+    border-top: 2px solid #ccc; /* Adds a top border */
+    padding: 10px 0; /* Adds vertical padding */
+    color: #333;
+    text-align: center; /* Centers the text */
+    text-decoration: underline;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Adds smooth transitions */
+}
+
 .product-actions a {
     text-decoration: none;
     color: #007BFF;
@@ -890,7 +937,7 @@ select option {
     display: block; /* Ensure vertical stacking */
     margin-top: 20px;
     padding-top: 10px;
-    border-top: 1px solid #ddd;
+  
 }
 
 .discount-list {
