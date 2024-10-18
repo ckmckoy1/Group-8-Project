@@ -407,63 +407,67 @@
             <!-- Right Column: Order Summary -->
             <aside class="order-summary">
                 <div class="order-summary-top">
-                <!-- Header Section -->
-                <div class="order-summary-header">
-                    <h3>ORDER SUMMARY</h3>
-                    <a href="#" class="order-summary-help">HELP <img src="../assets/information.svg" width="18" height="18" alt="Information"></a>
+                    <!-- Header Section -->
+                    <div class="order-summary-header">
+                        <h3>ORDER SUMMARY</h3>
+                        <a href="#" class="order-summary-help">
+                            HELP 
+                            <img src="../assets/information.svg" width="18" height="18" alt="Information">
+                        </a>
+                    </div>
+                
+                    <!-- Merchandise Total -->
+                    <div class="order-summary-section">
+                        <div class="order-summary-label">
+                            <span class="label-bold">Merchandise Total</span> 
+                            <span class="label-muted">(1 Item)</span>
+                        </div>
+                        <div class="order-summary-value">
+                            <span class="value-bold">$47.13</span>
+                        </div>
+                    </div>
+                
+                    <!-- Order Subtotal -->
+                    <div class="order-summary-section">
+                        <div class="order-summary-label">
+                            <span class="label-bold">Order Subtotal</span>
+                        </div>
+                        <div class="order-summary-value">
+                            <span class="value-bold">$47.13</span>
+                        </div>
+                    </div>
+                
+                    <!-- Estimated Tax -->
+                    <div class="order-summary-section">
+                        <div class="order-summary-label">
+                            <span>Estimated Tax</span>
+                        </div>
+                        <div class="order-summary-value">
+                            <span>$2.87</span>
+                        </div>
+                    </div>
+                
+                    <!-- Estimated Shipping -->
+                    <div class="order-summary-section">
+                        <div class="order-summary-label">
+                            <span>Estimated Shipping</span>
+                        </div>
+                        <div class="order-summary-value">
+                            $<span id="shippingCostDisplay">0.00</span>
+                        </div>
+                    </div>
+                
+                    <!-- Total -->
+                    <div class="order-summary-section total">
+                        <div class="order-summary-label">
+                            <span class="label-bold">Total</span>
+                        </div>
+                        <div class="order-summary-value">
+                            $<span id="grandTotalDisplay" class="value-bold">50.00</span>
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Merchandise Total -->
-                <div class="order-summary-section">
-                    <div class="order-summary-label">
-                        <span>Merchandise Total (1 Item)</span>
-                    </div>
-                    <div class="order-summary-value">
-                        <span>$47.13</span>
-                    </div>
-                </div>
-
-                <!-- Order Subtotal -->
-                <div class="order-summary-section">
-                    <div class="order-summary-label">
-                        <span>Order Subtotal</span>
-                    </div>
-                    <div class="order-summary-value">
-                        <span>$47.13</span>
-                    </div>
-                </div>
-
-                <!-- Estimated Tax -->
-                <div class="order-summary-section">
-                    <div class="order-summary-label">
-                        <span>Estimated Tax</span>
-                    </div>
-                    <div class="order-summary-value">
-                        <span>$2.87</span>
-                    </div>
-                </div>
-
-                <!-- Estimated Shipping -->
-                <div class="order-summary-section">
-                    <div class="order-summary-label">
-                        <span>Estimated Shipping</span>
-                    </div>
-                    <div class="order-summary-value">
-                        $<span id="shippingCostDisplay">0.00</span>
-                    </div>
-                </div>
-
-                <!-- Total -->
-                <div class="order-summary-section total">
-                    <div class="order-summary-label">
-                        <span>Total</span>
-                    </div>
-                    <div class="order-summary-value">
-                        $<span id="grandTotalDisplay">50.00</span>
-                    </div>
-                </div>
-
-            </div>
+                
  <!-- Middle Section: Items in Order -->
  <div class="order-summary-middle">
     <!-- Toggle Header -->
