@@ -293,6 +293,7 @@ header {
 .checkout-container h3 {
     border-bottom: 1px solid #333;
     font-size: 1.2em;
+    margin-top: 20px;
 }
 
 .checkout-container h2 {
@@ -323,7 +324,9 @@ header {
 
 /* Style the Heading */
 .checkout-container .express-checkout h4 {
-    margin-bottom: 10px; /* Adjust spacing below the heading */
+    margin-bottom: 7px; /* Adjust spacing below the heading */
+    margin-top: 10px;
+    margin-left: 5px;
     font-size: 1.2em;
     color: #333;
     display: flex;
@@ -332,9 +335,10 @@ header {
 
 /* Style the Paragraph */
 .checkout-container .express-checkout p {
-    margin-bottom: 20px; /* Adjust spacing below the paragraph */
-    font-size: 1em;
+    margin-bottom: 15px; /* Adjust spacing below the paragraph */
+    font-size: 0.9em;
     color: #555;
+    margin-left: 5px;
 }
 
 /* Checkout Options Container */
@@ -353,6 +357,9 @@ header {
     margin: 0;
     padding: 0;
     display: block;          /* Ensure images are block-level to prevent extra space */
+    align-items: center;
+    gap: 5px;
+    gap: var(--spacing-xs);
 }
 
 /* Optional: Add Hover Effects to Images */
@@ -361,22 +368,6 @@ header {
     transition: transform 0.2s ease;
 }
 
-
-.checkout-container .express-checkout img {
-    align-items: center;
-    gap: 5px;
-    gap: var(--spacing-xs);
-    
-}
-
-.checkout-container .express-checkout img:hover {
-    transform: scale(1.1);
-}
-
-
-.checkout-container .express-checkout p {
- font-size: 0.9em;
-}
 
 /* Form Layout */
 .form-group-pair, .form-group {
