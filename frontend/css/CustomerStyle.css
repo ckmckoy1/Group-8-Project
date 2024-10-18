@@ -268,12 +268,6 @@ header {
 }
 
 
-/* Hover and Active States */
-.banner .navbar-nav .nav-link:hover,
-.banner .navbar-nav .nav-link:focus,
-.banner .navbar-nav .nav-item.active .nav-link {
-    color: var(--color-secondary);   /* Change color on hover and active */
-}
 
 /* Main Container Layout */
 .container {
