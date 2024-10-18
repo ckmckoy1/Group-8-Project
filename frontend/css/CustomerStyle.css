@@ -321,10 +321,16 @@ header {
     border-bottom: 1px solid #333;
     font-size: 1.2em;
     margin-top: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .checkout-container h2 {
     text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
 }
 
 .checkout-container a {
