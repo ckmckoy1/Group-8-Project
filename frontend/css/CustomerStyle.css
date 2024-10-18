@@ -828,8 +828,9 @@ select option {
 }
 
 .order-summary-toggle h4 {
-    margin: 0;
-    font-size: 1.1em;
+    margin-left: 10px;
+    font-size: 0.9em;
+    margin-top: 5px;
 }
 
 /* Toggle Arrow SVG Styling */
