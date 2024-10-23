@@ -14,10 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
     const warehouseStatusElement = document.getElementById('warehouseStatus');
 
+    let currentStream = null;
+
     // Request camera permission only when needed
     const requestCameraPermission = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            currentStream = stream;
+            videoElement.srcObject = stream;
             return stream;
         } catch (error) {
             console.error('Camera access denied:', error);
@@ -29,9 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Stop the camera stream after use
-    const stopCameraStream = (stream) => {
-        if (stream) {
-            stream.getTracks().forEach(track => track.stop());
+    const stopCameraStream = () => {
+        if (currentStream) {
+            currentStream.getTracks().forEach(track => track.stop());
+            currentStream = null;
         }
     };
 
@@ -206,28 +211,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         videoElement.style.display = 'block'; // Show video stream
+
         Quagga.init({
             inputStream: {
                 name: "Live",
                 type: "LiveStream",
                 target: videoElement, // Video element to display the camera stream
                 constraints: {
-                    facingMode: "environment" // Prefer the back camera
+                    facingMode: "environment", // Prefer the back camera
+                    width: { min: 640 },
+                    height: { min: 480 },
+                    aspectRatio: { min: 1, max: 100 }
                 }
             },
             decoder: {
-                readers: ["code_128_reader", "ean_reader"] // Supported barcode types
+                readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
             },
             locate: true, // Enable localization of barcode in the image
+            numOfWorkers: 2, // Adjust based on device capability
+            frequency: 5, // Frames per second
         }, (err) => {
             loadingSpinner.style.display = 'none'; // Hide loading spinner
             if (err) {
                 console.error(err);
-                stopCameraStream(stream);
+                stopCameraStream();
                 messageDiv.textContent = 'Error initializing barcode scanner.';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
                 scannerInstructions.style.display = 'none'; // Hide instructions
+                videoElement.style.display = 'none'; // Hide video
                 return;
             }
             Quagga.start();
@@ -265,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 orderIdInput.value = barcode.slice(3); // Remove 'WP-' prefix for consistency
             }
             Quagga.stop();
-            stopCameraStream(stream);
+            stopCameraStream();
             videoElement.style.display = 'none'; // Hide video stream
             scannerInstructions.style.display = 'none'; // Hide instructions
             messageDiv.textContent = 'Barcode scanned successfully.';
@@ -344,8 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.style.display = 'block';
         }
     };
-
-    // Initial fetch of order history for all orders is removed since we're focusing on specific orders
 
     // Polling example for real-time updates (optional, can be adjusted based on specific requirements)
     /*
