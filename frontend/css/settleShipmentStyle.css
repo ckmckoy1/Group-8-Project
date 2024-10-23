@@ -34,8 +34,8 @@ body {
 main {
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align to top */
+    justify-content: center; /* Centers vertically */
+    align-items: center;     /* Centers horizontally */
     padding: 20px 10px;
     flex-direction: column; /* Stack elements vertically */
 }
