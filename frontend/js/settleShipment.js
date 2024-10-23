@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingSpinner = document.getElementById('loadingSpinner');
     const scannerInstructions = document.getElementById('scannerInstructions');
 
+    const orderHistoryContainer = document.querySelector('.order-history-container');
+    const warehouseStatusContainer = document.querySelector('.warehouse-status-container');
+    const orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
+    const warehouseStatusElement = document.getElementById('warehouseStatus');
+
     // Request camera permission only when needed
     const requestCameraPermission = async () => {
         try {
@@ -42,6 +47,36 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error fetching order details:', error);
             throw new Error('Unable to find order number. Please check that the number is correct or try again.');
+        }
+    };
+
+    // Function to fetch order history for a specific order
+    const fetchSpecificOrderHistory = async (orderId) => {
+        try {
+            const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}/history`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch order history.');
+            }
+            const history = await response.json();
+            return history;
+        } catch (error) {
+            console.error('Error fetching order history:', error);
+            throw new Error('Unable to fetch order history.');
+        }
+    };
+
+    // Function to fetch warehouse status for a specific order
+    const fetchWarehouseStatus = async (orderId) => {
+        try {
+            const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}/status`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch warehouse status.');
+            }
+            const status = await response.json();
+            return status;
+        } catch (error) {
+            console.error('Error fetching warehouse status:', error);
+            throw new Error('Unable to fetch warehouse status.');
         }
     };
 
@@ -116,12 +151,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Display print button and enable printing label
                 printLabelButton.style.display = 'inline-block';
             }
+
+            messageDiv.style.display = 'block';
+
+            // Fetch and display Order History and Warehouse Status
+            await displayOrderRelatedInfo(enteredOrderId);
+
         } catch (error) {
             messageDiv.textContent = error.message;
             messageDiv.className = 'message error';
+            messageDiv.style.display = 'block';
         }
-
-        messageDiv.style.display = 'block';
     });
 
     // Automatically format finalAmount input when the user finishes typing (on blur)
@@ -216,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        Quagga.onDetected((data) => {
+        Quagga.onDetected(async (data) => {
             const barcode = data.codeResult.code;
             // Check if barcode already has the prefix
             if (!barcode.startsWith('WP-')) {
@@ -231,6 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.textContent = 'Barcode scanned successfully.';
             messageDiv.className = 'message success';
             messageDiv.style.display = 'block';
+
+            // Fetch and display Order History and Warehouse Status
+            await displayOrderRelatedInfo(`WP-${orderIdInput.value.trim().replace(/^WP-/, '')}`);
         });
     };
 
@@ -269,18 +312,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Attach the printLabel function to the print button
     printLabelButton.addEventListener('click', printLabel);
 
-    // Fetch and display order history
-    const fetchOrderHistory = async () => {
+    // Function to display Order History and Warehouse Status
+    const displayOrderRelatedInfo = async (orderId) => {
         try {
-            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/settled'); // Replace with your endpoint
-            if (!response.ok) {
-                throw new Error('Failed to fetch order history.');
-            }
-            const orders = await response.json();
-            const orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
+            // Fetch and display Order History
+            const history = await fetchSpecificOrderHistory(orderId);
             orderHistoryTableBody.innerHTML = ''; // Clear previous entries
 
-            orders.forEach(order => {
+            history.forEach(order => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>WP-${order.OrderID}</td>
@@ -290,17 +329,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 orderHistoryTableBody.appendChild(row);
             });
+
+            orderHistoryContainer.style.display = 'block'; // Show Order History section
+
+            // Fetch and display Warehouse Status
+            const status = await fetchWarehouseStatus(orderId);
+            warehouseStatusElement.innerText = status.WarehouseStatus;
+            warehouseStatusContainer.style.display = 'block'; // Show Warehouse Status section
+
         } catch (error) {
-            console.error('Error fetching order history:', error);
-            const orderHistoryContainer = document.querySelector('.order-history-container');
-            orderHistoryContainer.innerHTML += `<p class="message error">Error fetching order history.</p>`;
+            console.error('Error displaying order related info:', error);
+            messageDiv.textContent = error.message;
+            messageDiv.className = 'message error';
+            messageDiv.style.display = 'block';
         }
     };
 
-    // Call this function when loading the order history section
-    fetchOrderHistory();
+    // Initial fetch of order history for all orders is removed since we're focusing on specific orders
 
-    // Polling example for real-time updates
+    // Polling example for real-time updates (optional, can be adjusted based on specific requirements)
+    /*
     setInterval(async () => {
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/status');
@@ -308,16 +356,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to fetch updated status.');
             }
             const updatedStatus = await response.json();
-            const warehouseStatusElement = document.getElementById('warehouseStatus');
             if (warehouseStatusElement) {
                 warehouseStatusElement.innerText = updatedStatus.WarehouseStatus;
             }
         } catch (error) {
             console.error('Error fetching updated status:', error);
-            const warehouseStatusElement = document.getElementById('warehouseStatus');
             if (warehouseStatusElement) {
                 warehouseStatusElement.innerText = 'Error fetching status.';
             }
         }
     }, 10000); // Poll every 10 seconds
+    */
 });

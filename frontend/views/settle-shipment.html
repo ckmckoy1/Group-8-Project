@@ -37,6 +37,30 @@
                     <video id="scannerVideo" style="display: none;"></video>
                 </div>
 
+                <!-- Order History Section -->
+                <div class="order-history-container" style="display: none;">
+                    <h2>Order History</h2>
+                    <table class="order-history-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Approval Date</th>
+                                <th>Status</th>
+                                <th>Tracking Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderHistoryTableBody">
+                            <!-- Order history will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Warehouse Status Display -->
+                <div class="warehouse-status-container" style="display: none;">
+                    <h2>Warehouse Status</h2>
+                    <p id="warehouseStatus">Loading status...</p>
+                </div>
+
                 <div class="form-group">
                     <h3>Step 2: Enter Final Amount</h3>
                     <input type="number" id="finalAmount" name="finalAmount" placeholder="Final Amount" required step="0.01" min="0">
@@ -50,31 +74,9 @@
             
             <!-- Print after approval -->
             <button id="printLabel" style="display:none;">Print Shipment Label</button>
-
-            <!-- Order History Section -->
-            <div class="order-history-container">
-                <h2>Order History</h2>
-                <table class="order-history-table">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Approval Date</th>
-                            <th>Status</th>
-                            <th>Tracking Link</th>
-                        </tr>
-                    </thead>
-                    <tbody id="orderHistoryTableBody">
-                        <!-- Order history will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Warehouse Status Display -->
-            <div class="warehouse-status-container">
-                <h2>Warehouse Status</h2>
-                <p id="warehouseStatus">Loading status...</p>
-            </div>
         </div>
+
+        <!-- The following sections have been moved inside the form above -->
     </main>
 
     <script src="../js/settleShipment.js"></script>
