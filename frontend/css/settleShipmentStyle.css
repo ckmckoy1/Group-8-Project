@@ -336,7 +336,7 @@ main {
 
     .order-id-prefix {
         font-size: 14px;
-        padding: 0 8px;
+        padding: 10px 8px;
     }
 
     #orderId {
