@@ -1,10 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './public/js/settleShipment.js', // Adjust the path if necessary
+  entry: './frontend/js/settleShipment.js', // Path to your settleShipment.js file relative to webpack.config.js
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public/js'), // Output directory
+    path: path.resolve(__dirname, 'frontend/js'), // Output directory: frontend/js
   },
   module: {
     rules: [
