@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalAmountInput = document.getElementById('finalAmount');
     const orderIdInput = document.getElementById('orderId');
     const barcodeButton = document.getElementById('barcodeScanner');
-    const videoElement = document.getElementById('scannerVideo');
+    const qrReaderContainer = document.getElementById('qr-reader');
     const printLabelButton = document.getElementById('printLabel'); // Print button for label
     const loadingSpinner = document.getElementById('loadingSpinner');
     const scannerInstructions = document.getElementById('scannerInstructions');
@@ -14,40 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderHistoryTableBody = document.getElementById('orderHistoryTableBody');
     const warehouseStatusElement = document.getElementById('warehouseStatus');
 
-    let currentStream = null;
-
-    // Request camera permission only when needed
-    const requestCameraPermission = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-            currentStream = stream;
-            videoElement.srcObject = stream;
-            return stream;
-        } catch (error) {
-            console.error('Camera access denied:', error);
-            messageDiv.textContent = 'Camera access denied. Please enable camera access to scan barcodes.';
-            messageDiv.className = 'message error';
-            messageDiv.style.display = 'block';
-            return null;
-        }
-    };
-
-    // Stop the camera stream after use
-    const stopCameraStream = () => {
-        if (currentStream) {
-            currentStream.getTracks().forEach(track => track.stop());
-            currentStream = null;
-        }
-    };
+    let html5QrCode = null;
 
     // Function to fetch order details with proper error handling
     const fetchOrderDetails = async (orderId) => {
+        console.log(`Fetching details for Order ID: ${orderId}`);
         try {
             const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`);
             if (!response.ok) {
                 throw new Error('Order not found');
             }
             const order = await response.json();
+            console.log('Order details fetched:', order);
             return order;
         } catch (error) {
             console.error('Error fetching order details:', error);
@@ -57,12 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to fetch order history for a specific order
     const fetchSpecificOrderHistory = async (orderId) => {
+        console.log(`Fetching order history for Order ID: ${orderId}`);
         try {
             const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}/history`);
             if (!response.ok) {
                 throw new Error('Failed to fetch order history.');
             }
             const history = await response.json();
+            console.log('Order history fetched:', history);
             return history;
         } catch (error) {
             console.error('Error fetching order history:', error);
@@ -72,12 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to fetch warehouse status for a specific order
     const fetchWarehouseStatus = async (orderId) => {
+        console.log(`Fetching warehouse status for Order ID: ${orderId}`);
         try {
             const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}/status`);
             if (!response.ok) {
                 throw new Error('Failed to fetch warehouse status.');
             }
             const status = await response.json();
+            console.log('Warehouse status fetched:', status);
             return status;
         } catch (error) {
             console.error('Error fetching warehouse status:', error);
@@ -88,8 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle form submission for settling the shipment
     settleForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+        console.log('Form submission started.');
 
         let enteredOrderId = orderIdInput.value.trim();
+        console.log(`Entered Order ID: ${enteredOrderId}`);
 
         // Check if the enteredOrderId already includes the prefix
         if (!enteredOrderId.startsWith('WP-')) {
@@ -99,9 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageDiv.textContent = 'You must enter a 6-digit number for the Order ID.';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
+                console.log('Order ID validation failed: Not a 6-digit number.');
                 return;
             }
             enteredOrderId = `WP-${orderIdNumber}`;
+            console.log(`Order ID prefixed: ${enteredOrderId}`);
         } else {
             // Validate that after 'WP-' there are exactly 6 digits
             const orderIdNumber = enteredOrderId.slice(3);
@@ -109,30 +95,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageDiv.textContent = 'You must enter a 6-digit number for the Order ID after WP-.';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
+                console.log('Order ID validation failed: Not a 6-digit number after WP-.');
                 return;
             }
         }
 
         const finalAmount = parseFloat(finalAmountInput.value.replace(/[^0-9.-]+/g, ""));
+        console.log(`Final Amount Entered: ${finalAmount}`);
 
         if (isNaN(finalAmount)) {
             messageDiv.textContent = 'Please enter a valid final amount';
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
+            console.log('Final amount validation failed: NaN.');
             return;
         }
 
         try {
             const order = await fetchOrderDetails(enteredOrderId);
             const authorizationAmount = order.AuthorizationAmount;
+            console.log(`Authorization Amount: ${authorizationAmount}`);
 
             if (finalAmount > authorizationAmount) {
                 messageDiv.textContent = 'Final amount exceeds the authorized amount!';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
+                console.log('Final amount exceeds authorization amount.');
                 return;
             }
 
+            // Post request to settle shipment
+            console.log('Sending settlement request.');
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/settle-shipment', {
                 method: 'POST',
                 headers: {
@@ -145,13 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const result = await response.json();
+            console.log('Settlement response:', result);
 
             if (!response.ok) {
                 messageDiv.textContent = `Error: ${result.message}`;
                 messageDiv.className = 'message error';
+                console.log('Settlement failed.');
             } else {
                 messageDiv.textContent = result.message;
                 messageDiv.className = 'message success';
+                console.log('Settlement successful.');
 
                 // Display print button and enable printing label
                 printLabelButton.style.display = 'inline-block';
@@ -166,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.textContent = error.message;
             messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
+            console.error('Error during form submission:', error);
         }
     });
 
@@ -180,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 maximumFractionDigits: 2,
             });
             event.target.value = formattedValue;
+            console.log(`Final amount formatted: ${formattedValue}`);
         }
     });
 
@@ -193,108 +191,92 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         event.target.value = inputVal;
+        console.log(`Final amount input sanitized: ${inputVal}`);
     });
 
-    // Function to start barcode scanning
-    const startBarcodeScanner = async () => {
+    // Function to start QR code scanner using Html5Qrcode
+    const startQrScanner = () => {
+        console.log('Starting QR scanner.');
         loadingSpinner.style.display = 'flex'; // Show loading spinner
         scannerInstructions.style.display = 'block'; // Show instructions
         messageDiv.textContent = 'Initializing camera...';
         messageDiv.className = 'message';
         messageDiv.style.display = 'block';
+        qrReaderContainer.style.display = 'block'; // Show scanner container
 
-        const stream = await requestCameraPermission();
-        if (!stream) {
-            loadingSpinner.style.display = 'none'; // Hide loading spinner
-            scannerInstructions.style.display = 'none'; // Hide instructions
-            return;
-        }
+        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-        videoElement.style.display = 'block'; // Show video stream
+        html5QrCode = new Html5Qrcode("qr-reader");
 
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: videoElement, // Video element to display the camera stream
-                constraints: {
-                    facingMode: "environment", // Prefer the back camera
-                    width: { min: 640 },
-                    height: { min: 480 },
-                    aspectRatio: { min: 1, max: 100 }
-                }
-            },
-            decoder: {
-                readers: ["code_128_reader", "ean_reader", "ean_8_reader", "code_39_reader", "code_39_vin_reader", "codabar_reader", "upc_reader", "upc_e_reader", "i2of5_reader"]
-            },
-            locate: true, // Enable localization of barcode in the image
-            numOfWorkers: 2, // Adjust based on device capability
-            frequency: 5, // Frames per second
-        }, (err) => {
-            loadingSpinner.style.display = 'none'; // Hide loading spinner
-            if (err) {
-                console.error(err);
-                stopCameraStream();
-                messageDiv.textContent = 'Error initializing barcode scanner.';
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            // Handle the decoded text
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            html5QrCode.stop().then(ignore => {
+                qrReaderContainer.style.display = 'none'; // Hide scanner container
+                loadingSpinner.style.display = 'none';
+                scannerInstructions.style.display = 'none';
+                messageDiv.textContent = 'Barcode scanned successfully.';
+                messageDiv.className = 'message success';
+                messageDiv.style.display = 'block';
+                orderIdInput.value = decodedText.startsWith('WP-') ? decodedText.slice(3) : decodedText;
+                console.log(`Order ID set to: ${orderIdInput.value}`);
+                // Fetch and display Order History and Warehouse Status
+                displayOrderRelatedInfo(`WP-${orderIdInput.value.trim().replace(/^WP-/, '')}`);
+            }).catch(err => {
+                console.error('Error stopping scanner:', err);
+                messageDiv.textContent = 'Error stopping scanner.';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
-                scannerInstructions.style.display = 'none'; // Hide instructions
-                videoElement.style.display = 'none'; // Hide video
-                return;
-            }
-            Quagga.start();
-            messageDiv.style.display = 'none'; // Hide initializing message
-        });
+            });
+        };
 
-        Quagga.onProcessed((result) => {
-            const drawingCtx = Quagga.canvas.ctx.overlay,
-                  drawingCanvas = Quagga.canvas.dom.overlay;
+        const qrCodeErrorCallback = (errorMessage) => {
+            // Optional: Handle scan errors or ignore
+            console.warn(`QR Code no match: ${errorMessage}`);
+        };
 
-            if (result) {
-                if (result.boxes) {
-                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-                    result.boxes.filter(box => box !== result.box).forEach(box => {
-                        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: 'green', lineWidth: 2});
-                    });
-                }
-
-                if (result.box) {
-                    Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: '#00F', lineWidth: 2});
-                }
-
-                if (result.codeResult && result.codeResult.code) {
-                    Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
-                }
-            }
-        });
-
-        Quagga.onDetected(async (data) => {
-            const barcode = data.codeResult.code;
-            // Check if barcode already has the prefix
-            if (!barcode.startsWith('WP-')) {
-                orderIdInput.value = barcode;
+        Html5Qrcode.getCameras().then(cameras => {
+            if (cameras && cameras.length) {
+                const cameraId = cameras[0].id; // Use the first available camera
+                console.log(`Using camera: ${cameraId}`);
+                html5QrCode.start(
+                    cameraId,
+                    config,
+                    qrCodeSuccessCallback,
+                    qrCodeErrorCallback
+                ).then(() => {
+                    loadingSpinner.style.display = 'none';
+                    messageDiv.style.display = 'none';
+                    console.log('Scanner started successfully.');
+                }).catch(err => {
+                    console.error('Unable to start scanning:', err);
+                    messageDiv.textContent = 'Unable to start scanning.';
+                    messageDiv.className = 'message error';
+                    messageDiv.style.display = 'block';
+                    qrReaderContainer.style.display = 'none';
+                });
             } else {
-                orderIdInput.value = barcode.slice(3); // Remove 'WP-' prefix for consistency
+                console.error('No cameras found on device.');
+                messageDiv.textContent = 'No cameras found on device.';
+                messageDiv.className = 'message error';
+                messageDiv.style.display = 'block';
             }
-            Quagga.stop();
-            stopCameraStream();
-            videoElement.style.display = 'none'; // Hide video stream
-            scannerInstructions.style.display = 'none'; // Hide instructions
-            messageDiv.textContent = 'Barcode scanned successfully.';
-            messageDiv.className = 'message success';
+        }).catch(err => {
+            console.error('Error accessing cameras:', err);
+            messageDiv.textContent = 'Error accessing cameras.';
+            messageDiv.className = 'message error';
             messageDiv.style.display = 'block';
-
-            // Fetch and display Order History and Warehouse Status
-            await displayOrderRelatedInfo(`WP-${orderIdInput.value.trim().replace(/^WP-/, '')}`);
+            qrReaderContainer.style.display = 'none';
         });
     };
 
     // Event listener for barcode scanner
-    barcodeButton.addEventListener('click', startBarcodeScanner);
+    barcodeButton.addEventListener('click', startQrScanner);
 
     // Function to print the shipment label
     const printLabel = async () => {
         const orderId = orderIdInput.value.trim();
+        console.log(`Printing label for Order ID: ${orderId}`);
         try {
             const order = await fetchOrderDetails(orderId);
             const shippingAddress = order.ShippingAddress; // Assuming the API returns this field
@@ -313,6 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
             labelWindow.focus();
             labelWindow.print();
             labelWindow.close();
+            console.log('Label printed successfully.');
         } catch (error) {
             console.error('Error printing label:', error);
             messageDiv.textContent = 'Error printing label. Please try again.';
@@ -327,9 +310,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to display Order History and Warehouse Status
     const displayOrderRelatedInfo = async (orderId) => {
         try {
+            console.log(`Displaying order-related info for Order ID: ${orderId}`);
             // Fetch and display Order History
             const history = await fetchSpecificOrderHistory(orderId);
             orderHistoryTableBody.innerHTML = ''; // Clear previous entries
+            console.log('Populating order history table.');
 
             history.forEach(order => {
                 const row = document.createElement('tr');
@@ -343,12 +328,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             orderHistoryContainer.style.display = 'block'; // Show Order History section
+            console.log('Order history displayed.');
 
             // Fetch and display Warehouse Status
             const status = await fetchWarehouseStatus(orderId);
             warehouseStatusElement.innerText = status.WarehouseStatus;
             warehouseStatusContainer.style.display = 'block'; // Show Warehouse Status section
-
+            console.log('Warehouse status displayed.');
         } catch (error) {
             console.error('Error displaying order related info:', error);
             messageDiv.textContent = error.message;
@@ -356,25 +342,4 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.style.display = 'block';
         }
     };
-
-    // Polling example for real-time updates (optional, can be adjusted based on specific requirements)
-    /*
-    setInterval(async () => {
-        try {
-            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/orders/status');
-            if (!response.ok) {
-                throw new Error('Failed to fetch updated status.');
-            }
-            const updatedStatus = await response.json();
-            if (warehouseStatusElement) {
-                warehouseStatusElement.innerText = updatedStatus.WarehouseStatus;
-            }
-        } catch (error) {
-            console.error('Error fetching updated status:', error);
-            if (warehouseStatusElement) {
-                warehouseStatusElement.innerText = 'Error fetching status.';
-            }
-        }
-    }, 10000); // Poll every 10 seconds
-    */
 });

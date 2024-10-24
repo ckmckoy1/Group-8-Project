@@ -209,16 +209,11 @@ main {
     align-self: center; /* Center vertically */
 }
 
-/* Video for barcode scanning */
-#scannerVideo {
+/* Html5Qrcode Scanner Container Styling */
+#qr-reader {
     width: 100%;
-    max-width: 600px; /* Adjust as needed */
-    height: auto;
-    border-radius: 8px;
-    border: 2px solid #2b6777;
-    margin-bottom: 15px;
-    display: none; /* Initially hidden */
-    background-color: #000; /* Fallback background */
+    max-width: 600px;
+    margin-top: 20px;
 }
 
 /* Loading Spinner Styling */
@@ -349,7 +344,7 @@ main {
         padding: 10px;
     }
 
-    #scannerVideo {
+    #qr-reader {
         max-width: 100%;
         height: auto;
     }

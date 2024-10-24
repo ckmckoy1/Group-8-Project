@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipping Management | Wild Path Outfitters</title>
     <link rel="stylesheet" href="../css/settleShipmentStyle.css">
+    <!-- Include Html5Qrcode Library First -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.7/minified/html5-qrcode.min.js" defer></script>
 </head>
 <body>
     <header class="header">
@@ -28,13 +30,16 @@
                         <input type="text" id="orderId" name="orderId" placeholder="Enter Order Number" required>
                     </div>
                     <p id="scannerInstructions" class="scanner-instructions" style="display: none;">
-                        Please align the barcode within the frame to scan.
+                        Please align the barcode within the frame to scan. Ensure good lighting and hold the camera steady.
                     </p>
                     <div id="loadingSpinner" class="loading-spinner" style="display: none;">
                         <img src="../assets/loading-spinner.gif" alt="Loading..." width="50" height="50">
                         <p>Initializing camera...</p>
                     </div>
-                    <video id="scannerVideo" style="display: none;"></video>
+                    <!-- Html5Qrcode Scanner Container -->
+                    <div id="qr-reader" style="width: 100%; max-width: 600px; display: none;"></div>
+                    <!-- Fallback Manual Entry -->
+                    <p>If you are unable to scan the barcode, please enter the Order ID manually.</p>
                 </div>
 
                 <!-- Order History Section -->
@@ -75,13 +80,10 @@
             <!-- Print after approval -->
             <button id="printLabel" style="display:none;">Print Shipment Label</button>
         </div>
-
-        <!-- The following sections have been moved inside the form above -->
     </main>
 
-    <script src="../js/settleShipment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.3.1/dist/jsQR.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Then Include Your Custom JavaScript -->
+    <script src="../js/settleShipment.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 </body>
 </html>
