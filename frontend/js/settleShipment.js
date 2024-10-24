@@ -203,39 +203,24 @@ document.addEventListener('DOMContentLoaded', () => {
         messageDiv.className = 'message';
         messageDiv.style.display = 'block';
         qrReaderContainer.style.display = 'block'; // Show scanner container
-
+    
         const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
+    
+        console.log('Creating Html5Qrcode instance.');
         html5QrCode = new Html5Qrcode("qr-reader");
-
+    
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            // Handle the decoded text
             console.log(`Code matched = ${decodedText}`, decodedResult);
-            html5QrCode.stop().then(ignore => {
-                qrReaderContainer.style.display = 'none'; // Hide scanner container
-                loadingSpinner.style.display = 'none';
-                scannerInstructions.style.display = 'none';
-                messageDiv.textContent = 'Barcode scanned successfully.';
-                messageDiv.className = 'message success';
-                messageDiv.style.display = 'block';
-                orderIdInput.value = decodedText.startsWith('WP-') ? decodedText.slice(3) : decodedText;
-                console.log(`Order ID set to: ${orderIdInput.value}`);
-                // Fetch and display Order History and Warehouse Status
-                displayOrderRelatedInfo(`WP-${orderIdInput.value.trim().replace(/^WP-/, '')}`);
-            }).catch(err => {
-                console.error('Error stopping scanner:', err);
-                messageDiv.textContent = 'Error stopping scanner.';
-                messageDiv.className = 'message error';
-                messageDiv.style.display = 'block';
-            });
+            // Rest of the code...
         };
-
+    
         const qrCodeErrorCallback = (errorMessage) => {
-            // Optional: Handle scan errors or ignore
             console.warn(`QR Code no match: ${errorMessage}`);
         };
-
+    
+        console.log('Getting cameras.');
         Html5Qrcode.getCameras().then(cameras => {
+            console.log('Cameras found:', cameras);
             if (cameras && cameras.length) {
                 const cameraId = cameras[0].id; // Use the first available camera
                 console.log(`Using camera: ${cameraId}`);
@@ -269,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
             qrReaderContainer.style.display = 'none';
         });
     };
+    
 
     // Event listener for barcode scanner
     barcodeButton.addEventListener('click', startQrScanner);
