@@ -1,10 +1,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: './frontend/js/settleShipment.js', // Path to your settleShipment.js file relative to webpack.config.js
+  entry: './frontend/js/settleShipment.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'frontend/js'), // Output directory: frontend/js
+    path: path.resolve(__dirname, 'frontend/js'),
+    publicPath: '/js/', // Ensure this matches where your bundle is served from
   },
   module: {
     rules: [
@@ -17,5 +18,15 @@ module.exports = {
       },
     ],
   },
-  mode: 'development', // Change to 'production' for minified output
+  mode: 'development',
+  devtool: 'inline-source-map', // Optional: for better debugging
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'frontend'), // Serve files from the 'frontend' directory
+    },
+    compress: true,
+    port: 9000,
+    hot: true, // Enable Hot Module Replacement
+    open: true, // Open the browser after server had been started
+  },
 };
