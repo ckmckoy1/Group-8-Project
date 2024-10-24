@@ -1,4 +1,8 @@
+// Import the Html5Qrcode class using CommonJS syntax
+const { Html5Qrcode } = require("html5-qrcode");
+
 document.addEventListener('DOMContentLoaded', () => {
+    // Access all DOM elements
     const settleForm = document.getElementById('settleShipmentForm');
     const messageDiv = document.getElementById('message');
     const finalAmountInput = document.getElementById('finalAmount');
@@ -203,21 +207,33 @@ document.addEventListener('DOMContentLoaded', () => {
         messageDiv.className = 'message';
         messageDiv.style.display = 'block';
         qrReaderContainer.style.display = 'block'; // Show scanner container
-    
+
         const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-    
+
         console.log('Creating Html5Qrcode instance.');
         html5QrCode = new Html5Qrcode("qr-reader");
-    
+
         const qrCodeSuccessCallback = (decodedText, decodedResult) => {
             console.log(`Code matched = ${decodedText}`, decodedResult);
-            // Rest of the code...
+            // For example, set the decodedText to orderIdInput
+            orderIdInput.value = decodedText;
+
+            // Stop the scanner after a successful scan
+            html5QrCode.stop().then(() => {
+                console.log('Scanner stopped.');
+                loadingSpinner.style.display = 'none';
+                messageDiv.style.display = 'none';
+                qrReaderContainer.style.display = 'none';
+                scannerInstructions.style.display = 'none';
+            }).catch(err => {
+                console.error('Error stopping the scanner:', err);
+            });
         };
-    
+
         const qrCodeErrorCallback = (errorMessage) => {
             console.warn(`QR Code no match: ${errorMessage}`);
         };
-    
+
         console.log('Getting cameras.');
         Html5Qrcode.getCameras().then(cameras => {
             console.log('Cameras found:', cameras);
@@ -254,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
             qrReaderContainer.style.display = 'none';
         });
     };
-    
 
     // Event listener for barcode scanner
     barcodeButton.addEventListener('click', startQrScanner);

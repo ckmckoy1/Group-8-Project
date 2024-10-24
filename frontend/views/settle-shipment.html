@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipping Management | Wild Path Outfitters</title>
+    <!-- Link to your custom CSS -->
     <link rel="stylesheet" href="../css/settleShipmentStyle.css">
-<!-- Include Html5Qrcode Library First -->
-<script src="html5-qrcode-master/lib/jsqrcode-combined.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode@2.3.7/minified/html5-qrcode.min.js"></script>
-
 </head>
 <body>
     <header class="header">
@@ -18,7 +15,10 @@
     <main>
         <div class="settle-shipment-container">
             <h2>Order Shipping Settlement</h2>
-            <h3>Click the "Scan" button to scan the barcode or enter the Order ID to pull the order. Then enter the Final Amount and click the Settlement Shipment button to settle the order.</h3>
+            <h3>
+                Click the "Scan" button to scan the barcode or enter the Order ID to pull the order.
+                Then enter the Final Amount and click the "Settle Shipment" button to settle the order.
+            </h3>
             <form id="settleShipmentForm">
                 <div class="form-group">
                     <h3>Step 1: Scan Barcode or Enter Order ID</h3>
@@ -84,9 +84,9 @@
         </div>
     </main>
 
-    <!-- Then Include Your Custom JavaScript -->
-    
+    <!-- Include jsPDF Library (if needed for PDF generation) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="../js/settleShipment.js"></script>
+    <!-- Include the bundled JavaScript file -->
+    <script src="../js/bundle.js"></script>
 </body>
 </html>
