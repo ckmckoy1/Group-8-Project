@@ -1,97 +1,358 @@
 /* General body styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+html, body {
+    height: 100%;
+    width: 100%; /* Ensure the body and html are full width */
+    background: #F5F8FA; /* Very light blue-grey background */
     padding: 0;
-    background-color: #f4f4f4;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* Header styling */
-.header {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    padding: 1em 0;
+
+
+.navbar {
+    background-color: white;
+    border-bottom: 1.5px solid #A0BCCD; /* Soft grey-blue border */
+    margin-bottom: 0;
+    padding-top: 0.2em;    /* Reduced top padding */
+    padding-bottom: 0.2em; /* Reduced bottom padding */
 }
 
-h1 {
+
+.navbar-logo {
+    height: 60px; /* Adjust as needed */
+    width: auto;   /* Maintains aspect ratio */
+}
+
+
+.navbar-brand {
+    font-size: 2em;
+    color: #333; /* Dark grey text */
+}
+
+.navbar-nav .nav-link {
+    color: #333; /* Dark grey text */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #0056b3; /* Dark blue on hover */
+}
+
+h2 {
     margin: 0;
     font-size: 2em;
+    color: #333; /* Dark grey text */
 }
 
-/* Container for the order management UI */
-.order-management-container {
-    max-width: 1200px;
-    margin: 2em auto;
-    padding: 1em;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    .ui-state-highlight {
+        height: 2.5em;
+        line-height: 1.2em;
+        background-color: #f0f0f0;
+        border: 1px dashed #ddd;
+        margin-bottom: 5px;
+    }
 
-/* Table styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1em;
-}
 
-table, th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
-    cursor: pointer;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Buttons for sorting and filtering */
-.filter-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1em;
-}
-
-button, input[type="text"] {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-right: 10px;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-/* Success and error message styling */
+/* Message styling */
 .message {
-    padding: 1em;
-    margin-bottom: 1em;
+    padding: 1.2em;
+    margin-bottom: 1.5em;
     border-radius: 5px;
+    font-size: 1.1em;
 }
 
 .message.success {
-    background-color: #dff0d8;
-    color: #3c763d;
+    background-color: #D6EAF5; /* Light blue background */
+    color: #0056b3; /* Dark blue text */
 }
 
 .message.error {
-    background-color: #f2dede;
-    color: #a94442;
+    background-color: #F2D7D5; /* Light red background */
+    color: #A94442; /* Dark red text */
+}
+
+/* Centering content */
+.centered-content, 
+.centered-content th, 
+.centered-text, 
+.centered-text th {
+    text-align: center;
+}
+
+/* Buttons Section - Keep buttons and length dropdown aligned in the same row */
+.row.mb-3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Footer Container Styling */
+.footer-container {
+    width: 100%; /* Full width */
+    padding: 0 1.5em; /* Horizontal padding as needed */
+    margin: 0 auto; /* Center if needed */
+}
+
+/* Footer Styling */
+footer.footer {
+    width: 100%; /* Ensure the footer spans the full width */
+    padding: 1em 0;
+    background-color: white;
+    color: #333;
+    border-top: 1px solid #A0BCCD; /* Soft grey-blue border */
+}
+
+/* Ensure the row inside footer-container uses Bootstrap's grid properly */
+.footer-container .row {
+    margin: 0; /* Remove default row margins */
+}
+
+
+footer.footer a {
+    color: #333; /* Dark grey text */
+    text-decoration: none;
+    font-size: 1em;
+    text-align: right;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0;
+}
+
+footer.footer img {
+    margin: 0 5px; /* Adjust margin around images */
+}
+
+footer.footer a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Dark blue on hover */
+}
+
+/* Add spacing between the links */
+footer.footer .mx-2 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Flexbox to align the links properly in a row */
+footer.footer .d-flex {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0; /* Remove extra padding */
+    margin: 0; /* Remove any extra margin */
+}
+
+/* Modal styles */
+.modal .modal-dialog {
+    max-width: 600px;
+    margin: 1.75rem auto;
+    color: black;
+}
+
+.modal-content {
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    background-color: #B9D9EB; /* Light blue background */
+    color: #333; /* Dark grey text */
+    border-bottom: 1px solid #A0BCCD; /* Soft grey-blue border */
+    padding: 15px;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+/* Adjust the size of Available and Selected Columns boxes */
+#availableColumns, #selectedColumns {
+    height: 300px; /* Increase height of the boxes */
+    width: 100%; /* Ensure full width */
+    overflow-y: auto; /* Enable scrolling if content exceeds the height */
+    background-color: #fff; /* White background */
+    border: 1px solid #A0BCCD; /* Add a border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Add some padding inside the boxes */
+    list-style-type: none; /* Remove bullet points */
+}
+
+#availableColumns li, #selectedColumns li {
+    padding: 8px 12px; /* Increase padding inside the list items */
+    margin-bottom: 5px; /* Add space between the items */
+    background-color: #F0F8FF; /* Light background color for items */
+    cursor: pointer;
+    width: 100%; /* Make the list items take up the full width of the container */
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+}
+
+#availableColumns li:hover, #selectedColumns li:hover {
+    background-color: #B9D9EB; /* Change background on hover */
+}
+
+
+.modal-body {
+    padding: 20px;
+    background-color: #F0F8FF; /* AliceBlue background */
+    color: black;
+}
+
+.modal-footer {
+    background-color: white;
+    border-top: 1px solid #A0BCCD; /* Soft grey-blue border */
+    padding: 10px 20px;
+    text-align: right;
+}
+
+.modal-footer .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Primary button for the modal */
+.modal-footer .btn-primary {
+    background-color: #0056b3; /* Dark blue */
+    color: white;
+    border-color: #0056b3;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #004080; /* Darker blue on hover */
+    border-color: #004080;
+}
+
+/* Control column drag popup sizes */
+.modal-dialog .list-group-item {
+    width: 100px;
+    white-space: nowrap;
+}
+
+/* Secondary button for the modal */
+.modal-footer .btn-secondary {
+    background-color: #A0BCCD; /* Soft grey-blue */
+    color: #333; /* Dark grey text */
+    border-color: #A0BCCD;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #8AAFC3; /* Slightly darker shade */
+    border-color: #8AAFC3;
+}
+
+/* Modal close button styling */
+.modal-header .close {
+    color: #333; /* Dark grey */
+    font-size: 1.5em;
+    opacity: 1;
+}
+
+.modal-header .close:hover {
+    color: #000; /* Black on hover */
+}
+
+/* Normal button background color */
+button, th {
+    background-color: #B9D9EB; /* Light blue */
+    color: #333; /* Dark grey text */
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover state */
+button:hover, th:hover {
+    background-color: #D6EAF5; /* Lighter shade */
+    color: #333;
+}
+
+/* Custom button color */
+#refreshTable, #chooseColumns, #downloadButton, #clearFilters {
+    background-color: white;
+    color: #0056b3; /* Dark blue text */
+    border: 1px solid #A0BCCD; /* Soft grey-blue border */
+    border-radius: 5px;
+}
+
+#refreshTable:hover, 
+#chooseColumns:hover, 
+#downloadButton:hover,
+#clearFilters:hover {
+    background-color: #D6EAF5; /* Lighter shade */
+    border-color: #0056b3;
+    color: #003d80; /* Darker blue text */
+}
+
+.uniform-btn {
+    width: 150px; /* Adjust the width as needed */
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+
+  .nowrap-text {
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    table, th, td {
+        font-size: 0.8em;
+        padding: 10px;
+    }
+
+    .order-management-container {
+        padding: 0.8em;
+    }
+
+    .navbar-logo {
+        height: 35px;
+    }
+
+    .row.mb-3 {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    thead input[type="text"], 
+    thead select {
+        font-size: 0.7em;
+        padding: 4px;
+        height: 28px;
+    }
+
+    .form-control {
+        font-size: 0.7em;
+        padding: 4px;
+        height: 28px;
+    }
+}
+
+/* Adjustments for very small screens */
+@media screen and (max-width: 480px) {
+    .table-container {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    table, th, td {
+        font-size: 0.75em;
+        padding: 8px;
+        min-width: 600px; /* Set a minimum width to prevent table from becoming too narrow */
+    }
+
+    input[type="text"], select {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
 }

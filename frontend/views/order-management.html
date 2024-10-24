@@ -3,42 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Management</title>
+    <title>WPO Order Management</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- ColReorder Extension -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.6.2/css/colReorder.dataTables.min.css">
+    <!-- DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/orderManagementStyle.css">
+    <link rel="stylesheet" href="../css/orderMgmtTableStyles.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Order Management</h1>
-    </header>
-
-    <div class="order-management-container">
-        <div class="filter-container">
-            <input type="text" id="searchInput" placeholder="Search by Order ID or Customer">
-            <select id="statusFilter">
-                <option value="">All Statuses</option>
-                <option value="Authorized">Authorized</option>
-                <option value="Pending">Pending</option>
-                <option value="Failed">Failed</option>
-            </select>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img class="navbar-logo" src="../assets/PaymentLogo.svg" alt="WPO logo" />
+        </a>              
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Logout</a>
+                </li>
+            </ul>
         </div>
+    </nav>
 
-        <table id="orderTable">
+    <!-- Main Container -->
+    <div class="container-fluid mt-4">
+
+<!-- Buttons Section -->
+<div class="row mb-3 align-items-center">
+    <div class="col-md-6 d-flex align-items-center">
+        <h2 class="text-left mr-3 mb-0 nowrap-text">Order Items: Recent Transactions</h2>
+        <button id="refreshTable" class="btn btn-primary mr-2 uniform-btn">Refresh Table</button>
+        <!-- Updated Button with data attributes -->
+        <button id="chooseColumns" class="btn btn-secondary mr-2 uniform-btn" data-toggle="modal" data-target="#chooseColumnsModal">Choose Columns</button>
+
+        <button id="downloadButton" class="btn btn-info mr-2 uniform-btn">Download</button>
+        <button id="clearFilters" class="btn btn-secondary uniform-btn">Clear All Filters</button>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+        <div class="dataTables_length" id="orderTable_length"></div>
+    </div>
+</div>
+
+
+      <!-- Orders Table Scrollable Container -->
+<div class="row">
+    <div class="col-12 table-container">
+        <div id="message" style="display: none;">Error message goes here</div>
+        <table id="orderTable" class="table table-striped table-bordered">
             <thead>
-                <tr>
-                    <th onclick="sortTable('orderId')">Order ID &#9650;&#9660;</th>
-                    <th onclick="sortTable('customer')">Customer &#9650;&#9660;</th>
-                    <th onclick="sortTable('status')">Status &#9650;&#9660;</th>
-                    <th onclick="sortTable('amount')">Amount &#9650;&#9660;</th>
+                <tr class="header-row">
+                    <th data-orderable="true">Order ID</th>
+                    <th data-orderable="true">Customer</th>
+                    <th data-orderable="true">Email</th>
+                    <th data-orderable="true">Shipping Method</th>
+                    <th data-orderable="true">Shipping Address</th>
+                    <th data-orderable="true">Unit Number</th>
+                    <th data-orderable="true">Shipping City</th>
+                    <th data-orderable="true">Shipping State</th>
+                    <th data-orderable="true">Shipping Zip</th>
+                    <th data-orderable="true">Billing Address</th>
+                    <th data-orderable="true">Billing Unit Number</th>      
+                    <th data-orderable="true">Billing City</th>
+                    <th data-orderable="true">Billing State</th>
+                    <th data-orderable="true">Billing Zip</th>
+                    <th data-orderable="true">Total Amount</th>
+                    <th data-orderable="true">Payment Status</th>
+                    <th data-orderable="true">Card Last 4</th>
+                    <th data-orderable="true">Card Brand</th>
+                    <th data-orderable="true">Expiration Date</th>
+                    <th data-orderable="true">Order Date/Time</th>
+                    <th data-orderable="true">Order Date</th>
+                    <th data-orderable="true">Order Time</th>
+                    <th data-orderable="true">Authorization Token</th>
+                    <th data-orderable="true">Authorization Amount</th>
+                    <th data-orderable="true">Authorization Expiration</th>
+                    <th data-orderable="true">Warehouse Status</th>
+                    <th data-orderable="true">Warehouse Approval Date</th>
+                </tr>
+                <tr class="filter-row">
+                    <th><input type="text" id="orderIDFilter" class="form-control"></th>
+                    <th><input type="text" id="customerFilter" class="form-control"></th>
+                    <th><input type="text" id="emailFilter" class="form-control"></th>
+                    <th>
+                        <button id="shippingMethodFilterButton" class="select-button">Choose...</button>
+                        <ul id="shippingMethodFilterOptions" class="dropdown-options">
+                            <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                            <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                            <li data-value="Standard"><input type="checkbox"> Standard</li>
+                            <li data-value="Express"><input type="checkbox"> Express</li>
+                            <li data-value="Rush"><input type="checkbox"> Rush</li>
+                        </ul>
+                    </th>
+                    <th><input type="text" id="shippingAddressFilter" class="form-control"></th>
+                    <th><input type="text" id="shippingunitNumberFilter" class="form-control"></th>
+                    <th><input type="text" id="shippingCityFilter" class="form-control"></th>
+                    <th><input type="text" id="shippingStateFilter" class="form-control"></th>
+                    <th><input type="text" id="shippingZipFilter" class="form-control"></th>
+                    <th><input type="text" id="streetAddressFilter" class="form-control"></th>
+                    <th><input type="text" id="billingunitNumberFilter" class="form-control"></th>
+                    <th><input type="text" id="billingCityFilter" class="form-control"></th>
+                    <th><input type="text" id="billingStateFilter" class="form-control"></th>
+                    <th><input type="text" id="billingZipFilter" class="form-control"></th>
+                    <th><input type="text" id="totalAmountFilter" class="form-control"></th>
+                    <th>
+                        <button id="paymentstatusFilterButton" class="select-button">Choose...</button>
+                        <ul id="paymentstatusFilterOptions" class="dropdown-options">
+                            <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                            <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                            <li data-value="Authorized"><input type="checkbox"> Success</li>
+                            <li data-value="Pending"><input type="checkbox"> Pending</li>
+                            <li data-value="Failure - Incorrect Card Details"><input type="checkbox"> Failure - Incorrect Card Details</li>
+                            <li data-value="Failure - Insufficient Funds"><input type="checkbox"> Failure - Insufficient Funds</li>
+                        </ul>
+                    </th>
+                    
+                    <th><input type="text" id="cardNumberFilter" class="form-control"></th>
+                    <th><input type="text" id="cardBrandFilter" class="form-control"></th>
+                    <th><input type="text" id="expirationDateFilter" class="form-control"></th>
+                    <th><input type="date" id="orderDateTimeFilter" class="form-control"></th>
+                    <th><input type="date" id="orderDateFilter" class="form-control"></th>
+                    <th><input type="text" id="orderTimeFilter" class="form-control"></th>
+                    <th><input type="text" id="authTokenFilter" class="form-control"></th>
+                    <th><input type="text" id="authAmountFilter" class="form-control"></th>
+                    <th><input type="date" id="authExpirationFilter" class="form-control"></th>
+                    <th>
+                        <button id="warehouseStatusFilterButton" class="select-button">Choose...</button>
+                        <ul id="warehouseStatusFilterOptions" class="dropdown-options">
+                            <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                            <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                            <li data-value="Settled"><input type="checkbox"> Settled</li>
+                            <li data-value="Pending"><input type="checkbox"> Pending</li>
+                            <li data-value="N/A"><input type="checkbox"> N/A</li>
+                        </ul>
+                    </th>
+                    <th><input type="date" id="warehouseApprovalDateFilter" class="form-control"></th>
                 </tr>
             </thead>
-            <tbody id="orderTableBody">
-                <!-- Orders will be dynamically added here -->
-            </tbody>
-        </table>
 
-        <div id="message" class="message" style="display: none;"></div>
+            <tbody id="orderTableBody">
+                <!-- Orders will be dynamically added here by JavaScript -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <!-- Columns 1-13: Empty -->
+                    <td colspan="13"></td>
+                    
+                    <!-- Column 14: Total Amount -->
+                    <td id="totalAmount">$0.00</td>
+                    
+                    <!-- Columns 15-22: Empty -->
+                    <td colspan="8"></td>
+                    
+                    <!-- Column 23: Total Transaction Amount -->
+                    <td id="totalTransactionAmount">$0.00</td>
+                    
+                    <!-- Columns 24-26: Empty -->
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+            
+        </table>
+    </div>
+</div>
+
     </div>
 
-    <script src="../js/orderManagement.js"></script>
+  <!-- Modal for Choose Columns -->
+<div class="modal fade" id="chooseColumnsModal" tabindex="-1" role="dialog" aria-labelledby="chooseColumnsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="chooseColumnsModalLabel">Choose Columns</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Available Columns</h6>
+                        <ul id="availableColumns" class="list-group connectedSortable">
+                            <!-- Available columns will be dynamically added here -->
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Selected Columns</h6>
+                        <ul id="selectedColumns" class="list-group connectedSortable">
+                            <!-- Selected columns will be dynamically added here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" id="applyColumns" class="btn btn-primary">Apply</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- Modal for Download Options -->
+    <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Download Options</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                   <div class="modal-body">
+                    <div class="form-group">
+                        <label for="downloadFormat">Choose Format</label>
+                        <select id="downloadFormat" class="form-control">
+                            <option value="csv">CSV</option>
+                            <option value="pdf">PDF</option>
+                            <option value="excel">Excel</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="downloadConfirm" class="btn btn-primary">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Footer -->
+<footer class="footer mt-4">
+    <div class="footer-container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end align-items-center">
+                <a href="#">Privacy Policy</a>
+                <span class="mx-2">|</span>
+                <a href="#">Terms of Use</a>
+                <span class="mx-2"></span>
+                <img src="../assets/blaze.svg" width="50" height="50" alt="OrderTrail-OMS: A Service of Trailblaze Technologies"/>
+               
+                <img src="../assets/trailblaze.svg" width="50" height="50" alt="Powered by Trailblaze Technologies"/>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Scripts -->
+<!-- jQuery first, then jQuery UI, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI for sortable functionality -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- Popper.js, required for Bootstrap 4 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<!-- DataTables ColReorder Extension JS -->
+<script src="https://cdn.datatables.net/colreorder/1.6.2/js/dataTables.colReorder.min.js"></script>
+<!-- DataTables Buttons Extension JS -->
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+<!-- DataTables Buttons HTML5 Export -->
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<!-- DataTables Buttons JSZip (for Excel export) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<!-- DataTables Buttons PDFMake (for PDF export) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<!-- PDFMake VFS Fonts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<!-- Custom JS -->
+<script src="../js/orderManagement.js"></script>
+
 </body>
 </html>

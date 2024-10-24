@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,51 +6,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | Wild Path Outfitters</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/CustomerStyle.css">
-    <link rel="icon" href="../assets/compass.png" type="image/png">
+    <link rel="icon" href="../assets/compass-logo.png" type="image/png">
 </head>
 
 <body>
     <header class="header">
         <div class="promo-bar">
-            <p>Earn Rewards On Purchases | FALL OUTERWEAR 20-40% OFF | <a href="#">VIEW DEALS</a> | 
-            <img src="../assets/location.svg" width="25" height="25"> The Outlet Shoppes at Atlanta  |  
-            <img src="../assets/account.svg" width="25" height="25"> <a href="#">Sign In / Sign Up </a></p>
+            <div class="Earn_Rewards">
+                <img src="../assets/mountain.svg" width="20" height="20" alt="Mountain"> Earn Rewards On Purchases
+            </div>
+            <div class="Find_Deals">
+                WINTER OUTERWEAR 20-40% OFF | 
+                <a href="#" class="view-deals">
+                    VIEW DEALS
+                    <!-- Inline SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z"/>
+                    </svg>
+                </a>
+            </div>
+                               
+            <div class="right-section">
+                <div class="Find_Location">
+                    <!-- SVG Icon -->
+                    <svg 
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24" 
+                        fill="currentColor" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        aria-hidden="true">
+                        <path 
+                            fill-rule="evenodd" 
+                            clip-rule="evenodd" 
+                            d="M8.89129 21.0787L8.9461 21.1315L8.95039 21.1357C9.95462 22.098 10.9283 22.7576 12.0296 22.7449C13.1259 22.7323 14.0956 22.0555 15.0992 21.0783C16.4747 19.7455 18.2545 17.9477 19.5403 15.8149C20.831 13.6741 21.6639 11.1292 21.0372 8.33595C18.9197 -1.10413 5.09133 -1.11519 2.96276 8.32592C2.35382 11.04 3.12314 13.5227 4.34999 15.6268C5.57222 17.7231 7.2824 19.5029 8.65394 20.8471C8.73386 20.9254 8.81273 21.0023 8.89035 21.0778L8.89129 21.0787ZM12 6.25012C10.2051 6.25012 8.75 7.7052 8.75 9.50012C8.75 11.295 10.2051 12.7501 12 12.7501C13.7949 12.7501 15.25 11.295 15.25 9.50012C15.25 7.7052 13.7949 6.25012 12 6.25012Z" />
+                    </svg>
+                    <a href="#" class="location-link">
+                        The Outlet Shoppes at Atlanta
+                        <svg 
+                            width="20" 
+                            height="20" 
+                            viewBox="0 0 24 24" 
+                            fill="currentColor" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            aria-hidden="true">
+                            <path 
+                                fill-rule="evenodd" 
+                                clip-rule="evenodd" 
+                                d="M12 16.5C11.45 16.5 10.98 16.28 10.66 15.94L5.66 10.94C5.26 10.54 5.26 9.91 5.66 9.51C6.06 9.11 6.69 9.11 7.09 9.51L12 14.42L16.91 9.51C17.31 9.11 17.94 9.11 18.34 9.51C18.74 9.91 18.74 10.54 18.34 10.94L13.34 15.94C13.02 16.28 12.55 16.5 12 16.5Z" />
+                        </svg>
+                    </a> |
+                    
+                </div>
+                <div class="Sign_In">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 
+                        10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 
+                        3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 
+                        0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 
+                        5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg> <a href="#">Sign In / Sign Up</a>
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar with Search, Logo, and Cart -->
+        <div class="top-bar">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <img src="../assets/search.svg" width="20" height="20" alt="Search">
+            </div>
+            <div class="logo">
+                <img class="wpo-title" src="../assets/Wild-Path-Outfitters.svg" alt="Wild Path Outfitters"/> 
+                <img class="wpo-logo" src="../assets/compass.svg"  alt="Compass"/>
+            </div>
+            <!-- Shopping Cart Icon Container -->
+            <div class="cart-icon">
+                <img src="../assets/cart.svg" alt="Shopping Cart" class="cart-image">
+                <span class="cart-badge">1</span>
+            </div>
+
+        </div>
+ 
+        <div class="banner">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Women</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Men</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Kids</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Gear & Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Shoes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Clearance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>            
         </div>
     </header>
 
-    <!-- Top Bar with Search, Logo, and Cart -->
-    <div class="top-bar">
-        <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <img src="../assets/search.svg" width="20" height="20" alt="Search">
-        </div>
-        <div class="logo">
-            <h1>Wild Path Outfitters <img src="../assets/compass-svgrepo-com.svg" width="50" height="50" alt="Compass"></h1>
-        </div>
-        <div class="cart-icon">
-            <a href="../cart.html">
-                <img src="../assets/cart.svg" width="20" height="20" alt="Shopping Cart Icon">
-            </a>
-        </div>
-    </div>
-
-    <div class="banner">
-        <nav class="nav">
-            <a href="#">Women</a>
-            <a href="#">Men</a>
-            <a href="#">Kids</a>
-            <a href="#">Gear & Home</a>
-            <a href="#">Shoes</a>
-            <a href="#">Clearance</a>
-            <a href="#">About Us</a>
-        </nav>
-    </div>
-
     <!-- Popup for Order Complete -->
-    <div class="popup-overlay" id="orderPopupOverlay" style="display: none;">
-        <div class="popup" id="orderPopup">
-            <span class="close" id="closeOrderPopup">&times;</span>
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <span class="close" id="closePopup">&times;</span>
             <div class="popup-content">
                 <p>Your order is complete! Thank you for shopping with Wild Path Outfitters.</p>
             </div>
@@ -57,260 +135,598 @@
     </div>
 
     <main class="main-content">
-        <div class="container">    
+        <div class="container">
             <section class="checkout-container">
-                <h2>Secure Checkout</h2>
+                <h2>Secure Checkout <img src="../assets/lock.svg" width="30" height="30" alt="Lock"> </h2>
                 <div class="sign-in">
-                    <p>Sign in to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
-                    <a href="#">+ Add my Adventure Rewards Number</a>
+                    <p><a href="#">Sign in</a> to your account to save time and earn rewards. | No Account? <a href="#">Sign up now</a></p>
+
+                </div>
+                <div class="express-checkout">
+                    <h4>Express Checkout 
+                        <img src="../assets/question.svg" width="20" height="20" alt="Question">
+                    </h4>
+                    <p>Choose an express checkout option to quickly process your order with the address linked to your payment account.</p>
+                    <div class="checkout-options">
+                        <img src="../assets/apple.svg" width="90" height="70" alt="ApplePay">
+                        <img src="../assets/venmo.svg" width="100" height="80" alt="Venmo">
+                        <img src="../assets/paypal-icon.svg" width="100" height="80" alt="PayPal">
+                        <img src="../assets/google.svg" width="80" height="60" alt="GooglePay">
+                    </div>
+                </div>
+                
+                <form id="checkoutForm" autocomplete="on">
+                    <!-- Section 1: Shipping & Delivery Details -->
+                    <div id="shippingSection" class="form-section show">
+                        <h3 onclick="toggleSection('shippingSection')">1. SHIPPING & DELIVERY</h3>
+                        <div class="form-content show">
+                            <!-- Contact Info -->
+                            <div class="form-group">
+                                <label for="Contact Info Group">Contact Info</label>
+                            </div>
+
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <input type="email" id="email" name="email" required placeholder="Email *">
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" id="phone" name="phone" required placeholder="Phone Number *">
+                                </div>
+                            </div>
+
+                            <!-- Shipping Address -->
+                            <div class="form-group">
+                                <label for="Shipping Address Group">Shipping Address</label>
+                            </div>
+
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <input type="text" id="firstName" name="firstName" required placeholder="First Name *">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Last Name *">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" id="address" name="address" required placeholder="Address *">
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor (Optional)">
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <input type="text" id="city" name="city" required placeholder="City *">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="state" name="state" required placeholder="State / Region *">
+                                </div>
+                            </div>
+
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code *">
+                                </div>
+                                <div class="form-group">
+                                    <select id="country" name="country" required>
+                                        <option value="">Select Country</option>
+                                        <option value="US" selected>United States</option>
+                                        <!-- ... other countries ... -->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Shipping Method Selection -->
+                            <p>Select your preferred shipping method: *</p>
+                            <div class="radio-group">
+                                <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
+                                <label for="standard">
+                                    Standard Delivery
+                                    <span id="standardEstDate" style="color: darkgrey;"></span>
+                                    <span id="standardCost"></span>
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="expedited" name="shippingMethod" value="Expedited" required>
+                                <label for="expedited">
+                                    Expedited Delivery
+                                    <span id="expeditedEstDate" style="color: darkgrey;"></span>
+                                    <span id="expeditedCost"></span>
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="rush" name="shippingMethod" value="Rush" required>
+                                <label for="rush">
+                                    Rush Delivery
+                                    <span id="rushEstDate" style="color: darkgrey;"></span>
+                                    <span id="rushCost"></span>
+                                </label>
+                            </div>
+                            <button type="button" class="continue-btn" id="continueToPayment">CONTINUE TO PAYMENT</button>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Payment -->
+                    <div id="paymentSection" class="form-section collapsed">
+                        <h3 onclick="toggleSection('paymentSection')">2. PAYMENT</h3>
+                        <div class="form-content">
+                            <div class="form-group">
+                                <p>Please select from the payment options below.</p>
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="PaymentOption1" name="paymentMethod" value="creditCard" checked>
+                                <label for="PaymentOption1">Credit Card</label>
+                                <img src="../assets/visa.svg" width="50" height="55" alt="Visa">
+                                <img src="../assets/amex.svg" width="50" height="55" alt="Amex">
+                                <img src="../assets/mastercard.svg" width="50" height="55" alt="MasterCard">
+                                <img src="../assets/discover.svg" width="50" height="55" alt="Discover">
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="PaymentOption2" name="paymentMethod" value="klarna">
+                                <label for="PaymentOption2">Klarna</label>
+                                <img src="../assets/klarna.svg" width="50" height="55" alt="Klarna">
+                            </div>
+                            <div class="radio-group">
+                                <input type="radio" id="PaymentOption3" name="paymentMethod" value="paypal">
+                                <label for="PaymentOption3">PayPal</label>
+                                <img src="../assets/paypal.svg" width="50" height="55" alt="PayPal">
+                            </div>
+
+                            <!-- Credit Card Payment Fields -->
+                            <div id="creditCardFields">
+                                <div class="form-group">
+                                    <input type="text" id="cardNumber" name="cardNumber" maxlength="19" autocomplete="cc-number" required placeholder="Card Number">
+                                    <label for="cardNumber" class="floating-label">Card Number *</label>
+                                    <span id="cardBrandDisplay" style="margin-left: 10px; font-weight: bold;"></span>
+                                </div>
+                                <div class="form-group-pair">
+                                    <div class="form-group">
+                                        <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
+                                        <label for="expDate" class="floating-label">Expiry Date *</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="securityCode" name="securityCode" maxlength="4" autocomplete="cc-csc" required placeholder="CVV">
+                                        <label for="securityCode" class="floating-label">Security Code *</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="billingName" name="billingName" required placeholder="John Doe">
+                                    <label for="billingName" class="floating-label">Name on card *</label>
+                                </div>
+
+                                <!-- Billing Address Section -->
+                                <div class="form-group billing-header">
+                                    <p>Billing Address</p>
+                                </div>
+                                <div class="checkbox-group-pair">
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
+                                        <label for="sameAsShipping">Same as Shipping?</label>
+                                    </div>
+                                </div>
+
+                                <!-- Street Address -->
+                                <div class="form-group">
+                                    <input type="text" id="billingAddress" name="billingAddress" required placeholder="Address">
+                                    <label for="billingAddress" class="floating-label">Address *</label>
+                                </div>
+                                
+                                <!-- Unit Number -->
+                                <div class="form-group">
+                                    <input type="text" id="billingUnitNumber" name="billingUnitNumber" placeholder="Unit, Suite, Floor (Optional)">
+                                    <label for="billingUnitNumber" class="floating-label">Unit, Suite, Floor</label>
+                                </div>
+
+                                <!-- City -->
+                                <div class="form-group">
+                                    <input type="text" id="billingCity" name="billingCity" required placeholder="City">
+                                    <label for="billingCity" class="floating-label">City *</label>
+                                </div>
+
+                            <div class="form-group-pair">
+                                <!-- State -->
+                                <div class="form-group">
+                                    <input type="text" id="billingState" name="billingState" required placeholder="State / Region">
+                                    <label for="billingState" class="floating-label">State / Region *</label>
+                                </div>
+
+                                <!-- ZIP Code -->
+                                <div class="form-group">
+                                    <input type="text" id="billingZipCode" name="billingZipCode" required placeholder="ZIP / Postal Code">
+                                    <label for="billingZipCode" class="floating-label">ZIP / Postal Code *</label>
+                                </div>
+                            </div>
+
+                                <button type="button" class="continue-btn" id="continueToReview">CONTINUE TO REVIEW</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Klarna Payment Option -->
+                    <div id="klarnaPayment" style="display: none;">
+                        <button type="button" class="continue-btn" id="klarnaButton">Continue To Pay Over Time With Klarna</button>
+                    </div>
+
+                    <!-- PayPal Payment Option -->
+                    <div id="paypalPayment" style="display: none;">
+                        <p>Selecting PayPal Checkout will direct you to the PayPal website to complete your order.</p>
+                        <button type="button" class="continue-btn" id="paypalButton">
+                            <img src="../assets/paypal.svg" alt="PayPal Logo" style="vertical-align: middle; width: 100px; height: auto;" />
+                            Checkout
+                        </button>
+                    </div>
+
+                    <!-- Section 3: Review Order -->
+                    <div id="reviewOrderSection" class="form-section collapsed">
+                        <h3 onclick="toggleSection('reviewOrderSection')">3. REVIEW ORDER</h3>
+                        <div class="form-content">
+                            <div class="form-group">
+                                <p>Please review your information and place your order via the Place Order button below.</p>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>SUBTOTAL</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$47.13</p>
+                                </div>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>STANDARD DELIVERY</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$0.00</p>
+                                </div>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>ESTIMATED TAX</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$2.87</p>
+                                </div>
+                            </div>
+                            <div class="form-group-pair">
+                                <div class="form-group">
+                                    <p>TOTAL</p>
+                                </div>
+                                <div class="form-group">
+                                    <p>$50.00</p>
+                                </div>
+                            </div>
+                            <div class="checkbox-group-pair">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="signupforoffers" name="signupforoffers">
+                                    <label for="signupforoffers"> Sign up for email subscription for special offers, new products, and more!</label>
+                                </div>
+                            </div>
+
+                            <!-- Message div for displaying success or error messages -->
+                            <div id="message"></div>
+
+                            <button type="submit" class="submit-button">PLACE ORDER</button>
+                            <div class="form-group agreement">
+                                <p>By placing your order, you agree to Wild Path Outfitters' <a href="#">Privacy Policy</a> and <a href="#">Terms of Sale</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Right Column: Order Summary -->
+            <aside class="order-summary">
+                <div class="order-summary-top">
+                    <!-- Header Section -->
+                    <div class="order-summary-header">
+                        <h3>ORDER SUMMARY</h3>
+                        <a href="#" class="order-summary-help">
+                            HELP 
+                            <img src="../assets/information.svg" width="18" height="18" alt="Information">
+                        </a>
+                    </div>
+                
+                    <!-- Merchandise Total -->
+                    <div class="order-summary-section">
+                        <div class="order-summary-label">
+                            <span class="label-bold">Merchandise Total</span> 
+                            <span class="label-muted">(1 Item)</span>
+                        </div>
+                        <div class="order-summary-value">
+                            <span class="value-bold">$47.13</span>
+                        </div>
+                    </div>
+                
+                    <!-- Order Subtotal -->
+                    <div class="order-summary-section no-border">
+                        <div class="order-summary-label">
+                            <span class="label-bold">Order Subtotal</span>
+                        </div>
+                        <div class="order-summary-value">
+                            <span class="value-bold">$47.13</span>
+                        </div>
+                    </div>
+                
+                <!-- Estimated Tax -->
+                <div class="order-summary-section no-border estimated-tax">
+                    <div class="order-summary-label">
+                        <span>Estimated Tax</span>
+                    </div>
+                    <div class="order-summary-value">
+                        <span>$2.87</span>
+                    </div>
                 </div>
 
-                <div class="checkout-content">
-                    <!-- Left Column: Form for Checkout Sections -->
-                    <div class="checkout-form-section">
-                        <form id="checkoutForm" onsubmit="return validateForm()">
-                            <!-- Section 1: Shipping & Billing Details -->
-                            <div id="shippingBillingSection" class="form-section">
-                                <h3 onclick="toggleSection('shippingBillingSection')">1. SHIPPING & BILLING DETAILS</h3>
-                                <div class="form-content">
-                                    <div class="form-group">
-                                        <label for="email">Email:</label>
-                                        <input type="email" id="email" name="email" required placeholder="Enter your email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="phone">Phone Number:</label>
-                                        <input type="tel" id="phone" name="phone" required placeholder="For delivery purposes only">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="firstName">First Name:</label>
-                                        <input type="text" id="firstName" name="firstName" required placeholder="First Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="lastName">Last Name:</label>
-                                        <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="address">Shipping Address:</label>
-                                        <input type="text" id="address" name="address" required placeholder="Start typing your street address">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="unitNumber">Unit Number, Suite, Floor (Optional):</label>
-                                        <input type="text" id="unitNumber" name="unitNumber" placeholder="Unit, Suite, Floor">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="city">City:</label>
-                                        <input type="text" id="city" name="city" required placeholder="City">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="state">State / Region:</label>
-                                        <input type="text" id="state" name="state" required placeholder="State / Region">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="zip">ZIP / Postal Code:</label>
-                                        <input type="text" id="zip" name="zip" required placeholder="ZIP / Postal Code">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="checkbox" id="sameAsShipping" name="sameAsShipping">
-                                        <label for="sameAsShipping">Is the shipping address the same as billing?</label>
-                                    </div>
-                                    <button type="button" class="continue-btn" onclick="collapseSection('shippingBillingSection', 'shippingMethodSection')">Continue</button>
-                                </div>
-                            </div>
-
-                            <!-- Section 2: Shipping Method -->
-                            <div id="shippingMethodSection" class="form-section collapsed">
-                                <h3 onclick="toggleSection('shippingMethodSection')">2. SHIPPING METHOD</h3>
-                                <div class="form-content">
-                                    <p>Select your preferred shipping method:</p>
-                                    <div class="form-group">
-                                        <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
-                                        <label for="standard">Standard Shipping (5-7 days)</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="radio" id="express" name="shippingMethod" value="Express" required>
-                                        <label for="express">Express Shipping (2-3 days)</label>
-                                    </div>
-                                    <button type="button" class="continue-btn" onclick="collapseSection('shippingMethodSection', 'paymentSection')">Continue</button>
-                                </div>
-                            </div>
-
-                            <!-- Section 3: Payment -->
-                            <div id="paymentSection" class="form-section collapsed">
-                                <h3 onclick="toggleSection('paymentSection')">3. PAYMENT</h3>
-                                <div class="form-content">
-                                    <div class="form-group">
-                                        <label for="cardNumber">Credit Card Number:</label>
-                                        <input type="text" id="cardNumber" name="cardNumber" required placeholder="Card Number">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="expDate">Expiration Date (MM/YY):</label>
-                                        <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="securityCode">Security Code (CVV):</label>
-                                        <input type="text" id="securityCode" name="securityCode" required placeholder="CVV">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="zipCode">Billing ZIP Code:</label>
-                                        <input type="text" id="zipCode" name="zipCode" required placeholder="Billing ZIP Code">
-                                    </div>
-                                    <button type="submit" class="submit-button">Complete Purchase</button>
-                                </div>
-                            </div>
-                        </form>
+                <!-- Estimated Shipping -->
+                <div class="order-summary-section estimated-shipping">
+                    <div class="order-summary-label">
+                        <span>Estimated Shipping</span>
                     </div>
-                </section>
+                    <div class="order-summary-value">
+                        $<span id="shippingCostDisplay">0.00</span>
+                    </div>
+                </div>
 
-                <!-- Right Column: Order Summary -->
-                <aside class="order-summary">
-                    <h3>Order Summary</h3>
-                    <p>Items in Cart: 1</p>
-                    <p>Total: $43.14</p>
-                    <hr>
-                    <p>Shipping: $3.99</p>
-                    <p>Tax: $2.87</p>
-                    <hr>
-                    <p><strong>Grand Total: $50.00</strong></p>
-                </aside>
+                    <!-- Total -->
+                    <div class="order-summary-section total">
+                        <div class="order-summary-label">
+                            <span class="label-bold">Total</span>
+                        </div>
+                        <div class="order-summary-value">
+                            $<span id="grandTotalDisplay" class="value-bold">50.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                
+ <!-- Middle Section: Items in Order -->
+ <div class="order-summary-middle">
+    <!-- Toggle Header -->
+    <div class="order-summary-toggle" id="orderSummaryToggle">
+        <h4>
+            Items in Order (1)
+            <button class="toggle-button" id="toggleButton" aria-label="Toggle Order Details" aria-expanded="true">
+                <!-- Custom Black Arrow SVG -->
+                <img src="../assets/up.svg" width="18" height="18" alt="Up Arrow" class="toggle-arrow">
+            </button>
+        </h4>
+    </div>
+        <!-- Order Details (Initially Visible) -->
+        <div class="order-summary-details" id="orderSummaryDetails">
+
+            <!-- Product Details -->
+            <div class="product-details">
+                <!-- Product Image -->
+                <div class="order-summary-product">
+                    <img src="../assets/mountain_beanie.jpg" alt="Mountain Beanie">
+                    <div class="product-actions">
+                        <a href="#" class="edit-product">Edit</a> | 
+                        <a href="#" class="remove-product">Remove</a>
+                    </div>
+                </div>
+                <!-- Product Info -->
+                <div class="product-info">
+                    <strong>Sierra Snowcap Hat</strong>
+                    <p>Size: Adult<br>Color: Multi-Color<br>Qty: 1<br>Price: $47.13</p>
+                </div>
             </div>
+            
+            <!-- New "Edit Cart" Link -->
+            <a href="#" class="edit-cart">Edit Cart</a>
+            
+        </div>
+</div>
+
+    <div class="order-summary-bottom"> 
+        <!-- Discounts Section -->
+        <div class="order-summary-section discounts">
+            <h4>Discounts <img src="../assets/information.svg" width="18" height="18" alt="Information"></h4>
+            <ul class="discount-list">
+                <!-- Promo Code Item -->
+                <li class="discount-item">
+                    <div class="discount-header" data-discount="promo">
+                        <span>Gift Card or Promo Code</span>
+                        <button class="toggle-discount" aria-expanded="false" aria-controls="promoContent">+</button>
+                    </div>
+                    <div class="discount-content hidden" id="promoContent">
+                        <input type="text" id="promoCodeInput" placeholder="Enter gift card or promo code">
+                        <button class="apply-button" id="applyPromo">Apply</button>
+                    </div>
+                </li>
+                <!-- Adventure Rewards Item -->
+                <li class="discount-item">
+                    <div class="discount-header" data-discount="rewards">
+                        <span>Navigator Rewards</span>
+                        <button class="toggle-discount" aria-expanded="false" aria-controls="rewardsContent">+</button>
+                    </div>
+                    <div class="discount-content hidden" id="rewardsContent">
+                        <input type="text" id="rewardNumberInput" placeholder="Enter reward number">
+                        <button class="apply-button" id="applyRewards">Apply</button>
+                    </div>
+                </li>
+            </ul>
+            <p class="rewards-info">
+                Join Navigator Rewards to earn up to 5% on your purchases.
+            </p>
+            <!-- Message Display -->
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+    
+    
+    
+
+
+            </aside>
+
+
         </div>
     </main>
 
+
     <footer class="footer">
-        <nav class="footer-nav">
-            <a href="#">Store Locator</a>
-            <a href="#">Navigator Rewards</a>
-            <a href="#">Help</a>
-            <a href="#">Customer Service</a>
-            <a href="#">Return Policy</a>
-            <a href="#">Shipping</a>
-            <a href="#">Contact Us</a>
-            <a href="#">Sign In / Register</a>
-            <a href="#">Privacy Policy</a>
-        </nav>
-        <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
+        <div class="footer-container">
+            <!-- Top Row -->
+            <div class="footer-row top-row">
+                <!-- Store Locator -->
+                <section class="footer-section">
+                    <div class="footer-section-content">
+                        <img src="../assets/location.svg" width="40" height="40" alt="Location">
+                        <div class="footer-text">
+                            <h3>Store Locator</h3>
+                            <p>Find one of over 250 Wild Path Outfitters in North America.</p>
+                        </div>
+                    </div>
+                </section>
+            
+                <!-- Navigator Rewards -->
+                <section class="footer-section">
+                    <div class="footer-section-content">
+                        <img src="../assets/mountain.svg" width="40" height="40" alt="Mountain">
+                        <div class="footer-text">
+                            <h3>Navigator Rewards</h3>
+                            <p>Sign up today to start earning rewards!</p>
+                        </div>
+                    </div>
+                </section>
+            
+                <!-- Mission Statement -->
+                <section class="footer-section">
+                    <div class="footer-section-content">
+                        <img src="../assets/compass.svg" width="40" height="40" alt="Compass">
+                        <div class="footer-text">
+                            <h3>Mission Statement</h3>
+                            <p>Sustainable apparel and gear inspiring journeys and safeguarding the natural world.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+    
+            <!-- Middle Row -->
+            <div class="footer-row middle-row">
+                <!-- Help -->
+                <section class="footer-section">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="#">Customer Service</a></li>
+                        <li><a href="#">Track Your Order</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                        <li><a href="#">Start a Return</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Payment Options</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </section>
+    
+                <!-- Shopping -->
+                <section class="footer-section">
+                    <h3>Shopping</h3>
+                    <ul>
+                        <li><a href="#">Sign In / Register</a></li>
+                        <li><a href="#">Adventure Rewards</a></li>
+                        <li><a href="#">Buy Gift Cards</a></li>
+                        <li><a href="#">Promos and Coupons</a></li>
+                    </ul>
+                </section>
+    
+                <!-- About Us -->
+                <section class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Affiliate Program</a></li>
+                        <li><a href="#">Land Acknowledgement</a></li>
+                    </ul>
+                </section>
+    
+                <!-- Privacy Policy -->
+                <section class="footer-section">
+                    <h3>Privacy Policy</h3>
+                    <ul>
+                        <li><a href="#">Your Privacy Choices <img src="../assets/privacy.svg" width="20" height="20" alt="Privacy"></a></li>
+                        <li><a href="#">CA Supply Chains Act</a></li>
+                        <li><a href="#">Notice at Collection</a></li>
+                        <li><a href="#">Do Not Contact Me</a></li>
+                        <li><a href="#">Accessibility Statement</a></li>
+                        <li><a href="#">Forced Labor Report</a></li>
+                    </ul>
+                </section>
+
+                    
+                <!-- Download Apps -->
+                <section class="footer-section">
+                    <h3>Download Apps</h3>
+                    <div class="download-apps">
+                        <a href="#"><img src="../assets/apple-store.svg" alt="Apple Store"></a>
+                        <a href="#"><img src="../assets/google-store.svg" alt="Google Play"></a>
+                    </div>
+                </section>
+                
+    
+                <!-- Newsletter Signup -->
+                <section class="footer-section">
+                    <h3>Newsletter Signup</h3>
+                    <p>Be the first to know and earn rewards and be the first to hear about sales and special offers.</p>
+                    <form class="newsletter-form">
+                        <button type="submit">Sign Up</button>
+                    </form>
+                    <div class="social-media-icons">
+                        <img src="../assets/facebook.svg" width="20" height="20" alt="Facebook">
+                        <img src="../assets/youtube.svg" width="20" height="20" alt="YouTube">
+                        <img src="../assets/instagram.svg" width="20" height="20" alt="Instagram">
+                        <img src="../assets/pinterest.svg" width="20" height="20" alt="Pinterest">
+                        <img src="../assets/twitter.svg" width="20" height="20" alt="Twitter">
+                    </div>
+                </section>
+            </div>
+    
+            <!-- Bottom Row -->
+            <div class="footer-row bottom-row">
+                <!-- Session and Legal -->
+                <section class="footer-section">
+                    <ul>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li> | </li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                    <p>&copy; 2024 Wild Path Outfitters. All Rights Reserved.</p>
+                </section>
+            </div>
+        </div>
     </footer>
+    
+    
 
-    <script>
-        // Auto-format expiration date (MM/YY)
-        document.getElementById('expDate').addEventListener('input', function (e) {
-            let input = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
-            if (input.length > 2) {
-                input = input.substring(0, 2) + '/' + input.substring(2, 4);
-            }
-            e.target.value = input;
-        });
+    <!-- Chat Popup -->
+    <div id="chatPopupOverlay">
+        <div id="chatPopup">
+            <img src="../assets/chat.svg" width="50" height="50" alt="Chat">
+        </div>
+    </div>
 
-        // Auto-format card number as #### #### #### ####
-        document.getElementById('cardNumber').addEventListener('input', function (e) {
-            let input = e.target.value.replace(/\D/g, ''); // Remove any non-digit characters
-            input = input.match(/.{1,4}/g)?.join(' ') || input; // Add space every 4 digits
-            e.target.value = input;
-        });
+    <!-- Popup for Feedback -->
+    <div class="popup-overlay" id="feedbackPopupOverlay">
+        <div class="popup" id="feedbackPopup">
+            <span class="close" id="closeFeedbackPopup">&times;</span>
+            <div class="popup-content">
+                <p>Give us feedback!</p>
+            </div>
+        </div>
+    </div>
 
-        // Copy shipping ZIP code to billing if checkbox is checked
-        document.getElementById('sameAsShipping').addEventListener('change', function (e) {
-            if (e.target.checked) {
-                document.getElementById('zipCode').value = document.getElementById('zip').value;
-            } else {
-                document.getElementById('zipCode').value = ''; // Clear if unchecked
-            }
-        });
+  <!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
-        function collapseSection(currentSectionId, nextSectionId) {
-            const currentSection = document.getElementById(currentSectionId);
-            const nextSection = document.getElementById(nextSectionId);
-            currentSection.querySelector('.form-content').style.display = 'none';
-            nextSection.querySelector('.form-content').style.display = 'block';
-        }
+        <script src="../js/checkout.js"></script>
+    <!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay" aria-hidden="true" role="alert" aria-live="assertive">
+    <div class="spinner" aria-label="Loading"></div>
+</div>
 
-        function toggleSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            const content = section.querySelector('.form-content');
-            const isVisible = content.style.display === 'block';
-            content.style.display = isVisible ? 'none' : 'block';
-        }
-
-        function validateForm() {
-            const requiredFields = document.querySelectorAll('input[required]');
-            for (let field of requiredFields) {
-                if (!field.value) {
-                    alert(`Please fill out the ${field.name} field.`);
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // Handle form submission and show popup for order completion
-        document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            // Gather form data
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            const unitNumber = document.getElementById('unitNumber').value;
-            const city = document.getElementById('city').value;
-            const state = document.getElementById('state').value;
-            const zip = document.getElementById('zip').value;
-            const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked').value;
-            const cardNumber = document.getElementById('cardNumber').value;
-            const expDate = document.getElementById('expDate').value;
-            const securityCode = document.getElementById('securityCode').value;
-            const billingZipCode = document.getElementById('zipCode').value;
-
-            // Prepare order data for API
-            const orderData = {
-                firstName,
-                lastName,
-                email,
-                phone,
-                address: `${address} ${unitNumber}`,
-                city,
-                state,
-                zip,
-                shippingMethod,
-                paymentDetails: {
-                    cardNumber,
-                    expDate,
-                    securityCode,
-                    billingZipCode
-                }
-            };
-
-            try {
-                // Send data to the API
-                const response = await fetch('/api/checkout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(orderData),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    // Show success popup
-                    document.getElementById('orderPopupOverlay').style.display = 'block';
-                    alert(`Order submitted successfully! Order ID: ${result.orderId}`);
-                } else {
-                    alert(`Error: ${result.message}`);
-                }
-            } catch (error) {
-                console.error('Error submitting order:', error);
-                alert('Error: Something went wrong!');
-            }
-        });
-
-        // Close the order popup
-        document.getElementById('closeOrderPopup').addEventListener('click', function() {
-            document.getElementById('orderPopupOverlay').style.display = 'none';
-        });
-    </script>
 </body>
 
 </html>

@@ -3,73 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settle Shipment | Wild Path Outfitters</title>
+    <title>Shipping Management | Wild Path Outfitters</title>
     <link rel="stylesheet" href="../css/settleShipmentStyle.css">
+<!-- Include Html5Qrcode Library First -->
+<script src="html5-qrcode-master/lib/jsqrcode-combined.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.7/minified/html5-qrcode.min.js"></script>
+
 </head>
 <body>
     <header class="header">
-        <h1>Settle Shipment</h1>
+        <h1>WPO Shipping Management System</h1>
     </header>
 
     <main>
-    <div class="settle-shipment-container">
-        <form id="settleShipmentForm">
-            <div class="form-group">
-                <label for="orderId">Order ID:</label>
-                <input type="text" id="orderId" name="orderId" placeholder="Enter Order ID" required>
-            </div>
+        <div class="settle-shipment-container">
+            <h2>Order Shipping Settlement</h2>
+            <h3>Click the "Scan" button to scan the barcode or enter the Order ID to pull the order. Then enter the Final Amount and click the Settlement Shipment button to settle the order.</h3>
+            <form id="settleShipmentForm">
+                <div class="form-group">
+                    <h3>Step 1: Scan Barcode or Enter Order ID</h3>
+                    <small class="info-text"></small>
+                    <div class="order-id-container">
+                        <button type="button" id="barcodeScanner" class="action-button" aria-label="Scan Barcode">
+                            <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="24" height="24" class="icon"> Scan
+                        </button>
+                        <span class="or-text">or</span>
+                        <span class="order-id-prefix">WP-</span>
+                        <input type="text" id="orderId" name="orderId" placeholder="Enter Order Number" required>
+                    </div>
+                    <p id="scannerInstructions" class="scanner-instructions" style="display: none;">
+                        Please align the barcode within the frame to scan. Ensure good lighting and hold the camera steady.
+                    </p>
+                    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                        <img src="../assets/loading-spinner.gif" alt="Loading..." width="50" height="50">
+                        <p>Initializing camera...</p>
+                    </div>
+                    <!-- Html5Qrcode Scanner Container -->
+                    <div id="qr-reader" style="width: 100%; max-width: 600px; display: none;"></div>
+                    <!-- Fallback Manual Entry -->
+                    <p>If you are unable to scan the barcode, please enter the Order ID manually.</p>
+                </div>
 
-            <div class="form-group">
-                <label for="finalAmount">Final Shipment Amount:</label>
-                <input type="number" id="finalAmount" name="finalAmount" step="0.01" placeholder="Enter Final Amount" required>
-            </div>
+                <!-- Order History Section -->
+                <div class="order-history-container" style="display: none;">
+                    <h2>Order History</h2>
+                    <table class="order-history-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Approval Date</th>
+                                <th>Status</th>
+                                <th>Tracking Link</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderHistoryTableBody">
+                            <!-- Order history will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
 
-            <button type="submit" class="submit-button">Settle Shipment</button>
+                <!-- Warehouse Status Display -->
+                <div class="warehouse-status-container" style="display: none;">
+                    <h2>Warehouse Status</h2>
+                    <p id="warehouseStatus">Loading status...</p>
+                </div>
 
-            <div id="message" class="message" style="display: none;"></div>
-        </form>
-    </div>
-</main>
-    <script>
-<script>
-    document.getElementById('settleShipmentForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
+                <div class="form-group">
+                    <h3>Step 2: Enter Final Amount</h3>
+                    <input type="number" id="finalAmount" name="finalAmount" placeholder="Final Amount" required step="0.01" min="0">
+                </div>
+                
+                <h3>Step 3: Click Settle Shipment Button</h3>
+                <button type="submit" class="submit-button">Settle Shipment</button>
 
-        const orderId = document.getElementById('orderId').value;
-        const finalAmount = parseFloat(document.getElementById('finalAmount').value);
-        const messageDiv = document.getElementById('message');
+                <div id="message" class="message" style="display: none;"></div>
+            </form>
+            
+            <!-- Print after approval -->
+            <button id="printLabel" style="display:none;">Print Shipment Label</button>
+        </div>
+    </main>
 
-        try {
-            const response = await fetch('/api/settle-shipment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    orderId: orderId,
-                    finalAmount: finalAmount
-                }),
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                messageDiv.textContent = `Error: ${result.message}`;
-                messageDiv.className = 'message error';
-            } else {
-                messageDiv.textContent = result.message;
-                messageDiv.className = 'message success';
-            }
-        } catch (error) {
-            console.error('Error during shipment settlement:', error);
-            messageDiv.textContent = 'Error: Something went wrong!';
-            messageDiv.className = 'message error';
-        }
-
-        messageDiv.style.display = 'block';
-    });
-</script>
-
-    </script>
+    <!-- Then Include Your Custom JavaScript -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="../js/settleShipment.js"></script>
 </body>
 </html>
