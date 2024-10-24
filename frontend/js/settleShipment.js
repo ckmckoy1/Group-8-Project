@@ -198,78 +198,62 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`Final amount input sanitized: ${inputVal}`);
     });
 
-    // Function to start QR code scanner using Html5Qrcode
-    const startQrScanner = () => {
-        console.log('Starting QR scanner.');
-        loadingSpinner.style.display = 'flex'; // Show loading spinner
-        scannerInstructions.style.display = 'block'; // Show instructions
-        messageDiv.textContent = 'Initializing camera...';
-        messageDiv.className = 'message';
-        messageDiv.style.display = 'block';
-        qrReaderContainer.style.display = 'block'; // Show scanner container
+// Function to start QR code scanner using Html5Qrcode
+const startQrScanner = () => {
+    console.log('Starting QR scanner.');
+    loadingSpinner.style.display = 'flex'; // Show loading spinner
+    scannerInstructions.style.display = 'block'; // Show instructions
+    messageDiv.textContent = 'Initializing camera...';
+    messageDiv.className = 'message';
+    messageDiv.style.display = 'block';
+    qrReaderContainer.style.display = 'block'; // Show scanner container
 
-        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-        console.log('Creating Html5Qrcode instance.');
-        html5QrCode = new Html5Qrcode("qr-reader");
+    console.log('Creating Html5Qrcode instance.');
+    html5QrCode = new Html5Qrcode("qr-reader");
 
-        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            console.log(`Code matched = ${decodedText}`, decodedResult);
-            // For example, set the decodedText to orderIdInput
-            orderIdInput.value = decodedText;
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        console.log(`Code matched = ${decodedText}`, decodedResult);
+        // Set the decodedText to orderIdInput
+        orderIdInput.value = decodedText;
 
-            // Stop the scanner after a successful scan
-            html5QrCode.stop().then(() => {
-                console.log('Scanner stopped.');
-                loadingSpinner.style.display = 'none';
-                messageDiv.style.display = 'none';
-                qrReaderContainer.style.display = 'none';
-                scannerInstructions.style.display = 'none';
-            }).catch(err => {
-                console.error('Error stopping the scanner:', err);
-            });
-        };
-
-        const qrCodeErrorCallback = (errorMessage) => {
-            console.warn(`QR Code no match: ${errorMessage}`);
-        };
-
-        console.log('Getting cameras.');
-        Html5Qrcode.getCameras().then(cameras => {
-            console.log('Cameras found:', cameras);
-            if (cameras && cameras.length) {
-                const cameraId = cameras[0].id; // Use the first available camera
-                console.log(`Using camera: ${cameraId}`);
-                html5QrCode.start(
-                    cameraId,
-                    config,
-                    qrCodeSuccessCallback,
-                    qrCodeErrorCallback
-                ).then(() => {
-                    loadingSpinner.style.display = 'none';
-                    messageDiv.style.display = 'none';
-                    console.log('Scanner started successfully.');
-                }).catch(err => {
-                    console.error('Unable to start scanning:', err);
-                    messageDiv.textContent = 'Unable to start scanning.';
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
-                    qrReaderContainer.style.display = 'none';
-                });
-            } else {
-                console.error('No cameras found on device.');
-                messageDiv.textContent = 'No cameras found on device.';
-                messageDiv.className = 'message error';
-                messageDiv.style.display = 'block';
-            }
-        }).catch(err => {
-            console.error('Error accessing cameras:', err);
-            messageDiv.textContent = 'Error accessing cameras.';
-            messageDiv.className = 'message error';
-            messageDiv.style.display = 'block';
+        // Stop the scanner after a successful scan
+        html5QrCode.stop().then(() => {
+            console.log('Scanner stopped.');
+            loadingSpinner.style.display = 'none';
+            messageDiv.style.display = 'none';
             qrReaderContainer.style.display = 'none';
+            scannerInstructions.style.display = 'none';
+        }).catch(err => {
+            console.error('Error stopping the scanner:', err);
         });
     };
+
+    const qrCodeErrorCallback = (errorMessage) => {
+        console.warn(`QR Code no match: ${errorMessage}`);
+    };
+
+    // Start scanning with the back-facing camera
+    console.log('Starting scanner with back-facing camera.');
+    html5QrCode.start(
+        { facingMode: "environment" }, // Use the back-facing camera
+        config,
+        qrCodeSuccessCallback,
+        qrCodeErrorCallback
+    ).then(() => {
+        loadingSpinner.style.display = 'none';
+        messageDiv.style.display = 'none';
+        console.log('Scanner started successfully with back-facing camera.');
+    }).catch(err => {
+        console.error('Unable to start scanning with back-facing camera:', err);
+        messageDiv.textContent = 'Unable to access the back camera.';
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+        qrReaderContainer.style.display = 'none';
+    });
+};
+
 
     // Event listener for barcode scanner
     barcodeButton.addEventListener('click', startQrScanner);
