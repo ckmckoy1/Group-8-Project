@@ -87,81 +87,7 @@ body {
 }
 
 @media (max-width: 768px) {
-    .nav-menu {
-        position: fixed;
-        background-color: var(--primary-color);
-        top: 60px;
-        right: 0;
-        height: calc(100% - 60px);
-        width: 200px;
-        flex-direction: column;
-        align-items: flex-start;
-        padding-top: 20px;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .nav-menu.open {
-        transform: translateX(0);
-    }
-
-    .nav-link {
-        margin: 15px 0;
-        padding-left: 20px;
-    }
-
-    .nav-toggle {
-        display: block;
-    }
-
-    .nav-toggle-label {
-        display: block;
-        margin-left: auto;
-        cursor: pointer;
-    }
-
-    .nav-toggle-label span,
-    .nav-toggle-label span::before,
-    .nav-toggle-label span::after {
-        display: block;
-        background: white;
-        height: 2px;
-        width: 25px;
-        position: relative;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .nav-toggle-label span::before,
-    .nav-toggle-label span::after {
-        content: '';
-        position: absolute;
-    }
-
-    .nav-toggle-label span::before {
-        top: -8px;
-    }
-
-    .nav-toggle-label span::after {
-        top: 8px;
-    }
-
-    #nav-toggle:checked + .nav-toggle-label .nav-menu {
-        transform: translateX(0);
-    }
-
-    #nav-toggle:checked + .nav-toggle-label span {
-        background: transparent;
-    }
-
-    #nav-toggle:checked + .nav-toggle-label span::before {
-        transform: rotate(45deg);
-        top: 0;
-    }
-
-    #nav-toggle:checked + .nav-toggle-label span::after {
-        transform: rotate(-45deg);
-        top: 0;
-    }
+    /* Mobile navigation adjustments... */
 }
 
 /* Adjust main content to be below the navbar */
@@ -213,12 +139,6 @@ main {
     font-size: 1.25rem;
     margin-bottom: 10px;
     color: var(--text-color);
-}
-
-.form-group label {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    color: var(--text-secondary);
 }
 
 .form-group input {
@@ -309,28 +229,25 @@ button img, .action-button img {
 }
 
 .toggle-label {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center; /* Center the toggle switch and text */
 }
 
 .toggle-label input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+    display: none;
 }
 
 .toggle-slider {
-    position: absolute;
-    cursor: pointer;
+    position: relative;
+    width: 60px;
+    height: 34px;
     background-color: #ccc;
     border-radius: 34px;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transition: 0.4s;
+    transition: background-color 0.4s;
+    margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .toggle-slider::before {
@@ -339,10 +256,10 @@ button img, .action-button img {
     height: 26px;
     width: 26px;
     left: 4px;
-    bottom: 4px;
+    top: 4px;
     background-color: white;
     border-radius: 50%;
-    transition: 0.4s;
+    transition: transform 0.4s;
 }
 
 .toggle-label input:checked + .toggle-slider {
@@ -354,10 +271,15 @@ button img, .action-button img {
 }
 
 .toggle-text {
-    margin-left: 10px;
-    vertical-align: middle;
     font-size: 1rem;
     color: var(--text-color);
+}
+
+/* Center scanContainer and typeContainer */
+#scanContainer,
+#typeContainer {
+    text-align: center;
+    margin-top: 20px;
 }
 
 /* Scanner Instructions and Loading Spinner */
@@ -381,7 +303,7 @@ button img, .action-button img {
     margin-top: 20px;
 }
 
-#orderDetails h3 {
+#orderDetails h4 {
     margin-top: 0;
 }
 
@@ -416,34 +338,5 @@ button img, .action-button img {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .nav-link {
-        margin: 15px 0;
-        padding-left: 20px;
-    }
-
-    .nav-toggle-label {
-        display: block;
-        margin-left: auto;
-        cursor: pointer;
-    }
-
-    /* Adjust main content for mobile */
-    main {
-        padding: 80px 10px 40px 10px;
-    }
-
-    .submit-button {
-        font-size: 1rem;
-        padding: 12px;
-    }
-
-    .form-group input {
-        font-size: 1rem;
-        padding: 10px;
-    }
-
-    button, .action-button {
-        font-size: 1rem;
-        padding: 12px 15px;
-    }
+    /* Adjustments for mobile... */
 }
