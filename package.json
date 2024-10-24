@@ -18,7 +18,8 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.1.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "html5-qrcode": "^2.3.8",
