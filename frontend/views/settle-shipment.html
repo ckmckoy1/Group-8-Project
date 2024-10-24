@@ -4,89 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipping Management | Wild Path Outfitters</title>
+    <!-- Include Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <!-- Link to your custom CSS -->
     <link rel="stylesheet" href="../css/settleShipmentStyle.css">
 </head>
 <body>
-    <header class="header">
-        <h1>WPO Shipping Management System</h1>
-    </header>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">WPO Shipping Management System</a>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+            </label>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link"><img src="../assets/home.svg" alt="Home"> Home</a></li>
+                <li><a href="#" class="nav-link"><img src="../assets/search.svg" alt="Search Order"> Search Order</a></li>
+                <li><a href="#" class="nav-link"><img src="../assets/bell.svg" alt="Notifications"> Notifications</a></li>
+                <li><a href="#" class="nav-link"><img src="../assets/shipment.svg" alt="Shipment"> Shipment</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <main>
         <div class="settle-shipment-container">
             <h2>Order Shipping Settlement</h2>
-            <h3>
-                Click the "Scan" button to scan the barcode or enter the Order ID to pull the order.
-                Then enter the Final Amount and click the "Settle Shipment" button to settle the order.
-            </h3>
-            <form id="settleShipmentForm">
+            <!-- Step 1 Container -->
+            <div id="step1">
+            <!-- Toggle Switch -->
+            <div class="toggle-container">
+                <label class="toggle-label">
+                    <input type="checkbox" id="modeToggle">
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">Scan / Type</span>
+                </label>
+            </div>
+
+            <!-- Scan Button (Initially Visible) -->
+            <div id="scanContainer">
+                <button type="button" id="barcodeScanner" class="action-button">
+                    <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="24" height="24"> Scan
+                </button>
+            </div>
+
+            <!-- Order ID Input (Initially Hidden) -->
+            <div id="typeContainer" style="display: none;">
+                <div class="order-id-container">
+                    <span class="order-id-prefix">WP-</span>
+                    <input type="text" id="orderId" name="orderId" placeholder="Enter Order Number" required>
+                </div>
+                <div id="orderIdError" class="message error" style="display: none;"></div>
+            </div>
+
+                <!-- Scanner Instructions -->
+                <p id="scannerInstructions" class="scanner-instructions" style="display: none;">
+                    Please align the barcode within the frame to scan.
+                </p>
+                <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                    <img src="../assets/loading-spinner.gif" alt="Loading...">
+                    <p>Initializing camera...</p>
+                </div>
+                <!-- Html5Qrcode Scanner Container -->
+                <div id="qr-reader" style="width: 100%; max-width: 600px; display: none;"></div>
+                <!-- Message Div -->
+                <div id="message" class="message" style="display: none;"></div>
+            </div>
+
+            <!-- Step 2 Container (Initially Hidden) -->
+            <div id="step2" style="display: none;">
+                <!-- Back and Refresh Buttons -->
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <button type="button" id="backToStep1" class="action-button">
+                        <img src="../assets/back-arrow.svg" alt="Back" width="24" height="24"> Back
+                    </button>
+                    <button type="button" id="refreshStep1" class="action-button">
+                        <img src="../assets/refresh.svg" alt="Refresh" width="24" height="24"> Refresh
+                    </button>
+                </div>
+                <!-- Order Details -->
+                <div id="orderDetails">
+                    <h3>Order Details</h3>
+                    <p><strong>Customer Name:</strong> <span id="customerName"></span></p>
+                    <p><strong>Address:</strong> <span id="customerAddress"></span></p>
+                    <p><strong>Shipping Method:</strong> <span id="shippingMethod"></span></p>
+                    <p><strong>Cost:</strong> $<span id="orderCost"></span></p>
+                    <p><strong>Order Date:</strong> <span id="orderDate"></span></p>
+                </div>
+                <!-- Final Amount Input -->
                 <div class="form-group">
-                    <h3>Step 1: Scan Barcode or Enter Order ID</h3>
-                    <small class="info-text"></small>
-                    <div class="order-id-container">
-                        <button type="button" id="barcodeScanner" class="action-button" aria-label="Scan Barcode">
-                            <img src="../assets/barcode-scanner.svg" alt="Scan Barcode Icon" width="24" height="24" class="icon"> Scan
-                        </button>
-                        <span class="or-text">or</span>
-                        <span class="order-id-prefix">WP-</span>
-                        <input type="text" id="orderId" name="orderId" placeholder="Enter Order Number" required>
-                    </div>
-                    <p id="scannerInstructions" class="scanner-instructions" style="display: none;">
-                        Please align the barcode within the frame to scan. Ensure good lighting and hold the camera steady.
-                    </p>
-                    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
-                        <img src="../assets/loading-spinner.gif" alt="Loading..." width="50" height="50">
-                        <p>Initializing camera...</p>
-                    </div>
-                    <!-- Html5Qrcode Scanner Container -->
-                    <div id="qr-reader" style="width: 100%; max-width: 600px; display: none;"></div>
-                    <!-- Fallback Manual Entry -->
-                    <p>If you are unable to scan the barcode, please enter the Order ID manually.</p>
-                </div>
-
-                <!-- Order History Section -->
-                <div class="order-history-container" style="display: none;">
-                    <h2>Order History</h2>
-                    <table class="order-history-table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Approval Date</th>
-                                <th>Status</th>
-                                <th>Tracking Link</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orderHistoryTableBody">
-                            <!-- Order history will be populated here -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Warehouse Status Display -->
-                <div class="warehouse-status-container" style="display: none;">
-                    <h2>Warehouse Status</h2>
-                    <p id="warehouseStatus">Loading status...</p>
-                </div>
-
-                <div class="form-group">
-                    <h3>Step 2: Enter Final Amount</h3>
+                    <h3>Enter Final Amount</h3>
                     <input type="number" id="finalAmount" name="finalAmount" placeholder="Final Amount" required step="0.01" min="0">
                 </div>
-                
-                <h3>Step 3: Click Settle Shipment Button</h3>
-                <button type="submit" class="submit-button">Settle Shipment</button>
+                <!-- Settle Shipment Button -->
+                <button type="button" id="settleShipmentButton" class="submit-button">Settle Shipment</button>
+                <!-- Message Div -->
+                <div id="messageStep2" class="message" style="display: none;"></div>
+            </div>
 
-                <div id="message" class="message" style="display: none;"></div>
-            </form>
-            
-            <!-- Print after approval -->
-            <button id="printLabel" style="display:none;">Print Shipment Label</button>
+            <!-- Step 3 Container (Initially Hidden) -->
+            <div id="step3" style="display: none;">
+                <h3>Shipment Settled Successfully!</h3>
+                <!-- Print Label Button -->
+                <button id="printLabel">Print Shipment Label</button>
+            </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2024 Wild Path Outfitters. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
 
     <!-- Include jsPDF Library (if needed for PDF generation) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- Include the bundled JavaScript file -->
     <script src="../js/bundle.js"></script>
+    
 </body>
 </html>

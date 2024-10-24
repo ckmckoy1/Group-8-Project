@@ -1,361 +1,449 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Color Variables */
+:root {
+    --primary-color: #0078D7; /* Classic Windows blue */
+    --secondary-color: #6C757D;
+    --background-color: #F8F9FA;
+    --accent-color: #28A745;
+    --error-color: #DC3545;
+    --text-color: #212529;
+    --text-secondary: #6C757D;
+}
+
 /* Global Box Sizing */
 *, *::before, *::after {
     box-sizing: border-box;
 }
 
-/* General styling */
+/* General Styling */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #f3f3f3; /* Softer background for better contrast */
-    margin: 0;
-    padding: 0;
-    color: #333;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-/* Header styling */
-.header {
-    background-color: #2b6777; /* Darker, more calming blue */
+/* Navigation Bar Styles */
+.navbar {
+    background-color: var(--primary-color);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.nav-logo {
     color: white;
-    padding: 15px 0;
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace;
-    flex-shrink: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 40px; /* Adjust as needed */
+.nav-menu {
+    list-style: none;
+    display: flex;
+    margin-left: auto;
 }
 
-/* Main container */
+.nav-link {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+/* Hamburger Menu */
+.nav-toggle {
+    display: none;
+}
+
+.nav-toggle-label {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        background-color: var(--primary-color);
+        top: 60px;
+        right: 0;
+        height: calc(100% - 60px);
+        width: 200px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 20px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .nav-menu.open {
+        transform: translateX(0);
+    }
+
+    .nav-link {
+        margin: 15px 0;
+        padding-left: 20px;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-toggle-label {
+        display: block;
+        margin-left: auto;
+        cursor: pointer;
+    }
+
+    .nav-toggle-label span,
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        display: block;
+        background: white;
+        height: 2px;
+        width: 25px;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        content: '';
+        position: absolute;
+    }
+
+    .nav-toggle-label span::before {
+        top: -8px;
+    }
+
+    .nav-toggle-label span::after {
+        top: 8px;
+    }
+
+    #nav-toggle:checked + .nav-toggle-label .nav-menu {
+        transform: translateX(0);
+    }
+
+    #nav-toggle:checked + .nav-toggle-label span {
+        background: transparent;
+    }
+
+    #nav-toggle:checked + .nav-toggle-label span::before {
+        transform: rotate(45deg);
+        top: 0;
+    }
+
+    #nav-toggle:checked + .nav-toggle-label span::after {
+        transform: rotate(-45deg);
+        top: 0;
+    }
+}
+
+/* Adjust main content to be below the navbar */
 main {
     flex: 1;
     display: flex;
-    justify-content: center; /* Centers vertically */
-    align-items: center;     /* Centers horizontally */
-    padding: 20px 10px;
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    padding: 80px 20px 40px 20px; /* Adjust top padding to account for navbar */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Settle shipment form container */
-.settle-shipment-container {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 40px; /* Increased padding for more space */
+/* Containers */
+.settle-shipment-container,
+.order-history-container,
+.warehouse-status-container {
     width: 100%;
-    max-width: 800px; /* Increased max width for better layout */
-    text-align: left; /* Align text to the left */
-    margin-bottom: 30px; /* Space below the container */
+    max-width: 600px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 40px;
 }
 
-/* Action button styling */
-.action-button {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Center the icon and text */
-    padding: 0 10px; /* Horizontal padding for a comfortable click area */
-    background-color: #2b6777; /* Match header color */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px; /* Set a consistent font size */
-    cursor: pointer;
-    margin-right: 10px; /* Space to the right of the button */
-    transition: background-color 0.3s ease;
-}
-
-.action-button:hover {
-    background-color: #25555e; /* Slightly darker shade on hover */
-}
-
-/* Style for the Order Shipping Settlement header */
-.settle-shipment-container h2 {
-    text-align: center; /* Center the text */
-    text-decoration: underline; /* Underline the text */
-    font-size: 24px; /* Adjust font size as needed */
-    margin-bottom: 30px; /* Space below the header */
-    color: #333; /* Adjust color if needed */
+.settle-shipment-container h2,
+.order-history-container h2,
+.warehouse-status-container h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .settle-shipment-container h3 {
-    font-size: 16px; /* Reduced font size for better readability */
-    margin-bottom: 20px; /* Space below instructions */
-    color: #555; /* Adjust color for contrast */
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-/* Form input fields */
+/* Form Styling */
 .form-group {
     margin-bottom: 20px;
 }
 
 .form-group h3 {
-    font-size: 18px; /* Step title font size */
-    margin-bottom: 10px; /* Space below step titles */
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 15px;
-    color: #555;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: var(--text-secondary);
 }
 
 .form-group input {
-    width: 100%; /* Full width for better responsiveness */
-    padding: 12px; /* Increased padding for touch accessibility */
-    font-size: 15px; /* Larger font for better readability */
-    border: 1px solid #aaa; /* More visible border */
-    border-radius: 6px;
-    box-sizing: border-box;
-}
-
-/* Instruction Text */
-.info-text {
-    font-size: 18px; /* Increased font size */
-    font-weight: bold; /* Bold text */
-    margin-bottom: 10px; /* Space below the text */
-    color: #555; /* Adjust color for contrast */
-}
-
-/* Remove spinner for Chrome, Safari, Edge, and Opera */
-.form-group input[type="number"]::-webkit-outer-spin-button,
-.form-group input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Remove spinner for Firefox */
-.form-group input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-/* Align text to the right */
-.form-group input[type="number"] {
-    text-align: right;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    color: var(--text-color);
+    background-color: white;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .form-group input:focus {
-    border-color: #2b6777; /* Match with header color */
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 120, 215, 0.5);
     outline: none;
 }
 
-/* Submit button */
-.submit-button {
-    background-color: #2b6777;
+/* Buttons */
+button, .action-button, .submit-button {
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 6px;
-    font-size: 18px; /* Larger button for easier interaction */
+    padding: 14px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%; /* Make the button take up full width for easier access */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease-in-out;
+    margin-right: 10px;
 }
 
-.submit-button:hover {
-    background-color: #25555e; /* Slightly darker shade on hover */
+button:hover, .action-button:hover, .submit-button:hover {
+    background-color: #005a9e; /* Darker shade */
 }
 
-/* Message styling */
+button img, .action-button img {
+    margin-right: 8px;
+}
+
+.submit-button {
+    margin-right: 0;
+    width: 100%;
+}
+
+#printLabel {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 20px;
+}
+
+#printLabel:hover {
+    background-color: #218838;
+}
+
+/* Messages */
 .message {
     display: none;
     margin-top: 20px;
     padding: 12px;
-    border-radius: 6px;
-    font-size: 16px;
+    border-radius: 4px;
+    font-size: 1rem;
     color: white;
 }
 
 .message.success {
-    background-color: #4CAF50;
+    background-color: var(--accent-color);
 }
 
 .message.error {
-    background-color: #f44336;
+    background-color: var(--error-color);
 }
 
-/* Style for the prefix and input */
-.order-id-container {
-    display: flex;
-    align-items: center;
+/* Toggle Switch Styles */
+.toggle-container {
+    text-align: center;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
-.order-id-prefix {
-    padding: 12px 12px;
-    font-size: 16px; /* Larger prefix font */
-    background-color: #f0f0f0;
-    border: 1px solid #aaa; /* More visible border */
-    border-right: none;
-    border-radius: 6px 0 0 6px;
+.toggle-label {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
 }
 
-#orderId {
-    flex: 1; /* Allow the input to take remaining space */
-    border-radius: 0 6px 6px 0;
-    border-left: none;
-    padding: 12px;
-    font-size: 16px; /* Larger input font */
+.toggle-label input {
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
-.or-text {
-    margin: 0 10px; /* Space around the "or" text */
-    font-size: 16px; /* Match input and prefix font size */
-    align-self: center; /* Center vertically */
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    border-radius: 34px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.4s;
 }
 
-/* Html5Qrcode Scanner Container Styling */
-#qr-reader {
-    width: 100%;
-    max-width: 600px;
-    margin-top: 20px;
+.toggle-slider::before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
 }
 
-/* Loading Spinner Styling */
-.loading-spinner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+.toggle-label input:checked + .toggle-slider {
+    background-color: var(--primary-color);
 }
 
-.loading-spinner p {
+.toggle-label input:checked + .toggle-slider::before {
+    transform: translateX(26px);
+}
+
+.toggle-text {
+    margin-left: 10px;
+    vertical-align: middle;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Scanner Instructions and Loading Spinner */
+.scanner-instructions, .loading-spinner p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-align: center;
     margin-top: 10px;
-    font-size: 16px;
-    color: #555;
 }
 
-/* Scanner Instructions Styling */
-.scanner-instructions {
-    text-align: center;
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 10px;
+.loading-spinner img {
+    width: 50px;
+    height: 50px;
 }
 
-/* Order History Table Styling */
-.order-history-container {
-    width: 100%;
-    max-width: 800px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.order-history-container h2 {
-    text-align: center;
-    text-decoration: underline;
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.order-history-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.order-history-table th,
-.order-history-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-
-.order-history-table th {
-    background-color: #2b6777;
-    color: white;
-}
-
-.order-history-table tr:nth-child(even) {
+/* Order Details Styles */
+#orderDetails {
     background-color: #f9f9f9;
-}
-
-.order-history-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Warehouse Status Styling */
-.warehouse-status-container {
-    width: 100%;
-    max-width: 800px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    border-radius: 4px;
     margin-top: 20px;
 }
 
-.warehouse-status-container h2 {
+#orderDetails h3 {
+    margin-top: 0;
+}
+
+#orderDetails p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #f1f1f1;
+    padding: 20px 0;
     text-align: center;
+    flex-shrink: 0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #666;
+}
+
+.footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer a:hover {
     text-decoration: underline;
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: #333;
 }
 
-.warehouse-status-container p {
-    font-size: 18px;
-    color: #555;
-}
-
-/* Responsive design for mobile */
-@media (max-width: 600px) {
-    .header h1 {
-        font-size: 30px; /* Reduce title size on mobile */
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-link {
+        margin: 15px 0;
+        padding-left: 20px;
     }
 
-    .settle-shipment-container,
-    .order-history-container,
-    .warehouse-status-container {
-        padding: 15px;
-        box-shadow: none; /* Remove shadow for flatter design on mobile */
+    .nav-toggle-label {
+        display: block;
+        margin-left: auto;
+        cursor: pointer;
     }
 
-    .form-group input {
-        font-size: 14px;
-        padding: 10px;
+    /* Adjust main content for mobile */
+    main {
+        padding: 80px 10px 40px 10px;
     }
 
     .submit-button {
-        font-size: 16px;
+        font-size: 1rem;
         padding: 12px;
     }
 
-    .message {
-        font-size: 14px;
+    .form-group input {
+        font-size: 1rem;
         padding: 10px;
     }
 
-    .order-id-prefix {
-        font-size: 14px;
-        padding: 10px 8px;
-    }
-
-    #orderId {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    #qr-reader {
-        max-width: 100%;
-        height: auto;
-    }
-
-    .order-history-table th,
-    .order-history-table td {
-        padding: 8px;
-        font-size: 14px;
-    }
-
-    .warehouse-status-container p {
-        font-size: 16px;
+    button, .action-button {
+        font-size: 1rem;
+        padding: 12px 15px;
     }
 }
