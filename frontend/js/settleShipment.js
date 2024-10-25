@@ -101,12 +101,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to display order details
   const displayOrderDetails = (order) => {
-    customerNameSpan.textContent = order.CustomerName;
-    customerAddressSpan.textContent = `${order.ShippingAddress.street1}, ${order.ShippingAddress.city}, ${order.ShippingAddress.state}, ${order.ShippingAddress.zip}`;
-    shippingMethodSpan.textContent = order.ShippingMethod;
-    orderCostSpan.textContent = order.Cost.toFixed(2);
-    orderDateSpan.textContent = new Date(order.OrderDate).toLocaleDateString();
+    // Update customer name
+    const firstName = order.FirstName || '';
+    const lastName = order.LastName || '';
+    customerNameSpan.textContent = `${firstName} ${lastName}`.trim();
+  
+    // Update shipping address
+    const addressParts = [
+      order.ShippingAddress || '',
+      order.ShippingUnitNumber || '',
+      order.ShippingCity || '',
+      order.ShippingState || '',
+      order.ShippingZip || '',
+    ];
+    customerAddressSpan.textContent = addressParts.filter(Boolean).join(', ');
+  
+    // Update shipping method
+    shippingMethodSpan.textContent = order.ShippingMethod || 'N/A';
+  
+    // Update order cost
+    const totalAmount = order.TotalAmount || 0;
+    orderCostSpan.textContent = totalAmount.toFixed(2);
+  
+    // Update order date
+    const orderDate = order.OrderDateTime ? new Date(order.OrderDateTime) : new Date();
+    orderDateSpan.textContent = orderDate.toLocaleDateString();
   };
+  
 
   // Event listener for Order ID input (Type mode)
   orderIdInput.addEventListener('input', () => {
