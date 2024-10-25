@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scanContainer.style.display = 'none';
 
       // Stop QR scanner if active
-      if (html5QrCode && html5QrCode.getState() === Html5QrcodeScannerState.SCANNING) {
+      if (html5QrCode && html5QrCode.getState() === 2) { // 2 indicates scanning state
         html5QrCode.stop().then(() => {
           qrReaderContainer.style.display = 'none';
           scannerInstructions.style.display = 'none';
@@ -126,18 +126,23 @@ document.addEventListener('DOMContentLoaded', () => {
     orderIdError.style.display = 'none';
   });
 
-  // Function to validate Order ID
-  const validateOrderId = (orderId) => {
-    if (!/^\d+$/.test(orderId)) {
-      throw new Error('Please enter a valid Order ID consisting of numbers only.');
+  // Function to validate and format Order ID
+  const validateAndFormatOrderId = (enteredOrderId) => {
+    // Remove any non-digit characters
+    const orderIdNumber = enteredOrderId.replace(/\D/g, '');
+    if (!/^\d{6}$/.test(orderIdNumber)) {
+      throw new Error('Please enter a 6-digit Order ID.');
     }
+    // Prepend 'WP-' prefix
+    const formattedOrderId = `WP-${orderIdNumber}`;
+    return formattedOrderId;
   };
 
   // Function to handle Order ID submission (both Scan and Type modes)
-  const handleOrderIdSubmission = async (orderId) => {
+  const handleOrderIdSubmission = async (enteredOrderId) => {
     try {
-      validateOrderId(orderId);
-      const order = await fetchOrderDetails(orderId);
+      const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
+      const order = await fetchOrderDetails(formattedOrderId);
       displayOrderDetails(order);
       proceedToStep2();
     } catch (error) {
@@ -158,8 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle Enter key press in Order ID input
   orderIdInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
-      const orderId = orderIdInput.value.trim();
-      handleOrderIdSubmission(orderId);
+      const enteredOrderId = orderIdInput.value.trim();
+      handleOrderIdSubmission(enteredOrderId);
     }
   });
 
@@ -235,9 +240,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const orderId = orderIdInput.value.trim();
+    // Get the formatted Order ID
+    const enteredOrderId = orderIdInput.value.trim();
+    const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
+
     try {
-      const order = await fetchOrderDetails(orderId);
+      const order = await fetchOrderDetails(formattedOrderId);
       const authorizationAmount = order.AuthorizationAmount;
       console.log(`Authorization Amount: ${authorizationAmount}`);
 
@@ -257,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          orderId: orderId,
+          orderId: formattedOrderId,
           finalAmount: finalAmount
         }),
       });
@@ -295,10 +303,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to print the shipment label
   const printLabel = async () => {
-    const orderId = orderIdInput.value.trim();
-    console.log(`Printing label for Order ID: ${orderId}`);
+    const enteredOrderId = orderIdInput.value.trim();
+    const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
+    console.log(`Printing label for Order ID: ${formattedOrderId}`);
     try {
-      const order = await fetchOrderDetails(orderId);
+      const order = await fetchOrderDetails(formattedOrderId);
       const shippingAddress = order.ShippingAddress;
 
       const labelWindow = window.open('', '', 'height=600,width=800');
@@ -307,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
       labelWindow.document.write('body { font-family: Arial, sans-serif; padding: 20px; }');
       labelWindow.document.write('</style>');
       labelWindow.document.write('</head><body>');
-      labelWindow.document.write(`<h1>Shipment Label for Order: ${orderId}</h1>`);
+      labelWindow.document.write(`<h1>Shipment Label for Order: ${formattedOrderId}</h1>`);
       labelWindow.document.write(`<p><strong>Shipping Address:</strong> ${shippingAddress.name}, ${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}</p>`);
       labelWindow.document.write('<p><strong>Warehouse Status:</strong> Ready for Shipment</p>');
       labelWindow.document.write('</body></html>');
