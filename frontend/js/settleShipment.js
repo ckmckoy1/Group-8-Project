@@ -385,31 +385,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Attach the printLabel function to the print button
   printLabelButton.addEventListener('click', printLabel);
 
-  // Automatically format finalAmount input when the user finishes typing (on blur)
-  finalAmountInput.addEventListener('blur', (event) => {
-    let inputVal = event.target.value;
-    inputVal = inputVal.replace(/[^0-9.]/g, '');
-
-    if (inputVal) {
-      const formattedValue = parseFloat(inputVal).toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-      event.target.value = formattedValue;
-      console.log(`Final amount formatted: ${formattedValue}`);
-    }
+// Function to format input as currency
+const formatAsCurrency = (value) => {
+  const num = parseFloat(value.replace(/[^0-9.]/g, '')); // Remove any non-numeric characters except the dot
+  if (isNaN(num)) return ''; // Return empty if not a number
+  return num.toLocaleString('en-US', { 
+      style: 'decimal', 
+      minimumFractionDigits: 2, 
+      maximumFractionDigits: 2 
   });
+};
 
-  // Ensure only numeric input is allowed (and one decimal point) while typing
-  finalAmountInput.addEventListener('input', (event) => {
-    let inputVal = event.target.value;
-    inputVal = inputVal.replace(/[^0-9.]/g, '');
+// Event listener to sanitize input while typing
+finalAmountInput.addEventListener('input', (event) => {
+  let inputVal = event.target.value.replace(/[^0-9.]/g, ''); // Allow only numbers and a single dot
+  if ((inputVal.match(/\./g) || []).length > 1) {
+      inputVal = inputVal.substring(0, inputVal.lastIndexOf(".")); // Remove extra dots
+  }
+  event.target.value = inputVal;
+});
 
-    if ((inputVal.match(/\./g) || []).length > 1) {
-      inputVal = inputVal.substring(0, inputVal.lastIndexOf("."));
-    }
-
-    event.target.value = inputVal;
-    console.log(`Final amount input sanitized: ${inputVal}`);
-  });
+// Event listener to format value when input loses focus (blur)
+finalAmountInput.addEventListener('blur', (event) => {
+  event.target.value = formatAsCurrency(event.target.value);
 });
