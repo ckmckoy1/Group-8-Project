@@ -2,33 +2,38 @@ name: Build and Commit Bundle
 
 on:
   push:
+    branches:
+      - main  # Replace with your default branch if different
     paths:
-      - 'src/js/**'      # Trigger when source JS files change
-      - '!bundle.js'     # Exclude changes to bundle.js
+      - 'frontend/js/settleShipment.js'  # Path to your source file
+      - 'frontend/js/**'  # Include other source files as needed
 
 jobs:
-  build:
+  build_and_commit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          node-version: '14'  # Adjust to your Node.js version
+          persist-credentials: false  # Disable automatic token authentication
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Use the Node.js version compatible with your project
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build the bundle
+      - name: Build the project
         run: npm run build
 
-      - name: Commit and push changes
+      - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Automated bundle rebuild"
-          file_pattern: |
-            path/to/bundle.js
-          branch: main  # Adjust to your branch name
+          commit_message: 'Automated build of bundle.js [skip ci]'
+          file_pattern: 'frontend/js/bundle.js'  # Adjust the path to your bundle.js
+          branch: main  # Ensure this matches your default branch
