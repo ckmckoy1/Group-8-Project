@@ -409,3 +409,4 @@ finalAmountInput.addEventListener('input', (event) => {
 finalAmountInput.addEventListener('blur', (event) => {
   event.target.value = formatAsCurrency(event.target.value);
 });
+})
