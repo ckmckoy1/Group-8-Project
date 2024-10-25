@@ -35,5 +35,8 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'Automated build of bundle.js [skip ci]'
-          file_pattern: 'frontend/js/bundle.js'  # Adjust the path to your bundle.js
+          file_pattern: 'frontend/js/bundle.js'
           branch: main  # Ensure this matches your default branch
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
