@@ -161,7 +161,7 @@ main {
 
 /* Style adjustments for the Search Order button */
 #typeContainer .action-button {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 
@@ -321,7 +321,7 @@ button img, .action-button img {
 /* Footer Styles */
 .footer {
     background-color: #f1f1f1;
-    padding: 20px 0;
+    padding: 10px 0;
     text-align: center;
     flex-shrink: 0;
 }

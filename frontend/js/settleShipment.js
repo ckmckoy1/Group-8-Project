@@ -32,10 +32,104 @@ document.addEventListener('DOMContentLoaded', () => {
   const orderDateSpan = document.getElementById('orderDate');
 
   let html5QrCode = null;
+  let currentFormattedOrderId = null; // Declare and initialize the variable
 
   // Initialize display states
   scanContainer.style.display = 'block';
   typeContainer.style.display = 'none';
+
+  // Function to validate and format Order ID
+  const validateAndFormatOrderId = (enteredOrderId) => {
+    // Remove any non-digit characters
+    const orderIdNumber = enteredOrderId.replace(/\D/g, '');
+    if (!/^\d{6}$/.test(orderIdNumber)) {
+      throw new Error('Please enter a 6-digit Order ID.');
+    }
+    // Prepend 'WP-' prefix
+    const formattedOrderId = `WP-${orderIdNumber}`;
+    console.log(`Formatted Order ID: ${formattedOrderId}`);
+    return formattedOrderId;
+  };
+
+  // Function to fetch order details with proper error handling
+  const fetchOrderDetails = async (orderId) => {
+    console.log(`Fetching details for Order ID: ${orderId}`);
+    try {
+      const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`);
+      if (!response.ok) {
+        throw new Error('Order not found');
+      }
+      const order = await response.json();
+      console.log('Order details fetched:', order);
+      return order;
+    } catch (error) {
+      console.error('Error fetching order details:', error);
+      throw new Error('Unable to find order number. Please check that the number is correct or try again.');
+    }
+  };
+
+  // Function to handle Order ID submission (both Scan and Type modes)
+  const handleOrderIdSubmission = async (enteredOrderId) => {
+    try {
+      const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
+      currentFormattedOrderId = formattedOrderId; // Store it globally
+      const order = await fetchOrderDetails(formattedOrderId);
+      displayOrderDetails(order);
+      proceedToStep2();
+    } catch (error) {
+      console.error('Error:', error);
+      if (modeToggle.checked) {
+        // Type mode error handling
+        orderIdError.textContent = error.message;
+        orderIdError.style.display = 'block';
+      } else {
+        // Scan mode error handling
+        messageDiv.textContent = error.message;
+        messageDiv.className = 'message error';
+        messageDiv.style.display = 'block';
+      }
+    }
+  };
+
+  // Function to proceed to Step 2 after fetching order details
+  const proceedToStep2 = () => {
+    step1Container.style.display = 'none';
+    step2Container.style.display = 'block';
+    messageDiv.style.display = 'none';
+    orderIdError.style.display = 'none';
+  };
+
+  // Function to display order details
+  const displayOrderDetails = (order) => {
+    customerNameSpan.textContent = order.CustomerName;
+    customerAddressSpan.textContent = `${order.ShippingAddress.street1}, ${order.ShippingAddress.city}, ${order.ShippingAddress.state}, ${order.ShippingAddress.zip}`;
+    shippingMethodSpan.textContent = order.ShippingMethod;
+    orderCostSpan.textContent = order.Cost.toFixed(2);
+    orderDateSpan.textContent = new Date(order.OrderDate).toLocaleDateString();
+  };
+
+  // Event listener for Order ID input (Type mode)
+  orderIdInput.addEventListener('input', () => {
+    // Allow only numbers
+    orderIdInput.value = orderIdInput.value.replace(/\D/g, '');
+    orderIdError.style.display = 'none';
+  });
+
+  // Handle Enter key press in Order ID input
+  orderIdInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      const enteredOrderId = orderIdInput.value.trim();
+      handleOrderIdSubmission(enteredOrderId);
+    }
+  });
+
+  // Add event listener for the Search Order button
+  searchOrderButton.addEventListener('click', () => {
+    console.log('Search Order button clicked');
+    const enteredOrderId = orderIdInput.value.trim();
+    handleOrderIdSubmission(enteredOrderId);
+  });
+  
 
   // Toggle between Scan and Type modes
   modeToggle.addEventListener('change', () => {
@@ -65,31 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     messageDiv.style.display = 'none';
   });
 
-  // Function to fetch order details with proper error handling
-  const fetchOrderDetails = async (orderId) => {
-    console.log(`Fetching details for Order ID: ${orderId}`);
-    try {
-      const response = await fetch(`https://group8-a70f0e413328.herokuapp.com/api/orders/${orderId}`);
-      if (!response.ok) {
-        throw new Error('Order not found');
-      }
-      const order = await response.json();
-      console.log('Order details fetched:', order);
-      return order;
-    } catch (error) {
-      console.error('Error fetching order details:', error);
-      throw new Error('Unable to find order number. Please check that the number is correct or try again.');
-    }
-  };
-
-  // Function to proceed to Step 2 after fetching order details
-  const proceedToStep2 = () => {
-    step1Container.style.display = 'none';
-    step2Container.style.display = 'block';
-    messageDiv.style.display = 'none';
-    orderIdError.style.display = 'none';
-  };
-
   // Function to go back to Step 1
   backToStep1Button.addEventListener('click', () => {
     step2Container.style.display = 'none';
@@ -102,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     orderDateSpan.textContent = '';
     finalAmountInput.value = '';
     messageStep2.style.display = 'none';
+    currentFormattedOrderId = null; // Reset the order ID
   });
 
   // Function to refresh Step 1
@@ -109,80 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     orderIdInput.value = '';
     orderIdError.style.display = 'none';
     messageDiv.style.display = 'none';
-  });
-
-  // Function to display order details
-  const displayOrderDetails = (order) => {
-    customerNameSpan.textContent = order.CustomerName;
-    customerAddressSpan.textContent = `${order.ShippingAddress.street1}, ${order.ShippingAddress.city}, ${order.ShippingAddress.state}, ${order.ShippingAddress.zip}`;
-    shippingMethodSpan.textContent = order.ShippingMethod;
-    orderCostSpan.textContent = order.Cost.toFixed(2);
-    orderDateSpan.textContent = new Date(order.OrderDate).toLocaleDateString();
-  };
-
- // Event listener for Order ID input (Type mode)
- orderIdInput.addEventListener('input', () => {
-    // Allow only numbers
-    orderIdInput.value = orderIdInput.value.replace(/\D/g, '');
-    orderIdError.style.display = 'none';
-  });
-
-  // Handle Enter key press in Order ID input
-  orderIdInput.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-      const enteredOrderId = orderIdInput.value.trim();
-      handleOrderIdSubmission(enteredOrderId);
-    }
-  });
-
-    // Add event listener for the Search Order button
-    searchOrderButton.addEventListener('click', () => {
-        const enteredOrderId = orderIdInput.value.trim();
-        handleOrderIdSubmission(enteredOrderId);
-      });
-
-  // Function to validate and format Order ID
-  const validateAndFormatOrderId = (enteredOrderId) => {
-    // Remove any non-digit characters
-    const orderIdNumber = enteredOrderId.replace(/\D/g, '');
-    if (!/^\d{6}$/.test(orderIdNumber)) {
-      throw new Error('Please enter a 6-digit Order ID.');
-    }
-    // Prepend 'WP-' prefix
-    const formattedOrderId = `WP-${orderIdNumber}`;
-    console.log(`Formatted Order ID: ${formattedOrderId}`); // Add this line
-    return formattedOrderId;
-  };
-
-  // Function to handle Order ID submission (both Scan and Type modes)
-  const handleOrderIdSubmission = async (enteredOrderId) => {
-    try {
-      const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
-      currentFormattedOrderId = formattedOrderId; // Store it globally
-      const order = await fetchOrderDetails(formattedOrderId);
-      displayOrderDetails(order);
-      proceedToStep2();
-    } catch (error) {
-      console.error('Error:', error);
-      if (modeToggle.checked) {
-        // Type mode error handling
-        orderIdError.textContent = error.message;
-        orderIdError.style.display = 'block';
-      } else {
-        // Scan mode error handling
-        messageDiv.textContent = error.message;
-        messageDiv.className = 'message error';
-        messageDiv.style.display = 'block';
-      }
-    }
-  };
-
-  // Handle Enter key press in Order ID input
-  orderIdInput.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') {
-      const enteredOrderId = orderIdInput.value.trim();
-      handleOrderIdSubmission(enteredOrderId);
-    }
   });
 
   // Function to start QR code scanner using Html5Qrcode
@@ -257,12 +253,15 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Get the formatted Order ID
-    const enteredOrderId = orderIdInput.value.trim();
-    const formattedOrderId = validateAndFormatOrderId(currentFormattedOrderId);
+    if (!currentFormattedOrderId) {
+      messageStep2.textContent = 'Order ID is missing. Please start over.';
+      messageStep2.className = 'message error';
+      messageStep2.style.display = 'block';
+      return;
+    }
 
     try {
-      const order = await fetchOrderDetails(formattedOrderId);
+      const order = await fetchOrderDetails(currentFormattedOrderId);
       const authorizationAmount = order.AuthorizationAmount;
       console.log(`Authorization Amount: ${authorizationAmount}`);
 
@@ -282,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          orderId: formattedOrderId,
+          orderId: currentFormattedOrderId,
           finalAmount: finalAmount
         }),
       });
@@ -320,8 +319,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to print the shipment label
   const printLabel = async () => {
-    const enteredOrderId = orderIdInput.value.trim();
-    const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
+    if (!currentFormattedOrderId) {
+      messageStep2.textContent = 'Order ID is missing. Please start over.';
+      messageStep2.className = 'message error';
+      messageStep2.style.display = 'block';
+      return;
+    }
+
     console.log(`Printing label for Order ID: ${currentFormattedOrderId}`);
     try {
       const order = await fetchOrderDetails(currentFormattedOrderId);
@@ -333,7 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
       labelWindow.document.write('body { font-family: Arial, sans-serif; padding: 20px; }');
       labelWindow.document.write('</style>');
       labelWindow.document.write('</head><body>');
-      labelWindow.document.write(`<h1>Shipment Label for Order: ${formattedOrderId}</h1>`);
+      labelWindow.document.write(`<h1>Shipment Label for Order: ${currentFormattedOrderId}</h1>`);
       labelWindow.document.write(`<p><strong>Shipping Address:</strong> ${shippingAddress.name}, ${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}</p>`);
       labelWindow.document.write('<p><strong>Warehouse Status:</strong> Ready for Shipment</p>');
       labelWindow.document.write('</body></html>');
