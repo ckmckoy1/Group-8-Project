@@ -1,0 +1,34 @@
+name: Build and Commit Bundle
+
+on:
+  push:
+    paths:
+      - 'src/js/**'      # Trigger when source JS files change
+      - '!bundle.js'     # Exclude changes to bundle.js
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Adjust to your Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the bundle
+        run: npm run build
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Automated bundle rebuild"
+          file_pattern: |
+            path/to/bundle.js
+          branch: main  # Adjust to your branch name
