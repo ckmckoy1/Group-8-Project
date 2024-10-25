@@ -57,6 +57,29 @@ body {
     text-decoration: none;
 }
 
+/* Hidden by default; shown on mobile */
+.nav-toggle {
+    display: none;
+}
+
+.nav-toggle-label {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 10px;
+}
+
+.nav-toggle-label span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+    transition: 0.3s;
+}
+
+/* Regular desktop view */
 .nav-menu {
     list-style: none;
     display: flex;
@@ -75,19 +98,6 @@ body {
     width: 20px;
     height: 20px;
     margin-right: 8px;
-}
-
-/* Hamburger Menu */
-.nav-toggle {
-    display: none;
-}
-
-.nav-toggle-label {
-    display: none;
-}
-
-@media (max-width: 768px) {
-    /* Mobile navigation adjustments... */
 }
 
 /* Adjust main content to be below the navbar */
@@ -163,7 +173,6 @@ main {
 #typeContainer .action-button {
     margin-top: 20px;
 }
-
 
 /* Buttons */
 button, .action-button, .submit-button {
@@ -343,6 +352,89 @@ button img, .action-button img {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    /* Tablet adjustments */
+    .settle-shipment-container {
+        width: 95%;
+        padding: 30px;
+    }
+
+    .form-group input, .action-button, .submit-button {
+        font-size: 0.95rem;
+        padding: 12px;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-toggle-label {
+        display: flex;
+        cursor: pointer;
+    }
+
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary-color);
+        z-index: 100;
+    }
+
+    .nav-toggle:checked + .nav-toggle-label + .nav-menu {
+        display: flex;
+    }
+}
+
 @media (max-width: 768px) {
-    /* Adjustments for mobile... */
+    /* Mobile adjustments */
+    .settle-shipment-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .form-group input {
+        max-width: 100%;
+        font-size: 0.875rem;
+    }
+
+    .action-button, .submit-button {
+        font-size: 0.875rem;
+        padding: 10px;
+    }
+
+    .nav-logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--primary-color);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 100;
+        padding: 10px 0;
+    }
+
+    .nav-menu .nav-link {
+        padding: 10px;
+        text-align: center;
+        color: white;
+        width: 100%;
+        display: block;
+    }
+
+    .nav-toggle-label span {
+        width: 20px;
+    }
+
+    .nav-toggle:checked + .nav-toggle-label + .nav-menu {
+        display: flex;
+    }
 }
