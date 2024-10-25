@@ -1129,7 +1129,7 @@ select option {
     flex-direction: column; /* Stack items vertically */
     align-items: left;    /* Center them horizontally */
     padding: 0;
-    margin: 0;
+    margin-left: 0;
 }
 
 /* Remove any spacing between the anchor tags */
@@ -1142,7 +1142,7 @@ select option {
 /* Style the images */
 .download-apps a img {
     display: block;       /* Remove inline spacing */
-    margin: 10px;         /* Maintain aspect ratio */
+    margin-top: 10px;     /* Maintain aspect ratio */
     margin-right: 50px;            /* Remove any default margins */
     padding: 0;           /* Remove any default padding */
     height: auto;         /* Set desired height */
