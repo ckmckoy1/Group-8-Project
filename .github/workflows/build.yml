@@ -3,7 +3,7 @@ name: Build and Commit Bundle
 on:
   push:
     branches:
-      - main  # Replace with your default branch if different
+      - main
     paths:
       - 'frontend/js/settleShipment.js'  # Path to your source file
       - 'frontend/js/**'  # Include other source files as needed
@@ -18,12 +18,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: false  # Disable automatic token authentication
+          persist-credentials: false
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Use the Node.js version compatible with your project
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
@@ -36,7 +36,5 @@ jobs:
         with:
           commit_message: 'Automated build of bundle.js [skip ci]'
           file_pattern: 'frontend/js/bundle.js'
-          branch: main  # Ensure this matches your default branch
-          commit_user_name: 'github-actions[bot]'
-          commit_user_email: '41898282+github-actions[bot]@users.noreply.github.com'
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
+          branch: main
+          token: ${{ secrets.GITHUB_TOKEN }}  # Add this line for authentication
