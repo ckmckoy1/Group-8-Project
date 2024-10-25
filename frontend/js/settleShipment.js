@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const barcodeButton = document.getElementById('barcodeScanner');
   const orderIdInput = document.getElementById('orderId');
   const orderIdError = document.getElementById('orderIdError');
+  const searchOrderButton = document.getElementById('searchOrderButton'); // New button
   const qrReaderContainer = document.getElementById('qr-reader');
   const loadingSpinner = document.getElementById('loadingSpinner');
   const scannerInstructions = document.getElementById('scannerInstructions');
@@ -119,12 +120,26 @@ document.addEventListener('DOMContentLoaded', () => {
     orderDateSpan.textContent = new Date(order.OrderDate).toLocaleDateString();
   };
 
-  // Event listener for Order ID input (Type mode)
-  orderIdInput.addEventListener('input', () => {
+ // Event listener for Order ID input (Type mode)
+ orderIdInput.addEventListener('input', () => {
     // Allow only numbers
     orderIdInput.value = orderIdInput.value.replace(/\D/g, '');
     orderIdError.style.display = 'none';
   });
+
+  // Handle Enter key press in Order ID input
+  orderIdInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      const enteredOrderId = orderIdInput.value.trim();
+      handleOrderIdSubmission(enteredOrderId);
+    }
+  });
+
+    // Add event listener for the Search Order button
+    searchOrderButton.addEventListener('click', () => {
+        const enteredOrderId = orderIdInput.value.trim();
+        handleOrderIdSubmission(enteredOrderId);
+      });
 
   // Function to validate and format Order ID
   const validateAndFormatOrderId = (enteredOrderId) => {
@@ -135,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Prepend 'WP-' prefix
     const formattedOrderId = `WP-${orderIdNumber}`;
+    console.log(`Formatted Order ID: ${formattedOrderId}`); // Add this line
     return formattedOrderId;
   };
 
@@ -142,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const handleOrderIdSubmission = async (enteredOrderId) => {
     try {
       const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
+      currentFormattedOrderId = formattedOrderId; // Store it globally
       const order = await fetchOrderDetails(formattedOrderId);
       displayOrderDetails(order);
       proceedToStep2();
@@ -242,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Get the formatted Order ID
     const enteredOrderId = orderIdInput.value.trim();
-    const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
+    const formattedOrderId = validateAndFormatOrderId(currentFormattedOrderId);
 
     try {
       const order = await fetchOrderDetails(formattedOrderId);
@@ -305,9 +322,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const printLabel = async () => {
     const enteredOrderId = orderIdInput.value.trim();
     const formattedOrderId = validateAndFormatOrderId(enteredOrderId);
-    console.log(`Printing label for Order ID: ${formattedOrderId}`);
+    console.log(`Printing label for Order ID: ${currentFormattedOrderId}`);
     try {
-      const order = await fetchOrderDetails(formattedOrderId);
+      const order = await fetchOrderDetails(currentFormattedOrderId);
       const shippingAddress = order.ShippingAddress;
 
       const labelWindow = window.open('', '', 'height=600,width=800');

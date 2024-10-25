@@ -159,6 +159,12 @@ main {
     outline: none;
 }
 
+/* Style adjustments for the Search Order button */
+#typeContainer .action-button {
+    margin-top: 10px;
+}
+
+
 /* Buttons */
 button, .action-button, .submit-button {
     background-color: var(--primary-color);
