@@ -353,12 +353,17 @@ document.addEventListener('DOMContentLoaded', () => {
       messageStep2.style.display = 'block';
       return;
     }
-
+  
     console.log(`Printing label for Order ID: ${currentFormattedOrderId}`);
     try {
       const order = await fetchOrderDetails(currentFormattedOrderId);
       const shippingAddress = order.ShippingAddress;
-
+  
+      // Check if ShippingAddress is an object with expected properties or a string
+      const addressLine = typeof shippingAddress === 'object'
+        ? `${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}`
+        : shippingAddress; // Handle as a string if that's the case
+  
       const labelWindow = window.open('', '', 'height=600,width=800');
       labelWindow.document.write('<html><head><title>Shipment Label</title>');
       labelWindow.document.write('<style>');
@@ -366,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
       labelWindow.document.write('</style>');
       labelWindow.document.write('</head><body>');
       labelWindow.document.write(`<h1>Shipment Label for Order: ${currentFormattedOrderId}</h1>`);
-      labelWindow.document.write(`<p><strong>Shipping Address:</strong> ${shippingAddress.name}, ${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}</p>`);
+      labelWindow.document.write(`<p><strong>Shipping Address:</strong> ${addressLine}</p>`);
       labelWindow.document.write('<p><strong>Warehouse Status:</strong> Ready for Shipment</p>');
       labelWindow.document.write('</body></html>');
       labelWindow.document.close();
@@ -381,6 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
       messageStep2.style.display = 'block';
     }
   };
+  
 
   // Attach the printLabel function to the print button
   printLabelButton.addEventListener('click', printLabel);
