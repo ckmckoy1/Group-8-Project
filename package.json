@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "A Node.js app for Wild Path Outfitters",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js",               
-    "dev": "nodemon server.js",             
-    "build": "webpack --mode production",   
-    "serve": "webpack serve --mode development", 
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "start": "node server.js",
+  "dev": "webpack --watch",
+  "build": "webpack --mode production",
+  "serve": "webpack serve --mode development",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
+
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
