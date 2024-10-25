@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to display order details
   const displayOrderDetails = (order) => {
+    console.log('Order object received:', order);
     // Update customer name
     const firstName = order.FirstName || '';
     const lastName = order.LastName || '';
@@ -119,9 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update shipping method
     shippingMethodSpan.textContent = order.ShippingMethod || 'N/A';
   
-    // Update order cost
-    const totalAmount = order.TotalAmount || 0;
+ 
+  // Update order cost
+  const totalAmount = order.TotalAmount;
+  if (typeof totalAmount === 'number') {
     orderCostSpan.textContent = totalAmount.toFixed(2);
+  } else {
+    orderCostSpan.textContent = 'N/A';
+    console.warn('TotalAmount is undefined or not a number');
+  }
   
     // Update order date
     const orderDate = order.OrderDateTime ? new Date(order.OrderDateTime) : new Date();
