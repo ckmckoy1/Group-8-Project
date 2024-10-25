@@ -1081,13 +1081,15 @@ select option {
 /* Footer Section Content */
 .footer-section-content {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align content (including images) to the top */
+    margin: 0;
 }
 
 .footer-section-content img {
-    margin-right: var(--spacing-md);
+    margin-right: 10px;
+    align-self: flex-start; /* Align each image to the top of its flex container */
     flex-shrink: 0;
-    display: block; /* Eliminates inline spacing */
+    display: block; /* Ensures images do not have inline spacing */
 }
 
 
