@@ -37,7 +37,7 @@ header {
     align-items: center;
     background-color: #333;
     color: #fff;
-    padding: 5px 10px;
+    padding: 5px;
 }
 
 .promo-bar div {
@@ -155,7 +155,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 45px 25px;
+    padding: 30px;
     width: 100%;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -303,7 +303,7 @@ header {
     color: #fff;                     /* Link color */
     font-size: 1em;                  /* Adjust font size as needed */
     font-weight: bold;               /* Bold text */
-    padding: var(--spacing-md) var(--spacing-md); /* Padding around links */
+    padding: var(--spacing-sm) var(--spacing-sm); /* Padding around links */
     transition: color var(--transition-fast);      /* Smooth color transition */
     align-items: center;
     text-align: center;
