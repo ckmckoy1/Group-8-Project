@@ -671,4 +671,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Example: Clear the badge when the cart is empty
     // updateCartBadge(0);
+
+    document.querySelectorAll('.footer-section').forEach(section => {
+        const header = section.querySelector('h3');
+        header.addEventListener('click', () => {
+            // Toggle the aria-expanded attribute
+            const isExpanded = section.getAttribute('aria-expanded') === 'true';
+            section.setAttribute('aria-expanded', !isExpanded);
+        });
+    });
+    
 });
