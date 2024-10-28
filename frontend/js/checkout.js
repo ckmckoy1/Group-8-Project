@@ -1,5 +1,3 @@
-// checkout.js
-
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
@@ -79,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function validateShippingMethod() {
         const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
         if (!shippingMethod) {
-            alert('Please select a shipping method.');
+            displayMessage('Please select a shipping method.', 'error');
             return false;
         }
         return true;
@@ -92,11 +90,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (isValid && isShippingValid) {
             // Collapse current section
-            document.getElementById(currentSectionId).querySelector('.form-content').style.display = 'none';
+            const currentSection = document.getElementById(currentSectionId);
+            if (currentSection) {
+                const formContent = currentSection.querySelector('.form-content');
+                if (formContent) {
+                    formContent.style.display = 'none';
+                }
+            }
+
             // Open the next section
-            document.getElementById(nextSectionId).querySelector('.form-content').style.display = 'block';
+            const nextSection = document.getElementById(nextSectionId);
+            if (nextSection) {
+                const formContent = nextSection.querySelector('.form-content');
+                if (formContent) {
+                    formContent.style.display = 'block';
+                }
+            }
         } else {
-            alert('Please complete all required fields in this section.');
+            // displayMessage('Please complete all required fields in this section.', 'error');
+            // The validate functions already handle messaging
         }
     }
 
@@ -111,34 +123,42 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Auto-format phone number as (###) ###-####
-    document.getElementById('phone').addEventListener('input', function (e) {
-        let input = e.target.value.replace(/\D/g, '');
-        if (input.length <= 3) {
-            input = '(' + input;
-        } else if (input.length <= 6) {
-            input = '(' + input.substring(0, 3) + ') ' + input.substring(3);
-        } else {
-            input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6, 10);
-        }
-        e.target.value = input.substring(0, 14);
-    });
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
+            if (input.length <= 3) {
+                input = '(' + input;
+            } else if (input.length <= 6) {
+                input = '(' + input.substring(0, 3) + ') ' + input.substring(3);
+            } else {
+                input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6, 10);
+            }
+            e.target.value = input.substring(0, 14);
+        });
+    }
 
     // Auto-format expiration date (MM/YY)
-    document.getElementById('expDate').addEventListener('input', function (e) {
-        let input = e.target.value.replace(/\D/g, '');
-        if (input.length > 2) {
-            input = input.substring(0, 2) + '/' + input.substring(2, 4);
-        }
-        e.target.value = input;
-    });
+    const expDateInput = document.getElementById('expDate');
+    if (expDateInput) {
+        expDateInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
+            if (input.length > 2) {
+                input = input.substring(0, 2) + '/' + input.substring(2, 4);
+            }
+            e.target.value = input;
+        });
+    }
 
     // Auto-format card number as #### #### #### ####
-    document.getElementById('cardNumber').addEventListener('input', function (e) {
-        // Auto-format the card number
-        let input = e.target.value.replace(/\D/g, '');
-        input = input.match(/.{1,4}/g)?.join(' ') || input;
-        e.target.value = input;
-    });
+    const cardNumberInput = document.getElementById('cardNumber');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
+            input = input.match(/.{1,4}/g)?.join(' ') || input;
+            e.target.value = input;
+        });
+    }
 
     // Function to handle payment method change
     function handlePaymentMethodChange() {
@@ -149,20 +169,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const reviewOrderSection = document.getElementById('reviewOrderSection');
 
         if (selectedMethod === 'creditCard') {
-            creditCardFields.style.display = 'block';
-            klarnaPayment.style.display = 'none';
-            paypalPayment.style.display = 'none';
-            reviewOrderSection.style.display = 'block'; // Show Section 3
+            if (creditCardFields) creditCardFields.style.display = 'block';
+            if (klarnaPayment) klarnaPayment.style.display = 'none';
+            if (paypalPayment) paypalPayment.style.display = 'none';
+            if (reviewOrderSection) reviewOrderSection.style.display = 'block'; // Show Section 3
         } else if (selectedMethod === 'klarna') {
-            creditCardFields.style.display = 'none';
-            klarnaPayment.style.display = 'block';
-            paypalPayment.style.display = 'none';
-            reviewOrderSection.style.display = 'none'; // Hide Section 3
+            if (creditCardFields) creditCardFields.style.display = 'none';
+            if (klarnaPayment) klarnaPayment.style.display = 'block';
+            if (paypalPayment) paypalPayment.style.display = 'none';
+            if (reviewOrderSection) reviewOrderSection.style.display = 'none'; // Hide Section 3
         } else if (selectedMethod === 'paypal') {
-            creditCardFields.style.display = 'none';
-            klarnaPayment.style.display = 'none';
-            paypalPayment.style.display = 'block';
-            reviewOrderSection.style.display = 'none'; // Hide Section 3
+            if (creditCardFields) creditCardFields.style.display = 'none';
+            if (klarnaPayment) klarnaPayment.style.display = 'none';
+            if (paypalPayment) paypalPayment.style.display = 'block';
+            if (reviewOrderSection) reviewOrderSection.style.display = 'none'; // Hide Section 3
         }
     }
 
@@ -170,21 +190,28 @@ document.addEventListener('DOMContentLoaded', function () {
     handlePaymentMethodChange();
 
     // Event listener for Klarna button
-    document.getElementById('klarnaButton').addEventListener('click', function () {
-        // Implement your Klarna payment integration here
-        alert('Redirecting to Klarna payment gateway...');
-        // For example, redirect to Klarna checkout page
-        // window.location.href = 'https://www.klarna.com/checkout-url';
-    });
+    const klarnaButton = document.getElementById('klarnaButton');
+    if (klarnaButton) {
+        klarnaButton.addEventListener('click', function () {
+            // Implement your Klarna payment integration here
+            alert('Redirecting to Klarna payment gateway...');
+            // For example, redirect to Klarna checkout page
+            // window.location.href = 'https://www.klarna.com/checkout-url';
+        });
+    }
 
     // Event listener for PayPal button
-    document.getElementById('paypalButton').addEventListener('click', function () {
-        // Implement your PayPal payment integration here
-        alert('Redirecting to PayPal...');
-        // For example, redirect to PayPal checkout page
-        // window.location.href = 'https://www.paypal.com/checkout-url';
-    });
+    const paypalButton = document.getElementById('paypalButton');
+    if (paypalButton) {
+        paypalButton.addEventListener('click', function () {
+            // Implement your PayPal payment integration here
+            alert('Redirecting to PayPal...');
+            // For example, redirect to PayPal checkout page
+            // window.location.href = 'https://www.paypal.com/checkout-url';
+        });
+    }
 
+    // Function to determine card brand
     function getCardBrand(number) {
         const sanitized = number.replace(/\D/g, '');
 
@@ -281,6 +308,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const shippingMethodInputs = document.querySelectorAll('input[name="shippingMethod"]');
     shippingMethodInputs.forEach(input => {
         input.addEventListener('change', function () {
+            updateShippingOptions();
             updateOrderSummary();
         });
     });
@@ -290,36 +318,41 @@ document.addEventListener('DOMContentLoaded', function () {
     updateOrderSummary();
 
     // Event listener for the "Same as Shipping" checkbox
-    document.getElementById('sameAsShipping').addEventListener('change', function (e) {
-        if (e.target.checked) {
-            const shippingAddress = document.getElementById('address').value;
-            const shippingUnitNumber = document.getElementById('unitNumber').value;
-            const shippingCity = document.getElementById('city').value;
-            const shippingState = document.getElementById('state').value;
-            const shippingZip = document.getElementById('zip').value;
+    const sameAsShippingCheckbox = document.getElementById('sameAsShipping');
+    if (sameAsShippingCheckbox) {
+        sameAsShippingCheckbox.addEventListener('change', function (e) {
+            if (e.target.checked) {
+                const shippingAddress = document.getElementById('address').value;
+                const shippingUnitNumber = document.getElementById('unitNumber').value;
+                const shippingCity = document.getElementById('city').value;
+                const shippingState = document.getElementById('state').value;
+                const shippingZip = document.getElementById('zip').value;
 
-            // Copy values from shipping to billing fields
-            document.getElementById('billingAddress').value = shippingAddress || '';
-            document.getElementById('billingUnitNumber').value = shippingUnitNumber || '';
-            document.getElementById('billingCity').value = shippingCity || '';
-            document.getElementById('billingState').value = shippingState || '';
-            document.getElementById('billingZipCode').value = shippingZip || '';
-        } else {
-            // Clear billing address fields when unchecked
-            document.getElementById('billingAddress').value = '';
-            document.getElementById('billingUnitNumber').value = '';
-            document.getElementById('billingCity').value = '';
-            document.getElementById('billingState').value = '';
-            document.getElementById('billingZipCode').value = '';
-        }
-    });
+                // Copy values from shipping to billing fields
+                document.getElementById('billingAddress').value = shippingAddress || '';
+                document.getElementById('billingUnitNumber').value = shippingUnitNumber || '';
+                document.getElementById('billingCity').value = shippingCity || '';
+                document.getElementById('billingState').value = shippingState || '';
+                document.getElementById('billingZipCode').value = shippingZip || '';
+            } else {
+                // Clear billing address fields when unchecked
+                document.getElementById('billingAddress').value = '';
+                document.getElementById('billingUnitNumber').value = '';
+                document.getElementById('billingCity').value = '';
+                document.getElementById('billingState').value = '';
+                document.getElementById('billingZipCode').value = '';
+            }
+        });
+    }
 
     // Validate the expiration date
     const isCardExpired = (expDate) => {
         const today = new Date();
         const [month, year] = expDate.split('/').map(Number);
+        if (!month || !year) return true;
         const exp = new Date(`20${year}-${month}-01`);
-        return today > exp;
+        exp.setMonth(exp.getMonth() + 1); // Set to the first day of the next month
+        return today >= exp;
     };
 
     // Function to display error/success messages
@@ -527,20 +560,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Close popup functionality
-    closePopup.addEventListener('click', () => {
-        popupOverlay.classList.remove('show');
-        // Optionally, reset the form after successful submission
-        // checkoutForm.reset();
-    });
+    if (closePopup) {
+        closePopup.addEventListener('click', () => {
+            popupOverlay.classList.remove('show');
+            // Optionally, reset the form after successful submission
+            // checkoutForm.reset();
+        });
+    }
 
     // Function to toggle sections (if needed)
     window.toggleSection = function (sectionId) {
         const section = document.getElementById(sectionId);
-        const content = section.querySelector('.form-content');
-        if (content.style.display === 'block' || content.style.display === '') {
-            content.style.display = 'none';
-        } else {
-            content.style.display = 'block';
+        if (section) {
+            const content = section.querySelector('.form-content');
+            if (content) {
+                if (content.style.display === 'block' || content.style.display === '') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            }
         }
     };
 
@@ -549,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to handle the toggle of Order Summary Details
     function setupOrderSummaryToggle() {
         const toggleButton = document.getElementById('toggleButton'); // Reference to the toggle button
-        const toggleArrow = toggleButton.querySelector('.toggle-arrow'); // Reference to the arrow image/SVG within the button
+        const toggleArrow = toggleButton ? toggleButton.querySelector('.toggle-arrow') : null; // Reference to the arrow image/SVG within the button
         const orderDetails = document.getElementById('orderSummaryDetails'); // Reference to the order details section
 
         if (!toggleButton || !toggleArrow || !orderDetails) {
@@ -603,12 +642,26 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupDiscountsToggle() {
         const toggleButtons = document.querySelectorAll('.toggle-discount');
 
+        if (toggleButtons.length === 0) {
+            console.warn('No toggle-discount buttons found.');
+            return;
+        }
+
         toggleButtons.forEach(button => {
             button.addEventListener('click', function (event) {
                 event.preventDefault();
                 const discountHeader = event.target.closest('.discount-header');
+                if (!discountHeader) {
+                    console.warn('Discount header not found.');
+                    return;
+                }
                 const discountType = discountHeader.getAttribute('data-discount');
                 const discountContent = document.getElementById(`${discountType}Content`);
+
+                if (!discountContent) {
+                    console.warn(`No discount content found for type: ${discountType}`);
+                    return;
+                }
 
                 const isHidden = discountContent.classList.contains('hidden');
 
@@ -629,23 +682,7 @@ document.addEventListener('DOMContentLoaded', function () {
             button.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault();
-                    const discountHeader = event.target.closest('.discount-header');
-                    const discountType = discountHeader.getAttribute('data-discount');
-                    const discountContent = document.getElementById(`${discountType}Content`);
-
-                    const isHidden = discountContent.classList.contains('hidden');
-
-                    if (isHidden) {
-                        discountContent.classList.remove('hidden');
-                        discountContent.classList.add('visible');
-                        button.textContent = '-';
-                        button.setAttribute('aria-expanded', 'true');
-                    } else {
-                        discountContent.classList.remove('visible');
-                        discountContent.classList.add('hidden');
-                        button.textContent = '+';
-                        button.setAttribute('aria-expanded', 'false');
-                    }
+                    button.click();
                 }
             });
         });
@@ -672,126 +709,141 @@ document.addEventListener('DOMContentLoaded', function () {
     // Example: Clear the badge when the cart is empty
     // updateCartBadge(0);
 
+    // Footer section toggles
     document.querySelectorAll('.footer-section').forEach(section => {
         const header = section.querySelector('h3');
-        header.addEventListener('click', () => {
-            // Toggle the aria-expanded attribute
-            const isExpanded = section.getAttribute('aria-expanded') === 'true';
-            section.setAttribute('aria-expanded', !isExpanded);
-        });
+        if (header) {
+            header.addEventListener('click', () => {
+                // Toggle the aria-expanded attribute
+                const isExpanded = section.getAttribute('aria-expanded') === 'true';
+                section.setAttribute('aria-expanded', !isExpanded);
+            });
+        }
     });
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const navbarToggler = document.querySelector(".navbar-toggler");
-        const navbarCollapse = document.querySelector(".navbar-collapse");
-    
+    // Navbar toggler for mobile view
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
+
+    if (navbarToggler && navbarCollapse) {
         navbarToggler.addEventListener("click", () => {
             const expanded = navbarToggler.getAttribute("aria-expanded") === "true";
             navbarToggler.setAttribute("aria-expanded", !expanded);
             navbarCollapse.classList.toggle("show");
         });
-    });
-    
+    }
+
+    /* ------------------ GOOGLE AUTOCOMPLETE INTEGRATION ------------------ */
 
     // Define Google Autocomplete fields and component mappings
-const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
-const ADDRESS_COMPONENT_TYPES = {
-    shipping: {
-        address: 'address',
-        city: 'city',
-        state: 'state',
-        zip: 'zip',
-        country: 'country'
-    },
-    billing: {
-        address: 'billingAddress',
-        city: 'billingCity',
-        state: 'billingState',
-        zip: 'billingZipCode',
-        country: 'billingCountry'
+    const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
+    const ADDRESS_COMPONENT_TYPES = {
+        shipping: {
+            address: 'address',
+            city: 'city',
+            state: 'state',
+            zip: 'zip',
+            country: 'country'
+        },
+        billing: {
+            address: 'billingAddress',
+            city: 'billingCity',
+            state: 'billingState',
+            zip: 'billingZipCode'
+        }
+    };
+
+    // Helper function to get input by component type for Shipping or Billing sections
+    function getAddressInputElement(section, componentType) {
+        return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
     }
-};
 
-// Helper function to get input by component type for Shipping or Billing sections
-function getAddressInputElement(section, componentType) {
-    return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
-}
-
-// Fill the input fields for address components
-function fillInAddressFields(place, section) {
-    function getComponent(componentType) {
-        for (const component of place.address_components || []) {
-            if (component.types.includes(componentType)) {
-                return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ? component.short_name : component.long_name;
+    // Fill the input fields for address components
+    function fillInAddressFields(place, section) {
+        function getComponent(componentType) {
+            for (const component of place.address_components || []) {
+                if (component.types.includes(componentType)) {
+                    return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ? component.short_name : component.long_name;
+                }
             }
+            return '';
         }
-        return '';
+
+        // Assign values to each field
+        const addressInput = getAddressInputElement(section, 'address');
+        if (addressInput) {
+            const streetNumber = getComponent('street_number');
+            const route = getComponent('route');
+            addressInput.value = `${streetNumber} ${route}`.trim();
+        }
+
+        const cityInput = getAddressInputElement(section, 'city');
+        if (cityInput) {
+            cityInput.value = getComponent('locality');
+        }
+
+        const stateInput = getAddressInputElement(section, 'state');
+        if (stateInput) {
+            stateInput.value = getComponent('administrative_area_level_1');
+        }
+
+        const zipInput = getAddressInputElement(section, 'zip');
+        if (zipInput) {
+            zipInput.value = getComponent('postal_code');
+        }
+
+        const countryInput = getAddressInputElement(section, 'country');
+        if (countryInput) {
+            countryInput.value = getComponent('country');
+        }
     }
 
-    // Assign values to each field
-    getAddressInputElement(section, 'address').value = `${getComponent('street_number')} ${getComponent('route')}`;
-    getAddressInputElement(section, 'city').value = getComponent('locality');
-    getAddressInputElement(section, 'state').value = getComponent('administrative_area_level_1');
-    getAddressInputElement(section, 'zip').value = getComponent('postal_code');
-    getAddressInputElement(section, 'country').value = getComponent('country');
-}
+    // Initialize Google Autocomplete for both Shipping and Billing address inputs
+    function initAddressAutocompletes() {
+        // Shipping address autocomplete
+        const shippingAddressInput = document.getElementById('address');
+        if (shippingAddressInput) {
+            const shippingAutocomplete = new google.maps.places.Autocomplete(
+                shippingAddressInput,
+                { types: ['address'] }
+            );
 
-// Initialize Google Autocomplete for both Shipping and Billing address inputs
-function initAddressAutocompletes() {
-    // Shipping address autocomplete
-    const shippingAutocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('address'),
-        { types: ['address'] }
-    );
-
-    shippingAutocomplete.addListener('place_changed', () => {
-        const place = shippingAutocomplete.getPlace();
-        if (!place.geometry) {
-            alert(`No details available for input: '${place.name}'`);
-            return;
+            shippingAutocomplete.addListener('place_changed', () => {
+                const place = shippingAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert(`No details available for input: '${place.name}'`);
+                    return;
+                }
+                fillInAddressFields(place, 'shipping');
+            });
         }
-        fillInAddressFields(place, 'shipping');
-    });
 
-    // Billing address autocomplete
-    const billingAutocomplete = new google.maps.places.Autocomplete(
-        document.getElementById('billingAddress'),
-        { types: ['address'] }
-    );
+        // Billing address autocomplete
+        const billingAddressInput = document.getElementById('billingAddress');
+        if (billingAddressInput) {
+            const billingAutocomplete = new google.maps.places.Autocomplete(
+                billingAddressInput,
+                { types: ['address'] }
+            );
 
-    billingAutocomplete.addListener('place_changed', () => {
-        const place = billingAutocomplete.getPlace();
-        if (!place.geometry) {
-            alert(`No details available for input: '${place.name}'`);
-            return;
+            billingAutocomplete.addListener('place_changed', () => {
+                const place = billingAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert(`No details available for input: '${place.name}'`);
+                    return;
+                }
+                fillInAddressFields(place, 'billing');
+            });
         }
-        fillInAddressFields(place, 'billing');
-    });
-}
-
-// Run autocomplete initializations on page load
-document.addEventListener('DOMContentLoaded', initAddressAutocompletes);
-
-// Separate message elements
-const reviewMessageDiv = document.getElementById('reviewMessage');
-const discountMessageDiv = document.getElementById('discountMessage');
-
-// Modify displayMessage to target specific message divs
-const displayReviewMessage = (message, type) => {
-    if (reviewMessageDiv) {
-        reviewMessageDiv.textContent = message;
-        reviewMessageDiv.className = `message ${type}`;
-        reviewMessageDiv.style.display = 'block';
     }
-};
 
-const displayDiscountMessage = (message, type) => {
-    if (discountMessageDiv) {
-        discountMessageDiv.textContent = message;
-        discountMessageDiv.className = `message ${type}`;
-        discountMessageDiv.style.display = 'block';
+    // Initialize the Autocomplete after Google Maps API is loaded
+    if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+        initAddressAutocompletes();
+    } else {
+        console.error('Google Maps JavaScript API is not loaded.');
     }
-};
 
-    
+    /* ------------------ END OF GOOGLE AUTOCOMPLETE INTEGRATION ------------------ */
+
 });
