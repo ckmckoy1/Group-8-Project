@@ -229,7 +229,7 @@
                             <!-- Shipping Method Selection -->
                             <p>Select your preferred shipping method: *</p>
                             <div class="radio-group">
-                                <input type="radio" id="standard" name="shippingMethod" value="Standard" required>
+                                <input type="radio" id="standard" name="shippingMethod" value="Standard" required checked>
                                 <label for="standard">
                                     Standard Delivery
                                     <span id="standardEstDate" style="color: darkgrey;"></span>
@@ -252,6 +252,7 @@
                                     <span id="rushCost"></span>
                                 </label>
                             </div>
+
                             <button type="button" class="continue-btn" id="continueToPayment">CONTINUE TO PAYMENT</button>
                         </div>
                     </div>
@@ -412,7 +413,8 @@
                                 </div>
                             </div>
 
-                            <div id="message"></div>
+                            <!-- Review Order Section -->
+                            <div id="reviewMessage" class="message"></div>
 
                             <button type="submit" class="submit-button">PLACE ORDER</button>
                             <div class="review-group agreement">
@@ -554,8 +556,8 @@
             <p class="rewards-info">
                 Join Navigator Rewards to earn up to 5% on your purchases.
             </p>
-            <!-- Message Display -->
-            <div id="message" class="message"></div>
+           <!-- Discounts Section -->
+            <div id="discountMessage" class="message"></div>
         </div>
     </div>
     
