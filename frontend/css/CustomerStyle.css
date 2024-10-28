@@ -1627,7 +1627,7 @@ select option {
 
 /* Dropdown Arrow Styling */
 .footer-section h3::after {
-    content: url('../assets/down-arrow.svg'); /* Use a down arrow icon */
+    content: url('../assets/down.svg'); /* Use a down arrow icon */
     margin-left: auto;
     transition: transform 0.3s;
 }
