@@ -772,5 +772,26 @@ function initAddressAutocompletes() {
 // Run autocomplete initializations on page load
 document.addEventListener('DOMContentLoaded', initAddressAutocompletes);
 
+// Separate message elements
+const reviewMessageDiv = document.getElementById('reviewMessage');
+const discountMessageDiv = document.getElementById('discountMessage');
+
+// Modify displayMessage to target specific message divs
+const displayReviewMessage = (message, type) => {
+    if (reviewMessageDiv) {
+        reviewMessageDiv.textContent = message;
+        reviewMessageDiv.className = `message ${type}`;
+        reviewMessageDiv.style.display = 'block';
+    }
+};
+
+const displayDiscountMessage = (message, type) => {
+    if (discountMessageDiv) {
+        discountMessageDiv.textContent = message;
+        discountMessageDiv.className = `message ${type}`;
+        discountMessageDiv.style.display = 'block';
+    }
+};
+
     
 });
