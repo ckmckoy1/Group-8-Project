@@ -680,5 +680,17 @@ document.addEventListener('DOMContentLoaded', function () {
             section.setAttribute('aria-expanded', !isExpanded);
         });
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const navbarToggler = document.querySelector(".navbar-toggler");
+        const navbarCollapse = document.querySelector(".navbar-collapse");
+    
+        navbarToggler.addEventListener("click", () => {
+            const expanded = navbarToggler.getAttribute("aria-expanded") === "true";
+            navbarToggler.setAttribute("aria-expanded", !expanded);
+            navbarCollapse.classList.toggle("show");
+        });
+    });
+    
     
 });
