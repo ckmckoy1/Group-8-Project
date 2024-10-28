@@ -839,45 +839,40 @@ select option {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    padding-right: 10px; /* Optional: Adds padding to the right for better spacing */
 }
 
 .order-summary-toggle h4 {
     margin-left: 10px;
     font-size: 0.9em;
-    margin-top: 5px;
+    display: flex;
+    align-items: center; /* Aligns text with the button in flex */
 }
 
-/* Toggle Arrow SVG Styling */
-.toggle-arrow {
-    transition: transform 0.3s ease; /* Smooth rotation transition */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    vertical-align: middle; /* Align vertically with the text */
-    width: 24px; /* Ensures consistent sizing */
-    height: 24px; /* Ensures consistent sizing */
-    margin-left: 20px; /* Space between text and arrow */
-    border: none;
-}
-
-/* Remove border and background from the arrow image */
+/* Toggle Button Styles */
 .order-summary-toggle .toggle-button {
+    margin-left: auto; /* Pushes button to the right */
     border: none;
     background: none;
-    display: block; /* Removes any inline spacing */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
 }
 
-.order-summary-toggle .toggle-button img{
-    display: block; /* Removes any inline spacing */
+.toggle-arrow {
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+    width: 18px; /* Arrow size */
+    height: 18px;
 }
 
 /* Order Details */
 .order-summary-details {
     margin-top: 10px;
-}
-/* Order Details Transition */
-.order-summary-details {
     transition: max-height 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
-    max-height: 1000px; /* Large enough to accommodate content */
+    max-height: 1000px; /* Adjust as needed */
     opacity: 1;
 }
 
