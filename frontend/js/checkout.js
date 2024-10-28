@@ -692,5 +692,85 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     
+
+    // Define Google Autocomplete fields and component mappings
+const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
+const ADDRESS_COMPONENT_TYPES = {
+    shipping: {
+        address: 'address',
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        country: 'country'
+    },
+    billing: {
+        address: 'billingAddress',
+        city: 'billingCity',
+        state: 'billingState',
+        zip: 'billingZipCode',
+        country: 'billingCountry'
+    }
+};
+
+// Helper function to get input by component type for Shipping or Billing sections
+function getAddressInputElement(section, componentType) {
+    return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
+}
+
+// Fill the input fields for address components
+function fillInAddressFields(place, section) {
+    function getComponent(componentType) {
+        for (const component of place.address_components || []) {
+            if (component.types.includes(componentType)) {
+                return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ? component.short_name : component.long_name;
+            }
+        }
+        return '';
+    }
+
+    // Assign values to each field
+    getAddressInputElement(section, 'address').value = `${getComponent('street_number')} ${getComponent('route')}`;
+    getAddressInputElement(section, 'city').value = getComponent('locality');
+    getAddressInputElement(section, 'state').value = getComponent('administrative_area_level_1');
+    getAddressInputElement(section, 'zip').value = getComponent('postal_code');
+    getAddressInputElement(section, 'country').value = getComponent('country');
+}
+
+// Initialize Google Autocomplete for both Shipping and Billing address inputs
+function initAddressAutocompletes() {
+    // Shipping address autocomplete
+    const shippingAutocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('address'),
+        { types: ['address'] }
+    );
+
+    shippingAutocomplete.addListener('place_changed', () => {
+        const place = shippingAutocomplete.getPlace();
+        if (!place.geometry) {
+            alert(`No details available for input: '${place.name}'`);
+            return;
+        }
+        fillInAddressFields(place, 'shipping');
+    });
+
+    // Billing address autocomplete
+    const billingAutocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('billingAddress'),
+        { types: ['address'] }
+    );
+
+    billingAutocomplete.addListener('place_changed', () => {
+        const place = billingAutocomplete.getPlace();
+        if (!place.geometry) {
+            alert(`No details available for input: '${place.name}'`);
+            return;
+        }
+        fillInAddressFields(place, 'billing');
+    });
+}
+
+// Run autocomplete initializations on page load
+document.addEventListener('DOMContentLoaded', initAddressAutocompletes);
+
     
 });
