@@ -74,7 +74,7 @@
         }
 
         /* Styling for the checkout button */
-        gmpx-icon-button {
+        button {
             background-color: #4285f4;
             color: white;
             padding: 10px;
@@ -85,9 +85,6 @@
     </style>
 </head>
 <body>
-
-    <gmpx-api-loader key="AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s">
-    </gmpx-api-loader>
 
     <div class="card-container">
         <div class="panel">
@@ -103,19 +100,13 @@
                 <input type="text" class="half-input" placeholder="Zip/Postal code" id="postal_code-input">
             </div>
             <input type="text" placeholder="Country" id="country-input">
-            <gmpx-icon-button>Checkout</gmpx-icon-button>
+            <button>Checkout</button>
         </div>
     </div>
 
+    <!-- Google Maps JavaScript API script with the Places library -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s&libraries=places"></script>
     <script>
-        // Configuration and constants for Google Maps API
-        const CONFIGURATION = {
-            "ctaTitle": "Checkout",
-            "mapOptions": {"center":{"lat":37.4221,"lng":-122.0841},"fullscreenControl":true,"mapTypeControl":false,"streetViewControl":true,"zoom":11,"zoomControl":true,"maxZoom":22,"mapId":""},
-            "mapsApiKey": "AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s",
-            "capabilities": {"addressAutocompleteControl":true,"mapDisplayControl":false,"ctaControl":true}
-        };
-
         const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
         const ADDRESS_COMPONENT_TYPES_IN_FORM = [
             'location',
@@ -155,12 +146,11 @@
         }
 
         // Initialize Google Maps Autocomplete
-        async function initMap() {
-            const { Autocomplete } = await google.maps.importLibrary("places");
-            const autocomplete = new Autocomplete(getFormInputElement('location'), {
-                fields: ['address_components', 'geometry', 'name'],
-                types: ['address'],
-            });
+        function initAutocomplete() {
+            const autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('location-input'),
+                { types: ['address'] }
+            );
 
             autocomplete.addListener('place_changed', () => {
                 const place = autocomplete.getPlace();
@@ -172,7 +162,8 @@
             });
         }
 
-        window.addEventListener('load', initMap);
+        // Initialize the map and autocomplete on page load
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
     </script>
 
 </body>
