@@ -1630,6 +1630,8 @@ select option {
     content: url('../assets/down.svg'); /* Use a down arrow icon */
     margin-left: auto;
     transition: transform 0.3s;
+    width: 20px;
+    height: 20px;
 }
 
 /* Rotate the arrow when expanded */
