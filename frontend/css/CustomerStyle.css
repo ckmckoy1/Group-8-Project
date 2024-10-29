@@ -758,11 +758,27 @@ select option {
     font-weight: normal; /* Normal weight */
     color: #333; /* Standard color */
 }
+
 /* Discounts Section */
-.discounts {
+.order-summary-section.discounts {
+    display: block; /* Ensure vertical stacking */
     margin-top: 20px;
     padding-top: 10px;
   
+}
+
+.discount-item {
+    width: 100%;
+    margin-bottom: 15px; /* Space between discount items */
+    border-bottom: 1px solid #333; /* Optional: adds a bottom border */
+    padding-bottom: 10px; /* Optional: adds spacing below each item */
+}
+
+
+.discount-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
 }
 
 .discounts h4 {
@@ -772,32 +788,67 @@ select option {
     border-bottom: 1px solid #333;
 }
 
-.discount-item {
-    border-bottom: 1px solid #333;
-}
 
-.discount-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 10px 0;
-}
-
-.discount-list li {
+.discount-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    cursor: pointer;
 }
 
-.apply-discount {
-    text-decoration: none;
-    font-weight: bold;
+.discount-header span {
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.toggle-discount {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
     color: #333;
+    transition: transform 0.3s ease;
 }
 
-.apply-discount:hover {
-    text-decoration: underline;
+.toggle-discount.rotated {
+    transform: rotate(180deg);
 }
+
+.discount-content {
+    display: none; /* Hidden by default */
+    flex-direction: row; /* Align children horizontally */
+    align-items: center; /* Vertically center the items */
+    gap: 10px; /* Space between input and button */
+    margin-top: 10px;
+}
+
+.discount-content.visible {
+    display: flex; /* Show as flex when visible */
+}
+
+.discount-content input {
+    flex: 1; /* Allows input to expand and fill available space */
+    min-width: 0; /* Prevents input from overflowing its container */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    font-size: 0.9em;
+}
+
+.discount-content .apply-button {
+    flex: 0 0 auto; /* Prevents button from stretching */
+    padding: 8px 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.discount-content .apply-button:hover {
+    background-color: #05668d;
+}
+
 
 .rewards-info {
     font-size: 0.9em;
@@ -974,89 +1025,7 @@ select option {
     margin-left: 5px;
 }
 
-/* Discounts Section */
-.order-summary-section.discounts {
-    display: block; /* Ensure vertical stacking */
-    margin-top: 20px;
-    padding-top: 10px;
-  
-}
 
-.discount-list {
-    display: block;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.discount-item {
-    display: block;
-    margin-bottom: 15px; /* Space between discount items */
-}
-
-.discount-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.discount-header span {
-    font-weight: 600;
-    font-size: 1em;
-}
-
-.toggle-discount {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    cursor: pointer;
-    color: #333;
-}
-
-.toggle-discount:focus {
-    outline: 2px solid #333;
-}
-
-.discount-content {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.discount-content.hidden {
-    display: none;
-}
-
-.discount-content.visible {
-    display: flex;
-}
-
-.discount-content input {
-    flex: 1;
-    padding: 8px 16x;
-    border: 1px solid #ccc;
-    font-size: 0.7em;
- 
-}
-
-.apply-button {
-    padding: 8px 16px;
-    background-color: #333;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-}
-
-.apply-button:hover {
-    background-color: #05668d;
-}
-
-.rewards-info {
-    font-size: 0.9em;
-    color: #555;
-}
 
 /* Footer */
 .footer {
@@ -1579,6 +1548,10 @@ select option {
     }
     .footer-row {
         flex-direction: column;
+    }
+
+    .footer-section ul {
+        display: none; /* Hidden by default */
     }
 
     /* Show the content when expanded */

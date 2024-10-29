@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const closePopup = document.getElementById('closePopup');
     const messageDiv = document.getElementById('message'); // Ensure this element exists in your HTML
     const loadingOverlay = document.getElementById('loadingOverlay');
+    const shippingMessageDiv = document.getElementById('shippingMessage'); // Add this to HTML
+    const paymentMessageDiv = document.getElementById('paymentMessage');   // Add this to HTML
+    const discountMessageDiv = document.getElementById('discountMessage'); // Already exists
+
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
@@ -82,6 +86,50 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return true;
     }
+
+// Enhanced validation function
+function validateSection(requiredFields) {
+    let isValid = true;
+    requiredFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        const label = document.querySelector(`label[for="${fieldId}"]`);
+
+        if (!field.value.trim()) {
+            field.classList.add('invalid');
+            addAsteriskForMissingFields(fieldId);
+            isValid = false;
+        } else {
+            // Specific format validations
+            if (field.type === 'email' && !validateEmail(field.value)) {
+                field.classList.add('invalid');
+                displayMessage(shippingMessageDiv, 'Please enter a valid email address.', 'error');
+                isValid = false;
+            } else if (field.type === 'tel' && !validatePhone(field.value)) {
+                field.classList.add('invalid');
+                displayMessage(shippingMessageDiv, 'Please enter a valid phone number.', 'error');
+                isValid = false;
+            } else {
+                field.classList.remove('invalid');
+                const asterisk = label?.querySelector('.asterisk');
+                if (asterisk) {
+                    asterisk.remove();
+                }
+            }
+        }
+    });
+    return isValid;
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function validatePhone(phone) {
+    const re = /^\(\d{3}\) \d{3}-\d{4}$/;
+    return re.test(phone);
+}
+
 
     // Function to collapse current section and open the next
     function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields) {
@@ -355,12 +403,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return today >= exp;
     };
 
-    // Function to display error/success messages
-    const displayMessage = (message, type) => {
-        messageDiv.textContent = message;
-        messageDiv.className = `message ${type}`;
-        messageDiv.style.display = 'block';
-    };
+        // Update the displayMessage function to accept a target div
+        const displayMessage = (targetDiv, message, type) => {
+            targetDiv.textContent = message;
+            targetDiv.className = `message ${type}`;
+            targetDiv.style.display = 'block';
+        };
 
     /* ------------------ NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
 
@@ -712,14 +760,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Footer section toggles
     document.querySelectorAll('.footer-section').forEach(section => {
         const header = section.querySelector('h3');
-        if (header) {
+        const content = section.querySelector('ul'); // Assuming the content is a list
+        if (header && content) {
             header.addEventListener('click', () => {
-                // Toggle the aria-expanded attribute
                 const isExpanded = section.getAttribute('aria-expanded') === 'true';
                 section.setAttribute('aria-expanded', !isExpanded);
+                content.style.display = isExpanded ? 'none' : 'block';
             });
         }
     });
+    
 
     // Navbar toggler for mobile view
     const navbarToggler = document.querySelector(".navbar-toggler");
