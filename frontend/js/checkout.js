@@ -1,6 +1,4 @@
-// Place the following code outside of any function or event listener
-
-// Define Google Autocomplete fields and component mappings
+// Helper functions and variables (make sure these are accessible globally)
 const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
 const ADDRESS_COMPONENT_TYPES = {
     shipping: {
@@ -18,12 +16,10 @@ const ADDRESS_COMPONENT_TYPES = {
     }
 };
 
-// Helper function to get input by component type for Shipping or Billing sections
 function getAddressInputElement(section, componentType) {
     return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
 }
 
-// Fill the input fields for address components
 function fillInAddressFields(place, section) {
     function getComponent(componentType) {
         for (const component of place.address_components || []) {
@@ -63,52 +59,62 @@ function fillInAddressFields(place, section) {
     }
 }
 
-// Initialize Google Autocomplete for both Shipping and Billing address inputs
-function initAddressAutocompletes() {
-    function initialize() {
-        // Shipping address autocomplete
-        const shippingAddressInput = document.getElementById('address');
-        if (shippingAddressInput) {
-            const shippingAutocomplete = new google.maps.places.Autocomplete(
-                shippingAddressInput,
-                { types: ['address'] }
-            );
-
-            shippingAutocomplete.addListener('place_changed', () => {
-                const place = shippingAutocomplete.getPlace();
-                if (!place.geometry) {
-                    alert(`No details available for input: '${place.name}'`);
-                    return;
-                }
-                fillInAddressFields(place, 'shipping');
-            });
-        }
-
-        // Billing address autocomplete
-        const billingAddressInput = document.getElementById('billingAddress');
-        if (billingAddressInput) {
-            const billingAutocomplete = new google.maps.places.Autocomplete(
-                billingAddressInput,
-                { types: ['address'] }
-            );
-
-            billingAutocomplete.addListener('place_changed', () => {
-                const place = billingAutocomplete.getPlace();
-                if (!place.geometry) {
-                    alert(`No details available for input: '${place.name}'`);
-                    return;
-                }
-                fillInAddressFields(place, 'billing');
-            });
-        }
+async function initAddressAutocompletes() {
+    // Load the Places library (ensure it's loaded)
+    if (!google.maps.places) {
+        await google.maps.importLibrary('places');
     }
 
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        initialize();
-    } else {
-        document.addEventListener('DOMContentLoaded', initialize);
+    // Shipping address autocomplete
+    const shippingAddressInput = document.getElementById('address');
+    if (shippingAddressInput) {
+        const shippingAutocomplete = new google.maps.places.Autocomplete(
+            shippingAddressInput,
+            { types: ['address'] }
+        );
+
+        shippingAutocomplete.addListener('place_changed', () => {
+            const place = shippingAutocomplete.getPlace();
+            if (!place.geometry) {
+                alert(`No details available for input: '${place.name}'`);
+                return;
+            }
+            fillInAddressFields(place, 'shipping');
+        });
+    }
+
+    // Billing address autocomplete
+    const billingAddressInput = document.getElementById('billingAddress');
+    if (billingAddressInput) {
+        const billingAutocomplete = new google.maps.places.Autocomplete(
+            billingAddressInput,
+            { types: ['address'] }
+        );
+
+        billingAutocomplete.addListener('place_changed', () => {
+            const place = billingAutocomplete.getPlace();
+            if (!place.geometry) {
+                alert(`No details available for input: '${place.name}'`);
+                return;
+            }
+            fillInAddressFields(place, 'billing');
+        });
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize Google Autocomplete after the API is loaded
+    if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+        initAddressAutocompletes();
+    } else {
+        // Wait until the API is loaded
+        const intervalId = setInterval(() => {
+            if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                clearInterval(intervalId);
+                initAddressAutocompletes();
+            }
+        }, 100);
+    }
 
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
