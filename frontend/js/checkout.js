@@ -732,13 +732,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         try {
             // Send order details to your backend server (e.g., to MongoDB)
-            const response = await fetch('/api/checkout', {
+            const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                  'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(orderData),
-            });
+              });
 
             const result = await response.json();
 
