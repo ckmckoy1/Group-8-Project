@@ -622,6 +622,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize masking functionality
     setupSensitiveDataMasking();
 
+    // ** Get the test endpoint selection **
+    const testEndpointSelect = document.getElementById('test-endpoint');
+
     // Final submission
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -655,6 +658,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const billingCity = document.getElementById('billingCity').value;
         const billingState = document.getElementById('billingState').value;
         const billingZipCode = document.getElementById('billingZipCode').value;
+
+        // ** Get the selected mock endpoint **
+        const testEndpoint = testEndpointSelect ? testEndpointSelect.value : 'success';
 
         // Check card expiration
         if (isCardExpired(expDate)) {
@@ -701,6 +707,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 cardBrand,
             },
             orderTotal,
+            testEndpoint, // ** Include the selected mock endpoint **
         };
 
         // Include discounts if applied

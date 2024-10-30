@@ -1,6 +1,6 @@
 // server.js
 
-// Import dependencies using require (CommonJS)
+// Import dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -9,7 +9,10 @@ const cors = require('cors');
 const morgan = require('morgan');
 const compression = require('compression');
 const helmet = require('helmet');
-const fetch = require('node-fetch'); // Ensure this is imported
+
+// For Node.js versions >= 18, 'fetch' is globally available.
+// For earlier versions, uncomment the following line:
+// const fetch = require('node-fetch');
 
 // Initialize dotenv to read environment variables
 dotenv.config();
@@ -62,25 +65,7 @@ app.get('/', (req, res) => {
 
 // Define Mongoose schemas and models
 
-// 1. CreditCard Schema and Model
-const creditCardSchema = new mongoose.Schema({
-  CardNumber: String,
-  ExpirationDate: String,
-  CVV: String,
-  BillingName: String,
-  Zip: String,
-  FundsAvailable: Number,
-  CardBrand: String,
-  MockEndpoint: String,
-});
-
-const CreditCard = mongoose.model(
-  'CreditCard',
-  creditCardSchema,
-  'Credit-Card-Sample'
-);
-
-// 2. Order Schema and Model
+// Order Schema and Model
 const orderSchema = new mongoose.Schema({
   OrderID: String,
   CustomerEmail: String,
@@ -132,18 +117,17 @@ module.exports = Order;
 
 // API route to get a specific order by OrderID
 app.get('/api/orders/:orderId', async (req, res) => {
-    const { orderId } = req.params;
-    try {
-        const order = await Order.findOne({ OrderID: orderId }).select('-__v'); // Exclude the __v field from the result
-        if (!order) {
-            return res.status(404).json({ message: 'Order not found' });
-        }
-        res.json(order);  // The response will not include the __v field
-    } catch (err) {
-        res.status(500).json({ message: 'Failed to retrieve order', error: err.message });
+  const { orderId } = req.params;
+  try {
+    const order = await Order.findOne({ OrderID: orderId }).select('-__v'); // Exclude the __v field from the result
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
     }
+    res.json(order); // The response will not include the __v field
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to retrieve order', error: err.message });
+  }
 });
-
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
@@ -157,58 +141,40 @@ app.post('/api/checkout', async (req, res) => {
     billingAddress,
     paymentDetails,
     orderTotal,
+    testEndpoint, // Get the selected mock endpoint from the request body
   } = req.body;
 
   // Auto-generate OrderID for new orders
   const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
 
   try {
-    // Step 1: Validate card details against Credit-Card-Sample collection
-    const card = await CreditCard.findOne({
-      CardNumber: paymentDetails.cardNumber,
-      ExpirationDate: paymentDetails.expDate,
-      CVV: paymentDetails.cvv,
-      BillingName: paymentDetails.cardHolderName,
-      Zip: billingAddress.zipCode,
-    });
+    let mockEndpointUrl = '';
 
-    let paymentResult = {}; // We'll use the response from the mock endpoint
-
-    if (!card) {
-      // Card details are incorrect
-      const response = await fetch(
-        'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails'
-      );
-      const data = await response.json();
-
-      paymentResult = data;
-    } else if (orderTotal > card.FundsAvailable) {
-      // Insufficient funds
-      const response = await fetch(
-        'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient'
-      );
-      const data = await response.json();
-
-      paymentResult = data;
-    } else {
-      // Successful transaction
-      const response = await fetch(
-        'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success'
-      );
-      const data = await response.json();
-
-      paymentResult = data;
-
-      // Update FundsAvailable in CreditCard document
-      card.FundsAvailable -= orderTotal;
-      await card.save();
+    // Determine which mock endpoint to call based on testEndpoint
+    switch (testEndpoint) {
+      case 'success':
+        mockEndpointUrl =
+          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
+        break;
+      case 'insufficient':
+        mockEndpointUrl =
+          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient';
+        break;
+      case 'incorrect':
+        mockEndpointUrl =
+          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
+        break;
+      default:
+        // Default to success endpoint if none selected
+        mockEndpointUrl =
+          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
     }
 
-    // Since the mock endpoints include "OrderId", which we don't need, we can ignore it
-    // Also, replace any placeholder data in the response (like "ORD000123") with actual data
-    // For example, adjust the Reason to include the last 4 digits of the card number
+    // Make the API call to the selected mock endpoint
+    const response = await fetch(mockEndpointUrl);
+    const paymentResult = await response.json();
 
-    // Modify paymentResult to include actual card information
+    // Modify paymentResult to include actual card information if needed
     if (paymentResult.Reason) {
       paymentResult.Reason = paymentResult.Reason.replace(
         'XXXX',
@@ -216,64 +182,69 @@ app.post('/api/checkout', async (req, res) => {
       );
     }
 
-  // Determine PaymentStatus and related fields based on paymentResult
-  let paymentStatus;
-  let authorizationAmount;
-  let authorizationToken;
-  let authorizationExpirationDate;
-  let warehouseStatus;
+    // Determine PaymentStatus and related fields based on paymentResult
+    let paymentStatus;
+    let authorizationAmount;
+    let authorizationToken;
+    let authorizationExpirationDate;
+    let warehouseStatus;
 
-  if (paymentResult.Success) {
-    paymentStatus = 'Success';
-    authorizationAmount = paymentResult.AuthorizedAmount || orderTotal;
-    authorizationToken = paymentResult.AuthorizationToken
-      ? `${orderId}_${paymentResult.AuthorizationToken}`
-      : null;
-    authorizationExpirationDate = paymentResult.TokenExpirationDate
-      ? new Date(paymentResult.TokenExpirationDate)
-      : null;
-    warehouseStatus = 'Pending';
-  } else {
-    // Determine specific failure reason
-    if (paymentResult.Reason && paymentResult.Reason.includes('insufficient')) {
-      paymentStatus = 'Failure - Insufficient Funds';
-    } else if (paymentResult.Reason && paymentResult.Reason.includes('incorrect')) {
-      paymentStatus = 'Failure - Incorrect Card Details';
+    if (paymentResult.Success) {
+      paymentStatus = 'Success';
+      authorizationAmount = paymentResult.AuthorizedAmount || orderTotal;
+      authorizationToken = paymentResult.AuthorizationToken
+        ? `${orderId}_${paymentResult.AuthorizationToken}`
+        : null;
+      authorizationExpirationDate = paymentResult.TokenExpirationDate
+        ? new Date(paymentResult.TokenExpirationDate)
+        : null;
+      warehouseStatus = 'Pending';
     } else {
-      paymentStatus = 'Failure - Unknown Reason';
+      // Determine specific failure reason
+      if (
+        paymentResult.Reason &&
+        paymentResult.Reason.toLowerCase().includes('insufficient')
+      ) {
+        paymentStatus = 'Failure - Insufficient Funds';
+      } else if (
+        paymentResult.Reason &&
+        paymentResult.Reason.toLowerCase().includes('incorrect')
+      ) {
+        paymentStatus = 'Failure - Incorrect Card Details';
+      } else {
+        paymentStatus = 'Failure - Unknown Reason';
+      }
+      authorizationAmount = 0;
+      authorizationToken = null;
+      authorizationExpirationDate = null;
+      warehouseStatus = 'N/A';
     }
-    authorizationAmount = 0;
-    authorizationToken = null;
-    authorizationExpirationDate = null;
-    warehouseStatus = 'N/A';
-  }
 
-// Now create a new order document, including paymentResult
-const orderDateTime = new Date();  // Current date and time
-const orderDate = orderDateTime.toISOString().split('T')[0];  // Extract the date part (YYYY-MM-DD)
-const orderTime = orderDateTime.toTimeString().split(' ')[0];  // Extract the time part (HH:MM:SS)
+    // Create a new order document, including paymentResult
+    const orderDateTime = new Date(); // Current date and time
+    const orderDate = orderDateTime.toISOString().split('T')[0]; // Date part (YYYY-MM-DD)
+    const orderTime = orderDateTime.toTimeString().split(' ')[0]; // Time part (HH:MM:SS)
 
-const newOrder = new Order({
-  OrderID: orderId,
-  CustomerEmail: email,
-  FirstName: firstName,
-  LastName: lastName,
+    const newOrder = new Order({
+      OrderID: orderId,
+      CustomerEmail: email,
+      FirstName: firstName,
+      LastName: lastName,
 
-  // Shipping Information
-  ShippingMethod: shippingMethod,
-  ShippingAddress: shippingAddress.address,
-  ShippingCity: shippingAddress.city,
-  ShippingState: shippingAddress.state,
-  ShippingZip: shippingAddress.zip,
-  ShippingUnitNumber: shippingAddress.unitNumber,
+      // Shipping Information
+      ShippingMethod: shippingMethod,
+      ShippingAddress: shippingAddress.address,
+      ShippingCity: shippingAddress.city,
+      ShippingState: shippingAddress.state,
+      ShippingZip: shippingAddress.zip,
+      ShippingUnitNumber: shippingAddress.unitNumber,
 
-  // Billing Information
-  BillingAddress: billingAddress.address,
-  BillingCity: billingAddress.city,
-  BillingState: billingAddress.state,
-  BillingZipCode: billingAddress.zipCode,
-  BillingUnitNumber: billingAddress.unitNumber,
-
+      // Billing Information
+      BillingAddress: billingAddress.address,
+      BillingCity: billingAddress.city,
+      BillingState: billingAddress.state,
+      BillingZipCode: billingAddress.zipCode,
+      BillingUnitNumber: billingAddress.unitNumber,
 
       // Payment and Order Details
       TotalAmount: orderTotal,
@@ -289,40 +260,38 @@ const newOrder = new Order({
       AuthorizationExpirationDate: authorizationExpirationDate,
       WarehouseStatus: warehouseStatus,
       WarehouseApprovalDate: null,
+      PaymentResult: paymentResult, // Include the paymentResult object
     });
-
 
     await newOrder.save();
 
     res.json({
-        message: paymentStatus === 'Success'
+      message:
+        paymentStatus === 'Success'
           ? 'Order saved successfully!'
           : `Order failed: ${paymentStatus.replace('Failure - ', '')}`,
-        orderId: orderId,
-      });
-    } catch (error) {
-      console.error('Error during order processing:', error.message);
-      res.status(500).json({
-        message: 'Server error during order processing',
-        error: error.message,
-      });
-    }
-  });
+      orderId: orderId,
+    });
+  } catch (error) {
+    console.error('Error during order processing:', error.message);
+    res.status(500).json({
+      message: 'Server error during order processing',
+      error: error.message,
+    });
+  }
+});
 
 // Route to fetch all orders (for Order Management UI)
 app.get('/api/orders', async (req, res) => {
-    try {
-      const fetchStart = Date.now(); // Track how long it takes to fetch orders
-      const orders = await Order.find().select('-__v'); // Exclude the __v field
-      console.log(`Fetching all orders took ${Date.now() - fetchStart}ms`);
-      res.json(orders); // Send the orders to the frontend
-    } catch (err) {
-      res
-        .status(500)
-        .json({ message: 'Failed to retrieve orders', error: err.message });
-    }
-  });
-  
+  try {
+    const fetchStart = Date.now(); // Track how long it takes to fetch orders
+    const orders = await Order.find().select('-__v'); // Exclude the __v field
+    console.log(`Fetching all orders took ${Date.now() - fetchStart}ms`);
+    res.json(orders); // Send the orders to the frontend
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to retrieve orders', error: err.message });
+  }
+});
 
 // Route for Warehouse UI to settle orders
 app.post('/api/settle-shipment', async (req, res) => {
@@ -372,9 +341,7 @@ app.post('/api/settle-shipment', async (req, res) => {
     }
   } catch (err) {
     console.error('Error during shipment settlement:', err.message);
-    return res
-      .status(500)
-      .json({ message: 'Unable to access the database.', error: err.message });
+    return res.status(500).json({ message: 'Unable to access the database.', error: err.message });
   }
 });
 

@@ -1947,3 +1947,19 @@ header {
 }
 
 
+.test-endpoint-selector {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .test-endpoint-selector label {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+  }
+  
+  .test-endpoint-selector select {
+    padding: 10px;
+    font-size: 1em;
+  }
+  
