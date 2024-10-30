@@ -1,3 +1,115 @@
+// Place the following code outside of any function or event listener
+
+// Define Google Autocomplete fields and component mappings
+const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
+const ADDRESS_COMPONENT_TYPES = {
+    shipping: {
+        address: 'address',
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        country: 'country'
+    },
+    billing: {
+        address: 'billingAddress',
+        city: 'billingCity',
+        state: 'billingState',
+        zip: 'billingZipCode'
+    }
+};
+
+// Helper function to get input by component type for Shipping or Billing sections
+function getAddressInputElement(section, componentType) {
+    return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
+}
+
+// Fill the input fields for address components
+function fillInAddressFields(place, section) {
+    function getComponent(componentType) {
+        for (const component of place.address_components || []) {
+            if (component.types.includes(componentType)) {
+                return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ? component.short_name : component.long_name;
+            }
+        }
+        return '';
+    }
+
+    // Assign values to each field
+    const addressInput = getAddressInputElement(section, 'address');
+    if (addressInput) {
+        const streetNumber = getComponent('street_number');
+        const route = getComponent('route');
+        addressInput.value = `${streetNumber} ${route}`.trim();
+    }
+
+    const cityInput = getAddressInputElement(section, 'city');
+    if (cityInput) {
+        cityInput.value = getComponent('locality');
+    }
+
+    const stateInput = getAddressInputElement(section, 'state');
+    if (stateInput) {
+        stateInput.value = getComponent('administrative_area_level_1');
+    }
+
+    const zipInput = getAddressInputElement(section, 'zip');
+    if (zipInput) {
+        zipInput.value = getComponent('postal_code');
+    }
+
+    const countryInput = getAddressInputElement(section, 'country');
+    if (countryInput) {
+        countryInput.value = getComponent('country');
+    }
+}
+
+// Initialize Google Autocomplete for both Shipping and Billing address inputs
+function initAddressAutocompletes() {
+    function initialize() {
+        // Shipping address autocomplete
+        const shippingAddressInput = document.getElementById('address');
+        if (shippingAddressInput) {
+            const shippingAutocomplete = new google.maps.places.Autocomplete(
+                shippingAddressInput,
+                { types: ['address'] }
+            );
+
+            shippingAutocomplete.addListener('place_changed', () => {
+                const place = shippingAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert(`No details available for input: '${place.name}'`);
+                    return;
+                }
+                fillInAddressFields(place, 'shipping');
+            });
+        }
+
+        // Billing address autocomplete
+        const billingAddressInput = document.getElementById('billingAddress');
+        if (billingAddressInput) {
+            const billingAutocomplete = new google.maps.places.Autocomplete(
+                billingAddressInput,
+                { types: ['address'] }
+            );
+
+            billingAutocomplete.addListener('place_changed', () => {
+                const place = billingAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert(`No details available for input: '${place.name}'`);
+                    return;
+                }
+                fillInAddressFields(place, 'billing');
+            });
+        }
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        initialize();
+    } else {
+        document.addEventListener('DOMContentLoaded', initialize);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
@@ -7,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const shippingMessageDiv = document.getElementById('shippingMessage'); // Add this to HTML
     const paymentMessageDiv = document.getElementById('paymentMessage');   // Add this to HTML
     const discountMessageDiv = document.getElementById('discountMessage'); // Already exists
-
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
@@ -55,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingOverlay.setAttribute('aria-hidden', 'true');
     }
 
-    // Function to validate a specific section
+    // Enhanced validation function
     function validateSection(requiredFields) {
         let isValid = true;
         requiredFields.forEach(fieldId => {
@@ -63,73 +174,50 @@ document.addEventListener('DOMContentLoaded', function () {
             const label = document.querySelector(`label[for="${fieldId}"]`);
 
             if (!field.value.trim()) {
-                field.style.border = '2px solid red'; // Highlight empty fields
-                addAsteriskForMissingFields(fieldId); // Add asterisk for missing fields
+                field.classList.add('invalid');
+                addAsteriskForMissingFields(fieldId);
                 isValid = false;
             } else {
-                field.style.border = ''; // Reset border if filled
-                const asterisk = label?.querySelector('.asterisk');
-                if (asterisk) {
-                    asterisk.remove();
+                // Specific format validations
+                if (field.type === 'email' && !validateEmail(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(shippingMessageDiv, 'Please enter a valid email address.', 'error');
+                    isValid = false;
+                } else if (field.type === 'tel' && !validatePhone(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(shippingMessageDiv, 'Please enter a valid phone number.', 'error');
+                    isValid = false;
+                } else {
+                    field.classList.remove('invalid');
+                    const asterisk = label?.querySelector('.asterisk');
+                    if (asterisk) {
+                        asterisk.remove();
+                    }
                 }
             }
         });
         return isValid;
     }
 
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    function validatePhone(phone) {
+        const re = /^\(\d{3}\) \d{3}-\d{4}$/;
+        return re.test(phone);
+    }
+
     // Function to validate the shipping method (radio button)
     function validateShippingMethod() {
         const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
         if (!shippingMethod) {
-            displayMessage('Please select a shipping method.', 'error');
+            displayMessage(shippingMessageDiv, 'Please select a shipping method.', 'error');
             return false;
         }
         return true;
     }
-
-// Enhanced validation function
-function validateSection(requiredFields) {
-    let isValid = true;
-    requiredFields.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        const label = document.querySelector(`label[for="${fieldId}"]`);
-
-        if (!field.value.trim()) {
-            field.classList.add('invalid');
-            addAsteriskForMissingFields(fieldId);
-            isValid = false;
-        } else {
-            // Specific format validations
-            if (field.type === 'email' && !validateEmail(field.value)) {
-                field.classList.add('invalid');
-                displayMessage(shippingMessageDiv, 'Please enter a valid email address.', 'error');
-                isValid = false;
-            } else if (field.type === 'tel' && !validatePhone(field.value)) {
-                field.classList.add('invalid');
-                displayMessage(shippingMessageDiv, 'Please enter a valid phone number.', 'error');
-                isValid = false;
-            } else {
-                field.classList.remove('invalid');
-                const asterisk = label?.querySelector('.asterisk');
-                if (asterisk) {
-                    asterisk.remove();
-                }
-            }
-        }
-    });
-    return isValid;
-}
-
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-}
-
-function validatePhone(phone) {
-    const re = /^\(\d{3}\) \d{3}-\d{4}$/;
-    return re.test(phone);
-}
-
 
     // Function to collapse current section and open the next
     function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields) {
@@ -155,7 +243,6 @@ function validatePhone(phone) {
                 }
             }
         } else {
-            // displayMessage('Please complete all required fields in this section.', 'error');
             // The validate functions already handle messaging
         }
     }
@@ -403,12 +490,12 @@ function validatePhone(phone) {
         return today >= exp;
     };
 
-        // Update the displayMessage function to accept a target div
-        const displayMessage = (targetDiv, message, type) => {
-            targetDiv.textContent = message;
-            targetDiv.className = `message ${type}`;
-            targetDiv.style.display = 'block';
-        };
+    // Update the displayMessage function to accept a target div
+    const displayMessage = (targetDiv, message, type) => {
+        targetDiv.textContent = message;
+        targetDiv.className = `message ${type}`;
+        targetDiv.style.display = 'block';
+    };
 
     /* ------------------ NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
 
@@ -495,7 +582,7 @@ function validatePhone(phone) {
         // Validate payment section before final submission
         const isSection2Valid = validateSection(requiredFieldsSection2);
         if (!isSection2Valid) {
-            displayMessage('Please complete all required payment fields.', 'error');
+            displayMessage(paymentMessageDiv, 'Please complete all required payment fields.', 'error');
             hideLoading(); // Ensure loading overlay is hidden on error
             return;
         }
@@ -522,7 +609,7 @@ function validatePhone(phone) {
 
         // Check card expiration
         if (isCardExpired(expDate)) {
-            displayMessage('Error: Your card has expired.', 'error');
+            displayMessage(paymentMessageDiv, 'Error: Your card has expired.', 'error');
             hideLoading();
             return;
         }
@@ -531,7 +618,7 @@ function validatePhone(phone) {
         const cardBrand = getCardBrand(cardNumber);
 
         if (cardBrand === 'Unknown') {
-            displayMessage('Error: Unknown card brand. Please check your card number.', 'error');
+            displayMessage(paymentMessageDiv, 'Error: Unknown card brand. Please check your card number.', 'error');
             hideLoading();
             return;
         }
@@ -592,14 +679,14 @@ function validatePhone(phone) {
             const result = await response.json();
 
             if (response.ok) {
-                displayMessage(`Order submitted successfully! Order ID: ${result.orderId}`, 'success');
+                displayMessage(messageDiv, `Order submitted successfully! Order ID: ${result.orderId}`, 'success');
                 popupOverlay.classList.add('show'); // Show success popup
             } else {
-                displayMessage(`Error: ${result.message}`, 'error');
+                displayMessage(messageDiv, `Error: ${result.message}`, 'error');
             }
         } catch (error) {
             console.error('Error during order submission:', error);
-            displayMessage('Error: Something went wrong during order submission!', 'error');
+            displayMessage(messageDiv, 'Error: Something went wrong during order submission!', 'error');
         }
         finally {
             // Hide the loading screen regardless of success or failure
@@ -769,7 +856,7 @@ function validatePhone(phone) {
             });
         }
     });
-    
+
 
     // Navbar toggler for mobile view
     const navbarToggler = document.querySelector(".navbar-toggler");
@@ -782,118 +869,4 @@ function validatePhone(phone) {
             navbarCollapse.classList.toggle("show");
         });
     }
-
-    /* ------------------ GOOGLE AUTOCOMPLETE INTEGRATION ------------------ */
-
-    // Define Google Autocomplete fields and component mappings
-    const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
-    const ADDRESS_COMPONENT_TYPES = {
-        shipping: {
-            address: 'address',
-            city: 'city',
-            state: 'state',
-            zip: 'zip',
-            country: 'country'
-        },
-        billing: {
-            address: 'billingAddress',
-            city: 'billingCity',
-            state: 'billingState',
-            zip: 'billingZipCode'
-        }
-    };
-
-    // Helper function to get input by component type for Shipping or Billing sections
-    function getAddressInputElement(section, componentType) {
-        return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
-    }
-
-    // Fill the input fields for address components
-    function fillInAddressFields(place, section) {
-        function getComponent(componentType) {
-            for (const component of place.address_components || []) {
-                if (component.types.includes(componentType)) {
-                    return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ? component.short_name : component.long_name;
-                }
-            }
-            return '';
-        }
-
-        // Assign values to each field
-        const addressInput = getAddressInputElement(section, 'address');
-        if (addressInput) {
-            const streetNumber = getComponent('street_number');
-            const route = getComponent('route');
-            addressInput.value = `${streetNumber} ${route}`.trim();
-        }
-
-        const cityInput = getAddressInputElement(section, 'city');
-        if (cityInput) {
-            cityInput.value = getComponent('locality');
-        }
-
-        const stateInput = getAddressInputElement(section, 'state');
-        if (stateInput) {
-            stateInput.value = getComponent('administrative_area_level_1');
-        }
-
-        const zipInput = getAddressInputElement(section, 'zip');
-        if (zipInput) {
-            zipInput.value = getComponent('postal_code');
-        }
-
-        const countryInput = getAddressInputElement(section, 'country');
-        if (countryInput) {
-            countryInput.value = getComponent('country');
-        }
-    }
-
-    // Initialize Google Autocomplete for both Shipping and Billing address inputs
-    function initAddressAutocompletes() {
-        // Shipping address autocomplete
-        const shippingAddressInput = document.getElementById('address');
-        if (shippingAddressInput) {
-            const shippingAutocomplete = new google.maps.places.Autocomplete(
-                shippingAddressInput,
-                { types: ['address'] }
-            );
-
-            shippingAutocomplete.addListener('place_changed', () => {
-                const place = shippingAutocomplete.getPlace();
-                if (!place.geometry) {
-                    alert(`No details available for input: '${place.name}'`);
-                    return;
-                }
-                fillInAddressFields(place, 'shipping');
-            });
-        }
-
-        // Billing address autocomplete
-        const billingAddressInput = document.getElementById('billingAddress');
-        if (billingAddressInput) {
-            const billingAutocomplete = new google.maps.places.Autocomplete(
-                billingAddressInput,
-                { types: ['address'] }
-            );
-
-            billingAutocomplete.addListener('place_changed', () => {
-                const place = billingAutocomplete.getPlace();
-                if (!place.geometry) {
-                    alert(`No details available for input: '${place.name}'`);
-                    return;
-                }
-                fillInAddressFields(place, 'billing');
-            });
-        }
-    }
-
-    // Initialize the Autocomplete after Google Maps API is loaded
-    if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-        initAddressAutocompletes();
-    } else {
-        console.error('Google Maps JavaScript API is not loaded.');
-    }
-
-    /* ------------------ END OF GOOGLE AUTOCOMPLETE INTEGRATION ------------------ */
-
-});
+}); // End of DOMContentLoaded event listener
