@@ -131,6 +131,7 @@ app.get('/api/orders/:orderId', async (req, res) => {
 
 // Route to handle order creation and authorization
 app.post('/api/checkout', async (req, res) => {
+  console.log('Received checkout request:', req.body);
   const {
     firstName,
     lastName,

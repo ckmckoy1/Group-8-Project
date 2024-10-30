@@ -1946,20 +1946,35 @@ header {
     display: flex;
 }
 
-
 .test-endpoint-selector {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-  }
-  
-  .test-endpoint-selector label {
-    font-size: 0.9em;
-    margin-bottom: 5px;
-  }
-  
-  .test-endpoint-selector select {
+    margin-top: 20px;
     padding: 10px;
+    border: 2px dashed #FF6347; /* Highlight the testing feature with a border */
+    border-radius: 5px;
+    background-color: #FFF3E0; /* Light background color to differentiate */
+    color: #d9534f;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+}
+
+.testing-icon {
+    margin-right: 8px;
+    font-size: 1.5em;
+}
+
+.test-label {
+    margin-right: 10px;
+    font-size: 1.1em;
+    color: #d9534f;
+}
+
+.test-dropdown {
+    padding: 5px;
     font-size: 1em;
-  }
-  
+    font-weight: bold;
+    color: #d9534f;
+    background-color: #FFEBE8;
+    border: 1px solid #d9534f;
+    border-radius: 3px;
+}

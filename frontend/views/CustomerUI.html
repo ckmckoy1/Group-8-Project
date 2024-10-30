@@ -474,16 +474,20 @@
                             <!-- Review Order Section -->
                             <div id="reviewMessage" class="message"></div>
 
-                            <button type="submit" class="submit-button">PLACE ORDER</button>
-                            <!-- Add the dropdown menu next to the button -->
+                            <!-- Add the dropdown menu for testing purposes -->
                             <div class="test-endpoint-selector">
-                                <label for="test-endpoint">Select Mock Endpoint (Testing Purposes):</label>
-                                <select id="test-endpoint" name="testEndpoint">
-                                <option value="success">Option 1 (Success Endpoint)</option>
-                                <option value="insufficient">Option 2 (Insufficient Funds Endpoint)</option>
-                                <option value="incorrect">Option 3 (Incorrect Card Details Endpoint)</option>
+                                <span class="testing-icon">🛠️</span> <!-- An icon to indicate testing -->
+                                <label for="test-endpoint" class="test-label">Select Mock Endpoint (Testing Purposes):</label>
+                                <select id="test-endpoint" name="testEndpoint" class="test-dropdown">
+                                    <option value="success">Option 1 (Success Endpoint)</option>
+                                    <option value="insufficient">Option 2 (Insufficient Funds Endpoint)</option>
+                                    <option value="incorrect">Option 3 (Incorrect Card Details Endpoint)</option>
                                 </select>
                             </div>
+
+
+                            <button type="submit" class="submit-button">PLACE ORDER</button>
+
                             <div class="review-group agreement">
                                 <p>By placing your order, you agree to Wild Path Outfitters' <a href="#">Privacy Policy</a> and <a href="#">Terms of Sale</a>.</p>
                             </div>
