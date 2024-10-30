@@ -1,11 +1,115 @@
-// checkout.js
+// Helper functions and variables
+const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
+const ADDRESS_COMPONENT_TYPES = {
+    shipping: {
+        address: 'address',
+        city: 'city',
+        state: 'state',
+        zip: 'zip',
+        country: 'country'
+    },
+    billing: {
+        address: 'billingAddress',
+        city: 'billingCity',
+        state: 'billingState',
+        zip: 'billingZipCode',
+        country: 'billingCountry' // Make sure to have this in your HTML if needed
+    }
+};
+
+// Function to get the address input element by section and component type
+function getAddressInputElement(section, componentType) {
+    return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
+}
+
+// Function to fill in address fields based on the Google Place object
+function fillInAddressFields(place, section) {
+    function getComponent(componentType) {
+        for (const component of place.address_components || []) {
+            if (component.types.includes(componentType)) {
+                return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ? component.short_name : component.long_name;
+            }
+        }
+        return '';
+    }
+
+    // Assign values to each field
+    const addressInput = getAddressInputElement(section, 'address');
+    if (addressInput) {
+        const streetNumber = getComponent('street_number');
+        const route = getComponent('route');
+        addressInput.value = `${streetNumber} ${route}`.trim();
+    }
+
+    const cityInput = getAddressInputElement(section, 'city');
+    if (cityInput) {
+        cityInput.value = getComponent('locality');
+    }
+
+    const stateInput = getAddressInputElement(section, 'state');
+    if (stateInput) {
+        stateInput.value = getComponent('administrative_area_level_1');
+    }
+
+    const zipInput = getAddressInputElement(section, 'zip');
+    if (zipInput) {
+        zipInput.value = getComponent('postal_code');
+    }
+
+    const countryInput = getAddressInputElement(section, 'country');
+    if (countryInput) {
+        countryInput.value = getComponent('country');
+    }
+}
+
+// Initialize Google Address Autocomplete for shipping and billing addresses
+function initAddressAutocompletes() {
+    // Shipping address autocomplete
+    const shippingAddressInput = document.getElementById('address');
+    if (shippingAddressInput) {
+        const shippingAutocomplete = new google.maps.places.Autocomplete(
+            shippingAddressInput,
+            { types: ['address'] }
+        );
+
+        shippingAutocomplete.addListener('place_changed', () => {
+            const place = shippingAutocomplete.getPlace();
+            if (!place.geometry) {
+                alert(`No details available for input: '${place.name}'`);
+                return;
+            }
+            fillInAddressFields(place, 'shipping');
+        });
+    }
+
+    // Billing address autocomplete
+    const billingAddressInput = document.getElementById('billingAddress');
+    if (billingAddressInput) {
+        const billingAutocomplete = new google.maps.places.Autocomplete(
+            billingAddressInput,
+            { types: ['address'] }
+        );
+
+        billingAutocomplete.addListener('place_changed', () => {
+            const place = billingAutocomplete.getPlace();
+            if (!place.geometry) {
+                alert(`No details available for input: '${place.name}'`);
+                return;
+            }
+            fillInAddressFields(place, 'billing');
+        });
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
-    const messageDiv = document.getElementById('message'); // Ensure this element exists in your HTML
+    const messageDiv = document.getElementById('message');
     const loadingOverlay = document.getElementById('loadingOverlay');
+    const shippingMessageDiv = document.getElementById('shippingMessage');
+    const paymentMessageDiv = document.getElementById('paymentMessage');
+    const discountMessageDiv = document.getElementById('discountMessage');
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
@@ -13,14 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Order Total (Assuming $50.00 for this example)
     const orderTotal = 50.00;
-
-    // Event listener for payment method change
-    const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
-    paymentMethodInputs.forEach(input => {
-        input.addEventListener('change', function () {
-            handlePaymentMethodChange();
-        });
-    });
 
     // Shipping methods mapping
     const shippingMethods = {
@@ -53,91 +149,205 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingOverlay.setAttribute('aria-hidden', 'true');
     }
 
-    // Function to validate a specific section
-    function validateSection(requiredFields) {
+    // Function to display messages
+    const displayMessage = (targetDiv, message, type) => {
+        targetDiv.textContent = message;
+        targetDiv.className = `message ${type}`;
+        targetDiv.style.display = 'block';
+    };
+
+    // Enhanced validation function
+    function validateSection(requiredFields, messageDiv) {
         let isValid = true;
         requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             const label = document.querySelector(`label[for="${fieldId}"]`);
 
             if (!field.value.trim()) {
-                field.style.border = '2px solid red'; // Highlight empty fields
-                addAsteriskForMissingFields(fieldId); // Add asterisk for missing fields
+                field.classList.add('invalid');
+                addAsteriskForMissingFields(fieldId);
                 isValid = false;
             } else {
-                field.style.border = ''; // Reset border if filled
-                const asterisk = label?.querySelector('.asterisk');
-                if (asterisk) {
-                    asterisk.remove();
+                // Specific format validations
+                if (field.type === 'email' && !validateEmail(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(messageDiv, 'Please enter a valid email address.', 'error');
+                    isValid = false;
+                } else if (field.type === 'tel' && !validatePhone(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(messageDiv, 'Please enter a valid phone number.', 'error');
+                    isValid = false;
+                } else if (field.id === 'cardNumber' && !validateCardNumber(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(messageDiv, 'Please enter a valid card number.', 'error');
+                    isValid = false;
+                } else if (field.id === 'expDate' && !validateExpDate(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(messageDiv, 'Please enter a valid expiration date.', 'error');
+                    isValid = false;
+                } else {
+                    field.classList.remove('invalid');
+                    const asterisk = label?.querySelector('.asterisk');
+                    if (asterisk) {
+                        asterisk.remove();
+                    }
                 }
             }
         });
+
+        if (!isValid) {
+            displayMessage(messageDiv, 'Please complete all required fields.', 'error');
+        }
+
         return isValid;
+    }
+
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    function validatePhone(phone) {
+        const re = /^\(\d{3}\) \d{3}-\d{4}$/;
+        return re.test(phone);
+    }
+
+    function validateCardNumber(number) {
+        const sanitized = number.replace(/\s/g, '');
+        const re = /^\d{14,16}$/; // Card number should be 14 to 16 digits
+        return re.test(sanitized);
+    }
+
+    function validateExpDate(expDate) {
+        const [month, year] = expDate.split('/');
+        if (!month || !year) return false;
+        const monthNum = parseInt(month, 10);
+        const yearNum = parseInt(year, 10);
+        if (isNaN(monthNum) || isNaN(yearNum)) return false;
+        if (monthNum < 1 || monthNum > 12) return false;
+        return true;
     }
 
     // Function to validate the shipping method (radio button)
     function validateShippingMethod() {
         const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
         if (!shippingMethod) {
-            alert('Please select a shipping method.');
+            displayMessage(shippingMessageDiv, 'Please select a shipping method.', 'error');
             return false;
         }
         return true;
     }
 
     // Function to collapse current section and open the next
-    function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields) {
-        const isValid = validateSection(requiredFields);
-        const isShippingValid = validateShippingMethod();
+    function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields, messageDiv) {
+        const isValid = validateSection(requiredFields, messageDiv);
+
+        let isShippingValid = true;
+        if (currentSectionId === 'shippingSection') {
+            isShippingValid = validateShippingMethod();
+        }
 
         if (isValid && isShippingValid) {
             // Collapse current section
-            document.getElementById(currentSectionId).querySelector('.form-content').style.display = 'none';
+            const currentSection = document.getElementById(currentSectionId);
+            if (currentSection) {
+                const formContent = currentSection.querySelector('.form-content');
+                if (formContent) {
+                    formContent.style.display = 'none';
+                }
+            }
+
             // Open the next section
-            document.getElementById(nextSectionId).querySelector('.form-content').style.display = 'block';
-        } else {
-            alert('Please complete all required fields in this section.');
+            const nextSection = document.getElementById(nextSectionId);
+            if (nextSection) {
+                const formContent = nextSection.querySelector('.form-content');
+                if (formContent) {
+                    formContent.style.display = 'block';
+                }
+            }
         }
     }
 
     // Section 1: Continue to Payment (validates Section 1 fields)
     continueToPaymentBtn.addEventListener('click', function () {
-        collapseSectionWithValidation('shippingSection', 'paymentSection', requiredFieldsSection1);
+        collapseSectionWithValidation('shippingSection', 'paymentSection', requiredFieldsSection1, shippingMessageDiv);
     });
 
     // Section 2: Continue to Review (validates Section 2 fields)
     continueToReviewBtn.addEventListener('click', function () {
-        collapseSectionWithValidation('paymentSection', 'reviewOrderSection', requiredFieldsSection2);
+        collapseSectionWithValidation('paymentSection', 'reviewOrderSection', requiredFieldsSection2, paymentMessageDiv);
     });
 
     // Auto-format phone number as (###) ###-####
-    document.getElementById('phone').addEventListener('input', function (e) {
-        let input = e.target.value.replace(/\D/g, '');
-        if (input.length <= 3) {
-            input = '(' + input;
-        } else if (input.length <= 6) {
-            input = '(' + input.substring(0, 3) + ') ' + input.substring(3);
-        } else {
-            input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6, 10);
-        }
-        e.target.value = input.substring(0, 14);
-    });
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
+            if (input.length <= 3) {
+                input = '(' + input;
+            } else if (input.length <= 6) {
+                input = '(' + input.substring(0, 3) + ') ' + input.substring(3);
+            } else {
+                input = '(' + input.substring(0, 3) + ') ' + input.substring(3, 6) + '-' + input.substring(6, 10);
+            }
+            e.target.value = input.substring(0, 14);
+        });
+    }
 
-    // Auto-format expiration date (MM/YY)
-    document.getElementById('expDate').addEventListener('input', function (e) {
-        let input = e.target.value.replace(/\D/g, '');
-        if (input.length > 2) {
-            input = input.substring(0, 2) + '/' + input.substring(2, 4);
-        }
-        e.target.value = input;
-    });
+    // Auto-format expiration date (MM/YY) and validate in real-time
+    const expDateInput = document.getElementById('expDate');
+    if (expDateInput) {
+        const expDateMessage = document.getElementById('expDateMessage');
+
+        expDateInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
+
+            // Auto-formatting
+            if (input.length > 2) {
+                input = input.substring(0, 2) + '/' + input.substring(2, 4);
+            }
+            e.target.value = input;
+
+            // Real-time expiration date validation
+            if (input.length >= 4) {
+                if (!validateExpDate(expDateInput.value)) {
+                    expDateMessage.textContent = 'Invalid date';
+                    expDateMessage.style.color = 'red';
+                } else if (isCardExpired(expDateInput.value)) {
+                    expDateMessage.textContent = 'Card expired';
+                    expDateMessage.style.color = 'red';
+                } else {
+                    expDateMessage.textContent = '';
+                }
+            } else {
+                expDateMessage.textContent = '';
+            }
+        });
+    }
 
     // Auto-format card number as #### #### #### ####
-    document.getElementById('cardNumber').addEventListener('input', function (e) {
-        // Auto-format the card number
-        let input = e.target.value.replace(/\D/g, '');
-        input = input.match(/.{1,4}/g)?.join(' ') || input;
-        e.target.value = input;
+    const cardNumberInput = document.getElementById('cardNumber');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
+            input = input.match(/.{1,4}/g)?.join(' ') || input;
+            e.target.value = input;
+
+            // Detect card brand and display it
+            const cardBrand = getCardBrand(e.target.value);
+            const cardBrandDisplay = document.getElementById('cardBrandDisplay');
+            if (cardBrandDisplay) {
+                cardBrandDisplay.textContent = cardBrand !== 'Unknown' ? cardBrand : '';
+            }
+        });
+    }
+
+    // Event listener for payment method change
+    const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
+    paymentMethodInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            handlePaymentMethodChange();
+        });
     });
 
     // Function to handle payment method change
@@ -149,20 +359,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const reviewOrderSection = document.getElementById('reviewOrderSection');
 
         if (selectedMethod === 'creditCard') {
-            creditCardFields.style.display = 'block';
-            klarnaPayment.style.display = 'none';
-            paypalPayment.style.display = 'none';
-            reviewOrderSection.style.display = 'block'; // Show Section 3
+            if (creditCardFields) creditCardFields.style.display = 'block';
+            if (klarnaPayment) klarnaPayment.style.display = 'none';
+            if (paypalPayment) paypalPayment.style.display = 'none';
+            if (reviewOrderSection) reviewOrderSection.style.display = 'block'; // Show Section 3
         } else if (selectedMethod === 'klarna') {
-            creditCardFields.style.display = 'none';
-            klarnaPayment.style.display = 'block';
-            paypalPayment.style.display = 'none';
-            reviewOrderSection.style.display = 'none'; // Hide Section 3
+            if (creditCardFields) creditCardFields.style.display = 'none';
+            if (klarnaPayment) klarnaPayment.style.display = 'block';
+            if (paypalPayment) paypalPayment.style.display = 'none';
+            if (reviewOrderSection) reviewOrderSection.style.display = 'none'; // Hide Section 3
         } else if (selectedMethod === 'paypal') {
-            creditCardFields.style.display = 'none';
-            klarnaPayment.style.display = 'none';
-            paypalPayment.style.display = 'block';
-            reviewOrderSection.style.display = 'none'; // Hide Section 3
+            if (creditCardFields) creditCardFields.style.display = 'none';
+            if (klarnaPayment) klarnaPayment.style.display = 'none';
+            if (paypalPayment) paypalPayment.style.display = 'block';
+            if (reviewOrderSection) reviewOrderSection.style.display = 'none'; // Hide Section 3
         }
     }
 
@@ -170,29 +380,32 @@ document.addEventListener('DOMContentLoaded', function () {
     handlePaymentMethodChange();
 
     // Event listener for Klarna button
-    document.getElementById('klarnaButton').addEventListener('click', function () {
-        // Implement your Klarna payment integration here
-        alert('Redirecting to Klarna payment gateway...');
-        // For example, redirect to Klarna checkout page
-        // window.location.href = 'https://www.klarna.com/checkout-url';
-    });
+    const klarnaButton = document.getElementById('klarnaButton');
+    if (klarnaButton) {
+        klarnaButton.addEventListener('click', function () {
+            // Implement your Klarna payment integration here
+            alert('Redirecting to Klarna payment gateway...');
+        });
+    }
 
     // Event listener for PayPal button
-    document.getElementById('paypalButton').addEventListener('click', function () {
-        // Implement your PayPal payment integration here
-        alert('Redirecting to PayPal...');
-        // For example, redirect to PayPal checkout page
-        // window.location.href = 'https://www.paypal.com/checkout-url';
-    });
+    const paypalButton = document.getElementById('paypalButton');
+    if (paypalButton) {
+        paypalButton.addEventListener('click', function () {
+            // Implement your PayPal payment integration here
+            alert('Redirecting to PayPal...');
+        });
+    }
 
+    // Function to determine card brand
     function getCardBrand(number) {
         const sanitized = number.replace(/\D/g, '');
 
         const patterns = [
-            { brand: 'Visa', pattern: /^4[0-9]{12}(?:[0-9]{3})?$/ },
-            { brand: 'MasterCard', pattern: /^(5[1-5][0-9]{14}|2[2-7][0-9]{14})$/ },
-            { brand: 'American Express', pattern: /^3[47][0-9]{13}$/ },
-            { brand: 'Discover', pattern: /^6(?:011|5[0-9]{2})[0-9]{12}$/ },
+            { brand: 'Visa', pattern: /^4[0-9]{0,15}$/ },
+            { brand: 'MasterCard', pattern: /^(5[1-5][0-9]{0,14}|2[2-7][0-9]{0,14})$/ },
+            { brand: 'American Express', pattern: /^3[47][0-9]{0,13}$/ },
+            { brand: 'Discover', pattern: /^6(?:011|5[0-9]{2})[0-9]{0,12}$/ },
             // Add patterns for other card brands if needed
         ];
 
@@ -281,6 +494,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const shippingMethodInputs = document.querySelectorAll('input[name="shippingMethod"]');
     shippingMethodInputs.forEach(input => {
         input.addEventListener('change', function () {
+            updateShippingOptions();
             updateOrderSummary();
         });
     });
@@ -290,46 +504,47 @@ document.addEventListener('DOMContentLoaded', function () {
     updateOrderSummary();
 
     // Event listener for the "Same as Shipping" checkbox
-    document.getElementById('sameAsShipping').addEventListener('change', function (e) {
-        if (e.target.checked) {
-            const shippingAddress = document.getElementById('address').value;
-            const shippingUnitNumber = document.getElementById('unitNumber').value;
-            const shippingCity = document.getElementById('city').value;
-            const shippingState = document.getElementById('state').value;
-            const shippingZip = document.getElementById('zip').value;
+    const sameAsShippingCheckbox = document.getElementById('sameAsShipping');
+    if (sameAsShippingCheckbox) {
+        sameAsShippingCheckbox.addEventListener('change', function (e) {
+            if (e.target.checked) {
+                const shippingAddress = document.getElementById('address').value;
+                const shippingUnitNumber = document.getElementById('unitNumber').value;
+                const shippingCity = document.getElementById('city').value;
+                const shippingState = document.getElementById('state').value;
+                const shippingZip = document.getElementById('zip').value;
 
-            // Copy values from shipping to billing fields
-            document.getElementById('billingAddress').value = shippingAddress || '';
-            document.getElementById('billingUnitNumber').value = shippingUnitNumber || '';
-            document.getElementById('billingCity').value = shippingCity || '';
-            document.getElementById('billingState').value = shippingState || '';
-            document.getElementById('billingZipCode').value = shippingZip || '';
-        } else {
-            // Clear billing address fields when unchecked
-            document.getElementById('billingAddress').value = '';
-            document.getElementById('billingUnitNumber').value = '';
-            document.getElementById('billingCity').value = '';
-            document.getElementById('billingState').value = '';
-            document.getElementById('billingZipCode').value = '';
-        }
-    });
+                // Copy values from shipping to billing fields
+                document.getElementById('billingAddress').value = shippingAddress || '';
+                document.getElementById('billingUnitNumber').value = shippingUnitNumber || '';
+                document.getElementById('billingCity').value = shippingCity || '';
+                document.getElementById('billingState').value = shippingState || '';
+                document.getElementById('billingZipCode').value = shippingZip || '';
+            } else {
+                // Clear billing address fields when unchecked
+                document.getElementById('billingAddress').value = '';
+                document.getElementById('billingUnitNumber').value = '';
+                document.getElementById('billingCity').value = '';
+                document.getElementById('billingState').value = '';
+                document.getElementById('billingZipCode').value = '';
+            }
+        });
+    }
 
     // Validate the expiration date
     const isCardExpired = (expDate) => {
         const today = new Date();
         const [month, year] = expDate.split('/').map(Number);
-        const exp = new Date(`20${year}-${month}-01`);
-        return today > exp;
+        if (!month || !year) return true;
+        if (month < 1 || month > 12) return true;
+        let expYear = year;
+        if (year < 100) {
+            expYear += 2000; // Convert YY to YYYY
+        }
+        const exp = new Date(expYear, month - 1, 1); // Month is 0-indexed
+        exp.setMonth(exp.getMonth() + 1); // Set to the first day of the next month
+        return today >= exp;
     };
-
-    // Function to display error/success messages
-    const displayMessage = (message, type) => {
-        messageDiv.textContent = message;
-        messageDiv.className = `message ${type}`;
-        messageDiv.style.display = 'block';
-    };
-
-    /* ------------------ NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
 
     // Function to mask card number and CVV
     function setupSensitiveDataMasking() {
@@ -402,8 +617,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize masking functionality
     setupSensitiveDataMasking();
 
-    /* ------------------ END OF NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
-
     // Final submission
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -412,9 +625,8 @@ document.addEventListener('DOMContentLoaded', function () {
         showLoading();
 
         // Validate payment section before final submission
-        const isSection2Valid = validateSection(requiredFieldsSection2);
+        const isSection2Valid = validateSection(requiredFieldsSection2, paymentMessageDiv);
         if (!isSection2Valid) {
-            displayMessage('Please complete all required payment fields.', 'error');
             hideLoading(); // Ensure loading overlay is hidden on error
             return;
         }
@@ -441,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Check card expiration
         if (isCardExpired(expDate)) {
-            displayMessage('Error: Your card has expired.', 'error');
+            displayMessage(paymentMessageDiv, 'Error: Your card has expired.', 'error');
             hideLoading();
             return;
         }
@@ -450,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const cardBrand = getCardBrand(cardNumber);
 
         if (cardBrand === 'Unknown') {
-            displayMessage('Error: Unknown card brand. Please check your card number.', 'error');
+            displayMessage(paymentMessageDiv, 'Error: Unknown card brand. Please check your card number.', 'error');
             hideLoading();
             return;
         }
@@ -511,14 +723,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (response.ok) {
-                displayMessage(`Order submitted successfully! Order ID: ${result.orderId}`, 'success');
+                displayMessage(messageDiv, `Order submitted successfully! Order ID: ${result.orderId}`, 'success');
                 popupOverlay.classList.add('show'); // Show success popup
             } else {
-                displayMessage(`Error: ${result.message}`, 'error');
+                displayMessage(messageDiv, `Error: ${result.message}`, 'error');
             }
         } catch (error) {
             console.error('Error during order submission:', error);
-            displayMessage('Error: Something went wrong during order submission!', 'error');
+            displayMessage(messageDiv, 'Error: Something went wrong during order submission!', 'error');
         }
         finally {
             // Hide the loading screen regardless of success or failure
@@ -527,30 +739,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Close popup functionality
-    closePopup.addEventListener('click', () => {
-        popupOverlay.classList.remove('show');
-        // Optionally, reset the form after successful submission
-        // checkoutForm.reset();
-    });
+    if (closePopup) {
+        closePopup.addEventListener('click', () => {
+            popupOverlay.classList.remove('show');
+            // Optionally, reset the form after successful submission
+            // checkoutForm.reset();
+        });
+    }
 
     // Function to toggle sections (if needed)
     window.toggleSection = function (sectionId) {
         const section = document.getElementById(sectionId);
-        const content = section.querySelector('.form-content');
-        if (content.style.display === 'block' || content.style.display === '') {
-            content.style.display = 'none';
-        } else {
-            content.style.display = 'block';
+        if (section) {
+            const content = section.querySelector('.form-content');
+            if (content) {
+                if (content.style.display === 'block' || content.style.display === '') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            }
         }
     };
 
-    /* ------------------ UPDATED CODE FOR ORDER SUMMARY TOGGLE ------------------ */
-
     // Function to handle the toggle of Order Summary Details
     function setupOrderSummaryToggle() {
-        const toggleButton = document.getElementById('toggleButton'); // Reference to the toggle button
-        const toggleArrow = toggleButton.querySelector('.toggle-arrow'); // Reference to the arrow image/SVG within the button
-        const orderDetails = document.getElementById('orderSummaryDetails'); // Reference to the order details section
+        const toggleButton = document.getElementById('toggleButton');
+        const toggleArrow = toggleButton ? toggleButton.querySelector('.toggle-arrow') : null;
+        const orderDetails = document.getElementById('orderSummaryDetails');
 
         if (!toggleButton || !toggleArrow || !orderDetails) {
             console.warn('Order Summary Toggle elements not found in the DOM.');
@@ -562,19 +778,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isHidden) {
                 orderDetails.classList.remove('hidden');
                 orderDetails.classList.add('visible');
-                toggleArrow.classList.add('rotated'); // Rotate the arrow via CSS
-                toggleButton.setAttribute('aria-expanded', 'true'); // Update accessibility attribute
+                toggleArrow.classList.add('rotated');
+                toggleButton.setAttribute('aria-expanded', 'true');
             } else {
                 orderDetails.classList.remove('visible');
                 orderDetails.classList.add('hidden');
-                toggleArrow.classList.remove('rotated'); // Reset the arrow rotation via CSS
-                toggleButton.setAttribute('aria-expanded', 'false'); // Update accessibility attribute
+                toggleArrow.classList.remove('rotated');
+                toggleButton.setAttribute('aria-expanded', 'false');
             }
         }
 
         // Event listener for click
         toggleButton.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default behavior if any
+            event.preventDefault();
             toggleOrderDetails();
         });
 
@@ -587,28 +803,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Initialize the section as expanded
-        orderDetails.classList.add('visible'); // Show order details
-        toggleArrow.classList.add('rotated'); // Rotate the arrow to indicate expanded state
-        toggleButton.setAttribute('aria-expanded', 'true'); // Set accessibility attribute
+        orderDetails.classList.add('visible');
+        toggleArrow.classList.add('rotated');
+        toggleButton.setAttribute('aria-expanded', 'true');
     }
 
     // Call the setup function after DOM content is loaded
     setupOrderSummaryToggle();
 
-    /* ------------------ END OF UPDATED CODE FOR ORDER SUMMARY TOGGLE ------------------ */
-
-    /* ------------------ NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
-
     // Function to handle the toggle of Discounts Items
     function setupDiscountsToggle() {
         const toggleButtons = document.querySelectorAll('.toggle-discount');
+
+        if (toggleButtons.length === 0) {
+            console.warn('No toggle-discount buttons found.');
+            return;
+        }
 
         toggleButtons.forEach(button => {
             button.addEventListener('click', function (event) {
                 event.preventDefault();
                 const discountHeader = event.target.closest('.discount-header');
+                if (!discountHeader) {
+                    console.warn('Discount header not found.');
+                    return;
+                }
                 const discountType = discountHeader.getAttribute('data-discount');
                 const discountContent = document.getElementById(`${discountType}Content`);
+
+                if (!discountContent) {
+                    console.warn(`No discount content found for type: ${discountType}`);
+                    return;
+                }
 
                 const isHidden = discountContent.classList.contains('hidden');
 
@@ -629,23 +855,7 @@ document.addEventListener('DOMContentLoaded', function () {
             button.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault();
-                    const discountHeader = event.target.closest('.discount-header');
-                    const discountType = discountHeader.getAttribute('data-discount');
-                    const discountContent = document.getElementById(`${discountType}Content`);
-
-                    const isHidden = discountContent.classList.contains('hidden');
-
-                    if (isHidden) {
-                        discountContent.classList.remove('hidden');
-                        discountContent.classList.add('visible');
-                        button.textContent = '-';
-                        button.setAttribute('aria-expanded', 'true');
-                    } else {
-                        discountContent.classList.remove('visible');
-                        discountContent.classList.add('hidden');
-                        button.textContent = '+';
-                        button.setAttribute('aria-expanded', 'false');
-                    }
+                    button.click();
                 }
             });
         });
@@ -654,14 +864,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize Discounts Toggle
     setupDiscountsToggle();
 
-    /* ------------------ END OF NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
-
     // Function to update the cart badge number
     function updateCartBadge(count) {
         const cartBadge = document.querySelector('.cart-badge');
         if (cartBadge) {
             cartBadge.textContent = count;
-            cartBadge.style.display = count > 0 ? 'flex' : 'none'; // Show badge only if count > 0
+            cartBadge.style.display = count > 0 ? 'flex' : 'none';
         }
     }
 
@@ -669,6 +877,28 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update the badge to show 1 item
     updateCartBadge(1);
 
-    // Example: Clear the badge when the cart is empty
-    // updateCartBadge(0);
-});
+    // Footer section toggles
+    document.querySelectorAll('.footer-section').forEach(section => {
+        const header = section.querySelector('h3');
+        const content = section.querySelector('ul');
+        if (header && content) {
+            header.addEventListener('click', () => {
+                const isExpanded = section.getAttribute('aria-expanded') === 'true';
+                section.setAttribute('aria-expanded', !isExpanded);
+                content.style.display = isExpanded ? 'none' : 'block';
+            });
+        }
+    });
+
+    // Navbar toggler for mobile view
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
+
+    if (navbarToggler && navbarCollapse) {
+        navbarToggler.addEventListener("click", () => {
+            const expanded = navbarToggler.getAttribute("aria-expanded") === "true";
+            navbarToggler.setAttribute("aria-expanded", !expanded);
+            navbarCollapse.classList.toggle("show");
+        });
+    }
+}); // End of DOMContentLoaded event listener

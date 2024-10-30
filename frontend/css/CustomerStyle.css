@@ -37,7 +37,7 @@ header {
     align-items: center;
     background-color: #333;
     color: #fff;
-    padding: 5px 10px;
+    padding: 5px;
 }
 
 .promo-bar div {
@@ -155,7 +155,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 45px 25px;
+    padding: 30px;
     width: 100%;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -303,7 +303,7 @@ header {
     color: #fff;                     /* Link color */
     font-size: 1em;                  /* Adjust font size as needed */
     font-weight: bold;               /* Bold text */
-    padding: var(--spacing-md) var(--spacing-md); /* Padding around links */
+    padding: var(--spacing-sm) var(--spacing-sm); /* Padding around links */
     transition: color var(--transition-fast);      /* Smooth color transition */
     align-items: center;
     text-align: center;
@@ -758,11 +758,27 @@ select option {
     font-weight: normal; /* Normal weight */
     color: #333; /* Standard color */
 }
+
 /* Discounts Section */
-.discounts {
+.order-summary-section.discounts {
+    display: block; /* Ensure vertical stacking */
     margin-top: 20px;
     padding-top: 10px;
   
+}
+
+.discount-item {
+    width: 100%;
+    margin-bottom: 15px; /* Space between discount items */
+    border-bottom: 1px solid #333; /* Optional: adds a bottom border */
+    padding-bottom: 10px; /* Optional: adds spacing below each item */
+}
+
+
+.discount-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
 }
 
 .discounts h4 {
@@ -772,32 +788,67 @@ select option {
     border-bottom: 1px solid #333;
 }
 
-.discount-item {
-    border-bottom: 1px solid #333;
-}
 
-.discount-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 10px 0;
-}
-
-.discount-list li {
+.discount-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    cursor: pointer;
 }
 
-.apply-discount {
-    text-decoration: none;
-    font-weight: bold;
+.discount-header span {
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.toggle-discount {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
     color: #333;
+    transition: transform 0.3s ease;
 }
 
-.apply-discount:hover {
-    text-decoration: underline;
+.toggle-discount.rotated {
+    transform: rotate(180deg);
 }
+
+.discount-content {
+    display: none; /* Hidden by default */
+    flex-direction: row; /* Align children horizontally */
+    align-items: center; /* Vertically center the items */
+    gap: 10px; /* Space between input and button */
+    margin-top: 10px;
+}
+
+.discount-content.visible {
+    display: flex; /* Show as flex when visible */
+}
+
+.discount-content input {
+    flex: 1; /* Allows input to expand and fill available space */
+    min-width: 0; /* Prevents input from overflowing its container */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    font-size: 0.9em;
+}
+
+.discount-content .apply-button {
+    flex: 0 0 auto; /* Prevents button from stretching */
+    padding: 8px 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.discount-content .apply-button:hover {
+    background-color: #05668d;
+}
+
 
 .rewards-info {
     font-size: 0.9em;
@@ -839,45 +890,40 @@ select option {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+    padding-right: 10px; /* Optional: Adds padding to the right for better spacing */
 }
 
 .order-summary-toggle h4 {
     margin-left: 10px;
     font-size: 0.9em;
-    margin-top: 5px;
+    display: flex;
+    align-items: center; /* Aligns text with the button in flex */
 }
 
-/* Toggle Arrow SVG Styling */
-.toggle-arrow {
-    transition: transform 0.3s ease; /* Smooth rotation transition */
-    cursor: pointer; /* Change cursor to pointer on hover */
-    vertical-align: middle; /* Align vertically with the text */
-    width: 24px; /* Ensures consistent sizing */
-    height: 24px; /* Ensures consistent sizing */
-    margin-left: 20px; /* Space between text and arrow */
-    border: none;
-}
-
-/* Remove border and background from the arrow image */
+/* Toggle Button Styles */
 .order-summary-toggle .toggle-button {
+    margin-left: auto; /* Pushes button to the right */
     border: none;
     background: none;
-    display: block; /* Removes any inline spacing */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
 }
 
-.order-summary-toggle .toggle-button img{
-    display: block; /* Removes any inline spacing */
+.toggle-arrow {
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+    width: 18px; /* Arrow size */
+    height: 18px;
 }
 
 /* Order Details */
 .order-summary-details {
     margin-top: 10px;
-}
-/* Order Details Transition */
-.order-summary-details {
     transition: max-height 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
-    max-height: 1000px; /* Large enough to accommodate content */
+    max-height: 1000px; /* Adjust as needed */
     opacity: 1;
 }
 
@@ -896,6 +942,35 @@ select option {
     margin: 5px 0 0 0;
     line-height: 1.4;
 }
+
+/* Review Order Section */
+.review-group {
+    margin-bottom: 5px; /* Reduced spacing between elements */
+    font-size: 0.9em; /* Optional: adjust font size */
+}
+
+.review-group-pair {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px; /* Minimal space between paired items */
+}
+
+.review-group-pair .review-group p {
+    margin: 0;
+    line-height: 1.3; /* Adjust line height for tighter spacing */
+}
+
+/* Additional spacing adjustments */
+.review-group.agreement {
+    font-size: 0.85em;
+    text-align: center;
+    margin-top: 15px; /* Adjust as needed */
+}
+
+.submit-button {
+    margin-top: 20px;
+}
+
 
 /* Product Details */
 .product-details {
@@ -950,89 +1025,7 @@ select option {
     margin-left: 5px;
 }
 
-/* Discounts Section */
-.order-summary-section.discounts {
-    display: block; /* Ensure vertical stacking */
-    margin-top: 20px;
-    padding-top: 10px;
-  
-}
 
-.discount-list {
-    display: block;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.discount-item {
-    display: block;
-    margin-bottom: 15px; /* Space between discount items */
-}
-
-.discount-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.discount-header span {
-    font-weight: 600;
-    font-size: 1em;
-}
-
-.toggle-discount {
-    background: none;
-    border: none;
-    font-size: 1.2em;
-    cursor: pointer;
-    color: #333;
-}
-
-.toggle-discount:focus {
-    outline: 2px solid #333;
-}
-
-.discount-content {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.discount-content.hidden {
-    display: none;
-}
-
-.discount-content.visible {
-    display: flex;
-}
-
-.discount-content input {
-    flex: 1;
-    padding: 8px 16x;
-    border: 1px solid #ccc;
-    font-size: 0.7em;
- 
-}
-
-.apply-button {
-    padding: 8px 16px;
-    background-color: #333;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-}
-
-.apply-button:hover {
-    background-color: #05668d;
-}
-
-.rewards-info {
-    font-size: 0.9em;
-    color: #555;
-}
 
 /* Footer */
 .footer {
@@ -1081,13 +1074,15 @@ select option {
 /* Footer Section Content */
 .footer-section-content {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* Align content (including images) to the top */
+    margin: 0;
 }
 
 .footer-section-content img {
-    margin-right: var(--spacing-md);
+    margin-right: 10px;
+    align-self: flex-start; /* Align each image to the top of its flex container */
     flex-shrink: 0;
-    display: block; /* Eliminates inline spacing */
+    display: block; /* Ensures images do not have inline spacing */
 }
 
 
@@ -1129,7 +1124,7 @@ select option {
     flex-direction: column; /* Stack items vertically */
     align-items: left;    /* Center them horizontally */
     padding: 0;
-    margin: 0;
+    margin-left: 0;
 }
 
 /* Remove any spacing between the anchor tags */
@@ -1142,7 +1137,7 @@ select option {
 /* Style the images */
 .download-apps a img {
     display: block;       /* Remove inline spacing */
-    margin: 10px;         /* Maintain aspect ratio */
+    margin-top: 10px;     /* Maintain aspect ratio */
     margin-right: 50px;            /* Remove any default margins */
     padding: 0;           /* Remove any default padding */
     height: auto;         /* Set desired height */
@@ -1551,6 +1546,76 @@ select option {
     .form-group-pair input, .form-group input {
         max-width: 100%;
     }
+    .footer-row {
+        flex-direction: column;
+    }
+
+    .footer-section ul {
+        display: none; /* Hidden by default */
+    }
+
+    /* Show the content when expanded */
+    .footer-section[aria-expanded="true"] ul {
+        display: block;
+        margin-top: 8px;
+    }
+/* General Footer Section Styles */
+.footer-row {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 10px;
+}
+
+.footer-section h3 {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none; /* Hide content by default on mobile */
+}
+
+.footer-section ul li {
+    margin: 8px 0;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #555;
+}
+
+.footer-section h3::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 16.5L6 10.5h12z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.footer-section[aria-expanded="true"] h3::after {
+    transform: rotate(180deg);
+}
+
 
     .order-summary {
         margin-left: 0;
@@ -1570,5 +1635,148 @@ select option {
 
     .checkout-container, .order-summary {
         padding: 10px;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    /* Tablet view: show search input and reorganize navbar */
+    .search-bar input {
+        display: inline-block;
+        width: 100px;
+        margin-left: 5px;
+    }
+
+    .navbar-nav {
+        display: none; /* Hide navbar links initially */
+    }
+
+    .navbar-toggler {
+        display: inline-block; /* Show hamburger icon */
+    }
+
+    .navbar-toggler:focus + .navbar-collapse,
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: var(--primary-color);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+        padding: 10px 20px;
+        width: 100%;
+        text-align: left;
+    }
+
+    /* Top bar styling */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    display: none; /* Hide input field on mobile */
+}
+
+.logo img {
+    height: 30px;
+}
+
+.cart-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+}
+
+/* Navbar collapse and icon adjustments */
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.navbar-toggler {
+    border: none;
+    background: transparent;
+    display: none; /* Hidden on desktop */
+}
+
+.navbar-collapse {
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+}
+
+@media (max-width: 768px) {
+    /* Mobile view */
+    .top-bar {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    /* Show hamburger menu and icons in top bar */
+    .navbar-toggler {
+        display: inline-block;
+    }
+
+    .search-bar input {
+        display: none;
+    }
+
+    /* Hide main navbar; show only on click */
+    .navbar-collapse {
+        display: none;
+    }
+
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: block;
+    }
+
+    .logo img, .search-bar img, .cart-icon img {
+        width: 20px; /* Resize icons on mobile */
+        height: 20px;
+    }
+
+    /* Add border below each nav link on mobile */
+    .navbar-nav .nav-link {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        color: white;
     }
 }

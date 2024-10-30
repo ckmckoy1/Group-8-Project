@@ -3,7 +3,7 @@ name: Build and Commit Bundle
 on:
   push:
     branches:
-      - main
+      - main  # Replace with your default branch if different
     paths:
       - 'frontend/js/settleShipment.js'  # Path to your source file
       - 'frontend/js/**'  # Include other source files as needed
@@ -12,18 +12,24 @@ jobs:
   build_and_commit:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Make sure the action can push changes
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: false
+          persist-credentials: false  # Disable automatic token authentication
+
+      - name: Set up Git credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '18'  # Use the Node.js version compatible with your project
 
       - name: Install dependencies
         run: npm install
@@ -35,6 +41,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'Automated build of bundle.js [skip ci]'
-          file_pattern: 'frontend/js/bundle.js'
-          branch: main
-          token: ${{ secrets.GITHUB_TOKEN }}  # Add this line for authentication
+          file_pattern: 'frontend/js/bundle.js'  # Adjust the path to your bundle.js
+          branch: main  # Ensure this matches your default branch
