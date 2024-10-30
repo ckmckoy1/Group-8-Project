@@ -171,6 +171,13 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingOverlay.setAttribute('aria-hidden', 'true');
     }
 
+    // Update the displayMessage function to accept a target div
+    const displayMessage = (targetDiv, message, type) => {
+        targetDiv.textContent = message;
+        targetDiv.className = `message ${type}`;
+        targetDiv.style.display = 'block';
+    };
+
     // Enhanced validation function
     function validateSection(requiredFields) {
         let isValid = true;
@@ -191,6 +198,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else if (field.type === 'tel' && !validatePhone(field.value)) {
                     field.classList.add('invalid');
                     displayMessage(shippingMessageDiv, 'Please enter a valid phone number.', 'error');
+                    isValid = false;
+                } else if (field.id === 'cardNumber' && !validateCardNumber(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(paymentMessageDiv, 'Please enter a valid card number.', 'error');
+                    isValid = false;
+                } else if (field.id === 'expDate' && !validateExpDate(field.value)) {
+                    field.classList.add('invalid');
+                    displayMessage(paymentMessageDiv, 'Please enter a valid expiration date.', 'error');
                     isValid = false;
                 } else {
                     field.classList.remove('invalid');
@@ -214,6 +229,22 @@ document.addEventListener('DOMContentLoaded', function () {
         return re.test(phone);
     }
 
+    function validateCardNumber(number) {
+        const sanitized = number.replace(/\s/g, '');
+        const re = /^\d{14,16}$/; // Card number should be 14 to 16 digits
+        return re.test(sanitized);
+    }
+
+    function validateExpDate(expDate) {
+        const [month, year] = expDate.split('/');
+        if (!month || !year) return false;
+        const monthNum = parseInt(month, 10);
+        const yearNum = parseInt(year, 10);
+        if (isNaN(monthNum) || isNaN(yearNum)) return false;
+        if (monthNum < 1 || monthNum > 12) return false;
+        return true;
+    }
+
     // Function to validate the shipping method (radio button)
     function validateShippingMethod() {
         const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
@@ -227,7 +258,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to collapse current section and open the next
     function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields) {
         const isValid = validateSection(requiredFields);
-        const isShippingValid = validateShippingMethod();
+
+        let isShippingValid = true;
+        if (currentSectionId === 'shippingSection') {
+            isShippingValid = validateShippingMethod();
+        }
 
         if (isValid && isShippingValid) {
             // Collapse current section
@@ -287,6 +322,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 input = input.substring(0, 2) + '/' + input.substring(2, 4);
             }
             e.target.value = input;
+
+            // Real-time expiration date validation
+            if (input.length === 4 || input.length === 5) {
+                if (isCardExpired(expDateInput.value)) {
+                    displayMessage(paymentMessageDiv, 'Your card has expired.', 'error');
+                } else {
+                    paymentMessageDiv.style.display = 'none';
+                }
+            }
         });
     }
 
@@ -297,6 +341,13 @@ document.addEventListener('DOMContentLoaded', function () {
             let input = e.target.value.replace(/\D/g, '');
             input = input.match(/.{1,4}/g)?.join(' ') || input;
             e.target.value = input;
+
+            // Detect card brand and display it
+            const cardBrand = getCardBrand(e.target.value);
+            const cardBrandDisplay = document.getElementById('cardBrandDisplay');
+            if (cardBrandDisplay) {
+                cardBrandDisplay.textContent = cardBrand !== 'Unknown' ? cardBrand : '';
+            }
         });
     }
 
@@ -356,10 +407,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const sanitized = number.replace(/\D/g, '');
 
         const patterns = [
-            { brand: 'Visa', pattern: /^4[0-9]{12}(?:[0-9]{3})?$/ },
-            { brand: 'MasterCard', pattern: /^(5[1-5][0-9]{14}|2[2-7][0-9]{14})$/ },
-            { brand: 'American Express', pattern: /^3[47][0-9]{13}$/ },
-            { brand: 'Discover', pattern: /^6(?:011|5[0-9]{2})[0-9]{12}$/ },
+            { brand: 'Visa', pattern: /^4[0-9]{0,15}$/ },
+            { brand: 'MasterCard', pattern: /^(5[1-5][0-9]{0,14}|2[2-7][0-9]{0,14})$/ },
+            { brand: 'American Express', pattern: /^3[47][0-9]{0,13}$/ },
+            { brand: 'Discover', pattern: /^6(?:011|5[0-9]{2})[0-9]{0,12}$/ },
             // Add patterns for other card brands if needed
         ];
 
@@ -490,16 +541,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const today = new Date();
         const [month, year] = expDate.split('/').map(Number);
         if (!month || !year) return true;
-        const exp = new Date(`20${year}-${month}-01`);
+        if (month < 1 || month > 12) return true;
+        let expYear = year;
+        if (year < 100) {
+            expYear += 2000; // Convert YY to YYYY
+        }
+        const exp = new Date(expYear, month - 1, 1); // Month is 0-indexed
         exp.setMonth(exp.getMonth() + 1); // Set to the first day of the next month
         return today >= exp;
-    };
-
-    // Update the displayMessage function to accept a target div
-    const displayMessage = (targetDiv, message, type) => {
-        targetDiv.textContent = message;
-        targetDiv.className = `message ${type}`;
-        targetDiv.style.display = 'block';
     };
 
     /* ------------------ NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
