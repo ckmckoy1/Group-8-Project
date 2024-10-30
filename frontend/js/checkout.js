@@ -167,26 +167,33 @@ document.addEventListener('DOMContentLoaded', function () {
         requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             const label = document.querySelector(`label[for="${fieldId}"]`);
-
-            if (!field.value.trim()) {
+    
+            let fieldValue = field.value.trim();
+    
+            // For cardNumber and securityCode, use the original value if available
+            if ((field.id === 'cardNumber' || field.id === 'securityCode') && field.getAttribute('data-original-value')) {
+                fieldValue = field.getAttribute('data-original-value').trim();
+            }
+    
+            if (!fieldValue) {
                 field.classList.add('invalid');
                 addAsteriskForMissingFields(fieldId);
                 isValid = false;
             } else {
                 // Specific format validations
-                if (field.type === 'email' && !validateEmail(field.value)) {
+                if (field.type === 'email' && !validateEmail(fieldValue)) {
                     field.classList.add('invalid');
                     displayMessage(messageDiv, 'Please enter a valid email address.', 'error');
                     isValid = false;
-                } else if (field.type === 'tel' && !validatePhone(field.value)) {
+                } else if (field.type === 'tel' && !validatePhone(fieldValue)) {
                     field.classList.add('invalid');
                     displayMessage(messageDiv, 'Please enter a valid phone number.', 'error');
                     isValid = false;
-                } else if (field.id === 'cardNumber' && !validateCardNumber(field.value)) {
+                } else if (field.id === 'cardNumber' && !validateCardNumber(fieldValue)) {
                     field.classList.add('invalid');
                     displayMessage(messageDiv, 'Please enter a valid card number.', 'error');
                     isValid = false;
-                } else if (field.id === 'expDate' && !validateExpDate(field.value)) {
+                } else if (field.id === 'expDate' && !validateExpDate(fieldValue)) {
                     field.classList.add('invalid');
                     displayMessage(messageDiv, 'Please enter a valid expiration date.', 'error');
                     isValid = false;
@@ -199,13 +206,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
-
+    
         if (!isValid) {
             displayMessage(messageDiv, 'Please complete all required fields.', 'error');
         }
-
+    
         return isValid;
     }
+    
 
     function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
