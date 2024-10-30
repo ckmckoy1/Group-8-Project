@@ -159,6 +159,8 @@
                     <!-- Section 1: Shipping & Delivery Details -->
                     <div id="shippingSection" class="form-section show">
                         <h3 onclick="toggleSection('shippingSection')">1. SHIPPING & DELIVERY</h3>
+                            <!-- Add the message div here -->
+                             <div id="shippingMessage" class="message"></div>
                         <div class="form-content show">
                             <!-- Contact Info -->
                             <div class="form-group">
@@ -260,6 +262,8 @@
                     <!-- Section 2: Payment -->
                     <div id="paymentSection" class="form-section collapsed">
                         <h3 onclick="toggleSection('paymentSection')">2. PAYMENT</h3>
+                            <!-- Add the message div here -->
+                            <div id="paymentMessage" class="message"></div>
                         <div class="form-content">
                             <div class="form-group">
                                 <p>Please select from the payment options below.</p>
@@ -290,6 +294,7 @@
                                     <label for="cardNumber" class="floating-label">Card Number *</label>
                                     <span id="cardBrandDisplay" style="margin-left: 10px; font-weight: bold;"></span>
                                 </div>
+                                
                                 <div class="form-group-pair">
                                     <div class="form-group">
                                         <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
@@ -728,10 +733,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script 
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s&libraries=places&callback=initAddressAutocompletes" 
-    async 
-    defer>
-</script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s&libraries=places" 
+    loading="lazy"
+></script>
 
 
         <script src="../js/checkout.js"></script>
