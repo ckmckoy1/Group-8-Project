@@ -1,4 +1,16 @@
 /* Global Styles */
+:root {
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --color-text: #333;
+    --primary-color: #05668d;
+    --transition-fast: 0.3s ease;
+}
+
+
 html, body {
     margin: 0;
     padding: 0;
@@ -24,10 +36,10 @@ header {
     color: #fff;
     padding: 2px;
     font-size: 0.75em;
-    position: sticky;
+    position: relative;
     top: 0;
     width: 100%;
-    z-index: 1001;
+    z-index: 1000;
 }
 
 
@@ -38,6 +50,10 @@ header {
     background-color: #333;
     color: #fff;
     padding: 5px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
 }
 
 .promo-bar div {
@@ -159,9 +175,9 @@ header {
     width: 100%;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 33px;
-    z-index: 1000;
+    position: fixed;
+    top: 30px;
+    z-index: 1002;
 }
 
 .search-bar {
@@ -263,9 +279,9 @@ header {
     font-size: 1.3em;
     width: 100%;
     box-sizing: border-box;
-    position: sticky;
-    top: 66px;
-    z-index: 999;
+    position: fixed;
+    top: 130px;
+    z-index: 1003;
 }
 
 .banner .nav {
@@ -303,7 +319,7 @@ header {
     color: #fff;                     /* Link color */
     font-size: 1em;                  /* Adjust font size as needed */
     font-weight: bold;               /* Bold text */
-    padding: var(--spacing-sm) var(--spacing-sm); /* Padding around links */
+    padding: var(--spacing-xs) var(--spacing-xs); /* Padding around links */
     transition: color var(--transition-fast);      /* Smooth color transition */
     align-items: center;
     text-align: center;
@@ -1612,6 +1628,11 @@ select option {
     cursor: pointer;
 }
 
+/* Exclude top row sections from having drop-down arrows */
+.footer-row.top-row .footer-section h3::after {
+    content: none;
+}
+
 .footer-section[aria-expanded="true"] h3::after {
     transform: rotate(180deg);
 }
@@ -1750,6 +1771,18 @@ select option {
         justify-content: space-around;
     }
 
+    .promo-bar .Earn_Rewards,
+    .promo-bar .right-section {
+        display: none;
+    }
+
+    /* Adjust the Find_Deals section to center it */
+    .promo-bar .Find_Deals {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+    }
+
     /* Show hamburger menu and icons in top bar */
     .navbar-toggler {
         display: inline-block;
@@ -1779,4 +1812,138 @@ select option {
         padding: 10px;
         color: white;
     }
+
+    .checkout-options img {
+        width: 60px; /* Reduce the width for smaller screens */
+        height: auto; /* Maintain aspect ratio */
+    }
+  /* Show hamburger menu */
+  .navbar-toggler {
+    display: inline-block;
 }
+
+/* Hide navbar links unless toggled */
+.navbar-collapse {
+    display: none;
+}
+
+/* Adjust positioning of elements */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Adjust logo sizes */
+.navbar .wpo-title,
+.navbar .wpo-logo {
+    width: 100px;
+    height: auto;
+}
+
+/* Adjust search icon */
+.navbar .search-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Adjust sign-in and cart icon */
+.navbar .Sign_In,
+.navbar .cart-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Hide the full navbar links */
+.navbar-nav {
+    display: none;
+}
+
+/* Show navbar links when toggler is active */
+.navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+    display: block;
+}
+
+ /* Hide paragraphs in footer top row */
+ .footer-row.top-row .footer-text p {
+    display: none;
+}
+
+/* Adjust footer section to center content */
+.footer-row.top-row .footer-section {
+    text-align: center;
+}
+
+/* Ensure drop-down arrows are not displayed */
+.footer-row.top-row .footer-section h3::after {
+    content: none;
+}
+
+/* Adjust image and h3 size */
+.footer-row.top-row .footer-section img {
+    width: 50px;
+    height: 50px;
+}
+
+.footer-row.top-row .footer-section h3 {
+    font-size: 1em;
+}
+
+}
+
+
+/* take out if needed
+/* Ensure there's no margin or padding at the top of the body */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove margin/padding from header and top elements */
+header {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Adjust the content container to account for fixed headers */
+.container {
+    margin-top: 180px;
+}
+
+/* Default styles (desktop) */
+.navbar-toggler {
+    display: none; /* Hide hamburger menu on desktop */
+}
+
+.navbar .search-icon {
+    display: inline-block;
+}
+
+.navbar .Sign_In,
+.navbar .cart-icon {
+    display: inline-block;
+}
+
+/* Default Styles (Desktop View) */
+/* Hide mobile header elements on desktop */
+.mobile-header {
+    display: none;
+}
+
+/* Show navbar links on desktop */
+.navbar-nav {
+    display: flex;
+}
+
+/* Default styles (Desktop View) */
+.promo-bar .Earn_Rewards,
+.promo-bar .right-section {
+    display: flex;
+}
+
+.top-bar {
+    display: flex;
+}
+
+
