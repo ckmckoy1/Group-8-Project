@@ -1,4 +1,4 @@
-// Helper functions and variables (make sure these are accessible globally)
+// Helper functions and variables
 const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
 const ADDRESS_COMPONENT_TYPES = {
     shipping: {
@@ -12,14 +12,17 @@ const ADDRESS_COMPONENT_TYPES = {
         address: 'billingAddress',
         city: 'billingCity',
         state: 'billingState',
-        zip: 'billingZipCode'
+        zip: 'billingZipCode',
+        country: 'billingCountry' // Make sure to have this in your HTML if needed
     }
 };
 
+// Function to get the address input element by section and component type
 function getAddressInputElement(section, componentType) {
     return document.getElementById(ADDRESS_COMPONENT_TYPES[section][componentType]);
 }
 
+// Function to fill in address fields based on the Google Place object
 function fillInAddressFields(place, section) {
     function getComponent(componentType) {
         for (const component of place.address_components || []) {
@@ -59,12 +62,8 @@ function fillInAddressFields(place, section) {
     }
 }
 
-async function initAddressAutocompletes() {
-    // Load the Places library (ensure it's loaded)
-    if (!google.maps.places) {
-        await google.maps.importLibrary('places');
-    }
-
+// Initialize Google Address Autocomplete for shipping and billing addresses
+function initAddressAutocompletes() {
     // Shipping address autocomplete
     const shippingAddressInput = document.getElementById('address');
     if (shippingAddressInput) {
@@ -103,27 +102,14 @@ async function initAddressAutocompletes() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize Google Autocomplete after the API is loaded
-    if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-        initAddressAutocompletes();
-    } else {
-        // Wait until the API is loaded
-        const intervalId = setInterval(() => {
-            if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                clearInterval(intervalId);
-                initAddressAutocompletes();
-            }
-        }, 100);
-    }
-
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
-    const messageDiv = document.getElementById('message'); // Ensure this element exists in your HTML
+    const messageDiv = document.getElementById('message');
     const loadingOverlay = document.getElementById('loadingOverlay');
-    const shippingMessageDiv = document.getElementById('shippingMessage'); // Add this to HTML
-    const paymentMessageDiv = document.getElementById('paymentMessage');   // Add this to HTML
-    const discountMessageDiv = document.getElementById('discountMessage'); // Already exists
+    const shippingMessageDiv = document.getElementById('shippingMessage');
+    const paymentMessageDiv = document.getElementById('paymentMessage');
+    const discountMessageDiv = document.getElementById('discountMessage');
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
@@ -131,14 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Order Total (Assuming $50.00 for this example)
     const orderTotal = 50.00;
-
-    // Event listener for payment method change
-    const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
-    paymentMethodInputs.forEach(input => {
-        input.addEventListener('change', function () {
-            handlePaymentMethodChange();
-        });
-    });
 
     // Shipping methods mapping
     const shippingMethods = {
@@ -171,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingOverlay.setAttribute('aria-hidden', 'true');
     }
 
-    // Update the displayMessage function to accept a target div
+    // Function to display messages
     const displayMessage = (targetDiv, message, type) => {
         targetDiv.textContent = message;
         targetDiv.className = `message ${type}`;
@@ -179,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Enhanced validation function
-    function validateSection(requiredFields) {
+    function validateSection(requiredFields, messageDiv) {
         let isValid = true;
         requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
@@ -193,19 +171,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Specific format validations
                 if (field.type === 'email' && !validateEmail(field.value)) {
                     field.classList.add('invalid');
-                    displayMessage(shippingMessageDiv, 'Please enter a valid email address.', 'error');
+                    displayMessage(messageDiv, 'Please enter a valid email address.', 'error');
                     isValid = false;
                 } else if (field.type === 'tel' && !validatePhone(field.value)) {
                     field.classList.add('invalid');
-                    displayMessage(shippingMessageDiv, 'Please enter a valid phone number.', 'error');
+                    displayMessage(messageDiv, 'Please enter a valid phone number.', 'error');
                     isValid = false;
                 } else if (field.id === 'cardNumber' && !validateCardNumber(field.value)) {
                     field.classList.add('invalid');
-                    displayMessage(paymentMessageDiv, 'Please enter a valid card number.', 'error');
+                    displayMessage(messageDiv, 'Please enter a valid card number.', 'error');
                     isValid = false;
                 } else if (field.id === 'expDate' && !validateExpDate(field.value)) {
                     field.classList.add('invalid');
-                    displayMessage(paymentMessageDiv, 'Please enter a valid expiration date.', 'error');
+                    displayMessage(messageDiv, 'Please enter a valid expiration date.', 'error');
                     isValid = false;
                 } else {
                     field.classList.remove('invalid');
@@ -216,6 +194,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
+        if (!isValid) {
+            displayMessage(messageDiv, 'Please complete all required fields.', 'error');
+        }
+
         return isValid;
     }
 
@@ -256,8 +239,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Function to collapse current section and open the next
-    function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields) {
-        const isValid = validateSection(requiredFields);
+    function collapseSectionWithValidation(currentSectionId, nextSectionId, requiredFields, messageDiv) {
+        const isValid = validateSection(requiredFields, messageDiv);
 
         let isShippingValid = true;
         if (currentSectionId === 'shippingSection') {
@@ -282,19 +265,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     formContent.style.display = 'block';
                 }
             }
-        } else {
-            // The validate functions already handle messaging
         }
     }
 
     // Section 1: Continue to Payment (validates Section 1 fields)
     continueToPaymentBtn.addEventListener('click', function () {
-        collapseSectionWithValidation('shippingSection', 'paymentSection', requiredFieldsSection1);
+        collapseSectionWithValidation('shippingSection', 'paymentSection', requiredFieldsSection1, shippingMessageDiv);
     });
 
     // Section 2: Continue to Review (validates Section 2 fields)
     continueToReviewBtn.addEventListener('click', function () {
-        collapseSectionWithValidation('paymentSection', 'reviewOrderSection', requiredFieldsSection2);
+        collapseSectionWithValidation('paymentSection', 'reviewOrderSection', requiredFieldsSection2, paymentMessageDiv);
     });
 
     // Auto-format phone number as (###) ###-####
@@ -313,36 +294,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-// Auto-format expiration date (MM/YY) and validate in real-time
-const expDateInput = document.getElementById('expDate');
-if (expDateInput) {
-    const expDateMessage = document.getElementById('expDateMessage');
+    // Auto-format expiration date (MM/YY) and validate in real-time
+    const expDateInput = document.getElementById('expDate');
+    if (expDateInput) {
+        const expDateMessage = document.getElementById('expDateMessage');
 
-    expDateInput.addEventListener('input', function (e) {
-        let input = e.target.value.replace(/\D/g, '');
+        expDateInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
 
-        // Auto-formatting
-        if (input.length > 2) {
-            input = input.substring(0, 2) + '/' + input.substring(2, 4);
-        }
-        e.target.value = input;
+            // Auto-formatting
+            if (input.length > 2) {
+                input = input.substring(0, 2) + '/' + input.substring(2, 4);
+            }
+            e.target.value = input;
 
-        // Real-time expiration date validation
-        if (input.length === 4 || input.length === 5) {
-            if (!validateExpDate(expDateInput.value)) {
-                expDateMessage.textContent = 'Invalid date';
-                expDateMessage.style.color = 'red';
-            } else if (isCardExpired(expDateInput.value)) {
-                expDateMessage.textContent = 'Card expired';
-                expDateMessage.style.color = 'red';
+            // Real-time expiration date validation
+            if (input.length >= 4) {
+                if (!validateExpDate(expDateInput.value)) {
+                    expDateMessage.textContent = 'Invalid date';
+                    expDateMessage.style.color = 'red';
+                } else if (isCardExpired(expDateInput.value)) {
+                    expDateMessage.textContent = 'Card expired';
+                    expDateMessage.style.color = 'red';
+                } else {
+                    expDateMessage.textContent = '';
+                }
             } else {
                 expDateMessage.textContent = '';
             }
-        } else {
-            expDateMessage.textContent = '';
-        }
-    });
-}
+        });
+    }
 
     // Auto-format card number as #### #### #### ####
     const cardNumberInput = document.getElementById('cardNumber');
@@ -360,6 +341,14 @@ if (expDateInput) {
             }
         });
     }
+
+    // Event listener for payment method change
+    const paymentMethodInputs = document.querySelectorAll('input[name="paymentMethod"]');
+    paymentMethodInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            handlePaymentMethodChange();
+        });
+    });
 
     // Function to handle payment method change
     function handlePaymentMethodChange() {
@@ -396,8 +385,6 @@ if (expDateInput) {
         klarnaButton.addEventListener('click', function () {
             // Implement your Klarna payment integration here
             alert('Redirecting to Klarna payment gateway...');
-            // For example, redirect to Klarna checkout page
-            // window.location.href = 'https://www.klarna.com/checkout-url';
         });
     }
 
@@ -407,8 +394,6 @@ if (expDateInput) {
         paypalButton.addEventListener('click', function () {
             // Implement your PayPal payment integration here
             alert('Redirecting to PayPal...');
-            // For example, redirect to PayPal checkout page
-            // window.location.href = 'https://www.paypal.com/checkout-url';
         });
     }
 
@@ -561,8 +546,6 @@ if (expDateInput) {
         return today >= exp;
     };
 
-    /* ------------------ NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
-
     // Function to mask card number and CVV
     function setupSensitiveDataMasking() {
         const cardNumberInput = document.getElementById('cardNumber');
@@ -634,8 +617,6 @@ if (expDateInput) {
     // Initialize masking functionality
     setupSensitiveDataMasking();
 
-    /* ------------------ END OF NEW CODE FOR MASKING CARD NUMBER AND CVV ------------------ */
-
     // Final submission
     checkoutForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -644,9 +625,8 @@ if (expDateInput) {
         showLoading();
 
         // Validate payment section before final submission
-        const isSection2Valid = validateSection(requiredFieldsSection2);
+        const isSection2Valid = validateSection(requiredFieldsSection2, paymentMessageDiv);
         if (!isSection2Valid) {
-            displayMessage(paymentMessageDiv, 'Please complete all required payment fields.', 'error');
             hideLoading(); // Ensure loading overlay is hidden on error
             return;
         }
@@ -782,13 +762,11 @@ if (expDateInput) {
         }
     };
 
-    /* ------------------ UPDATED CODE FOR ORDER SUMMARY TOGGLE ------------------ */
-
     // Function to handle the toggle of Order Summary Details
     function setupOrderSummaryToggle() {
-        const toggleButton = document.getElementById('toggleButton'); // Reference to the toggle button
-        const toggleArrow = toggleButton ? toggleButton.querySelector('.toggle-arrow') : null; // Reference to the arrow image/SVG within the button
-        const orderDetails = document.getElementById('orderSummaryDetails'); // Reference to the order details section
+        const toggleButton = document.getElementById('toggleButton');
+        const toggleArrow = toggleButton ? toggleButton.querySelector('.toggle-arrow') : null;
+        const orderDetails = document.getElementById('orderSummaryDetails');
 
         if (!toggleButton || !toggleArrow || !orderDetails) {
             console.warn('Order Summary Toggle elements not found in the DOM.');
@@ -800,19 +778,19 @@ if (expDateInput) {
             if (isHidden) {
                 orderDetails.classList.remove('hidden');
                 orderDetails.classList.add('visible');
-                toggleArrow.classList.add('rotated'); // Rotate the arrow via CSS
-                toggleButton.setAttribute('aria-expanded', 'true'); // Update accessibility attribute
+                toggleArrow.classList.add('rotated');
+                toggleButton.setAttribute('aria-expanded', 'true');
             } else {
                 orderDetails.classList.remove('visible');
                 orderDetails.classList.add('hidden');
-                toggleArrow.classList.remove('rotated'); // Reset the arrow rotation via CSS
-                toggleButton.setAttribute('aria-expanded', 'false'); // Update accessibility attribute
+                toggleArrow.classList.remove('rotated');
+                toggleButton.setAttribute('aria-expanded', 'false');
             }
         }
 
         // Event listener for click
         toggleButton.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default behavior if any
+            event.preventDefault();
             toggleOrderDetails();
         });
 
@@ -825,17 +803,13 @@ if (expDateInput) {
         });
 
         // Initialize the section as expanded
-        orderDetails.classList.add('visible'); // Show order details
-        toggleArrow.classList.add('rotated'); // Rotate the arrow to indicate expanded state
-        toggleButton.setAttribute('aria-expanded', 'true'); // Set accessibility attribute
+        orderDetails.classList.add('visible');
+        toggleArrow.classList.add('rotated');
+        toggleButton.setAttribute('aria-expanded', 'true');
     }
 
     // Call the setup function after DOM content is loaded
     setupOrderSummaryToggle();
-
-    /* ------------------ END OF UPDATED CODE FOR ORDER SUMMARY TOGGLE ------------------ */
-
-    /* ------------------ NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
 
     // Function to handle the toggle of Discounts Items
     function setupDiscountsToggle() {
@@ -890,14 +864,12 @@ if (expDateInput) {
     // Initialize Discounts Toggle
     setupDiscountsToggle();
 
-    /* ------------------ END OF NEW CODE FOR DISCOUNTS TOGGLE ------------------ */
-
     // Function to update the cart badge number
     function updateCartBadge(count) {
         const cartBadge = document.querySelector('.cart-badge');
         if (cartBadge) {
             cartBadge.textContent = count;
-            cartBadge.style.display = count > 0 ? 'flex' : 'none'; // Show badge only if count > 0
+            cartBadge.style.display = count > 0 ? 'flex' : 'none';
         }
     }
 
@@ -905,13 +877,10 @@ if (expDateInput) {
     // Update the badge to show 1 item
     updateCartBadge(1);
 
-    // Example: Clear the badge when the cart is empty
-    // updateCartBadge(0);
-
     // Footer section toggles
     document.querySelectorAll('.footer-section').forEach(section => {
         const header = section.querySelector('h3');
-        const content = section.querySelector('ul'); // Assuming the content is a list
+        const content = section.querySelector('ul');
         if (header && content) {
             header.addEventListener('click', () => {
                 const isExpanded = section.getAttribute('aria-expanded') === 'true';
@@ -920,7 +889,6 @@ if (expDateInput) {
             });
         }
     });
-
 
     // Navbar toggler for mobile view
     const navbarToggler = document.querySelector(".navbar-toggler");
