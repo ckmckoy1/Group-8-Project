@@ -313,26 +313,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Auto-format expiration date (MM/YY)
-    const expDateInput = document.getElementById('expDate');
-    if (expDateInput) {
-        expDateInput.addEventListener('input', function (e) {
-            let input = e.target.value.replace(/\D/g, '');
-            if (input.length > 2) {
-                input = input.substring(0, 2) + '/' + input.substring(2, 4);
-            }
-            e.target.value = input;
+// Auto-format expiration date (MM/YY) and validate in real-time
+const expDateInput = document.getElementById('expDate');
+if (expDateInput) {
+    const expDateMessage = document.getElementById('expDateMessage');
 
-            // Real-time expiration date validation
-            if (input.length === 4 || input.length === 5) {
-                if (isCardExpired(expDateInput.value)) {
-                    displayMessage(paymentMessageDiv, 'Your card has expired.', 'error');
-                } else {
-                    paymentMessageDiv.style.display = 'none';
-                }
+    expDateInput.addEventListener('input', function (e) {
+        let input = e.target.value.replace(/\D/g, '');
+
+        // Auto-formatting
+        if (input.length > 2) {
+            input = input.substring(0, 2) + '/' + input.substring(2, 4);
+        }
+        e.target.value = input;
+
+        // Real-time expiration date validation
+        if (input.length === 4 || input.length === 5) {
+            if (!validateExpDate(expDateInput.value)) {
+                expDateMessage.textContent = 'Invalid date';
+                expDateMessage.style.color = 'red';
+            } else if (isCardExpired(expDateInput.value)) {
+                expDateMessage.textContent = 'Card expired';
+                expDateMessage.style.color = 'red';
+            } else {
+                expDateMessage.textContent = '';
             }
-        });
-    }
+        } else {
+            expDateMessage.textContent = '';
+        }
+    });
+}
 
     // Auto-format card number as #### #### #### ####
     const cardNumberInput = document.getElementById('cardNumber');
