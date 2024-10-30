@@ -62,8 +62,11 @@ function fillInAddressFields(place, section) {
     }
 }
 
-// Initialize Google Address Autocomplete for shipping and billing addresses
-function initAddressAutocompletes() {
+// Define your initAddressAutocompletes function
+async function initAddressAutocompletes() {
+    // Import the 'places' library
+    await google.maps.importLibrary("places");
+    
     // Shipping address autocomplete
     const shippingAddressInput = document.getElementById('address');
     if (shippingAddressInput) {
@@ -102,6 +105,8 @@ function initAddressAutocompletes() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Call initAddressAutocompletes to initialize the autocompletes
+    initAddressAutocompletes();
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
