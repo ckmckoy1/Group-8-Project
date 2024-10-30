@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 100);
     }
 
-document.addEventListener('DOMContentLoaded', function () {
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
