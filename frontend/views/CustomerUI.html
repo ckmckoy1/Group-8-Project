@@ -299,6 +299,8 @@
                                     <div class="form-group">
                                         <input type="text" id="expDate" name="expDate" required placeholder="MM/YY">
                                         <label for="expDate" class="floating-label">Expiry Date *</label>
+                                        <!-- Add this span for the expiration date message -->
+                                        <span id="expDateMessage" style="margin-left: 10px; font-weight: bold; color: red;"></span>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" id="securityCode" name="securityCode" maxlength="4" autocomplete="cc-csc" required placeholder="CVV">
@@ -733,8 +735,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 <script 
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s&libraries=places" 
-    loading="lazy"
+    defer type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s&libraries=places&callback=initMap" 
 ></script>
 
 
