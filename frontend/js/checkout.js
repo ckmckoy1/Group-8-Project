@@ -167,14 +167,14 @@ document.addEventListener('DOMContentLoaded', function () {
         requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             const label = document.querySelector(`label[for="${fieldId}"]`);
-    
+
             let fieldValue = field.value.trim();
-    
+
             // For cardNumber and securityCode, use the original value if available
             if ((field.id === 'cardNumber' || field.id === 'securityCode') && field.getAttribute('data-original-value')) {
                 fieldValue = field.getAttribute('data-original-value').trim();
             }
-    
+
             if (!fieldValue) {
                 field.classList.add('invalid');
                 addAsteriskForMissingFields(fieldId);
@@ -194,10 +194,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     displayMessage(messageDiv, 'Please enter a valid card number.', 'error');
                     isValid = false;
                 } else if (field.id === 'expDate' && !validateExpDate(fieldValue)) {
-                    field.classList.add('invalid');
-                    displayMessage(messageDiv, 'Please enter a valid expiration date.', 'error');
-                    isValid = false;
+                    // Only show expiration date error if both month and year are provided or the field is blurred
+                    if (fieldValue.length === 5 || field === document.activeElement) {
+                        field.classList.add('invalid');
+                        displayMessage(messageDiv, 'Please enter a valid expiration date.', 'error');
+                        isValid = false;
+                    }
                 } else {
+                    // Clear invalid status and remove asterisk if valid
                     field.classList.remove('invalid');
                     const asterisk = label?.querySelector('.asterisk');
                     if (asterisk) {
@@ -206,15 +210,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
-    
+
         if (!isValid) {
             displayMessage(messageDiv, 'Please complete all required fields.', 'error');
         }
-    
+
         return isValid;
     }
-    
 
+    // Utility functions
     function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
@@ -240,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (monthNum < 1 || monthNum > 12) return false;
         return true;
     }
+
 
     // Function to validate the shipping method (radio button)
     function validateShippingMethod() {
@@ -282,12 +287,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Section 1: Continue to Payment (validates Section 1 fields)
+    // Function to validate Section 1 fields before allowing progression to Section 2
     continueToPaymentBtn.addEventListener('click', function () {
+        const isSection1Valid = validateSection(requiredFieldsSection1, shippingMessageDiv);
+
+        // Ensure all required fields are valid in Section 1
+        if (!isSection1Valid) {
+            displayMessage(shippingMessageDiv, 'Please complete all required fields before proceeding to payment.', 'error');
+            return;
+        }
+
+        // If all validations pass, proceed to Section 2
         collapseSectionWithValidation('shippingSection', 'paymentSection', requiredFieldsSection1, shippingMessageDiv);
     });
 
     // Section 2: Continue to Review (validates Section 2 fields)
+    // Function to validate Section 2 fields before allowing progression to Section 3
     continueToReviewBtn.addEventListener('click', function () {
+        const isSection2Valid = validateSection(requiredFieldsSection2, paymentMessageDiv);
+
+        // Ensure all required fields, including expiration date, are valid
+        if (!isSection2Valid || expDateMessage.textContent) {
+            displayMessage(paymentMessageDiv, 'Please correct all errors before proceeding.', 'error');
+            return;
+        }
+
+        // If all validations pass, proceed to Section 3
         collapseSectionWithValidation('paymentSection', 'reviewOrderSection', requiredFieldsSection2, paymentMessageDiv);
     });
 
@@ -307,36 +332,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Auto-format expiration date (MM/YY) and validate in real-time
-    const expDateInput = document.getElementById('expDate');
-    if (expDateInput) {
-        const expDateMessage = document.getElementById('expDateMessage');
+        // Auto-format as MM/YY
+        if (input.length > 2) {
+            input = input.substring(0, 2) + '/' + input.substring(2, 4);
+        }
+        e.target.value = input;
 
-        expDateInput.addEventListener('input', function (e) {
-            let input = e.target.value.replace(/\D/g, '');
+        // Clear the message if the user hasn't entered both month and year
+        if (input.length < 5) {
+            expDateMessage.textContent = '';
+        }
+    });
 
-            // Auto-formatting
-            if (input.length > 2) {
-                input = input.substring(0, 2) + '/' + input.substring(2, 4);
-            }
-            e.target.value = input;
+    // Validate expiration date only after blur if the input is incomplete
+    expDateInput.addEventListener('blur', function () {
+        const expDateValue = expDateInput.value;
 
-            // Real-time expiration date validation
-            if (input.length >= 4) {
-                if (!validateExpDate(expDateInput.value)) {
-                    expDateMessage.textContent = 'Invalid date';
-                    expDateMessage.style.color = 'red';
-                } else if (isCardExpired(expDateInput.value)) {
-                    expDateMessage.textContent = 'Card expired';
-                    expDateMessage.style.color = 'red';
-                } else {
-                    expDateMessage.textContent = '';
-                }
+        if (expDateValue.length >= 5) {
+            if (!validateExpDate(expDateValue)) {
+                expDateMessage.textContent = 'Invalid date';
+                expDateMessage.style.color = 'red';
+            } else if (isCardExpired(expDateValue)) {
+                expDateMessage.textContent = 'Card expired';
+                expDateMessage.style.color = 'red';
             } else {
                 expDateMessage.textContent = '';
             }
-        });
-    }
+        } else {
+            expDateMessage.textContent = 'Please enter a complete date (MM/YY)';
+            expDateMessage.style.color = 'red';
+        }
+    });
+}
 
     // Auto-format card number as #### #### #### ####
     const cardNumberInput = document.getElementById('cardNumber');
