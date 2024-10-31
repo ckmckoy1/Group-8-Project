@@ -1771,7 +1771,7 @@ select option {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991.98px) {
     /* Mobile view */
     .top-bar {
         flex-direction: row;
@@ -1907,6 +1907,37 @@ select option {
     display: inline; /* Ensures items stay side-by-side */
 }
 
+.footer-section.download-apps,
+.footer-section.newsletter-signup {
+    text-align: center;
+}
+
+.footer-section.download-apps .download-apps,
+.footer-section.newsletter-signup .social-media-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adjust spacing as needed */
+}
+
+.footer-section.newsletter-signup .newsletter-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+}
+
+/* Display 'Terms of Use | Sitemap' inline on mobile */
+.footer-row.bottom-row ul {
+display: flex;
+justify-content: center;
+padding: 0;
+list-style: none;
+gap: 5px; /* Adjust spacing as needed */
+}
+
+.footer-row.bottom-row ul li {
+display: inline;
+}
 
 }
 /* end of mobile view */
