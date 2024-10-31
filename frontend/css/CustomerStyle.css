@@ -1287,10 +1287,7 @@ select option {
         flex: 1 1 100%;
     }
 
-    .footer-row.bottom-row ul {
-        flex-direction: column;
-        align-items: center;
-    }
+
 }
 
 @media (max-width: 480px) {
