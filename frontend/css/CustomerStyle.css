@@ -489,24 +489,27 @@ input:focus::placeholder {
     opacity: 0;
 }
 
+/* Hide floating labels initially */
 .floating-label {
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
     position: absolute;
-    top: 5px;
-    left: 10px;
-    font-size: 0.4em;
-    color: #888;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    font-weight: bold;
+    left: 10px; /* Adjust position as needed */
+    top: 8px; /* Adjust position as needed */
+    color: #666;
+    font-size: 0.9em;
 }
 
-input:focus + .floating-label,
-input:not(:placeholder-shown) + .floating-label {
-    top: 5px;
-    left: 10px;
-    font-size: 0.75em;
-    color: #000;
+/* Show the label when the input is focused */
+.form-group input:focus + .floating-label,
+.form-group input:not(:placeholder-shown) + .floating-label {
+    opacity: 1;
+    transform: translateY(-20px);
+    font-size: 0.8em;
+    color: #333;
 }
+
 
 /* Radio Group Styling */
 .radio-group {
@@ -1628,14 +1631,18 @@ select option {
     cursor: pointer;
 }
 
-/* Exclude top row sections from having drop-down arrows */
-.footer-row.top-row .footer-section h3::after {
+/* Exclude specific footer sections from having drop-down arrows */
+.footer-row.top-row .footer-section h3::after,
+.footer-section.download-apps h3::after,
+.footer-section.newsletter-signup h3::after {
     content: none;
 }
 
+/* Add rotation only for other expandable sections */
 .footer-section[aria-expanded="true"] h3::after {
     transform: rotate(180deg);
 }
+
 
 
     .order-summary {
@@ -1889,8 +1896,20 @@ select option {
     font-size: 1em;
 }
 
+/* Keep bottom row items side-by-side on small screens */
+.footer-row.bottom-row ul {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px; /* Adjust space between items */
 }
 
+.footer-row.bottom-row ul li {
+    display: inline; /* Ensures items stay side-by-side */
+}
+
+
+}
+/* end of mobile view */
 
 /* take out if needed
 /* Ensure there's no margin or padding at the top of the body */
