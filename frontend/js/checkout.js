@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function () {
             expDateMessage.style.color = 'red';
         }
     });
-}
+
 
     // Auto-format card number as #### #### #### ####
     const cardNumberInput = document.getElementById('cardNumber');
@@ -948,4 +948,3 @@ document.addEventListener('DOMContentLoaded', function () {
             navbarCollapse.classList.toggle("show");
         });
     }
-}); // End of DOMContentLoaded event listener
