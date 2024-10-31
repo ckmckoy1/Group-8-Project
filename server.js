@@ -94,11 +94,12 @@ const orderSchema = new mongoose.Schema({
   ExpirationDate: String,
 
   AuthorizationToken: String,
+  AuthorizationExpirationDate: Date,
+  AuthorizationAmount: Number,
+
   OrderDateTime: Date,
   OrderDate: Date,
   OrderTime: String,
-  AuthorizationAmount: Number,
-  AuthorizationExpirationDate: Date,
 
   WarehouseStatus: String,
   WarehouseApprovalDate: Date,
@@ -149,6 +150,11 @@ app.post('/api/checkout', async (req, res) => {
   const orderId = 'WP-' + Math.floor(100000 + Math.random() * 900000);
 
   try {
+    // Check if testEndpoint is provided
+    if (!testEndpoint) {
+      return res.status(400).json({ message: 'Error: Test endpoint not specified.' });
+    }
+
     let mockEndpointUrl = '';
 
     // Determine which mock endpoint to call based on testEndpoint
@@ -166,21 +172,18 @@ app.post('/api/checkout', async (req, res) => {
           'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
         break;
       default:
-        // Default to success endpoint if none selected
-        mockEndpointUrl =
-          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
+        // Return an error response if testEndpoint is invalid
+        return res.status(400).json({ message: 'Error: Invalid test endpoint specified.' });
     }
 
     // Make the API call to the selected mock endpoint
     const response = await fetch(mockEndpointUrl);
     const paymentResult = await response.json();
 
-    // Modify paymentResult to include actual card information if needed
+    // Replace 'XXXX' in Reason with the last 4 digits of the card number
+    const last4Digits = paymentDetails.cardNumber.slice(-4);
     if (paymentResult.Reason) {
-      paymentResult.Reason = paymentResult.Reason.replace(
-        'XXXX',
-        paymentDetails.cardNumber.slice(-4)
-      );
+      paymentResult.Reason = paymentResult.Reason.replace('XXXX', last4Digits);
     }
 
     // Determine PaymentStatus and related fields based on paymentResult
@@ -194,7 +197,7 @@ app.post('/api/checkout', async (req, res) => {
       paymentStatus = 'Success';
       authorizationAmount = paymentResult.AuthorizedAmount || orderTotal;
       authorizationToken = paymentResult.AuthorizationToken
-        ? `${orderId}_${paymentResult.AuthorizationToken}`
+        ? paymentResult.AuthorizationToken
         : null;
       authorizationExpirationDate = paymentResult.TokenExpirationDate
         ? new Date(paymentResult.TokenExpirationDate)
@@ -204,12 +207,12 @@ app.post('/api/checkout', async (req, res) => {
       // Determine specific failure reason
       if (
         paymentResult.Reason &&
-        paymentResult.Reason.toLowerCase().includes('insufficient')
+        paymentResult.Reason.toLowerCase().includes('insufficient funds')
       ) {
         paymentStatus = 'Failure - Insufficient Funds';
       } else if (
         paymentResult.Reason &&
-        paymentResult.Reason.toLowerCase().includes('incorrect')
+        paymentResult.Reason.toLowerCase().includes('card details incorrect')
       ) {
         paymentStatus = 'Failure - Incorrect Card Details';
       } else {
@@ -250,15 +253,15 @@ app.post('/api/checkout', async (req, res) => {
       // Payment and Order Details
       TotalAmount: orderTotal,
       PaymentStatus: paymentStatus,
-      CardNumber: paymentDetails.cardNumber.slice(-4), // Store last 4 digits only
+      CardNumber: last4Digits, // Store last 4 digits only
       CardBrand: paymentDetails.cardBrand,
       ExpirationDate: paymentDetails.expDate,
       AuthorizationToken: authorizationToken,
+      AuthorizationExpirationDate: authorizationExpirationDate,
+      AuthorizationAmount: authorizationAmount,
       OrderDateTime: orderDateTime, // Full date and time
       OrderDate: new Date(orderDate), // Date part as Date object
       OrderTime: orderTime, // Time part as string
-      AuthorizationAmount: authorizationAmount,
-      AuthorizationExpirationDate: authorizationExpirationDate,
       WarehouseStatus: warehouseStatus,
       WarehouseApprovalDate: null,
       PaymentResult: paymentResult, // Include the paymentResult object
@@ -266,13 +269,19 @@ app.post('/api/checkout', async (req, res) => {
 
     await newOrder.save();
 
-    res.json({
-      message:
-        paymentStatus === 'Success'
-          ? 'Order saved successfully!'
-          : `Order failed: ${paymentStatus.replace('Failure - ', '')}`,
-      orderId: orderId,
-    });
+    if (paymentResult.Success) {
+      res.json({
+        message: 'Order saved successfully!',
+        orderId: orderId,
+      });
+    } else {
+      // Send back the failure message
+      res.status(400).json({
+        message: `Order failed: ${paymentStatus.replace('Failure - ', '')}`,
+        reason: paymentResult.Reason,
+        orderId: orderId,
+      });
+    }
   } catch (error) {
     console.error('Error during order processing:', error.message);
     res.status(500).json({

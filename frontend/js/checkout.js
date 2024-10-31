@@ -1,3 +1,5 @@
+// checkout.js
+
 // Helper functions and variables
 const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
 const ADDRESS_COMPONENT_TYPES = {
@@ -115,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const shippingMessageDiv = document.getElementById('shippingMessage');
     const paymentMessageDiv = document.getElementById('paymentMessage');
     const discountMessageDiv = document.getElementById('discountMessage');
+    const expDateMessage = document.getElementById('expDateMessage');
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
@@ -194,7 +197,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     displayMessage(messageDiv, 'Please enter a valid card number.', 'error');
                     isValid = false;
                 } else if (field.id === 'expDate' && !validateExpDate(fieldValue)) {
-                    // Only show expiration date error if both month and year are provided or the field is blurred
                     if (fieldValue.length === 5 || field === document.activeElement) {
                         field.classList.add('invalid');
                         displayMessage(messageDiv, 'Please enter a valid expiration date.', 'error');
@@ -245,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
 
-
     // Function to validate the shipping method (radio button)
     function validateShippingMethod() {
         const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
@@ -286,8 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Section 1: Continue to Payment (validates Section 1 fields)
-    // Function to validate Section 1 fields before allowing progression to Section 2
+    // Section 1: Continue to Payment
     continueToPaymentBtn.addEventListener('click', function () {
         const isSection1Valid = validateSection(requiredFieldsSection1, shippingMessageDiv);
 
@@ -301,8 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
         collapseSectionWithValidation('shippingSection', 'paymentSection', requiredFieldsSection1, shippingMessageDiv);
     });
 
-    // Section 2: Continue to Review (validates Section 2 fields)
-    // Function to validate Section 2 fields before allowing progression to Section 3
+    // Section 2: Continue to Review
     continueToReviewBtn.addEventListener('click', function () {
         const isSection2Valid = validateSection(requiredFieldsSection2, paymentMessageDiv);
 
@@ -332,38 +331,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-        // Auto-format as MM/YY
-        if (input.length > 2) {
-            input = input.substring(0, 2) + '/' + input.substring(2, 4);
-        }
-        e.target.value = input;
+    // Auto-format expiration date as MM/YY
+    const expDateInput = document.getElementById('expDate');
+    if (expDateInput) {
+        expDateInput.addEventListener('input', function (e) {
+            let input = e.target.value.replace(/\D/g, '');
+            if (input.length > 2) {
+                input = input.substring(0, 2) + '/' + input.substring(2, 4);
+            }
+            e.target.value = input;
 
-        // Clear the message if the user hasn't entered both month and year
-        if (input.length < 5) {
-            expDateMessage.textContent = '';
-        }
-    });
-
-    // Validate expiration date only after blur if the input is incomplete
-    expDateInput.addEventListener('blur', function () {
-        const expDateValue = expDateInput.value;
-
-        if (expDateValue.length >= 5) {
-            if (!validateExpDate(expDateValue)) {
-                expDateMessage.textContent = 'Invalid date';
-                expDateMessage.style.color = 'red';
-            } else if (isCardExpired(expDateValue)) {
-                expDateMessage.textContent = 'Card expired';
-                expDateMessage.style.color = 'red';
-            } else {
+            // Clear the message if the user hasn't entered both month and year
+            if (input.length < 5) {
                 expDateMessage.textContent = '';
             }
-        } else {
-            expDateMessage.textContent = 'Please enter a complete date (MM/YY)';
-            expDateMessage.style.color = 'red';
-        }
-    });
+        });
 
+        // Validate expiration date on blur
+        expDateInput.addEventListener('blur', function () {
+            const expDateValue = expDateInput.value;
+
+            if (expDateValue.length >= 5) {
+                if (!validateExpDate(expDateValue)) {
+                    expDateMessage.textContent = 'Invalid date';
+                    expDateMessage.style.color = 'red';
+                } else if (isCardExpired(expDateValue)) {
+                    expDateMessage.textContent = 'Card expired';
+                    expDateMessage.style.color = 'red';
+                } else {
+                    expDateMessage.textContent = '';
+                }
+            } else {
+                expDateMessage.textContent = 'Please enter a complete date (MM/YY)';
+                expDateMessage.style.color = 'red';
+            }
+        });
+    }
 
     // Auto-format card number as #### #### #### ####
     const cardNumberInput = document.getElementById('cardNumber');
@@ -674,6 +677,14 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // ** Validate that a test endpoint has been selected **
+        const testEndpoint = testEndpointSelect ? testEndpointSelect.value : '';
+        if (!testEndpoint) {
+            displayMessage(messageDiv, 'Error: Please select a mock endpoint for testing.', 'error');
+            hideLoading();
+            return;
+        }
+
         const firstName = document.getElementById('firstName').value;
         const lastName = document.getElementById('lastName').value;
         const email = document.getElementById('email').value;
@@ -693,9 +704,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const billingCity = document.getElementById('billingCity').value;
         const billingState = document.getElementById('billingState').value;
         const billingZipCode = document.getElementById('billingZipCode').value;
-
-        // ** Get the selected mock endpoint **
-        const testEndpoint = testEndpointSelect ? testEndpointSelect.value : 'success';
 
         // Check card expiration
         if (isCardExpired(expDate)) {
@@ -758,14 +766,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            // Send order details to your backend server (e.g., to MongoDB)
+            // Send order details to your backend server
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(orderData),
-              });
+            });
 
             const result = await response.json();
 
@@ -773,13 +781,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 displayMessage(messageDiv, `Order submitted successfully! Order ID: ${result.orderId}`, 'success');
                 popupOverlay.classList.add('show'); // Show success popup
             } else {
-                displayMessage(messageDiv, `Error: ${result.message}`, 'error');
+                // If the server returns an error, display the message and reason
+                let errorMessage = `Error: ${result.message}`;
+                if (result.reason) {
+                    errorMessage += ` - ${result.reason}`;
+                }
+                displayMessage(messageDiv, errorMessage, 'error');
             }
         } catch (error) {
             console.error('Error during order submission:', error);
             displayMessage(messageDiv, 'Error: Something went wrong during order submission!', 'error');
-        }
-        finally {
+        } finally {
             // Hide the loading screen regardless of success or failure
             hideLoading();
         }
@@ -794,7 +806,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Function to toggle sections (if needed)
+    // Function to toggle sections
     window.toggleSection = function (sectionId) {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -924,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update the badge to show 1 item
     updateCartBadge(1);
 
-    // Footer section toggles
+    // Footer section toggles for expandable sections only
     document.querySelectorAll('.footer-section').forEach(section => {
         const header = section.querySelector('h3');
         const content = section.querySelector('ul');
@@ -932,7 +944,8 @@ document.addEventListener('DOMContentLoaded', function () {
             header.addEventListener('click', () => {
                 const isExpanded = section.getAttribute('aria-expanded') === 'true';
                 section.setAttribute('aria-expanded', !isExpanded);
-                content.style.display = isExpanded ? 'none' : 'block';
+                content.style.maxHeight = isExpanded ? '0' : content.scrollHeight + 'px';
+                content.style.opacity = isExpanded ? '0' : '1';
             });
         }
     });
@@ -948,3 +961,4 @@ document.addEventListener('DOMContentLoaded', function () {
             navbarCollapse.classList.toggle("show");
         });
     }
+});

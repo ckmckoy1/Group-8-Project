@@ -1287,6 +1287,99 @@ select option {
         flex: 1 1 100%;
     }
 
+        /* Hide top-bar on mobile */
+        .top-bar {
+            display: none;
+        }
+
+        .footer-section.download-apps,
+        .footer-section.newsletter-signup {
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        .download-apps, .social-media-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+    /* Display mobile header elements */
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #023047;
+        color: white;
+    }
+
+        /* Center the headings in the specified sections on mobile */
+        .footer-section.newsletter-signup h3,
+        .footer-section.download-apps h3 {
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        /* Center-align content inside these sections as well */
+        .footer-section.newsletter-signup,
+        .footer-section.download-apps {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    /* Center the download apps container and align images horizontally */
+    .footer-section.download-apps {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section.download-apps .download-apps {
+        display: flex;
+        flex-direction: row; /* Keep images side by side */
+        justify-content: center;
+        gap: 10px; /* Space between images */
+    }
+
+    /* Ensure navbar-toggler (hamburger menu) is visible */
+    .navbar-toggler {
+        display: inline-block;
+        background: none;
+        border: none;
+        color: white;
+    }
+
+    /* Hide the full navbar links */
+    .navbar-nav {
+        display: none;
+    }
+
+    /* Show navbar links when toggler is active */
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #05668d; /* Matches your primary color */
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
 
 }
 
@@ -1685,7 +1778,6 @@ select option {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        background-color: var(--primary-color);
         position: absolute;
         top: 60px;
         left: 0;
@@ -1706,16 +1798,20 @@ select option {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: var(--primary-color);
 }
 
 .search-bar {
     display: flex;
     align-items: center;
+    border-bottom: none;
 }
 
 .search-bar input {
     display: none; /* Hide input field on mobile */
+}
+
+.search-bar img {
+    height: 30px;
 }
 
 .logo img {
@@ -1921,7 +2017,7 @@ select option {
     justify-content: center;
     margin-top: 10px;
 }
-}
+
 
 /* Display 'Terms of Use | Sitemap' inline on mobile */
 .footer-row.bottom-row ul {
@@ -1935,6 +2031,12 @@ gap: 5px; /* Adjust spacing as needed */
 .footer-row.bottom-row ul li {
 display: inline;
 }
+
+.footer-section[aria-expanded="true"] ul {
+    display: block; /* Show list items when expanded */
+    margin-top: 8px; /* Add some spacing if needed */
+}
+
 
 }
 /* end of mobile view */
