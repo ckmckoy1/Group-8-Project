@@ -660,8 +660,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize masking functionality
     setupSensitiveDataMasking();
 
-    // ** Get the test endpoint selection **
-    const testEndpointSelect = document.getElementById('test-endpoint');
+// Get the test endpoint selection
+const testEndpointSelect = document.getElementById('test-endpoint');
+
+const testEndpoint = testEndpointSelect ? testEndpointSelect.value : '';
+
+if (!testEndpoint) {
+    displayMessage(messageDiv, 'Error: Please select a mock endpoint for testing.', 'error');
+    hideLoading();
+    return;
+}
 
     // Final submission
     checkoutForm.addEventListener('submit', async (event) => {
