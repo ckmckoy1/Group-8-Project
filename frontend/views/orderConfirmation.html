@@ -2,12 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Order Confirmation</title>
+    <title>Order Confirmation | Wild Path Outfitters</title>
     <link rel="stylesheet" href="../css/styles.css"> <!-- Include your CSS file -->
+    <link rel="icon" href="../assets/compass-logo.png" type="image/png">
 </head>
 <body>
-    <header>
-        <!-- Include your site's header and navigation -->
+    <header class="header">
+        <div class="promo-bar">
+            <div class="Earn_Rewards">
+                <img src="../assets/mountain.svg" width="20" height="20" alt="Mountain"> Earn Rewards On Purchases
+            </div>
+            <div class="Find_Deals">
+                WINTER OUTERWEAR 20-40% OFF | 
+                <a href="#" class="view-deals">
+                    VIEW DEALS
+                    <!-- Inline SVG -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z"/>
+                    </svg>
+                </a>
+            </div>
+                               
+            <div class="right-section">
+                <div class="Find_Location">
+                    <!-- SVG Icon -->
+                    <svg 
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24" 
+                        fill="currentColor" 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        aria-hidden="true">
+                        <path 
+                            fill-rule="evenodd" 
+                            clip-rule="evenodd" 
+                            d="M8.89129 21.0787L8.9461 21.1315L8.95039 21.1357C9.95462 22.098 10.9283 22.7576 12.0296 22.7449C13.1259 22.7323 14.0956 22.0555 15.0992 21.0783C16.4747 19.7455 18.2545 17.9477 19.5403 15.8149C20.831 13.6741 21.6639 11.1292 21.0372 8.33595C18.9197 -1.10413 5.09133 -1.11519 2.96276 8.32592C2.35382 11.04 3.12314 13.5227 4.34999 15.6268C5.57222 17.7231 7.2824 19.5029 8.65394 20.8471C8.73386 20.9254 8.81273 21.0023 8.89035 21.0778L8.89129 21.0787ZM12 6.25012C10.2051 6.25012 8.75 7.7052 8.75 9.50012C8.75 11.295 10.2051 12.7501 12 12.7501C13.7949 12.7501 15.25 11.295 15.25 9.50012C15.25 7.7052 13.7949 6.25012 12 6.25012Z" />
+                    </svg>
+                    <a href="#" class="location-link">
+                        The Outlet Shoppes at Atlanta
+                        <svg 
+                            width="20" 
+                            height="20" 
+                            viewBox="0 0 24 24" 
+                            fill="currentColor" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            aria-hidden="true">
+                            <path 
+                                fill-rule="evenodd" 
+                                clip-rule="evenodd" 
+                                d="M12 16.5C11.45 16.5 10.98 16.28 10.66 15.94L5.66 10.94C5.26 10.54 5.26 9.91 5.66 9.51C6.06 9.11 6.69 9.11 7.09 9.51L12 14.42L16.91 9.51C17.31 9.11 17.94 9.11 18.34 9.51C18.74 9.91 18.74 10.54 18.34 10.94L13.34 15.94C13.02 16.28 12.55 16.5 12 16.5Z" />
+                        </svg>
+                    </a> |
+                    
+                </div>
+                <div class="Sign_In">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 
+                        10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 
+                        3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 
+                        0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 
+                        5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg> <a href="#">Sign In / Sign Up</a>
+                </div>
+            </div>
+        </div>
+        <!-- Top Bar with Search, Logo, and Cart -->
+        <div class="top-bar">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+                <img src="../assets/search.svg" width="20" height="20" alt="Search">
+            </div>
+            <div class="logo">
+                <img class="wpo-title" src="../assets/Wild-Path-Outfitters.svg" alt="Wild Path Outfitters"/> 
+                <img class="wpo-logo" src="../assets/compass.svg"  alt="Compass"/>
+            </div>
+            <!-- Shopping Cart Icon Container -->
+            <div class="cart-icon">
+                <img src="../assets/cart.svg" alt="Shopping Cart" class="cart-image">
+            </div>
+
+        </div>
+ 
+        <div class="banner">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <!-- Mobile Header Elements -->
+                <div class="mobile-header">
+                    <!-- Navbar Toggler (Hamburger Menu) -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <!-- Hamburger Icon -->
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+        
+                    <!-- Search Icon -->
+                    <img src="../assets/search.svg" alt="Search" class="search-icon">
+        
+                    <!-- Logo Images -->
+                    <img class="wpo-title" src="../assets/Wild-Path-Outfitters.svg" alt="Wild Path Outfitters"/> 
+                    <img class="wpo-logo" src="../assets/compass.svg" alt="Compass"/>
+        
+                    <!-- Sign In Link -->
+                    <div class="Sign_In">
+                        <!-- SVG Icon -->
+                        <svg><!-- SVG content --></svg>
+                        <a href="#">Sign In / Sign Up</a>
+                    </div>
+        
+                    <!-- Shopping Cart Icon -->
+                    <div class="cart-icon">
+                        <img src="../assets/cart.svg" alt="Shopping Cart" class="cart-image">
+                        <span class="cart-badge">1</span>
+                    </div>
+                </div> <!-- End of mobile-header -->
+                
+                 <!-- Navbar Links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Women</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Men</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Kids</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Gear & Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Shoes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Clearance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>            
+        </div>
     </header>
     
     <main>
@@ -19,8 +153,138 @@
         </section>
     </main>
     
-    <footer>
-        <!-- Include your site's footer -->
+ 
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Top Row -->
+            <div class="footer-row top-row">
+                <!-- Store Locator -->
+                <section class="footer-section">
+                    <div class="footer-section-content">
+                        <img src="../assets/location.svg" width="40" height="40" alt="Location">
+                        <div class="footer-text">
+                            <h3>Store Locator</h3>
+                            <p>Find one of over 250 Wild Path Outfitters in North America.</p>
+                        </div>
+                    </div>
+                </section>
+            
+                <!-- Navigator Rewards -->
+                <section class="footer-section">
+                    <div class="footer-section-content">
+                        <img src="../assets/mountain.svg" width="40" height="40" alt="Mountain">
+                        <div class="footer-text">
+                            <h3>Navigator Rewards</h3>
+                            <p>Sign up today to start earning rewards!</p>
+                        </div>
+                    </div>
+                </section>
+            
+                <!-- Mission Statement -->
+                <section class="footer-section">
+                    <div class="footer-section-content">
+                        <img src="../assets/compass.svg" width="40" height="40" alt="Compass">
+                        <div class="footer-text">
+                            <h3>Mission Statement</h3>
+                            <p>Sustainable apparel and gear inspiring journeys and safeguarding the natural world.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+    
+            <!-- Middle Row -->
+            <div class="footer-row middle-row">
+                <!-- Help -->
+                <section class="footer-section expandable" aria-expanded="false">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="#">Customer Service</a></li>
+                        <li><a href="#">Track Your Order</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                        <li><a href="#">Start a Return</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Payment Options</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </section>
+    
+                <!-- Shopping -->
+                <section class="footer-section expandable" aria-expanded="false">
+                    <h3>Shopping</h3>
+                    <ul>
+                        <li><a href="#">Sign In / Register</a></li>
+                        <li><a href="#">Adventure Rewards</a></li>
+                        <li><a href="#">Buy Gift Cards</a></li>
+                        <li><a href="#">Promos and Coupons</a></li>
+                    </ul>
+                </section>
+    
+                <!-- About Us -->
+                <section class="footer-section expandable" aria-expanded="false">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Affiliate Program</a></li>
+                        <li><a href="#">Land Acknowledgement</a></li>
+                    </ul>
+                </section>
+    
+                <!-- Privacy Policy -->
+                <section class="footer-section expandable" aria-expanded="false">
+                    <h3>Privacy Policy</h3>
+                    <ul>
+                        <li><a href="#">Your Privacy Choices <img src="../assets/privacy.svg" width="20" height="20" alt="Privacy"></a></li>
+                        <li><a href="#">CA Supply Chains Act</a></li>
+                        <li><a href="#">Notice at Collection</a></li>
+                        <li><a href="#">Do Not Contact Me</a></li>
+                        <li><a href="#">Accessibility Statement</a></li>
+                        <li><a href="#">Forced Labor Report</a></li>
+                    </ul>
+                </section>
+
+                    
+        <!-- Download Apps -->
+        <section class="footer-section download-apps">
+            <h3>Download Apps</h3>
+            <div class="download-apps">
+                <a href="#"><img src="../assets/apple-store.svg" alt="Apple Store"></a>
+                <a href="#"><img src="../assets/google-store.svg" alt="Google Play"></a>
+            </div>
+        </section>
+
+        <!-- Newsletter Signup -->
+        <section class="footer-section newsletter-signup">
+            <h3>Newsletter Signup</h3>
+            <p>Be the first to know and earn rewards and be the first to hear about sales and special offers.</p>
+            <form class="newsletter-form">
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="social-media-icons">
+                <img src="../assets/facebook.svg" width="20" height="20" alt="Facebook">
+                <img src="../assets/youtube.svg" width="20" height="20" alt="YouTube">
+                <img src="../assets/instagram.svg" width="20" height="20" alt="Instagram">
+                <img src="../assets/pinterest.svg" width="20" height="20" alt="Pinterest">
+                <img src="../assets/twitter.svg" width="20" height="20" alt="Twitter">
+            </div>
+        </section>
+
+            </div>
+    
+            <!-- Bottom Row -->
+            <div class="footer-row bottom-row">
+                <!-- Session and Legal -->
+                <section class="footer-section">
+                    <ul>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li> | </li>
+                        <li><a href="#">Sitemap</a></li>
+                    </ul>
+                    <p>&copy; 2024 Wild Path Outfitters. All Rights Reserved.</p>
+                </section>
+            </div>
+        </div>
     </footer>
 
     <script>
