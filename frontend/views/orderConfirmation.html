@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Include your CSS file -->
+</head>
+<body>
+    <header>
+        <!-- Include your site's header and navigation -->
+    </header>
+    
+    <main>
+        <section class="confirmation-section">
+            <h1>Thank You for Your Purchase!</h1>
+            <p>Your order has been placed successfully.</p>
+            <p>Order ID: <span id="orderIdDisplay"></span></p>
+            <!-- Optionally, include more details about the order -->
+        </section>
+    </main>
+    
+    <footer>
+        <!-- Include your site's footer -->
+    </footer>
+
+    <script>
+        // Get the order ID from the query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        if (orderId) {
+            document.getElementById('orderIdDisplay').textContent = orderId;
+        } else {
+            document.getElementById('orderIdDisplay').textContent = 'Unknown';
+        }
+    </script>
+</body>
+</html>

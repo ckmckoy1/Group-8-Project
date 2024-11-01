@@ -678,6 +678,14 @@ if (!testEndpoint) {
         // Show the loading screen
         showLoading();
 
+        // Disable the 'Place Order' button
+        const placeOrderButton = document.getElementById('placeOrderButton');
+        placeOrderButton.disabled = true;
+
+        // Clear any previous messages
+        clearMessage(messageDiv);
+
+
         // Validate payment section before final submission
         const isSection2Valid = validateSection(requiredFieldsSection2, paymentMessageDiv);
         if (!isSection2Valid) {
@@ -778,32 +786,37 @@ if (!testEndpoint) {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(orderData),
             });
-
+    
             const result = await response.json();
-
+    
             if (response.ok) {
-                displayMessage(messageDiv, `Order submitted successfully! Order ID: ${result.orderId}`, 'success');
-                popupOverlay.classList.add('show'); // Show success popup
+                // Redirect to the order confirmation page with the order ID as a query parameter
+                window.location.href = `orderConfirmation.html?orderId=${encodeURIComponent(result.orderId)}`;
             } else {
-                // If the server returns an error, display the message and reason
-                let errorMessage = `Error: ${result.message}`;
+                // Display the error message under the 'Place Order' button
+                let errorMessage = 'Unable to complete purchase at this time.';
                 if (result.reason) {
-                    errorMessage += ` - ${result.reason}`;
+                    errorMessage += ` ${result.reason}`;
                 }
+                errorMessage += ' Please try again.';
                 displayMessage(messageDiv, errorMessage, 'error');
             }
         } catch (error) {
             console.error('Error during order submission:', error);
-            displayMessage(messageDiv, 'Error: Something went wrong during order submission!', 'error');
+            let errorMessage = 'Unable to complete order right now due to a connection error. Please try again.';
+            displayMessage(messageDiv, errorMessage, 'error');
         } finally {
-            // Hide the loading screen regardless of success or failure
+            // Hide the loading screen
             hideLoading();
+            // Re-enable the 'Place Order' button
+            placeOrderButton.disabled = false;
         }
     });
+  
 
     // Close popup functionality
     if (closePopup) {
