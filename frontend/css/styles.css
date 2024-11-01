@@ -1,13 +1,1385 @@
-.message {
-    margin-top: 10px;
-    font-size: 14px;
+/* Global Styles */
+:root {
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --color-text: #333;
+    --primary-color: #05668d;
+    --transition-fast: 0.3s ease;
+}
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+
+body {
+    font-family: "interstate", Helvetica, Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+/* Header */
+header {
+    color: #fff;
+    padding: 2px;
+    font-size: 0.75em;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+
+.promo-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
+}
+
+.promo-bar div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.promo-bar .Earn_Rewards {
+    flex: 1;
+}
+
+.promo-bar .Find_Deals {
+    flex: 1;
+    text-align: center;
+}
+
+.promo-bar .right-section {
+    display: flex;
+    gap: 20px;
+}
+
+.promo-bar .right-section div {
+    display: flex;
+    align-items: center;
+}
+
+.promo-bar img {
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.promo-bar a {
+    color: #ffb703;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.promo-bar a:hover {
+    text-decoration: underline;
+}
+
+/* Parent div styling */
+.Find_Deals {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    gap: 10px; /* Space between text and link */
+    font-size: 1.1em;/* Base font size */
+    /* Optional: Adjust padding and margin as needed */
+    padding: 4px;
+}
+
+/* Wrapper link styling */
+.Find_Deals .view-deals {
+    color: #ffb703; /* Desired color for link and SVG */
+    display: inline-flex;
+    align-items: center; /* Vertically center text and SVG */
+    gap: 5px; /* Space between text and SVG */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make link text bold */
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* SVG Styling */
+.Find_Deals .view-deals svg {
+    color: #ffb703; /* Ensure SVG inherits the link color */
+    transition: transform 0.2s ease; /* Smooth transform on hover */
+    width: 1em; /* Relative sizing */
+    height: 1em;
+    vertical-align: middle; /* Align SVG vertically with text */
+}
+
+/* styles.css */
+
+.location-link {
+    color: white; /* Sets the text and SVG color to white */
+    text-decoration: none; /* Optional: Removes the underline from the link */
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between text and SVG */
+}
+
+.location-link:hover {
+    color: #f0f0f0; /* Optional: Slight color change on hover */
+}
+
+
+/* Hover Effects */
+.Find_Deals .view-deals:hover {
+    color: #e0a800; /* Slightly darker shade on hover */
+}
+
+.Find_Deals .view-deals:hover svg {
+    transform: translateX(2px); /* Move SVG slightly to the right on hover */
+}
+
+/* Reset margins and padding for link and SVG */
+.Find_Deals .view-deals,
+.Find_Deals .view-deals svg {
+    margin: 0;
+    padding: 0;
+}
+
+/* Focus state for accessibility */
+.Find_Deals .view-deals:focus {
+    outline: 2px dashed #ffb703; /* Visible focus outline */
+    outline-offset: 2px;
+}
+
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 30px;
+    z-index: 1002;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    margin-left: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.search-bar input {
+    padding: 10px;
+    color: #aaa;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.search-bar img {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* Shopping Cart Icon Container */
+.cart-icon {
+    position: relative; /* Establishes a positioning context for the badge */
+    display: inline-block; /* Ensures the container wraps the content */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+/* Cart Image Styling */
+.cart-icon .cart-image {
+    width: 40px; /* Adjust the size as needed */
+    height: 40px;
+    display: block; /* Removes any inline spacing */
+}
+
+/* Cart Badge Styling */
+.cart-badge {
+    position: absolute; /* Positions the badge relative to the cart-icon container */
+    top: -5px; /* Adjust to position vertically */
+    right: -5px; /* Adjust to position horizontally */
+    background-color:  #05668d;
+    color: white; /* Text color */
+    border-radius: 50%; /* Makes the badge circular */
+    padding: 2px 6px; /* Adjusts the size of the badge */
+    font-size: 12px; /* Text size */
+    font-weight: bold; /* Makes the number bold */
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); /* Optional: Adds a slight shadow for depth */
+    pointer-events: none; /* Allows clicks to pass through to the cart icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.top-bar .logo {
+    gap: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    animation: slideIn 1s ease-in-out;
+}
+
+.top-bar .logo .wpo-title {
+    height: 45px; /* Adjust as needed */
+    width: auto;   /* Maintains aspect ratio */
+}
+/* Logo Images */
+.top-bar .logo img {
+    margin: 0;
+    padding: 0;
+    display: block; /* Eliminates inline spacing */
+    height: auto; /* Allows responsive scaling */
+    max-height: 70px; /* Set a maximum height */
+    width: auto; /* Maintains aspect ratio */
+}
+
+.logo img {
+    margin: 0;
+    padding: 0;
+}
+
+
+.top-bar .logo .wpo-logo {
+    height: 50px; /* Adjust as needed */
+    width: auto;   /* Maintains aspect ratio */
+
+}
+
+.banner {
+    background-color: #023047;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3em;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 130px;
+    z-index: 1003;
+}
+
+.banner .nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    list-style: none;
+}
+
+/* Remove Bullet Points and Arrange Links Horizontally */
+.banner .navbar-nav {
+    list-style: none;            /* Remove bullet points */
+    display: flex;               /* Arrange items horizontally */
+    justify-content: space-around;  /* Align items to the right */
+    padding: 0;                  /* Remove default padding */
+    margin: 0;                   /* Remove default margin */
+    gap: 50px;      /* Space between nav items */
+    text-align: center;
+    align-items: center;
+
+}
+
+
+.banner .navbar-nav a {
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.banner .navbar-nav a:hover {
+    color: #ffb703;
+}
+
+/* Navigation Links */
+.banner .navbar-nav .nav-link {
+    color: #fff;                     /* Link color */
+    font-size: 1em;                  /* Adjust font size as needed */
+    font-weight: bold;               /* Bold text */
+    padding: var(--spacing-xs) var(--spacing-xs); /* Padding around links */
+    transition: color var(--transition-fast);      /* Smooth color transition */
+    align-items: center;
+    text-align: center;
+}
+
+/* Main Container Layout */
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    flex-grow: 1;
+    box-sizing: border-box;
+    padding-top: 70px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Footer */
+.footer {
+    background-color: 	#E8E8E8;
+    color: var(--color-text);
+    font-family: "interstate", Helvetica, Arial, sans-serif;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    border-top: 1px solid  #333;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Footer Rows */
+.footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-lg);
+    border-bottom: 1px solid  #333;
+}
+
+/* Top Row */
+.footer-row.top-row {
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.footer-row.top-row h3 {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.footer-row.top-row p {
+    margin-bottom: 30px;
+}
+
+/* Footer Sections */
+.footer-section {
+    flex: 1 1 30%;
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-sm);
+}
+
+/* Footer Section Content */
+.footer-section-content {
+    display: flex;
+    align-items: flex-start; /* Align content (including images) to the top */
+    margin: 0;
+}
+
+.footer-section-content img {
+    margin-right: 10px;
+    align-self: flex-start; /* Align each image to the top of its flex container */
+    flex-shrink: 0;
+    display: block; /* Ensures images do not have inline spacing */
+}
+
+
+/* Middle Row */
+.footer-row.middle-row {
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.footer-row.middle-row h3{
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.footer-row.middle-row .social-media-icons {
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.newsletter-form button {
+    padding: 10px 70px;
+    font-size: 0.9em;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.newsletter-form button:hover {
+    background-color: #05668d;
+}
+
+/* Download Apps Container */
+.download-apps {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: left;    /* Center them horizontally */
+    padding: 0;
+    margin-left: 0;
+}
+
+/* Remove any spacing between the anchor tags */
+.download-apps a {
+    display: block; /* Ensure the links take up full width */
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the images */
+.download-apps a img {
+    display: block;       /* Remove inline spacing */
+    margin-top: 10px;     /* Maintain aspect ratio */
+    margin-right: 50px;            /* Remove any default margins */
+    padding: 0;           /* Remove any default padding */
+    height: auto;         /* Set desired height */
+    width: 200px;          /* Maintain aspect ratio */
+}
+
+
+
+/* Bottom Row */
+.footer-row.bottom-row {
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+/* Footer Sections */
+.footer-section {
+    flex: 1 1 30%;
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-sm);
+}
+
+.footer-section h3 {
+    font-size: 1.25em;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text);
+}
+
+.footer-section p {
+    font-size: 0.9em;
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+    color: #555;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #555;
+    font-size: 0.8em;
+    transition: color var(--transition-fast);
+    gap: 20px;
+}
+
+.footer-section ul li a:hover,
+.footer-section ul li a:focus {
+    color: var(--color-text);
+    font-weight: bold;
+}
+
+.social-media-icons {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+}
+
+.social-media-icons img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+    
+}
+
+.social-media-icons img:hover {
+    transform: scale(1.1);
+}
+
+/* Adjustments for Footer Sections */
+.footer-row.top-row .footer-section {
+    flex: 1 1 30%;
+}
+
+.footer-row.middle-row .footer-section {
+    flex: 1 1 15%;
+}
+
+.footer-row.middle-row .footer-section.newsletter-section {
+    flex: 1 1 25%;
+}
+
+/* Bottom Row Styling */
+.footer-row.bottom-row .footer-section {
+    flex: 1 1 100%;
+}
+
+.footer-row.bottom-row ul {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.footer-row.bottom-row ul li {
+    margin-bottom: 0;
+}
+
+.footer-row.bottom-row p {
+    margin-top: var(--spacing-md);
+    font-size: 0.85em;
+    color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .footer-row.middle-row .footer-section {
+        flex: 1 1 100%;
+    }
+
+        /* Hide top-bar on mobile */
+        .top-bar {
+            display: none;
+        }
+
+        .footer-section.download-apps,
+        .footer-section.newsletter-signup {
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        .download-apps, .social-media-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+    /* Display mobile header elements */
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #023047;
+        color: white;
+    }
+
+        /* Center the headings in the specified sections on mobile */
+        .footer-section.newsletter-signup h3,
+        .footer-section.download-apps h3 {
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        /* Center-align content inside these sections as well */
+        .footer-section.newsletter-signup,
+        .footer-section.download-apps {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    /* Center the download apps container and align images horizontally */
+    .footer-section.download-apps {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section.download-apps .download-apps {
+        display: flex;
+        flex-direction: row; /* Keep images side by side */
+        justify-content: center;
+        gap: 10px; /* Space between images */
+    }
+
+    /* Ensure navbar-toggler (hamburger menu) is visible */
+    .navbar-toggler {
+        display: inline-block;
+        background: none;
+        border: none;
+        color: white;
+    }
+
+    /* Hide the full navbar links */
+    .navbar-nav {
+        display: none;
+    }
+
+    /* Show navbar links when toggler is active */
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #05668d; /* Matches your primary color */
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+    .footer {
+        padding: var(--spacing-lg);
+    }
+
+    .footer-section h3 {
+        font-size: 1.1em;
+    }
+
+    .footer-section p,
+    .footer-section ul li a {
+        font-size: 0.85em;
+    }
+
+    .social-media-icons img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-form input[type="email"],
+    .newsletter-form button {
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    .newsletter-form button {
+        margin-top: 10px;
+    }
+}
+
+
+/* Error Message Styling */
+.error-message {
+    color: #d32f2f;
+    font-size: 0.9em;
     display: none;
 }
 
-.message.error {
-    color: red;
+.message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: none;
+    text-align: center;
 }
 
 .message.success {
-    color: green;
+    background-color: #8ecae6;
+    color: #023047;
 }
+
+.message.error {
+    background-color: #ffb3c1;
+    color: #9d0208;
+}
+
+/* Popup Styling */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+}
+
+.popup-overlay.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    background-color: #023047;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+.popup.expanded .close {
+    display: block;
+}
+
+.popup-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Chat Popup */
+#chatPopupOverlay {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 60px;
+    height: 60px;
+    background: none;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: none;
+}
+
+#chatPopup {
+    width: 60px;
+    height: 60px;
+    background-color: #ffb703;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    pointer-events: all;
+    position: relative;
+}
+
+#chatPopup img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Feedback Popup */
+#feedbackPopupOverlay {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1001;
+}
+
+#feedbackPopup {
+    width: 100px;
+    height: 100px;
+    background-color: #023047;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#feedbackPopup p {
+    font-size: 1em;
+    text-align: center;
+}
+
+/* Loading Overlay Styles */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000; /* Ensure it sits above other elements */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Spinner Styles */
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #ffb703; /* Brand color */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1.2s linear infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+} /* Added missing closing brace here */
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Layout */
+@media (min-width: 769px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .form-group-pair {
+        flex-direction: row;
+    }
+
+    .order-summary {
+        flex-direction: column;
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .form-group-pair {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .form-group-pair input, .form-group input {
+        max-width: 100%;
+    }
+    .footer-row {
+        flex-direction: column;
+    }
+
+    .footer-section ul {
+        display: none; /* Hidden by default */
+    }
+
+    /* Show the content when expanded */
+    .footer-section[aria-expanded="true"] ul {
+        display: block;
+        margin-top: 8px;
+    }
+/* General Footer Section Styles */
+.footer-row {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 10px;
+}
+
+.footer-section h3 {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none; /* Hide content by default on mobile */
+}
+
+.footer-section ul li {
+    margin: 8px 0;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #555;
+}
+
+.footer-section h3::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 16.5L6 10.5h12z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+/* Exclude specific footer sections from having drop-down arrows */
+.footer-row.top-row .footer-section h3::after,
+.footer-section.download-apps h3::after,
+.footer-section.newsletter-signup h3::after {
+    content: none;
+}
+
+/* Add rotation only for other expandable sections */
+.footer-section[aria-expanded="true"] h3::after {
+    transform: rotate(180deg);
+}
+
+
+
+    .order-summary {
+        margin-left: 0;
+        margin-top: 20px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar .logo h1 {
+        font-size: 2em;
+    }
+
+    .banner .nav a {
+        font-size: 0.9em;
+    }
+
+    .checkout-container, .order-summary {
+        padding: 10px;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    /* Tablet view: show search input and reorganize navbar */
+    .search-bar input {
+        display: inline-block;
+        width: 100px;
+        margin-left: 5px;
+    }
+
+    .navbar-nav {
+        display: none; /* Hide navbar links initially */
+    }
+
+    .navbar-toggler {
+        display: inline-block; /* Show hamburger icon */
+    }
+
+    .navbar-toggler:focus + .navbar-collapse,
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+        padding: 10px 20px;
+        width: 100%;
+        text-align: left;
+    }
+
+    /* Top bar styling */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border-bottom: none;
+}
+
+.search-bar input {
+    display: none; /* Hide input field on mobile */
+}
+
+.search-bar img {
+    height: 30px;
+}
+
+.logo img {
+    height: 30px;
+}
+
+.cart-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+}
+
+/* Navbar collapse and icon adjustments */
+.navbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.navbar-toggler {
+    border: none;
+    background: transparent;
+    display: none; /* Hidden on desktop */
+}
+
+.navbar-collapse {
+    display: flex;
+    justify-content: center;
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+}
+
+@media (max-width: 991.98px) {
+    /* Mobile view */
+    .top-bar {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .promo-bar .Earn_Rewards,
+    .promo-bar .right-section {
+        display: none;
+    }
+
+    /* Adjust the Find_Deals section to center it */
+    .promo-bar .Find_Deals {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Show hamburger menu and icons in top bar */
+    .navbar-toggler {
+        display: inline-block;
+    }
+
+    .search-bar input {
+        display: none;
+    }
+
+    /* Hide main navbar; show only on click */
+    .navbar-collapse {
+        display: none;
+    }
+
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: block;
+    }
+
+    .logo img, .search-bar img, .cart-icon img {
+        width: 20px; /* Resize icons on mobile */
+        height: 20px;
+    }
+
+    /* Add border below each nav link on mobile */
+    .navbar-nav .nav-link {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 10px;
+        color: white;
+    }
+
+  /* Show hamburger menu */
+  .navbar-toggler {
+    display: inline-block;
+}
+
+/* Hide navbar links unless toggled */
+.navbar-collapse {
+    display: none;
+}
+
+/* Adjust positioning of elements */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Adjust logo sizes */
+.navbar .wpo-title,
+.navbar .wpo-logo {
+    width: 100px;
+    height: auto;
+}
+
+/* Adjust search icon */
+.navbar .search-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Adjust sign-in and cart icon */
+.navbar .Sign_In,
+.navbar .cart-icon {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Hide the full navbar links */
+.navbar-nav {
+    display: none;
+}
+
+/* Show navbar links when toggler is active */
+.navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+    display: block;
+}
+
+ /* Hide paragraphs in footer top row */
+ .footer-row.top-row .footer-text p {
+    display: none;
+}
+
+/* Adjust footer section to center content */
+.footer-row.top-row .footer-section {
+    text-align: center;
+}
+
+/* Ensure drop-down arrows are not displayed */
+.footer-row.top-row .footer-section h3::after {
+    content: none;
+}
+
+/* Adjust image and h3 size */
+.footer-row.top-row .footer-section img {
+    width: 50px;
+    height: 50px;
+}
+
+.footer-row.top-row .footer-section h3 {
+    font-size: 1em;
+}
+
+/* Keep bottom row items side-by-side on small screens */
+.footer-row.bottom-row ul {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px; /* Adjust space between items */
+}
+
+.footer-row.bottom-row ul li {
+    display: inline; /* Ensures items stay side-by-side */
+}
+
+.footer-section.download-apps,
+.footer-section.newsletter-signup {
+    text-align: center;
+}
+
+.footer-section.download-apps .download-apps,
+.footer-section.newsletter-signup .social-media-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adjust spacing as needed */
+}
+
+.footer-section.newsletter-signup .newsletter-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+
+/* Display 'Terms of Use | Sitemap' inline on mobile */
+.footer-row.bottom-row ul {
+display: flex;
+justify-content: center;
+padding: 0;
+list-style: none;
+gap: 5px; /* Adjust spacing as needed */
+}
+
+.footer-row.bottom-row ul li {
+display: inline;
+}
+
+.footer-section[aria-expanded="true"] ul {
+    display: block; /* Show list items when expanded */
+    margin-top: 8px; /* Add some spacing if needed */
+}
+
+
+}
+/* end of mobile view */
+
+/* take out if needed
+/* Ensure there's no margin or padding at the top of the body */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove margin/padding from header and top elements */
+header {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Adjust the content container to account for fixed headers */
+.container {
+    margin-top: 180px;
+}
+
+/* Default styles (desktop) */
+.navbar-toggler {
+    display: none; /* Hide hamburger menu on desktop */
+}
+
+.navbar .search-icon {
+    display: inline-block;
+}
+
+.navbar .Sign_In,
+.navbar .cart-icon {
+    display: inline-block;
+}
+
+/* Default Styles (Desktop View) */
+/* Hide mobile header elements on desktop */
+.mobile-header {
+    display: none;
+}
+
+/* Show navbar links on desktop */
+.navbar-nav {
+    display: flex;
+}
+
+/* Default styles (Desktop View) */
+.promo-bar .Earn_Rewards,
+.promo-bar .right-section {
+    display: flex;
+}
+
+.top-bar {
+    display: flex;
+}
+
