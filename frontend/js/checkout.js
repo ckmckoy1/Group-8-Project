@@ -164,6 +164,13 @@ document.addEventListener('DOMContentLoaded', function () {
         targetDiv.style.display = 'block';
     };
 
+    // Function to clear messages
+    function clearMessage(targetDiv) {
+        targetDiv.textContent = '';
+        targetDiv.className = 'message';
+        targetDiv.style.display = 'none';
+    }
+
     // Enhanced validation function
     function validateSection(requiredFields, messageDiv) {
         let isValid = true;
@@ -215,6 +222,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!isValid) {
             displayMessage(messageDiv, 'Please complete all required fields.', 'error');
+        } else {
+            clearMessage(messageDiv); // Clear the message if validation passes
         }
 
         return isValid;
@@ -253,8 +262,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!shippingMethod) {
             displayMessage(shippingMessageDiv, 'Please select a shipping method.', 'error');
             return false;
+        } else {
+            clearMessage(shippingMessageDiv); // Clear the message if validation passes
+            return true;
         }
-        return true;
     }
 
     // Function to collapse current section and open the next
@@ -314,6 +325,22 @@ document.addEventListener('DOMContentLoaded', function () {
         // If all validations pass, proceed to Section 3
         collapseSectionWithValidation('paymentSection', 'reviewOrderSection', requiredFieldsSection2, paymentMessageDiv);
     });
+
+    // Event listeners to clear error messages when user corrects the fields
+    function addInputEventListeners(fields, messageDiv) {
+        fields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.addEventListener('input', function () {
+                    validateSection([fieldId], messageDiv);
+                });
+            }
+        });
+    }
+
+    // Add event listeners to required fields
+    addInputEventListeners(requiredFieldsSection1, shippingMessageDiv);
+    addInputEventListeners(requiredFieldsSection2, paymentMessageDiv);
 
     // Auto-format phone number as (###) ###-####
     const phoneInput = document.getElementById('phone');
@@ -660,16 +687,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize masking functionality
     setupSensitiveDataMasking();
 
-// Get the test endpoint selection
-const testEndpointSelect = document.getElementById('test-endpoint');
-
-const testEndpoint = testEndpointSelect ? testEndpointSelect.value : '';
-
-if (!testEndpoint) {
-    displayMessage(messageDiv, 'Error: Please select a mock endpoint for testing.', 'error');
-    hideLoading();
-    return;
-}
+    // Get the test endpoint selection
+    const testEndpointSelect = document.getElementById('test-endpoint');
 
     // Final submission
     checkoutForm.addEventListener('submit', async (event) => {
@@ -685,19 +704,20 @@ if (!testEndpoint) {
         // Clear any previous messages
         clearMessage(messageDiv);
 
-
         // Validate payment section before final submission
         const isSection2Valid = validateSection(requiredFieldsSection2, paymentMessageDiv);
         if (!isSection2Valid) {
             hideLoading(); // Ensure loading overlay is hidden on error
+            placeOrderButton.disabled = false;
             return;
         }
 
-        // ** Validate that a test endpoint has been selected **
+        // Validate that a test endpoint has been selected
         const testEndpoint = testEndpointSelect ? testEndpointSelect.value : '';
         if (!testEndpoint) {
             displayMessage(messageDiv, 'Error: Please select a mock endpoint for testing.', 'error');
             hideLoading();
+            placeOrderButton.disabled = false;
             return;
         }
 
@@ -725,7 +745,10 @@ if (!testEndpoint) {
         if (isCardExpired(expDate)) {
             displayMessage(paymentMessageDiv, 'Error: Your card has expired.', 'error');
             hideLoading();
+            placeOrderButton.disabled = false;
             return;
+        } else {
+            clearMessage(paymentMessageDiv);
         }
 
         // Get the card brand
@@ -734,7 +757,10 @@ if (!testEndpoint) {
         if (cardBrand === 'Unknown') {
             displayMessage(paymentMessageDiv, 'Error: Unknown card brand. Please check your card number.', 'error');
             hideLoading();
+            placeOrderButton.disabled = false;
             return;
+        } else {
+            clearMessage(paymentMessageDiv);
         }
 
         // Prepare order data
@@ -766,7 +792,7 @@ if (!testEndpoint) {
                 cardBrand,
             },
             orderTotal,
-            testEndpoint, // ** Include the selected mock endpoint **
+            testEndpoint, // Include the selected mock endpoint
         };
 
         // Include discounts if applied
@@ -816,9 +842,8 @@ if (!testEndpoint) {
             placeOrderButton.disabled = false;
         }
     });
-  
 
-    // Close popup functionality
+    // Close popup functionality (if using a popup)
     if (closePopup) {
         closePopup.addEventListener('click', () => {
             popupOverlay.classList.remove('show');
