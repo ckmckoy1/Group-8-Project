@@ -806,9 +806,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (rewardNumber) {
             orderData.rewardNumber = rewardNumber;
         }
-
         try {
-            // Send order details to your backend server
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
                 method: 'POST',
                 headers: {
@@ -816,14 +814,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify(orderData),
             });
-    
-            const result = await response.json();
-    
+        
+            let result;
+            try {
+                result = await response.json();
+            } catch (parseError) {
+                console.error('Error parsing JSON response:', parseError);
+                throw new Error('Invalid server response. Please try again later.');
+            }
+        
             if (response.ok) {
-                // Redirect to the order confirmation page with the order ID as a query parameter
-                window.location.href = `orderConfirmation.html?orderId=${encodeURIComponent(result.orderId)}`;
+                window.location.href = `../views/orderConfirmation.html?orderId=${encodeURIComponent(result.orderId)}`;
             } else {
-                // Display the error message under the 'Place Order' button
                 let errorMessage = 'Unable to complete purchase at this time.';
                 if (result.reason) {
                     errorMessage += ` ${result.reason}`;
@@ -833,14 +835,13 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         } catch (error) {
             console.error('Error during order submission:', error);
-            let errorMessage = 'Unable to complete order right now due to a connection error. Please try again.';
+            let errorMessage = error.message || 'Unable to complete order right now due to a connection error. Please try again.';
             displayMessage(messageDiv, errorMessage, 'error');
         } finally {
-            // Hide the loading screen
             hideLoading();
-            // Re-enable the 'Place Order' button
             placeOrderButton.disabled = false;
         }
+        
     });
 
     // Close popup functionality (if using a popup)
