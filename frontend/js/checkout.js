@@ -67,15 +67,12 @@ function fillInAddressFields(place, section) {
 // Define your initAddressAutocompletes function
 async function initAddressAutocompletes() {
     // Import the 'places' library
-    await google.maps.importLibrary("places");
+    const { Map, places } = await google.maps.importLibrary(['maps', 'places']);
     
     // Shipping address autocomplete
     const shippingAddressInput = document.getElementById('address');
     if (shippingAddressInput) {
-        const shippingAutocomplete = new google.maps.places.Autocomplete(
-            shippingAddressInput,
-            { types: ['address'] }
-        );
+        const shippingAutocomplete = new google.maps.places.Autocomplete(shippingAddressInput);
 
         shippingAutocomplete.addListener('place_changed', () => {
             const place = shippingAutocomplete.getPlace();
@@ -90,10 +87,7 @@ async function initAddressAutocompletes() {
     // Billing address autocomplete
     const billingAddressInput = document.getElementById('billingAddress');
     if (billingAddressInput) {
-        const billingAutocomplete = new google.maps.places.Autocomplete(
-            billingAddressInput,
-            { types: ['address'] }
-        );
+        const billingAutocomplete = new google.maps.places.Autocomplete(billingAddressInput);
 
         billingAutocomplete.addListener('place_changed', () => {
             const place = billingAutocomplete.getPlace();
@@ -105,6 +99,7 @@ async function initAddressAutocompletes() {
         });
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     // Call initAddressAutocompletes to initialize the autocompletes
