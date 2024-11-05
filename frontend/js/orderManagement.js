@@ -118,13 +118,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Card Brand', visible: true,  targets: 17, orderable: true, width: '100px', responsivePriority: 18 },
                 { name: 'Expiration Date', visible: true,  targets: 18, orderable: true, width: '120px', responsivePriority: 19 },
                 { name: 'Order Date/Time', visible: true,  targets: 19, orderable: true, type: 'datetime', width: '150px', responsivePriority: 20 },
-                { name: 'Order Date', visible: false,  targets: 20, orderable: true, type: 'date', width: '120px', responsivePriority: 21 },
-                { name: 'Order Time', visible: false,  targets: 21, orderable: true, width: '100px', responsivePriority: 22 },
-                { name: 'Authorization Token', visible: false,  targets: 22, orderable: true, width: '150px', responsivePriority: 23 },
-                { name: 'Authorization Amount', visible: false,  targets: 23, orderable: true, width: '150px', responsivePriority: 24 },
-                { name: 'Authorization Expiration', visible: false,  targets: 24, orderable: true, type: 'datetime', width: '150px', responsivePriority: 25 },
-                { name: 'Warehouse Status', visible: false,  targets: 25, orderable: true, width: '120px', responsivePriority: 26 },
-                { name: 'Warehouse Approval Date', visible: false,  targets: 26, orderable: true, type: 'datetime', width: '150px', responsivePriority: 27 }
+                { name: 'Order Date', visible: true,  targets: 20, orderable: true, type: 'date', width: '120px', responsivePriority: 21 },
+                { name: 'Order Time', visible: true,  targets: 21, orderable: true, width: '100px', responsivePriority: 22 },
+                { name: 'Authorization Token', visible: true,  targets: 22, orderable: true, width: '150px', responsivePriority: 23 },
+                { name: 'Authorization Amount', visible: true,  targets: 23, orderable: true, width: '150px', responsivePriority: 24 },
+                { name: 'Authorization Expiration', visible: true,  targets: 24, orderable: true, type: 'datetime', width: '150px', responsivePriority: 25 },
+                { name: 'Warehouse Status', visible: true,  targets: 25, orderable: true, width: '120px', responsivePriority: 26 },
+                { name: 'Warehouse Approval Date', visible: true,  targets: 26, orderable: true, type: 'datetime', width: '150px', responsivePriority: 27 }
             ],
             buttons: [
                 {
