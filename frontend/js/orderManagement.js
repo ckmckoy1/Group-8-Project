@@ -94,33 +94,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             columnDefs: [
-                { name: 'Order ID', targets: 0, orderable: true },
-                { name: 'Customer', targets: 1, orderable: true },
-                { name: 'Email', targets: 2, orderable: true },
-                { name: 'Shipping Method', targets: 3, orderable: true },
-                { name: 'Shipping Address', targets: 4, orderable: true },
-                { name: 'Shipping Unit Number', targets: 5, orderable: true },
-                { name: 'Shipping City', targets: 6, orderable: true },
-                { name: 'Shipping State', targets: 7, orderable: true },
-                { name: 'Shipping Zip', targets: 8, orderable: true },
-                { name: 'Billing Address', targets: 9, orderable: true },
-                { name: 'Billing Unit Number', targets: 10, orderable: true },
-                { name: 'Billing City', targets: 11, orderable: true },
-                { name: 'Billing State', targets: 12, orderable: true },
-                { name: 'Billing Zip', targets: 13, orderable: true },
-                { name: 'Total Amount', targets: 14, orderable: true },
-                { name: 'Payment Status', targets: 15, orderable: true },
-                { name: 'Card Number', targets: 16, orderable: true },
-                { name: 'Card Brand', targets: 17, orderable: true },
-                { name: 'Expiration Date', targets: 18, orderable: true },
-                { name: 'Order Date Time', targets: 19, orderable: true, type: 'datetime' },
-                { name: 'Order Date', targets: 20, orderable: true, type: 'date' },
-                { name: 'Order Time', targets: 21, orderable: true },
-                { name: 'Authorization Token', targets: 22, orderable: true },
-                { name: 'Authorization Amount', targets: 23, orderable: true },
-                { name: 'Authorization Expiration', targets: 24, orderable: true, type: 'datetime' },
-                { name: 'Warehouse Status', targets: 25, orderable: true },
-                { name: 'Warehouse Approval Date', targets: 26, orderable: true, type: 'datetime' }
+                // Default visible columns
+                { targets: 0, visible: true, name: 'Order ID' },               // Order ID
+                { targets: 1, visible: true, name: 'Customer' },               // Customer
+                { targets: 2, visible: true, name: 'Email' },                  // Email
+                { targets: 3, visible: true, name: 'Shipping Method' },        // Shipping Method
+                { targets: 14, visible: true, name: 'Total Amount' },          // Total Amount
+                { targets: 15, visible: true, name: 'Payment Status' },        // Payment Status
+                { targets: 16, visible: true, name: 'Card Last 4' },           // Card Last 4
+                { targets: 17, visible: true, name: 'Card Brand' },            // Card Brand
+                { targets: 18, visible: true, name: 'Expiration Date' },       // Expiration Date
+                { targets: 19, visible: true, name: 'Order Date/Time' },       // Order Date/Time
+    
+                // Default hidden columns (Available in the modal for user to show)
+                { targets: 20, visible: false, name: 'Order Date' },           // Order Date
+                { targets: 21, visible: false, name: 'Order Time' },           // Order Time
+                { targets: 22, visible: false, name: 'Authorization Token' },  // Authorization Token
+                { targets: 23, visible: false, name: 'Authorization Amount' }, // Authorization Amount
+                { targets: 24, visible: false, name: 'Authorization Expiration' }, // Authorization Expiration
+                { targets: 25, visible: false, name: 'Warehouse Status' },     // Warehouse Status
+                { targets: 26, visible: false, name: 'Warehouse Approval Date' } // Warehouse Approval Date
             ],
             buttons: [
                 {
