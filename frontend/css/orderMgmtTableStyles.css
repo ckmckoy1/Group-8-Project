@@ -57,7 +57,7 @@ table, th, td {
 
 /* Style for the header row */
 .header-row th {
-    position: sticky;
+    position: relative;
     top: 0;
     background-color: #B9D9EB; /* Light blue background for headers */
     background-image: none; /* Do not reset the background-image */
