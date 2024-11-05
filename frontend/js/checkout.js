@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     field.classList.add('invalid');
                     displayMessage(messageDiv, 'Please enter a valid email address.', 'error');
                     isValid = false;
-                } else if (field.type === 'tel' && !validatePhone(fieldValue)) {
+                } else if (field.type === 'phone' && !validatePhone(fieldValue)) {
                     field.classList.add('invalid');
                     displayMessage(messageDiv, 'Please enter a valid phone number.', 'error');
                     isValid = false;
@@ -231,6 +231,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function validatePhone(phone) {
+        console.log('Validating phone number:', phone);
+        phone = phone.trim();
         const re = /^\(\d{3}\) \d{3}-\d{4}$/;
         return re.test(phone);
     }
