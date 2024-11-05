@@ -40,7 +40,6 @@ header {
     top: 0;
     width: 100%;
     z-index: 1000;
-    max-width: 1400px;
 }
 
 
@@ -326,11 +325,19 @@ header {
     text-align: center;
 }
 
+/* Add padding to the main content to avoid overlap */
+.main-content {
+    padding-top: calc(30px + 60px + 5px); 
+    align-items: center;
+    text-align: center;
+}
+
+
 /* Main Container Layout */
 .container {
     display: flex;
     justify-content: space-between;
-    max-width: 1400px;
+    margin-top: 30px;
     margin: 0 auto;
     padding: 20px;
     align-items: center;
@@ -351,7 +358,6 @@ header {
 }
 
 .footer-container {
-    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -1046,9 +1052,6 @@ header {
         font-size: 0.9em;
     }
 
-    .checkout-container, .order-summary {
-        padding: 10px;
-    }
 }
 
 /* Responsive adjustments */
@@ -1208,6 +1211,10 @@ header {
         color: white;
     }
 
+    .checkout-options img {
+        width: 60px; /* Reduce the width for smaller screens */
+        height: auto; /* Maintain aspect ratio */
+    }
   /* Show hamburger menu */
   .navbar-toggler {
     display: inline-block;
@@ -1346,10 +1353,6 @@ header {
 }
 
 
-/* Adjust the content container to account for fixed headers */
-.container {
-    margin-top: 180px;
-}
 
 /* Default styles (desktop) */
 .navbar-toggler {
@@ -1386,3 +1389,20 @@ header {
     display: flex;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+.promo-bar, .top-bar, .banner {
+    position: fixed;
+    width: 100%;
+    margin: 0 auto;
+    left: 0; /* Align it to the left */
+    right: 0; /* Align it to the right */
+}
+
+.top-bar .logo, .top-bar .cart-icon, .top-bar .search-bar {
+    margin: 0;
+    padding: 0;
+    max-width: 100%; /* Make sure they don’t overflow */
+}
