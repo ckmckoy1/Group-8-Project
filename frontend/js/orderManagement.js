@@ -362,23 +362,30 @@ document.addEventListener('DOMContentLoaded', function () {
         const filterButton = document.getElementById(buttonId);
         const filterOptions = document.getElementById(optionsId);
         const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
-
+    
         // Toggle dropdown on button click
         filterButton.addEventListener('click', function (e) {
             e.stopPropagation();
-            filterOptions.style.display = filterOptions.style.display === 'none' ? 'block' : 'none';
+            // Toggle visibility of the dropdown
+            if (filterOptions.style.display === 'block') {
+                filterOptions.style.display = 'none';
+            } else {
+                filterOptions.style.display = 'block';
+            }
         });
-
+    
         // Hide dropdown when clicking outside
-        document.addEventListener('click', function () {
-            filterOptions.style.display = 'none';
+        document.addEventListener('click', function (e) {
+            if (!filterOptions.contains(e.target) && e.target !== filterButton) {
+                filterOptions.style.display = 'none';
+            }
         });
-
+    
         // Handle selection and filtering logic
         filterOptions.addEventListener('click', function (e) {
             if (e.target.tagName === 'INPUT') {
                 const selectedOption = e.target.parentNode.getAttribute('data-value');
-
+    
                 if (selectedOption === 'selectAll') {
                     // Select all options except "Clear All"
                     checkboxes.forEach(checkbox => {
@@ -401,23 +408,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         clearAllCheckbox.checked = false;
                     }
                 }
-
+    
                 // Update the table with selected filters
                 updateTableFilter(columnIndex, checkboxes);
             }
         });
     }
-
+    
     // Update the table based on selected filters
     function updateTableFilter(columnIndex, checkboxes) {
         const selectedValues = [];
-
+    
         checkboxes.forEach(checkbox => {
             if (checkbox.checked && checkbox.parentNode.getAttribute('data-value') !== 'selectAll' && checkbox.parentNode.getAttribute('data-value') !== 'clearAll') {
                 selectedValues.push(checkbox.parentNode.getAttribute('data-value'));
             }
         });
-
+    
         // If no filters are selected, reset the filter
         if (selectedValues.length === 0) {
             table.column(columnIndex).search('').draw();
@@ -427,6 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
             table.column(columnIndex).search(regex, true, false).draw();
         }
     }
+    
 
     // Initialize all dropdown filters
     initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 3);
