@@ -77,7 +77,6 @@ table, th, td {
 /* Style for the filter row */
 .filter-row th {
     position: relative;
-    top: 35px; /* Adjust based on the height of the header row */
     z-index: 2; /* Lower than the header row */
     background-color: #B9D9EB; /* Match background color */
 }
