@@ -325,28 +325,29 @@ header {
     text-align: center;
 }
 
-/* Add padding to the main content to avoid overlap */
+/* Main Container Layout */
 .main-content {
     padding-top: calc(30px + 60px + 5px); 
-    align-items: center;
-    text-align: center;
+    text-align: center; /* Center any text or inline elements */
+    margin: 0 auto; /* Center the main-content horizontally in its parent container */
+    max-width: 1200px; /* Limit the width to prevent it from stretching across the entire page */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-
-/* Main Container Layout */
 .container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    margin: 0 auto;
+    justify-content: center; /* Centers all child elements horizontally */
+    align-items: center; /* Centers all child elements vertically */
+    max-width: 1400px; /* Set a max-width to avoid expanding too much */
+    margin: 0 auto; /* Centers the container horizontally */
     padding: 20px;
-    align-items: center;
-    text-align: center;
-    flex-grow: 1;
     box-sizing: border-box;
-    padding-top: 70px;
+    padding-top: 70px; /* Remove redundant margin-top since padding-top already handles it */
+    text-align: center; /* Centers text within the container if it's applicable */
     animation: fadeIn 1s ease-in-out;
 }
+
 
 /* Footer */
 .footer {
@@ -359,6 +360,7 @@ header {
 
 .footer-container {
     margin: 0 auto;
+    max-width: 1200px;
 }
 
 /* Footer Rows */
