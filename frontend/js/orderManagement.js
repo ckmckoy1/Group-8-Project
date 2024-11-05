@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollX: true,
             scrollY: '50vh',
             orderCellsTop: true,
+            autoWidth: false, // Disable auto-width calculation to prevent misalignment
             colReorder: {
                 realtime: true, // Enable realtime reordering (drag-and-drop)
             },
