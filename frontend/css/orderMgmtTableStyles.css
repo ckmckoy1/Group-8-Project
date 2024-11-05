@@ -163,7 +163,7 @@ thead select:hover,
     background-color: white;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 9999; /* Ensure it's on top */
+    z-index: 9999; /* Increase z-index to ensure it's above other elements */
     border: 1px solid #A0BCCD; /* Soft grey-blue border */
     list-style: none;
     margin: 0;
@@ -189,6 +189,7 @@ thead select:hover,
 .dropdown-options li:hover {
     background-color: #E0F0F8; /* Very light blue on hover */
 }
+
 
 /* Hide dropdown when not active */
 .dropdown-options {
