@@ -94,33 +94,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             columnDefs: [
+                // Define column visibility based on your default settings
                 { name: 'Order ID', visible: true,  targets: 0, orderable: true },
-                { name: 'Customer',visible: true,  targets: 1, orderable: true },
-                { name: 'Email',visible: true,  targets: 2, orderable: true },
-                { name: 'Shipping Method',visible: true,  targets: 3, orderable: true },
-                { name: 'Shipping Address',visible: false, targets: 4, orderable: true },
-                { name: 'Shipping Unit Number',visible: false, targets: 5, orderable: true },
-                { name: 'Shipping City',visible: false, targets: 6, orderable: true },
-                { name: 'Shipping State',visible: false, targets: 7, orderable: true },
-                { name: 'Shipping Zip',visible: false, targets: 8, orderable: true },
-                { name: 'Billing Address',visible: false, targets: 9, orderable: true },
-                { name: 'Billing Unit Number',visible: false, targets: 10, orderable: true },
-                { name: 'Billing City',visible: false, targets: 11, orderable: true },
-                { name: 'Billing State',visible: false, targets: 12, orderable: true },
-                { name: 'Billing Zip',visible: false, targets: 13, orderable: true },
-                { name: 'Total Amount',visible: true,  targets: 14, orderable: true },
-                { name: 'Payment Status',visible: true,  targets: 15, orderable: true },
-                { name: 'Card Number',visible: true,  targets: 16, orderable: true },
-                { name: 'Card Brand',visible: true,  targets: 17, orderable: true },
-                { name: 'Expiration Date',visible: true,  targets: 18, orderable: true },
-                { name: 'Order Date Time',visible: true,  targets: 19, orderable: true, type: 'datetime' },
-                { name: 'Order Date',visible: true,  targets: 20, orderable: true, type: 'date' },
-                { name: 'Order Time',visible: true,  targets: 21, orderable: true },
-                { name: 'Authorization Token',visible: true,  targets: 22, orderable: true },
-                { name: 'Authorization Amount',visible: true,  targets: 23, orderable: true },
-                { name: 'Authorization Expiration',visible: true,  targets: 24, orderable: true, type: 'datetime' },
-                { name: 'Warehouse Status',visible: true,  targets: 25, orderable: true },
-                { name: 'Warehouse Approval Date',visible: true,  targets: 26, orderable: true, type: 'datetime' }
+                { name: 'Customer', visible: true,  targets: 1, orderable: true },
+                { name: 'Email', visible: true,  targets: 2, orderable: true },
+                { name: 'Shipping Method', visible: true,  targets: 3, orderable: true },
+                { name: 'Shipping Address', visible: false, targets: 4, orderable: true },
+                { name: 'Shipping Unit Number', visible: false, targets: 5, orderable: true },
+                { name: 'Shipping City', visible: false, targets: 6, orderable: true },
+                { name: 'Shipping State', visible: false, targets: 7, orderable: true },
+                { name: 'Shipping Zip', visible: false, targets: 8, orderable: true },
+                { name: 'Billing Address', visible: false, targets: 9, orderable: true },
+                { name: 'Billing Unit Number', visible: false, targets: 10, orderable: true },
+                { name: 'Billing City', visible: false, targets: 11, orderable: true },
+                { name: 'Billing State', visible: false, targets: 12, orderable: true },
+                { name: 'Billing Zip', visible: false, targets: 13, orderable: true },
+                { name: 'Total Amount', visible: true,  targets: 14, orderable: true },
+                { name: 'Payment Status', visible: true,  targets: 15, orderable: true },
+                { name: 'Card Last 4', visible: true,  targets: 16, orderable: true },
+                { name: 'Card Brand', visible: true,  targets: 17, orderable: true },
+                { name: 'Expiration Date', visible: true,  targets: 18, orderable: true },
+                { name: 'Order Date/Time', visible: true,  targets: 19, orderable: true, type: 'datetime' },
+                { name: 'Order Date', visible: false,  targets: 20, orderable: true, type: 'date' },
+                { name: 'Order Time', visible: false,  targets: 21, orderable: true },
+                { name: 'Authorization Token', visible: false,  targets: 22, orderable: true },
+                { name: 'Authorization Amount', visible: false,  targets: 23, orderable: true },
+                { name: 'Authorization Expiration', visible: false,  targets: 24, orderable: true, type: 'datetime' },
+                { name: 'Warehouse Status', visible: false,  targets: 25, orderable: true },
+                { name: 'Warehouse Approval Date', visible: false,  targets: 26, orderable: true, type: 'datetime' }
             ],
             buttons: [
                 {
@@ -140,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Auto-width for each column
                         const totalColumns = doc.content[1].table.body[0].length;
                         doc.content[1].table.widths = Array(totalColumns).fill('*');
-
+    
                         // Smaller font sizes
                         doc.styles.tableHeader.fontSize = 10;
                         doc.defaultStyle.fontSize = 8;
@@ -150,37 +151,38 @@ document.addEventListener('DOMContentLoaded', function () {
             footerCallback: function (row, data, start, end, display) {
                 let totalAmount = 0;
                 let totalTransactionAmount = 0;
-
+    
                 // Loop through displayed rows
                 data.forEach(function(rowData) {
                     // Remove dollar signs and commas before parsing
                     const amount = parseFloat(rowData[14].replace('$', '').replace(/,/g, '')) || 0;
                     const transactionAmount = parseFloat(rowData[23].replace('$', '').replace(/,/g, '')) || 0;
-
+    
                     totalAmount += amount;
                     totalTransactionAmount += transactionAmount;
                 });
-
+    
                 // Format numbers with commas
                 const formattedTotalAmount = totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 const formattedTotalTransactionAmount = totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
+    
                 // Update the footer totals
                 $('#totalAmount').text(`$${formattedTotalAmount}`);
                 $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
             }
         });
-
+    
         // Hook into the draw event to ensure totals are updated after the table is drawn
         table.on('draw', updateTotals);
-
-        // Listen for column reorder events
+    
+        // Listen for column reorder events (optional logging)
         table.on('column-reorder', function (e, settings, details) {
             console.log('Columns reordered');
         });
-
+    
         addColumnFiltering();
     }
+    
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
@@ -476,77 +478,100 @@ document.addEventListener('DOMContentLoaded', function () {
         populateColumnChooser(); // Populate the modal
     });
 
-    // Populate column chooser modal
-    function populateColumnChooser() {
-        const availableColumns = document.getElementById('availableColumns');
-        const selectedColumns = document.getElementById('selectedColumns');
+// Populate column chooser modal
+function populateColumnChooser() {
+    const availableColumns = document.getElementById('availableColumns');
+    const selectedColumns = document.getElementById('selectedColumns');
 
-        availableColumns.innerHTML = '';
-        selectedColumns.innerHTML = '';
+    availableColumns.innerHTML = '';
+    selectedColumns.innerHTML = '';
 
-        // Populate the columns into the chooser
-        table.columns().every(function (index) {
-            const columnTitle = this.header().textContent.trim();
-            const listItem = `<li class="list-group-item" data-column-index="${index}">${columnTitle}</li>`;
+    // Populate the columns into the chooser
+    table.columns().every(function (index) {
+        const columnTitle = this.header().textContent.trim();
+        const listItem = `<li class="list-group-item" data-column-index="${index}">${columnTitle}</li>`;
 
-            // Add the columns to the appropriate list based on visibility
-            if (this.visible()) {
-                selectedColumns.innerHTML += listItem;
-            } else {
-                availableColumns.innerHTML += listItem;
-            }
-        });
-
-        // Make both lists sortable and connected
-        $('#selectedColumns, #availableColumns').sortable({
-            connectWith: '#availableColumns, #selectedColumns',
-            placeholder: 'ui-state-highlight'
-        }).disableSelection();
-    }
-
-    // Update table column visibility and order
-    function updateTableColumns() {
-        const selectedColumns = document.querySelectorAll('#selectedColumns li');
-
-        // First, hide all columns
-        table.columns().visible(false, false);
-
-        // Collect the new order based on selected columns
-        const newOrder = [];
-
-        // Show selected columns and determine new order
-        selectedColumns.forEach(item => {
-            const columnIdx = parseInt(item.getAttribute('data-column-index'));
-            table.column(columnIdx).visible(true, false); // Show the column without redrawing
-            newOrder.push(columnIdx); // Add to new order array
-        });
-
-        // Reorder the columns based on newOrder
-        table.colReorder.order(newOrder, true); // Trigger a redraw
-
-        // Ensure proper alignment by adjusting the columns, headers, and footers
-        table.columns.adjust().draw(false); // Adjust without full redraw for performance
-    }
-
-    // Apply column selections and close modal
-    document.getElementById('applyColumns').addEventListener('click', function () {
-        try {
-            updateTableColumns(); // Update the table based on modal selections
-        } catch (error) {
-            console.error("Error in updateTableColumns: ", error);
+        // Add the columns to the appropriate list based on visibility
+        if (this.visible()) {
+            selectedColumns.innerHTML += listItem;
+        } else {
+            availableColumns.innerHTML += listItem;
         }
-        
-        $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
-
-        // Ensuring the table remains properly aligned after columns are updated
-        try {
-            ensureAlignment(); // Ensure alignment after columns are applied
-        } catch (error) {
-            console.error("Error in ensureAlignment: ", error);
-        }
-
-        console.log("Modal hide triggered and columns updated"); // Log for debugging purposes
     });
+
+    // Make both lists sortable and connected
+    $('#selectedColumns, #availableColumns').sortable({
+        connectWith: '#availableColumns, #selectedColumns',
+        placeholder: 'ui-state-highlight'
+    }).disableSelection();
+}
+
+
+// Update table column visibility and order based on modal selections
+function updateTableColumns() {
+    const selectedColumns = document.querySelectorAll('#selectedColumns li');
+
+    // Create an array of selected column indices in the desired order
+    const selectedIndices = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column-index')));
+
+    // Create a complete order array: selected columns first, then the rest in their existing order
+    const allColumnIndices = [];
+    table.columns().every(function(index) {
+        allColumnIndices.push(index);
+    });
+
+    // Determine hidden columns by excluding selectedIndices
+    const hiddenIndices = allColumnIndices.filter(index => !selectedIndices.includes(index));
+
+    // Combine selected and hidden indices to form the complete order array
+    const completeOrder = [...selectedIndices, ...hiddenIndices];
+
+    console.log('Selected column indices:', selectedIndices);
+    console.log('Hidden column indices:', hiddenIndices);
+    console.log('Complete order array:', completeOrder);
+
+    // Apply column visibility based on selection
+    table.columns().every(function(index) {
+        if (selectedIndices.includes(index)) {
+            this.visible(true, false); // Show column without redrawing
+        } else {
+            this.visible(false, false); // Hide column without redrawing
+        }
+    });
+
+    // Apply the complete order array to ColReorder
+    try {
+        table.colReorder.order(completeOrder, true); // Reorder columns and trigger redraw
+    } catch (error) {
+        console.error("Error applying column order:", error);
+    }
+
+    // Adjust columns and redraw the table to ensure alignment
+    table.columns.adjust().draw(false);
+}
+
+
+
+// Apply column selections and close modal
+document.getElementById('applyColumns').addEventListener('click', function () {
+    try {
+        updateTableColumns(); // Update the table based on modal selections
+    } catch (error) {
+        console.error("Error in updateTableColumns: ", error);
+    }
+    
+    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
+
+    // Adjust table layout to ensure alignment
+    try {
+        table.columns.adjust().draw(false); // Adjust and redraw to fix any alignment issues
+    } catch (error) {
+        console.error("Error adjusting table layout: ", error);
+    }
+
+    console.log("Modal hide triggered and columns updated"); // Log for debugging purposes
+});
+
 
     // Initialize the modal with columns when the "Choose Columns" button is clicked
     document.getElementById('chooseColumns').addEventListener('click', function () {
