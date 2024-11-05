@@ -104,7 +104,6 @@ const orderSchema = new mongoose.Schema({
   WarehouseStatus: String,
   WarehouseApprovalDate: Date,
 
-  PaymentResult: mongoose.Schema.Types.Mixed, // To store the paymentResult object
 });
 
 // Add index on OrderID to optimize querying by OrderID
@@ -160,16 +159,13 @@ app.post('/api/checkout', async (req, res) => {
     // Determine which mock endpoint to call based on testEndpoint
     switch (testEndpoint) {
       case 'success':
-        mockEndpointUrl =
-          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
+        mockEndpointUrl = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=success';
         break;
       case 'insufficient':
-        mockEndpointUrl =
-          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient';
+        mockEndpointUrl = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=insufficient';
         break;
       case 'incorrect':
-        mockEndpointUrl =
-          'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
+        mockEndpointUrl = 'https://e7642f03-e889-4c5c-8dc2-f1f52461a5ab.mock.pstmn.io/get?authorize=carddetails';
         break;
       default:
         // Return an error response if testEndpoint is invalid
@@ -196,24 +192,14 @@ app.post('/api/checkout', async (req, res) => {
     if (paymentResult.Success) {
       paymentStatus = 'Success';
       authorizationAmount = paymentResult.AuthorizedAmount || orderTotal;
-      authorizationToken = paymentResult.AuthorizationToken
-        ? paymentResult.AuthorizationToken
-        : null;
-      authorizationExpirationDate = paymentResult.TokenExpirationDate
-        ? new Date(paymentResult.TokenExpirationDate)
-        : null;
+      authorizationToken = paymentResult.AuthorizationToken ? paymentResult.AuthorizationToken : null;
+      authorizationExpirationDate = paymentResult.TokenExpirationDate ? new Date(paymentResult.TokenExpirationDate) : null;
       warehouseStatus = 'Pending';
     } else {
       // Determine specific failure reason
-      if (
-        paymentResult.Reason &&
-        paymentResult.Reason.toLowerCase().includes('insufficient funds')
-      ) {
+      if (paymentResult.Reason && paymentResult.Reason.toLowerCase().includes('insufficient funds')) {
         paymentStatus = 'Failure - Insufficient Funds';
-      } else if (
-        paymentResult.Reason &&
-        paymentResult.Reason.toLowerCase().includes('card details incorrect')
-      ) {
+      } else if (paymentResult.Reason && paymentResult.Reason.toLowerCase().includes('card details incorrect')) {
         paymentStatus = 'Failure - Incorrect Card Details';
       } else {
         paymentStatus = 'Failure - Unknown Reason';
@@ -224,7 +210,7 @@ app.post('/api/checkout', async (req, res) => {
       warehouseStatus = 'N/A';
     }
 
-    // Create a new order document, including paymentResult
+    // Create a new order document, including mapped payment details
     const orderDateTime = new Date(); // Current date and time
     const orderDate = orderDateTime.toISOString().split('T')[0]; // Date part (YYYY-MM-DD)
     const orderTime = orderDateTime.toTimeString().split(' ')[0]; // Time part (HH:MM:SS)
@@ -264,7 +250,6 @@ app.post('/api/checkout', async (req, res) => {
       OrderTime: orderTime, // Time part as string
       WarehouseStatus: warehouseStatus,
       WarehouseApprovalDate: null,
-      PaymentResult: paymentResult, // Include the paymentResult object
     });
 
     await newOrder.save();
@@ -290,6 +275,7 @@ app.post('/api/checkout', async (req, res) => {
     });
   }
 });
+
 
 // Route to fetch all orders (for Order Management UI)
 app.get('/api/orders', async (req, res) => {
