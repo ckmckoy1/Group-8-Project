@@ -1401,6 +1401,17 @@ select option {
         width: 20px;
         height: 20px;
     }
+
+    .checkout-options {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .checkout-options img {
+        width: 45px;  /* Smaller size for extra small screens */
+        height: auto;
+    }
+
 }
 
 
@@ -1917,6 +1928,11 @@ select option {
         width: 60px; /* Reduce the width for smaller screens */
         height: auto; /* Maintain aspect ratio */
     }
+
+    .checkout-options {
+        gap: 5px; /* Reduce space between images */
+    }
+
   /* Show hamburger menu */
   .navbar-toggler {
     display: inline-block;
