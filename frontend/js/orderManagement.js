@@ -33,8 +33,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Refresh table if necessary
             if (isRefresh) {
-                table.clear().destroy();
-                orderTableBody.innerHTML = '';
+                if ($.fn.DataTable.isDataTable('#orderTable')) {
+                    table.clear().destroy();
+                    $('#orderTableBody').empty();
+                }
             }
 
             // If orders array is empty, show the "No orders found" message
@@ -75,13 +77,15 @@ document.addEventListener('DOMContentLoaded', function () {
             ordering: true, // Enable ordering
             order: [], // Initial no ordering
             pageLength: 10,
-            scrollX: true,
-            scrollY: '50vh',
+            // scrollX: true, // Commented out to test without scrolling
+            // scrollY: '50vh', // Commented out to test without scrolling
             orderCellsTop: true,
-            autoWidth: false, // Disable auto-width calculation to prevent misalignment
+            autoWidth: true, // Enable auto-width
             colReorder: {
                 realtime: true, // Enable realtime reordering (drag-and-drop)
             },
+            responsive: true, // Enable Responsive extension
+            fixedHeader: true, // Enable FixedHeader extension
             dom: '<"row mb-3 align-items-center"<"col-md-6 d-flex align-items-center"fB><"col-md-6 d-flex justify-content-end"l>>' +
                  'rt' +
                  '<"row"<"col-md-6"i><"col-md-6"p>>',
@@ -94,34 +98,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             columnDefs: [
-                // Define column visibility based on your default settings
-                { name: 'Order ID', visible: true,  targets: 0, orderable: true },
-                { name: 'Customer', visible: true,  targets: 1, orderable: true },
-                { name: 'Email', visible: true,  targets: 2, orderable: true },
-                { name: 'Shipping Method', visible: true,  targets: 3, orderable: true },
-                { name: 'Shipping Address', visible: false, targets: 4, orderable: true },
-                { name: 'Shipping Unit Number', visible: false, targets: 5, orderable: true },
-                { name: 'Shipping City', visible: false, targets: 6, orderable: true },
-                { name: 'Shipping State', visible: false, targets: 7, orderable: true },
-                { name: 'Shipping Zip', visible: false, targets: 8, orderable: true },
-                { name: 'Billing Address', visible: false, targets: 9, orderable: true },
-                { name: 'Billing Unit Number', visible: false, targets: 10, orderable: true },
-                { name: 'Billing City', visible: false, targets: 11, orderable: true },
-                { name: 'Billing State', visible: false, targets: 12, orderable: true },
-                { name: 'Billing Zip', visible: false, targets: 13, orderable: true },
-                { name: 'Total Amount', visible: true,  targets: 14, orderable: true },
-                { name: 'Payment Status', visible: true,  targets: 15, orderable: true },
-                { name: 'Card Last 4', visible: true,  targets: 16, orderable: true },
-                { name: 'Card Brand', visible: true,  targets: 17, orderable: true },
-                { name: 'Expiration Date', visible: true,  targets: 18, orderable: true },
-                { name: 'Order Date/Time', visible: true,  targets: 19, orderable: true, type: 'datetime' },
-                { name: 'Order Date', visible: false,  targets: 20, orderable: true, type: 'date' },
-                { name: 'Order Time', visible: false,  targets: 21, orderable: true },
-                { name: 'Authorization Token', visible: false,  targets: 22, orderable: true },
-                { name: 'Authorization Amount', visible: false,  targets: 23, orderable: true },
-                { name: 'Authorization Expiration', visible: false,  targets: 24, orderable: true, type: 'datetime' },
-                { name: 'Warehouse Status', visible: false,  targets: 25, orderable: true },
-                { name: 'Warehouse Approval Date', visible: false,  targets: 26, orderable: true, type: 'datetime' }
+                { name: 'Order ID', visible: true,  targets: 0, orderable: true, width: '100px', responsivePriority: 1 },
+                { name: 'Customer', visible: true,  targets: 1, orderable: true, width: '150px', responsivePriority: 2 },
+                { name: 'Email', visible: true,  targets: 2, orderable: true, width: '200px', responsivePriority: 3 },
+                { name: 'Shipping Method', visible: true,  targets: 3, orderable: true, width: '120px', responsivePriority: 4 },
+                { name: 'Shipping Address', visible: false, targets: 4, orderable: true, width: '200px', responsivePriority: 5 },
+                { name: 'Shipping Unit Number', visible: false, targets: 5, orderable: true, width: '100px', responsivePriority: 6 },
+                { name: 'Shipping City', visible: false, targets: 6, orderable: true, width: '120px', responsivePriority: 7 },
+                { name: 'Shipping State', visible: false, targets: 7, orderable: true, width: '80px', responsivePriority: 8 },
+                { name: 'Shipping Zip', visible: false, targets: 8, orderable: true, width: '80px', responsivePriority: 9 },
+                { name: 'Billing Address', visible: false, targets: 9, orderable: true, width: '200px', responsivePriority: 10 },
+                { name: 'Billing Unit Number', visible: false, targets: 10, orderable: true, width: '100px', responsivePriority: 11 },
+                { name: 'Billing City', visible: false, targets: 11, orderable: true, width: '120px', responsivePriority: 12 },
+                { name: 'Billing State', visible: false, targets: 12, orderable: true, width: '80px', responsivePriority: 13 },
+                { name: 'Billing Zip', visible: false, targets: 13, orderable: true, width: '80px', responsivePriority: 14 },
+                { name: 'Total Amount', visible: true,  targets: 14, orderable: true, width: '120px', responsivePriority: 15 },
+                { name: 'Payment Status', visible: true,  targets: 15, orderable: true, width: '120px', responsivePriority: 16 },
+                { name: 'Card Last 4', visible: true,  targets: 16, orderable: true, width: '100px', responsivePriority: 17 },
+                { name: 'Card Brand', visible: true,  targets: 17, orderable: true, width: '100px', responsivePriority: 18 },
+                { name: 'Expiration Date', visible: true,  targets: 18, orderable: true, width: '120px', responsivePriority: 19 },
+                { name: 'Order Date/Time', visible: true,  targets: 19, orderable: true, type: 'datetime', width: '150px', responsivePriority: 20 },
+                { name: 'Order Date', visible: false,  targets: 20, orderable: true, type: 'date', width: '120px', responsivePriority: 21 },
+                { name: 'Order Time', visible: false,  targets: 21, orderable: true, width: '100px', responsivePriority: 22 },
+                { name: 'Authorization Token', visible: false,  targets: 22, orderable: true, width: '150px', responsivePriority: 23 },
+                { name: 'Authorization Amount', visible: false,  targets: 23, orderable: true, width: '150px', responsivePriority: 24 },
+                { name: 'Authorization Expiration', visible: false,  targets: 24, orderable: true, type: 'datetime', width: '150px', responsivePriority: 25 },
+                { name: 'Warehouse Status', visible: false,  targets: 25, orderable: true, width: '120px', responsivePriority: 26 },
+                { name: 'Warehouse Approval Date', visible: false,  targets: 26, orderable: true, type: 'datetime', width: '150px', responsivePriority: 27 }
             ],
             buttons: [
                 {
@@ -141,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Auto-width for each column
                         const totalColumns = doc.content[1].table.body[0].length;
                         doc.content[1].table.widths = Array(totalColumns).fill('*');
-    
+
                         // Smaller font sizes
                         doc.styles.tableHeader.fontSize = 10;
                         doc.defaultStyle.fontSize = 8;
@@ -151,38 +154,37 @@ document.addEventListener('DOMContentLoaded', function () {
             footerCallback: function (row, data, start, end, display) {
                 let totalAmount = 0;
                 let totalTransactionAmount = 0;
-    
+
                 // Loop through displayed rows
                 data.forEach(function(rowData) {
                     // Remove dollar signs and commas before parsing
                     const amount = parseFloat(rowData[14].replace('$', '').replace(/,/g, '')) || 0;
                     const transactionAmount = parseFloat(rowData[23].replace('$', '').replace(/,/g, '')) || 0;
-    
+
                     totalAmount += amount;
                     totalTransactionAmount += transactionAmount;
                 });
-    
+
                 // Format numbers with commas
                 const formattedTotalAmount = totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 const formattedTotalTransactionAmount = totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    
+
                 // Update the footer totals
                 $('#totalAmount').text(`$${formattedTotalAmount}`);
                 $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
             }
         });
-    
+
         // Hook into the draw event to ensure totals are updated after the table is drawn
         table.on('draw', updateTotals);
-    
+
         // Listen for column reorder events (optional logging)
         table.on('column-reorder', function (e, settings, details) {
             console.log('Columns reordered');
         });
-    
+
         addColumnFiltering();
     }
-    
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
@@ -238,19 +240,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>**** **** **** ${order.CardNumber}</td>        <!-- index 16 -->
                 <td>${order.CardBrand}</td>                        <!-- index 17 -->
                 <td>${order.ExpirationDate}</td>                   <!-- index 18 -->
-                <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 19, updated to handle $date format -->
-                <td>${formatDate(order.OrderDate)}</td>             <!-- index 20, updated to handle $date format -->
+                <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 19 -->
+                <td>${formatDate(order.OrderDate)}</td>             <!-- index 20 -->
                 <td>${order.OrderTime}</td>                        <!-- index 21 -->
                 <td>${order.AuthorizationToken}</td>               <!-- index 22 -->
                 <td>$${order.AuthorizationAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>  <!-- index 23 -->
-                <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 24, updated to handle $date format -->
+                <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 24 -->
                 <td>${order.WarehouseStatus || 'N/A'}</td>         <!-- index 25 -->
                 <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 26 -->
             `;
-    
+
             orderTableBody.appendChild(row);
         });
-    
+
         // Initialize DataTable after data is loaded
         initializeDataTable();
 
@@ -260,63 +262,93 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
-        $('#orderIDFilter').on('keyup', function () {
+        $('#orderIDFilter').on('keyup', debounce(function () {
             table.column(0).search(this.value).draw(); // Order ID (column index 0)
-        });
-        $('#customerFilter').on('keyup', function () {
+        }, 300));
+        $('#customerFilter').on('keyup', debounce(function () {
             table.column(1).search(this.value).draw(); // Customer (column index 1)
-        });
-        $('#emailFilter').on('keyup', function () {
+        }, 300));
+        $('#emailFilter').on('keyup', debounce(function () {
             table.column(2).search(this.value).draw(); // Email (column index 2)
-        });
-        $('#shippingAddressFilter').on('keyup', function () {
+        }, 300));
+        $('#shippingAddressFilter').on('keyup', debounce(function () {
             table.column(4).search(this.value).draw(); // Shipping Address (column index 4)
-        });
-        $('#shippingUnitNumberFilter').on('keyup', function () {
-            table.column(5).search(this.value).draw(); // Shipping Unit Number (column index 5) - Updated label
-        });
-        $('#shippingCityFilter').on('keyup', function () {
+        }, 300));
+        $('#shippingunitNumberFilter').on('keyup', debounce(function () {
+            table.column(5).search(this.value).draw(); // Shipping Unit Number (column index 5)
+        }, 300));
+        $('#shippingCityFilter').on('keyup', debounce(function () {
             table.column(6).search(this.value).draw(); // Shipping City (column index 6)
-        });
-        $('#shippingStateFilter').on('keyup', function () {
+        }, 300));
+        $('#shippingStateFilter').on('keyup', debounce(function () {
             table.column(7).search(this.value).draw(); // Shipping State (column index 7)
-        });
-        $('#shippingZipFilter').on('keyup', function () {
+        }, 300));
+        $('#shippingZipFilter').on('keyup', debounce(function () {
             table.column(8).search(this.value).draw(); // Shipping Zip (column index 8)
-        });
-        $('#billingAddressFilter').on('keyup', function () {
+        }, 300));
+        $('#streetAddressFilter').on('keyup', debounce(function () {
             table.column(9).search(this.value).draw(); // Billing Address (column index 9)
-        });
-        $('#billingUnitNumberFilter').on('keyup', function () {
-            table.column(10).search(this.value).draw(); // Billing Unit Number (column index 10) - Added
-        });
-        $('#billingCityFilter').on('keyup', function () {
+        }, 300));
+        $('#billingunitNumberFilter').on('keyup', debounce(function () {
+            table.column(10).search(this.value).draw(); // Billing Unit Number (column index 10)
+        }, 300));
+        $('#billingCityFilter').on('keyup', debounce(function () {
             table.column(11).search(this.value).draw(); // Billing City (column index 11)
-        });
-        $('#billingStateFilter').on('keyup', function () {
+        }, 300));
+        $('#billingStateFilter').on('keyup', debounce(function () {
             table.column(12).search(this.value).draw(); // Billing State (column index 12)
-        });
-        $('#billingZipFilter').on('keyup', function () {
+        }, 300));
+        $('#billingZipFilter').on('keyup', debounce(function () {
             table.column(13).search(this.value).draw(); // Billing Zip (column index 13)
-        });
-        $('#amountFilter').on('keyup', function () {
+        }, 300));
+        $('#totalAmountFilter').on('keyup', debounce(function () { // Updated ID
             table.column(14).search(this.value).draw(); // Total Amount (column index 14)
-        });
-        $('#cardNumberFilter').on('keyup', function () {
+        }, 300));
+        // Payment Status is handled via dropdown, so no direct input
+        $('#cardNumberFilter').on('keyup', debounce(function () {
             table.column(16).search(this.value).draw(); // Card Number (column index 16)
+        }, 300));
+        $('#cardBrandFilter').on('keyup', debounce(function () {
+            table.column(17).search(this.value).draw(); // Card Brand (column index 17)
+        }, 300));
+        $('#expirationDateFilter').on('keyup', debounce(function () {
+            table.column(18).search(this.value).draw(); // Expiration Date (column index 18)
+        }, 300));
+        $('#orderDateTimeFilter').on('change', function () {
+            table.column(19).search(this.value).draw(); // Order Date/Time (column index 19)
         });
-        $('#OrderDateFilter').on('change', function () {
-            table.column(19).search(this.value).draw(); // Order Date (column index 19)
+        $('#orderDateFilter').on('change', function () {
+            table.column(20).search(this.value).draw(); // Order Date (column index 20)
         });
-        $('#authTokenFilter').on('keyup', function () {
+        $('#orderTimeFilter').on('keyup', debounce(function () {
+            table.column(21).search(this.value).draw(); // Order Time (column index 21)
+        }, 300));
+        $('#authTokenFilter').on('keyup', debounce(function () {
             table.column(22).search(this.value).draw(); // Authorization Token (column index 22)
-        });
-        $('#authAmountFilter').on('keyup', function () {
+        }, 300));
+        $('#authAmountFilter').on('keyup', debounce(function () {
             table.column(23).search(this.value).draw(); // Authorization Amount (column index 23)
+        }, 300));
+        $('#authExpirationFilter').on('change', function () {
+            table.column(24).search(this.value).draw(); // Authorization Expiration (column index 24)
         });
+        // Warehouse Status is handled via dropdown, so no direct input
         $('#warehouseApprovalDateFilter').on('change', function () {
             table.column(26).search(this.value).draw(); // Warehouse Approval Date (column index 26)
         });
+    }
+
+    // Debounce function to limit the rate of function calls
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 
     // Clear all filters
@@ -360,11 +392,12 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
     }
 
+    // Initialize dropdown filters
     function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
         const filterButton = document.getElementById(buttonId);
         const filterOptions = document.getElementById(optionsId);
         const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
-    
+
         // Toggle dropdown on button click
         filterButton.addEventListener('click', function (e) {
             e.stopPropagation();
@@ -375,19 +408,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 filterOptions.style.display = 'block';
             }
         });
-    
+
         // Hide dropdown when clicking outside
         document.addEventListener('click', function (e) {
             if (!filterOptions.contains(e.target) && e.target !== filterButton) {
                 filterOptions.style.display = 'none';
             }
         });
-    
+
         // Handle selection and filtering logic
         filterOptions.addEventListener('click', function (e) {
             if (e.target.tagName === 'INPUT') {
                 const selectedOption = e.target.parentNode.getAttribute('data-value');
-    
+
                 if (selectedOption === 'selectAll') {
                     // Select all options except "Clear All"
                     checkboxes.forEach(checkbox => {
@@ -410,37 +443,41 @@ document.addEventListener('DOMContentLoaded', function () {
                         clearAllCheckbox.checked = false;
                     }
                 }
-    
+
                 // Update the table with selected filters
                 updateTableFilter(columnIndex, checkboxes);
             }
         });
     }
-    
+
     // Update the table based on selected filters
     function updateTableFilter(columnIndex, checkboxes) {
         const selectedValues = [];
-    
+
         checkboxes.forEach(checkbox => {
             if (checkbox.checked && checkbox.parentNode.getAttribute('data-value') !== 'selectAll' && checkbox.parentNode.getAttribute('data-value') !== 'clearAll') {
                 selectedValues.push(checkbox.parentNode.getAttribute('data-value'));
             }
         });
-    
+
         // If no filters are selected, reset the filter
         if (selectedValues.length === 0) {
             table.column(columnIndex).search('').draw();
         } else {
             // Use a regex to match any of the selected values
-            const regex = selectedValues.join('|');
+            const regex = selectedValues.map(value => escapeRegExp(value)).join('|');
             table.column(columnIndex).search(regex, true, false).draw();
         }
     }
-    
+
+    // Utility function to escape regex special characters
+    function escapeRegExp(string) {
+        return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+    }
 
     // Initialize all dropdown filters
     initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 3);
-    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 14);
+    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 15);
     initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 25);
 
     // Download functionality
@@ -478,104 +515,95 @@ document.addEventListener('DOMContentLoaded', function () {
         populateColumnChooser(); // Populate the modal
     });
 
-// Populate column chooser modal
-function populateColumnChooser() {
-    const availableColumns = document.getElementById('availableColumns');
-    const selectedColumns = document.getElementById('selectedColumns');
+    // Populate column chooser modal
+    function populateColumnChooser() {
+        const availableColumns = document.getElementById('availableColumns');
+        const selectedColumns = document.getElementById('selectedColumns');
 
-    availableColumns.innerHTML = '';
-    selectedColumns.innerHTML = '';
+        availableColumns.innerHTML = '';
+        selectedColumns.innerHTML = '';
 
-    // Populate the columns into the chooser
-    table.columns().every(function (index) {
-        const columnTitle = this.header().textContent.trim();
-        const listItem = `<li class="list-group-item" data-column-index="${index}">${columnTitle}</li>`;
+        // Populate the columns into the chooser
+        table.columns().every(function (index) {
+            const columnTitle = this.header().textContent.trim();
+            const listItem = `<li class="list-group-item" data-column-index="${index}">${columnTitle}</li>`;
 
-        // Add the columns to the appropriate list based on visibility
-        if (this.visible()) {
-            selectedColumns.innerHTML += listItem;
-        } else {
-            availableColumns.innerHTML += listItem;
+            // Add the columns to the appropriate list based on visibility
+            if (this.visible()) {
+                selectedColumns.innerHTML += listItem;
+            } else {
+                availableColumns.innerHTML += listItem;
+            }
+        });
+
+        // Make both lists sortable and connected
+        $('#selectedColumns, #availableColumns').sortable({
+            connectWith: '#availableColumns, #selectedColumns',
+            placeholder: 'ui-state-highlight'
+        }).disableSelection();
+    }
+
+    // Update table column visibility and order based on modal selections
+    function updateTableColumns() {
+        const selectedColumns = document.querySelectorAll('#selectedColumns li');
+
+        // Create an array of selected column indices in the desired order
+        const selectedIndices = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column-index')));
+
+        // Create a complete order array: selected columns first, then the rest in their existing order
+        const allColumnIndices = [];
+        table.columns().every(function(index) {
+            allColumnIndices.push(index);
+        });
+
+        // Determine hidden columns by excluding selectedIndices
+        const hiddenIndices = allColumnIndices.filter(index => !selectedIndices.includes(index));
+
+        // Combine selected and hidden indices to form the complete order array
+        const completeOrder = [...selectedIndices, ...hiddenIndices];
+
+        console.log('Selected column indices:', selectedIndices);
+        console.log('Hidden column indices:', hiddenIndices);
+        console.log('Complete order array:', completeOrder);
+
+        // Apply column visibility based on selection
+        table.columns().every(function(index) {
+            if (selectedIndices.includes(index)) {
+                this.visible(true, false); // Show column without redrawing
+            } else {
+                this.visible(false, false); // Hide column without redrawing
+            }
+        });
+
+        // Apply the complete order array to ColReorder
+        try {
+            table.colReorder.order(completeOrder, true); // Reorder columns and trigger redraw
+        } catch (error) {
+            console.error("Error applying column order:", error);
         }
-    });
 
-    // Make both lists sortable and connected
-    $('#selectedColumns, #availableColumns').sortable({
-        connectWith: '#availableColumns, #selectedColumns',
-        placeholder: 'ui-state-highlight'
-    }).disableSelection();
-}
+        // Adjust columns and redraw the table to ensure alignment
+        table.columns.adjust().draw(false);
+    }
 
-
-// Update table column visibility and order based on modal selections
-function updateTableColumns() {
-    const selectedColumns = document.querySelectorAll('#selectedColumns li');
-
-    // Create an array of selected column indices in the desired order
-    const selectedIndices = Array.from(selectedColumns).map(item => parseInt(item.getAttribute('data-column-index')));
-
-    // Create a complete order array: selected columns first, then the rest in their existing order
-    const allColumnIndices = [];
-    table.columns().every(function(index) {
-        allColumnIndices.push(index);
-    });
-
-    // Determine hidden columns by excluding selectedIndices
-    const hiddenIndices = allColumnIndices.filter(index => !selectedIndices.includes(index));
-
-    // Combine selected and hidden indices to form the complete order array
-    const completeOrder = [...selectedIndices, ...hiddenIndices];
-
-    console.log('Selected column indices:', selectedIndices);
-    console.log('Hidden column indices:', hiddenIndices);
-    console.log('Complete order array:', completeOrder);
-
-    // Apply column visibility based on selection
-    table.columns().every(function(index) {
-        if (selectedIndices.includes(index)) {
-            this.visible(true, false); // Show column without redrawing
-        } else {
-            this.visible(false, false); // Hide column without redrawing
+    // Apply column selections and close modal
+    document.getElementById('applyColumns').addEventListener('click', function () {
+        try {
+            updateTableColumns(); // Update the table based on modal selections
+        } catch (error) {
+            console.error("Error in updateTableColumns: ", error);
         }
-    });
+        
+        $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
 
-    // Apply the complete order array to ColReorder
-    try {
-        table.colReorder.order(completeOrder, true); // Reorder columns and trigger redraw
-    } catch (error) {
-        console.error("Error applying column order:", error);
-    }
+        // Adjust table layout to ensure alignment
+        try {
+            table.columns.adjust().draw(false); // Adjust and redraw to fix any alignment issues
+        } catch (error) {
+            console.error("Error adjusting table layout: ", error);
+        }
 
-    // Adjust columns and redraw the table to ensure alignment
-    table.columns.adjust().draw(false);
-}
-
-
-
-// Apply column selections and close modal
-document.getElementById('applyColumns').addEventListener('click', function () {
-    try {
-        updateTableColumns(); // Update the table based on modal selections
-    } catch (error) {
-        console.error("Error in updateTableColumns: ", error);
-    }
-    
-    $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
-
-    // Adjust table layout to ensure alignment
-    try {
-        table.columns.adjust().draw(false); // Adjust and redraw to fix any alignment issues
-    } catch (error) {
-        console.error("Error adjusting table layout: ", error);
-    }
-
-    console.log("Modal hide triggered and columns updated"); // Log for debugging purposes
-});
-
-
-    // Initialize the modal with columns when the "Choose Columns" button is clicked
-    document.getElementById('chooseColumns').addEventListener('click', function () {
-        populateColumnChooser(); // Populate the modal with available and selected columns
+        console.log("Modal hide triggered and columns updated"); // Log for debugging purposes
     });
 
     // Ensure table headers, footers, and inputs are aligned after column changes
