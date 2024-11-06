@@ -101,31 +101,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', visible: true,  targets: 0, orderable: true, width: '100px', responsivePriority: 1 },
                 { name: 'Customer', visible: true,  targets: 1, orderable: true, width: '150px', responsivePriority: 2 },
                 { name: 'Email', visible: true,  targets: 2, orderable: true, width: '200px', responsivePriority: 3 },
-                { name: 'Shipping Method', visible: true,  targets: 3, orderable: true, width: '120px', responsivePriority: 4 },
-                { name: 'Shipping Address', visible: false, targets: 4, orderable: true, width: '200px', responsivePriority: 5 },
-                { name: 'Shipping Unit Number', visible: false, targets: 5, orderable: true, width: '100px', responsivePriority: 6 },
-                { name: 'Shipping City', visible: false, targets: 6, orderable: true, width: '120px', responsivePriority: 7 },
-                { name: 'Shipping State', visible: false, targets: 7, orderable: true, width: '80px', responsivePriority: 8 },
-                { name: 'Shipping Zip', visible: false, targets: 8, orderable: true, width: '80px', responsivePriority: 9 },
-                { name: 'Billing Address', visible: false, targets: 9, orderable: true, width: '200px', responsivePriority: 10 },
-                { name: 'Billing Unit Number', visible: false, targets: 10, orderable: true, width: '100px', responsivePriority: 11 },
-                { name: 'Billing City', visible: false, targets: 11, orderable: true, width: '120px', responsivePriority: 12 },
-                { name: 'Billing State', visible: false, targets: 12, orderable: true, width: '80px', responsivePriority: 13 },
-                { name: 'Billing Zip', visible: false, targets: 13, orderable: true, width: '80px', responsivePriority: 14 },
-                { name: 'Total Amount', visible: true,  targets: 14, orderable: true, width: '120px', responsivePriority: 15 },
-                { name: 'Payment Status', visible: true,  targets: 15, orderable: true, width: '120px', responsivePriority: 16 },
-                { name: 'Card Last 4', visible: true,  targets: 16, orderable: true, width: '100px', responsivePriority: 17 },
-                { name: 'Card Brand', visible: true,  targets: 17, orderable: true, width: '100px', responsivePriority: 18 },
-                { name: 'Expiration Date', visible: true,  targets: 18, orderable: true, width: '120px', responsivePriority: 19 },
-                { name: 'Order Date/Time', visible: true,  targets: 19, orderable: true, type: 'datetime', width: '150px', responsivePriority: 20 },
-                { name: 'Order Date', visible: true,  targets: 20, orderable: true, type: 'date', width: '120px', responsivePriority: 21 },
-                { name: 'Order Time', visible: true,  targets: 21, orderable: true, width: '100px', responsivePriority: 22 },
-                { name: 'Authorization Token', visible: true,  targets: 22, orderable: true, width: '150px', responsivePriority: 23 },
-                { name: 'Authorization Amount', visible: true,  targets: 23, orderable: true, width: '150px', responsivePriority: 24 },
-                { name: 'Authorization Expiration', visible: true,  targets: 24, orderable: true, type: 'datetime', width: '150px', responsivePriority: 25 },
-                { name: 'Warehouse Status', visible: true,  targets: 25, orderable: true, width: '120px', responsivePriority: 26 },
-                { name: 'Warehouse Approval Date', visible: true,  targets: 26, orderable: true, type: 'datetime', width: '150px', responsivePriority: 27 }
+                { name: 'Phone Number', visible: true,  targets: 3, orderable: true, width: '150px', responsivePriority: 4 }, // New Phone Number Column
+                { name: 'Shipping Method', visible: true,  targets: 4, orderable: true, width: '120px', responsivePriority: 5 },
+                { name: 'Shipping Address', visible: false, targets: 5, orderable: true, width: '200px', responsivePriority: 6 },
+                { name: 'Shipping Unit Number', visible: false, targets: 6, orderable: true, width: '100px', responsivePriority: 7 },
+                { name: 'Shipping City', visible: false, targets: 7, orderable: true, width: '120px', responsivePriority: 8 },
+                { name: 'Shipping State', visible: false, targets: 8, orderable: true, width: '80px', responsivePriority: 9 },
+                { name: 'Shipping Zip', visible: false, targets: 9, orderable: true, width: '80px', responsivePriority: 10 },
+                { name: 'Billing Address', visible: false, targets: 10, orderable: true, width: '200px', responsivePriority: 11 },
+                { name: 'Billing Unit Number', visible: false, targets: 11, orderable: true, width: '100px', responsivePriority: 12 },
+                { name: 'Billing City', visible: false, targets: 12, orderable: true, width: '120px', responsivePriority: 13 },
+                { name: 'Billing State', visible: false, targets: 13, orderable: true, width: '80px', responsivePriority: 14 },
+                { name: 'Billing Zip', visible: false, targets: 14, orderable: true, width: '80px', responsivePriority: 15 },
+                { name: 'Total Amount', visible: true,  targets: 15, orderable: true, width: '120px', responsivePriority: 16 },
+                { name: 'Payment Status', visible: true,  targets: 16, orderable: true, width: '120px', responsivePriority: 17 },
+                { name: 'Card Last 4', visible: true,  targets: 17, orderable: true, width: '100px', responsivePriority: 18 },
+                { name: 'Card Brand', visible: true,  targets: 18, orderable: true, width: '100px', responsivePriority: 19 },
+                { name: 'Expiration Date', visible: true,  targets: 19, orderable: true, width: '120px', responsivePriority: 20 },
+                { name: 'Order Date/Time', visible: true,  targets: 20, orderable: true, type: 'datetime', width: '150px', responsivePriority: 21 },
+                { name: 'Order Date', visible: true,  targets: 21, orderable: true, type: 'date', width: '120px', responsivePriority: 22 },
+                { name: 'Order Time', visible: true,  targets: 22, orderable: true, width: '100px', responsivePriority: 23 },
+                { name: 'Authorization Token', visible: true,  targets: 23, orderable: true, width: '150px', responsivePriority: 24 },
+                { name: 'Authorization Amount', visible: true,  targets: 24, orderable: true, width: '150px', responsivePriority: 25 },
+                { name: 'Authorization Expiration', visible: true,  targets: 25, orderable: true, type: 'datetime', width: '150px', responsivePriority: 26 },
+                { name: 'Warehouse Status', visible: true,  targets: 26, orderable: true, width: '120px', responsivePriority: 27 },
+                { name: 'Warehouse Approval Date', visible: true,  targets: 27, orderable: true, type: 'datetime', width: '150px', responsivePriority: 28 }
             ],
+            
             buttons: [
                 {
                     extend: 'csv',
@@ -192,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (messageDiv) {
             messageDiv.style.display = 'none'; // Ensure error message is hidden
         }
-
+    
         // Function to format date as "MM/DD/YYYY"
         const formatDate = (dateObj) => {
             if (!dateObj || !dateObj["$date"]) return ''; // Handle null or missing $date case
@@ -203,11 +205,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const year = date.getFullYear();
             return `${month}/${day}/${year}`;
         };
-
+    
         // Function to format date and time as "MM/DD/YYYY HH:MM:SS AM/PM"
         const formatDateAndTime = (dateObj) => {
             if (!dateObj || !dateObj["$date"]) return ''; // Handle null or missing $date case
-
+    
             const date = new Date(dateObj["$date"]);
             const options = { 
                 year: 'numeric', month: '2-digit', day: '2-digit', 
@@ -216,49 +218,51 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             return date.toLocaleString('en-US', options);
         };
-
+    
         // Loop through each order and create table rows dynamically
         orders.forEach(order => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${order.OrderID}</td>                         <!-- index 0 -->
-                <td>${order.FirstName} ${order.LastName}</td>      <!-- index 1 -->
-                <td>${order.CustomerEmail}</td>                    <!-- index 2 -->
-                <td>${order.ShippingMethod}</td>                   <!-- index 3 -->
-                <td>${order.ShippingAddress}</td>                  <!-- index 4 -->
-                <td>${order.ShippingUnitNumber || ''}</td>         <!-- index 5 -->
-                <td>${order.ShippingCity}</td>                     <!-- index 6 -->
-                <td>${order.ShippingState}</td>                    <!-- index 7 -->
-                <td>${order.ShippingZip}</td>                      <!-- index 8 -->
-                <td>${order.BillingAddress}</td>                   <!-- index 9 -->
-                <td>${order.BillingUnitNumber || ''}</td>          <!-- index 10 -->
-                <td>${order.BillingCity}</td>                      <!-- index 11 -->
-                <td>${order.BillingState}</td>                     <!-- index 12 -->
-                <td>${order.BillingZipCode}</td>                   <!-- index 13 -->
-                <td>$${order.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>          <!-- index 14 -->
-                <td>${order.PaymentStatus}</td>                    <!-- index 15 -->
-                <td>**** **** **** ${order.CardNumber}</td>        <!-- index 16 -->
-                <td>${order.CardBrand}</td>                        <!-- index 17 -->
-                <td>${order.ExpirationDate}</td>                   <!-- index 18 -->
-                <td>${formatDateAndTime(order.OrderDateTime)}</td> <!-- index 19 -->
-                <td>${formatDate(order.OrderDate)}</td>             <!-- index 20 -->
-                <td>${order.OrderTime}</td>                        <!-- index 21 -->
-                <td>${order.AuthorizationToken}</td>               <!-- index 22 -->
-                <td>$${order.AuthorizationAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>  <!-- index 23 -->
-                <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 24 -->
-                <td>${order.WarehouseStatus || 'N/A'}</td>         <!-- index 25 -->
-                <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 26 -->
+                <td>${order.OrderID || 'N/A'}</td>                         <!-- index 0: Order ID -->
+                <td>${order.FirstName || ''} ${order.LastName || ''}</td> <!-- index 1: Customer -->
+                <td>${order.CustomerEmail || 'N/A'}</td>                    <!-- index 2: Email -->
+                <td>${order.PhoneNumber || 'N/A'}</td>                      <!-- index 3: Phone Number -->
+                <td>${order.ShippingMethod || 'N/A'}</td>                   <!-- index 4: Shipping Method -->
+                <td>${order.ShippingAddress || 'N/A'}</td>                  <!-- index 5: Shipping Address -->
+                <td>${order.ShippingUnitNumber || ''}</td>                   <!-- index 6: Shipping Unit Number -->
+                <td>${order.ShippingCity || 'N/A'}</td>                     <!-- index 7: Shipping City -->
+                <td>${order.ShippingState || 'N/A'}</td>                    <!-- index 8: Shipping State -->
+                <td>${order.ShippingZip || 'N/A'}</td>                      <!-- index 9: Shipping Zip -->
+                <td>${order.BillingAddress || 'N/A'}</td>                   <!-- index 10: Billing Address -->
+                <td>${order.BillingUnitNumber || ''}</td>                    <!-- index 11: Billing Unit Number -->
+                <td>${order.BillingCity || 'N/A'}</td>                      <!-- index 12: Billing City -->
+                <td>${order.BillingState || 'N/A'}</td>                     <!-- index 13: Billing State -->
+                <td>${order.BillingZipCode || 'N/A'}</td>                   <!-- index 14: Billing Zip Code -->
+                <td>$${order.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td> <!-- index 15: Total Amount -->
+                <td>${order.PaymentStatus || 'N/A'}</td>                    <!-- index 16: Payment Status -->
+                <td>**** **** **** ${order.CardNumber || 'N/A'}</td>        <!-- index 17: Card Last 4 -->
+                <td>${order.CardBrand || 'N/A'}</td>                        <!-- index 18: Card Brand -->
+                <td>${order.ExpirationDate || 'N/A'}</td>                   <!-- index 19: Expiration Date -->
+                <td>${formatDateAndTime(order.OrderDateTime)}</td>           <!-- index 20: Order Date/Time -->
+                <td>${formatDate(order.OrderDate)}</td>                      <!-- index 21: Order Date -->
+                <td>${order.OrderTime || 'N/A'}</td>                        <!-- index 22: Order Time -->
+                <td>${order.AuthorizationToken || 'N/A'}</td>               <!-- index 23: Authorization Token -->
+                <td>$${order.AuthorizationAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td> <!-- index 24: Authorization Amount -->
+                <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 25: Authorization Expiration -->
+                <td>${order.WarehouseStatus || 'N/A'}</td>                  <!-- index 26: Warehouse Status -->
+                <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 27: Warehouse Approval Date -->
             `;
-
+    
             orderTableBody.appendChild(row);
         });
-
+    
         // Initialize DataTable after data is loaded
         initializeDataTable();
-
+    
         // Adjust and draw the DataTable after loading the data
         table.columns.adjust().draw();
     }
+    
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
@@ -271,38 +275,44 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#emailFilter').on('keyup', debounce(function () {
             table.column(2).search(this.value).draw(); // Email (column index 2)
         }, 300));
-        $('#shippingAddressFilter').on('keyup', debounce(function () {
-            table.column(4).search(this.value).draw(); // Shipping Address (column index 4)
+        $('#phoneNumberFilter').on('keyup', debounce(function () { // New Filter Listener
+            table.column(3).search(this.value).draw(); // Phone Number (column index 3)
         }, 300));
-        $('#shippingunitNumberFilter').on('keyup', debounce(function () {
-            table.column(5).search(this.value).draw(); // Shipping Unit Number (column index 5)
+        $('#shippingMethodFilter').on('keyup', debounce(function () {
+            table.column(4).search(this.value).draw(); // Shipping Method (column index 4)
+        }, 300));
+        $('#shippingAddressFilter').on('keyup', debounce(function () {
+            table.column(5).search(this.value).draw(); // Shipping Address (column index 5)
+        }, 300));
+        $('#shippingUnitNumberFilter').on('keyup', debounce(function () {
+            table.column(6).search(this.value).draw(); // Shipping Unit Number (column index 6)
         }, 300));
         $('#shippingCityFilter').on('keyup', debounce(function () {
-            table.column(6).search(this.value).draw(); // Shipping City (column index 6)
+            table.column(7).search(this.value).draw(); // Shipping City (column index 7)
         }, 300));
         $('#shippingStateFilter').on('keyup', debounce(function () {
-            table.column(7).search(this.value).draw(); // Shipping State (column index 7)
+            table.column(8).search(this.value).draw(); // Shipping State (column index 8)
         }, 300));
         $('#shippingZipFilter').on('keyup', debounce(function () {
-            table.column(8).search(this.value).draw(); // Shipping Zip (column index 8)
+            table.column(9).search(this.value).draw(); // Shipping Zip (column index 9)
         }, 300));
-        $('#streetAddressFilter').on('keyup', debounce(function () {
-            table.column(9).search(this.value).draw(); // Billing Address (column index 9)
+        $('#billingAddressFilter').on('keyup', debounce(function () {
+            table.column(10).search(this.value).draw(); // Billing Address (column index 10)
         }, 300));
-        $('#billingunitNumberFilter').on('keyup', debounce(function () {
-            table.column(10).search(this.value).draw(); // Billing Unit Number (column index 10)
+        $('#billingUnitNumberFilter').on('keyup', debounce(function () {
+            table.column(11).search(this.value).draw(); // Billing Unit Number (column index 11)
         }, 300));
         $('#billingCityFilter').on('keyup', debounce(function () {
-            table.column(11).search(this.value).draw(); // Billing City (column index 11)
+            table.column(12).search(this.value).draw(); // Billing City (column index 12)
         }, 300));
         $('#billingStateFilter').on('keyup', debounce(function () {
-            table.column(12).search(this.value).draw(); // Billing State (column index 12)
+            table.column(13).search(this.value).draw(); // Billing State (column index 13)
         }, 300));
         $('#billingZipFilter').on('keyup', debounce(function () {
-            table.column(13).search(this.value).draw(); // Billing Zip (column index 13)
+            table.column(14).search(this.value).draw(); // Billing Zip (column index 14)
         }, 300));
         $('#totalAmountFilter').on('keyup', debounce(function () { // Updated ID
-            table.column(14).search(this.value).draw(); // Total Amount (column index 14)
+            table.column(15).search(this.value).draw(); // Total Amount (column index 15)
         }, 300));
         // Payment Status is handled via dropdown, so no direct input
         $('#cardNumberFilter').on('keyup', debounce(function () {
@@ -337,6 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
             table.column(26).search(this.value).draw(); // Warehouse Approval Date (column index 26)
         });
     }
+    
 
     // Debounce function to limit the rate of function calls
     function debounce(func, wait) {
