@@ -10,6 +10,32 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Element with ID "message" not found.');
     }
 
+    // Initialize Day.js with Plugins
+    if (typeof dayjs === 'undefined') {
+        console.error('Day.js is not loaded. Please include Day.js and its plugins in your HTML.');
+    } else {
+        // Extend Day.js with necessary plugins
+        dayjs.extend(dayjs_plugin_utc);
+        dayjs.extend(dayjs_plugin_timezone);
+        dayjs.extend(dayjs_plugin_advancedFormat);
+    }
+
+    // Function to format date as "MM/DD/YYYY"
+    const formatDate = (dateString) => {
+        if (!dateString) return ''; // Handle null or undefined
+        const date = dayjs(dateString).tz(dayjs.tz.guess()); // Convert to local timezone
+        if (!date.isValid()) return ''; // Handle invalid dates
+        return date.format('MM/DD/YYYY');
+    };
+
+    // Function to format date and time as "MM/DD/YYYY hh:mm:ss A"
+    const formatDateAndTime = (dateString) => {
+        if (!dateString) return ''; // Handle null or undefined
+        const date = dayjs(dateString).tz(dayjs.tz.guess()); // Convert to local timezone
+        if (!date.isValid()) return ''; // Handle invalid dates
+        return date.format('MM/DD/YYYY hh:mm:ss A');
+    };
+
     // Fetch the orders from the backend when the page loads
     fetchOrders();
 
@@ -77,8 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
             ordering: true, // Enable ordering
             order: [], // Initial no ordering
             pageLength: 10,
-            // scrollX: true, // Commented out to test without scrolling
-            // scrollY: '50vh', // Commented out to test without scrolling
             orderCellsTop: true,
             autoWidth: true, // Enable auto-width
             colReorder: {
@@ -101,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', visible: true,  targets: 0, orderable: true, width: '100px', responsivePriority: 1 },
                 { name: 'Customer', visible: true,  targets: 1, orderable: true, width: '150px', responsivePriority: 2 },
                 { name: 'Email', visible: true,  targets: 2, orderable: true, width: '200px', responsivePriority: 3 },
-                { name: 'Phone Number', visible: true,  targets: 3, orderable: true, width: '150px', responsivePriority: 4 }, // New Phone Number Column
+                { name: 'Phone Number', visible: true,  targets: 3, orderable: true, width: '150px', responsivePriority: 4 },
                 { name: 'Shipping Method', visible: true,  targets: 4, orderable: true, width: '120px', responsivePriority: 5 },
                 { name: 'Shipping Address', visible: false, targets: 5, orderable: true, width: '200px', responsivePriority: 6 },
                 { name: 'Shipping Unit Number', visible: false, targets: 6, orderable: true, width: '100px', responsivePriority: 7 },
@@ -118,16 +142,72 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Card Last 4', visible: true,  targets: 17, orderable: true, width: '100px', responsivePriority: 18 },
                 { name: 'Card Brand', visible: true,  targets: 18, orderable: true, width: '100px', responsivePriority: 19 },
                 { name: 'Expiration Date', visible: true,  targets: 19, orderable: true, width: '120px', responsivePriority: 20 },
-                { name: 'Order Date/Time', visible: true,  targets: 20, orderable: true, type: 'datetime', width: '150px', responsivePriority: 21 },
-                { name: 'Order Date', visible: true,  targets: 21, orderable: true, type: 'date', width: '120px', responsivePriority: 22 },
+                {
+                    name: 'Order Date/Time',
+                    visible: true,
+                    targets: 20,
+                    orderable: true,
+                    type: 'datetime',
+                    width: '150px',
+                    responsivePriority: 21,
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return formatDateAndTime(data);
+                        }
+                        return data;
+                    }
+                },
+                {
+                    name: 'Order Date',
+                    visible: true,
+                    targets: 21,
+                    orderable: true,
+                    type: 'date',
+                    width: '120px',
+                    responsivePriority: 22,
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return formatDate(data);
+                        }
+                        return data;
+                    }
+                },
                 { name: 'Order Time', visible: true,  targets: 22, orderable: true, width: '100px', responsivePriority: 23 },
                 { name: 'Authorization Token', visible: true,  targets: 23, orderable: true, width: '150px', responsivePriority: 24 },
                 { name: 'Authorization Amount', visible: true,  targets: 24, orderable: true, width: '150px', responsivePriority: 25 },
-                { name: 'Authorization Expiration', visible: true,  targets: 25, orderable: true, type: 'datetime', width: '150px', responsivePriority: 26 },
+                {
+                    name: 'Authorization Expiration',
+                    visible: true,
+                    targets: 25,
+                    orderable: true,
+                    type: 'datetime',
+                    width: '150px',
+                    responsivePriority: 26,
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return formatDateAndTime(data);
+                        }
+                        return data;
+                    }
+                },
                 { name: 'Warehouse Status', visible: true,  targets: 26, orderable: true, width: '120px', responsivePriority: 27 },
-                { name: 'Warehouse Approval Date', visible: true,  targets: 27, orderable: true, type: 'datetime', width: '150px', responsivePriority: 28 }
+                {
+                    name: 'Warehouse Approval Date',
+                    visible: true,
+                    targets: 27,
+                    orderable: true,
+                    type: 'datetime',
+                    width: '150px',
+                    responsivePriority: 28,
+                    render: function(data, type, row) {
+                        if (type === 'display' || type === 'filter') {
+                            return data ? formatDateAndTime(data) : 'N/A';
+                        }
+                        return data;
+                    }
+                }
             ],
-            
+
             buttons: [
                 {
                     extend: 'csv',
@@ -160,8 +240,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Loop through displayed rows
                 data.forEach(function(rowData) {
                     // Remove dollar signs and commas before parsing
-                    const amount = parseFloat(rowData[14].replace('$', '').replace(/,/g, '')) || 0;
-                    const transactionAmount = parseFloat(rowData[23].replace('$', '').replace(/,/g, '')) || 0;
+                    const amount = parseFloat(rowData[15].replace('$', '').replace(/,/g, '')) || 0;
+                    const transactionAmount = parseFloat(rowData[24].replace('$', '').replace(/,/g, '')) || 0;
 
                     totalAmount += amount;
                     totalTransactionAmount += transactionAmount;
@@ -194,34 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (messageDiv) {
             messageDiv.style.display = 'none'; // Ensure error message is hidden
         }
-    
-        // Function to format date as "MM/DD/YYYY"
-        const formatDate = (dateString) => {
-            if (!dateString) return ''; // Handle null or undefined
-            const date = new Date(dateString);
-            if (isNaN(date)) return ''; // Handle invalid dates
 
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-            const day = String(date.getDate()).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${month}/${day}/${year}`;
-        };
-
-        // Function to format date and time as "MM/DD/YYYY HH:MM:SS AM/PM"
-        const formatDateAndTime = (dateString) => {
-            if (!dateString) return ''; // Handle null or undefined
-            const date = new Date(dateString);
-            if (isNaN(date)) return ''; // Handle invalid dates
-
-            const options = { 
-                year: 'numeric', month: '2-digit', day: '2-digit', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit',
-                hour12: true 
-            };
-            return date.toLocaleString('en-US', options);
-        };
-
-            
         // Loop through each order and create table rows dynamically
         orders.forEach(order => {
             const row = document.createElement('tr');
@@ -246,26 +299,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>**** **** **** ${order.CardNumber || 'N/A'}</td>        <!-- index 17: Card Last 4 -->
                 <td>${order.CardBrand || 'N/A'}</td>                        <!-- index 18: Card Brand -->
                 <td>${order.ExpirationDate || 'N/A'}</td>                   <!-- index 19: Expiration Date -->
-                <td>${formatDateAndTime(order.OrderDateTime)}</td>           <!-- index 20: Order Date/Time -->
-                <td>${formatDate(order.OrderDate)}</td>                      <!-- index 21: Order Date -->
+                <td>${order.OrderDateTime || 'N/A'}</td>                    <!-- index 20: Order Date/Time -->
+                <td>${order.OrderDate || 'N/A'}</td>                        <!-- index 21: Order Date -->
                 <td>${order.OrderTime || 'N/A'}</td>                        <!-- index 22: Order Time -->
                 <td>${order.AuthorizationToken || 'N/A'}</td>               <!-- index 23: Authorization Token -->
                 <td>$${order.AuthorizationAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td> <!-- index 24: Authorization Amount -->
-                <td>${formatDateAndTime(order.AuthorizationExpirationDate)}</td> <!-- index 25: Authorization Expiration -->
+                <td>${order.AuthorizationExpirationDate || 'N/A'}</td>      <!-- index 25: Authorization Expiration -->
                 <td>${order.WarehouseStatus || 'N/A'}</td>                  <!-- index 26: Warehouse Status -->
-                <td>${order.WarehouseApprovalDate ? formatDateAndTime(order.WarehouseApprovalDate) : 'N/A'}</td> <!-- index 27: Warehouse Approval Date -->
+                <td>${order.WarehouseApprovalDate || 'N/A'}</td>            <!-- index 27: Warehouse Approval Date -->
             `;
-    
+
             orderTableBody.appendChild(row);
         });
-    
+
         // Initialize DataTable after data is loaded
         initializeDataTable();
-    
+
         // Adjust and draw the DataTable after loading the data
         table.columns.adjust().draw();
     }
-    
 
     // Add filtering functionality for individual columns
     function addColumnFiltering() {
@@ -278,12 +330,10 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#emailFilter').on('keyup', debounce(function () {
             table.column(2).search(this.value).draw(); // Email (column index 2)
         }, 300));
-        $('#phoneNumberFilter').on('keyup', debounce(function () { // New Filter Listener
+        $('#phoneNumberFilter').on('keyup', debounce(function () {
             table.column(3).search(this.value).draw(); // Phone Number (column index 3)
         }, 300));
-        $('#shippingMethodFilter').on('keyup', debounce(function () {
-            table.column(4).search(this.value).draw(); // Shipping Method (column index 4)
-        }, 300));
+        // Shipping Method is handled via dropdown, so no direct input
         $('#shippingAddressFilter').on('keyup', debounce(function () {
             table.column(5).search(this.value).draw(); // Shipping Address (column index 5)
         }, 300));
@@ -314,43 +364,31 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#billingZipFilter').on('keyup', debounce(function () {
             table.column(14).search(this.value).draw(); // Billing Zip (column index 14)
         }, 300));
-        $('#totalAmountFilter').on('keyup', debounce(function () { // Updated ID
+        $('#totalAmountFilter').on('keyup', debounce(function () {
             table.column(15).search(this.value).draw(); // Total Amount (column index 15)
         }, 300));
         // Payment Status is handled via dropdown, so no direct input
         $('#cardNumberFilter').on('keyup', debounce(function () {
-            table.column(16).search(this.value).draw(); // Card Number (column index 16)
+            table.column(17).search(this.value).draw(); // Card Number (column index 17)
         }, 300));
         $('#cardBrandFilter').on('keyup', debounce(function () {
-            table.column(17).search(this.value).draw(); // Card Brand (column index 17)
+            table.column(18).search(this.value).draw(); // Card Brand (column index 18)
         }, 300));
         $('#expirationDateFilter').on('keyup', debounce(function () {
-            table.column(18).search(this.value).draw(); // Expiration Date (column index 18)
+            table.column(19).search(this.value).draw(); // Expiration Date (column index 19)
         }, 300));
-        $('#orderDateTimeFilter').on('change', function () {
-            table.column(19).search(this.value).draw(); // Order Date/Time (column index 19)
-        });
-        $('#orderDateFilter').on('change', function () {
-            table.column(20).search(this.value).draw(); // Order Date (column index 20)
-        });
+        // Date filters are handled via custom filtering functions
         $('#orderTimeFilter').on('keyup', debounce(function () {
-            table.column(21).search(this.value).draw(); // Order Time (column index 21)
+            table.column(22).search(this.value).draw(); // Order Time (column index 22)
         }, 300));
         $('#authTokenFilter').on('keyup', debounce(function () {
-            table.column(22).search(this.value).draw(); // Authorization Token (column index 22)
+            table.column(23).search(this.value).draw(); // Authorization Token (column index 23)
         }, 300));
         $('#authAmountFilter').on('keyup', debounce(function () {
-            table.column(23).search(this.value).draw(); // Authorization Amount (column index 23)
+            table.column(24).search(this.value).draw(); // Authorization Amount (column index 24)
         }, 300));
-        $('#authExpirationFilter').on('change', function () {
-            table.column(24).search(this.value).draw(); // Authorization Expiration (column index 24)
-        });
         // Warehouse Status is handled via dropdown, so no direct input
-        $('#warehouseApprovalDateFilter').on('change', function () {
-            table.column(26).search(this.value).draw(); // Warehouse Approval Date (column index 26)
-        });
     }
-    
 
     // Debounce function to limit the rate of function calls
     function debounce(func, wait) {
@@ -375,9 +413,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // If you have dropdown filters, reset their states too
         document.querySelectorAll('.dropdown-options input[type="checkbox"]').forEach(checkbox => checkbox.checked = false);
-        
+
         // If you have dropdown buttons, reset the button text to the default (e.g., "Choose...")
         document.querySelectorAll('.select-button').forEach(button => button.textContent = 'Choose...');
+
+        // Reset datepickers
+        $('#orderDateMin, #orderDateMax, #orderDateTimeMin, #orderDateTimeMax, #authExpirationMin, #authExpirationMax, #warehouseApprovalDateMin, #warehouseApprovalDateMax').val('');
 
         console.log('All filters cleared');
     });
@@ -387,9 +428,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let totalAmount = 0;
         let totalTransactionAmount = 0;
 
-        $('#orderTable tbody tr').each(function () {
-            const amountText = $(this).find('td').eq(14).text().replace('$', '').replace(/,/g, '');
-            const transactionAmountText = $(this).find('td').eq(23).text().replace('$', '').replace(/,/g, '');
+        $('#orderTable tbody tr:visible').each(function () {
+            const amountText = $(this).find('td').eq(15).text().replace('$', '').replace(/,/g, '');
+            const transactionAmountText = $(this).find('td').eq(24).text().replace('$', '').replace(/,/g, '');
 
             const amount = parseFloat(amountText) || 0;
             const transactionAmount = parseFloat(transactionAmountText) || 0;
@@ -460,8 +501,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Update the table with selected filters
                 updateTableFilter(columnIndex, checkboxes);
+
+                // Update the button text to reflect selected filters
+                updateFilterButtonText(buttonId, filterOptions);
             }
         });
+    }
+
+    // Update the button text based on selected filters
+    function updateFilterButtonText(buttonId, filterOptions) {
+        const filterButton = document.getElementById(buttonId);
+        const checkedOptions = Array.from(filterOptions.querySelectorAll('input[type="checkbox"]:checked'))
+            .filter(checkbox => checkbox.parentNode.getAttribute('data-value') !== 'selectAll' && checkbox.parentNode.getAttribute('data-value') !== 'clearAll')
+            .map(checkbox => checkbox.parentNode.textContent.trim());
+
+        if (checkedOptions.length === 0) {
+            filterButton.textContent = 'Choose...';
+        } else if (checkedOptions.length === filterOptions.querySelectorAll('li').length - 2) { // Exclude "Select All" and "Clear All"
+            filterButton.textContent = 'All Selected';
+        } else {
+            filterButton.textContent = `${checkedOptions.length} Selected`;
+        }
     }
 
     // Update the table based on selected filters
@@ -470,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         checkboxes.forEach(checkbox => {
             if (checkbox.checked && checkbox.parentNode.getAttribute('data-value') !== 'selectAll' && checkbox.parentNode.getAttribute('data-value') !== 'clearAll') {
-                selectedValues.push(checkbox.parentNode.getAttribute('data-value'));
+                selectedValues.push(escapeRegExp(checkbox.parentNode.getAttribute('data-value')));
             }
         });
 
@@ -479,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function () {
             table.column(columnIndex).search('').draw();
         } else {
             // Use a regex to match any of the selected values
-            const regex = selectedValues.map(value => escapeRegExp(value)).join('|');
+            const regex = selectedValues.join('|');
             table.column(columnIndex).search(regex, true, false).draw();
         }
     }
@@ -490,9 +550,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Initialize all dropdown filters
-    initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 3);
-    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 15);
-    initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 25);
+    initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 4); // Shipping Method column index is 4
+    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 16); // Payment Status column index is 16
+    initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 26); // Warehouse Status column index is 26
 
     // Download functionality
     document.getElementById('downloadButton').addEventListener('click', function () {
@@ -607,7 +667,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error("Error in updateTableColumns: ", error);
         }
-        
+
         $('#chooseColumnsModal').modal('hide'); // Close the modal after applying changes
 
         // Adjust table layout to ensure alignment
@@ -625,4 +685,45 @@ document.addEventListener('DOMContentLoaded', function () {
         // Ensure the table aligns columns, header, footer, and input sizes
         table.columns.adjust().draw(false); // Adjust and redraw to fix any alignment issues
     }
+
+    // Custom date filtering functions
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            // Order Date filter
+            var minDate = $('#orderDateMin').val();
+            var maxDate = $('#orderDateMax').val();
+            var orderDate = data[21]; // Index of Order Date column
+
+            if (orderDate) {
+                var orderDateParsed = dayjs(orderDate, 'MM/DD/YYYY');
+
+                if (minDate) {
+                    var minDateParsed = dayjs(minDate, 'MM/DD/YYYY');
+                    if (!orderDateParsed.isSameOrAfter(minDateParsed, 'day')) {
+                        return false;
+                    }
+                }
+
+                if (maxDate) {
+                    var maxDateParsed = dayjs(maxDate, 'MM/DD/YYYY');
+                    if (!orderDateParsed.isSameOrBefore(maxDateParsed, 'day')) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    );
+
+    // Event listener to redraw on date range filter change
+    $('#orderDateMin, #orderDateMax').change(function() {
+        table.draw();
+    });
+
+    // Initialize datepickers
+    $('#orderDateMin, #orderDateMax').datepicker({
+        dateFormat: 'mm/dd/yy'
+    });
+
 });
