@@ -69,6 +69,7 @@ app.get('/', (req, res) => {
 const orderSchema = new mongoose.Schema({
   OrderID: String,
   CustomerEmail: String,
+  PhoneNumber: String,
   FirstName: String,
   LastName: String,
 
@@ -218,6 +219,7 @@ app.post('/api/checkout', async (req, res) => {
     const newOrder = new Order({
       OrderID: orderId,
       CustomerEmail: email,
+      PhoneNumber: phone,
       FirstName: firstName,
       LastName: lastName,
 
