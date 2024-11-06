@@ -196,21 +196,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     
         // Function to format date as "MM/DD/YYYY"
-        const formatDate = (dateObj) => {
-            if (!dateObj || !dateObj["$date"]) return ''; // Handle null or missing $date case
-            
-            const date = new Date(dateObj["$date"]);
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure two digits
-            const day = String(date.getDate()).padStart(2, '0');        // Ensure two digits
+        const formatDate = (dateString) => {
+            if (!dateString) return ''; // Handle null or undefined
+            const date = new Date(dateString);
+            if (isNaN(date)) return ''; // Handle invalid dates
+
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const day = String(date.getDate()).padStart(2, '0');
             const year = date.getFullYear();
             return `${month}/${day}/${year}`;
         };
-    
+
         // Function to format date and time as "MM/DD/YYYY HH:MM:SS AM/PM"
-        const formatDateAndTime = (dateObj) => {
-            if (!dateObj || !dateObj["$date"]) return ''; // Handle null or missing $date case
-    
-            const date = new Date(dateObj["$date"]);
+        const formatDateAndTime = (dateString) => {
+            if (!dateString) return ''; // Handle null or undefined
+            const date = new Date(dateString);
+            if (isNaN(date)) return ''; // Handle invalid dates
+
             const options = { 
                 year: 'numeric', month: '2-digit', day: '2-digit', 
                 hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -218,7 +220,8 @@ document.addEventListener('DOMContentLoaded', function () {
             };
             return date.toLocaleString('en-US', options);
         };
-    
+
+            
         // Loop through each order and create table rows dynamically
         orders.forEach(order => {
             const row = document.createElement('tr');
