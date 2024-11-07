@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
             order: [], // Initial no ordering
             pageLength: 10,
             orderCellsTop: true,
-            autoWidth: true, // Enable auto-width
+            autoWidth: false, // Disable automatic column width calculation
             colReorder: {
                 realtime: true, // Enable realtime reordering (drag-and-drop)
             },
