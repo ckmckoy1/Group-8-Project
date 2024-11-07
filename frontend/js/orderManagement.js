@@ -236,25 +236,27 @@ document.addEventListener('DOMContentLoaded', function () {
             footerCallback: function (row, data, start, end, display) {
                 let totalAmount = 0;
                 let totalTransactionAmount = 0;
-
+                const api = this.api();
+            
+                // Get the indices of the required columns
+                const totalAmountIndex = api.column('Total Amount:name').index('visible');
+                const authorizationAmountIndex = api.column('Authorization Amount:name').index('visible');
+            
                 // Loop through displayed rows
                 data.forEach(function(rowData) {
                     // Remove dollar signs and commas before parsing
-                    const amount = parseFloat(rowData[15].replace('$', '').replace(/,/g, '')) || 0;
-                    const transactionAmount = parseFloat(rowData[24].replace('$', '').replace(/,/g, '')) || 0;
-
+                    const amount = parseFloat(rowData[totalAmountIndex].replace('$', '').replace(/,/g, '')) || 0;
+                    const transactionAmount = parseFloat(rowData[authorizationAmountIndex].replace('$', '').replace(/,/g, '')) || 0;
+            
                     totalAmount += amount;
                     totalTransactionAmount += transactionAmount;
                 });
-
-                // Format numbers with commas
-                const formattedTotalAmount = totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const formattedTotalTransactionAmount = totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
+            
                 // Update the footer totals
-                $('#totalAmount').text(`$${formattedTotalAmount}`);
-                $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
+                $('#totalAmount').text(`$${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+                $('#totalTransactionAmount').text(`$${totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
             }
+            
         });
 
             // Initialize dynamic column indices
@@ -268,9 +270,8 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Columns reordered');
             // Update dynamic column indices
             updateDynamicColumnIndices();
-            totalAmountIndex = table.column('Total Amount:name').index('visible');
-            authorizationAmountIndex = table.column('Authorization Amount:name').index('visible');
         });
+        
         
 
         addColumnFiltering();
@@ -487,34 +488,30 @@ function addColumnFiltering() {
     
 
     // Initialize dropdown filters
-    function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
+    function initializeDropdownFilter(buttonId, optionsId, columnName) {
         const filterButton = document.getElementById(buttonId);
         const filterOptions = document.getElementById(optionsId);
         const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
-
+    
         // Toggle dropdown on button click
         filterButton.addEventListener('click', function (e) {
             e.stopPropagation();
             // Toggle visibility of the dropdown
-            if (filterOptions.style.display === 'block') {
-                filterOptions.style.display = 'none';
-            } else {
-                filterOptions.style.display = 'block';
-            }
+            filterOptions.style.display = (filterOptions.style.display === 'block') ? 'none' : 'block';
         });
-
+    
         // Hide dropdown when clicking outside
         document.addEventListener('click', function (e) {
             if (!filterOptions.contains(e.target) && e.target !== filterButton) {
                 filterOptions.style.display = 'none';
             }
         });
-
+    
         // Handle selection and filtering logic
         filterOptions.addEventListener('click', function (e) {
             if (e.target.tagName === 'INPUT') {
                 const selectedOption = e.target.parentNode.getAttribute('data-value');
-
+    
                 if (selectedOption === 'selectAll') {
                     // Select all options except "Clear All"
                     checkboxes.forEach(checkbox => {
@@ -537,10 +534,10 @@ function addColumnFiltering() {
                         clearAllCheckbox.checked = false;
                     }
                 }
-
+    
                 // Update the table with selected filters
-                updateTableFilter(columnIndex, checkboxes);
-
+                updateTableFilter(columnName, checkboxes);
+    
                 // Update the button text to reflect selected filters
                 updateFilterButtonText(buttonId, filterOptions);
             }
@@ -564,24 +561,28 @@ function addColumnFiltering() {
     }
 
     // Update the table based on selected filters
-    function updateTableFilter(columnIndex, checkboxes) {
+    function updateTableFilter(columnName, checkboxes) {
         const selectedValues = [];
-
+    
         checkboxes.forEach(checkbox => {
             if (checkbox.checked && checkbox.parentNode.getAttribute('data-value') !== 'selectAll' && checkbox.parentNode.getAttribute('data-value') !== 'clearAll') {
                 selectedValues.push(escapeRegExp(checkbox.parentNode.getAttribute('data-value')));
             }
         });
-
+    
+        // Get the current index of the column
+        const columnIndex = table.column(`${columnName}:name`).index('visible');
+    
         // If no filters are selected, reset the filter
         if (selectedValues.length === 0) {
-            table.column(columnIndex).search('').draw();
+            table.column(`${columnName}:name`).search('').draw();
         } else {
             // Use a regex to match any of the selected values
             const regex = selectedValues.join('|');
-            table.column(columnIndex).search(regex, true, false).draw();
+            table.column(`${columnName}:name`).search(regex, true, false).draw();
         }
     }
+    
 
     // Utility function to escape regex special characters
     function escapeRegExp(string) {
@@ -589,10 +590,10 @@ function addColumnFiltering() {
     }
 
     // Initialize all dropdown filters
-    initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 4); // Shipping Method column index is 4
-    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 16); // Payment Status column index is 16
-    initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 26); // Warehouse Status column index is 26
-
+    initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 'Shipping Method');
+    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 'Payment Status');
+    initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 'Warehouse Status');
+    
     // Download functionality
     document.getElementById('downloadButton').addEventListener('click', function () {
         $('#downloadModal').modal('show');
