@@ -38,7 +38,7 @@
         <div class="row mb-3 align-items-center">
             <div class="col-md-6 d-flex align-items-center">
                 <h2 class="text-left mr-3 mb-0 nowrap-text">Order Items: Recent Transactions</h2>
-                <button id="refreshTable" class="btn btn-primary mr-2 uniform-btn">Refresh Table</button>
+                <button id="refreshTable" class="btn btn-primary mr-2 uniform-btn">Reset Table</button>
                 <button id="chooseColumns" class="btn btn-secondary mr-2 uniform-btn" data-toggle="modal" data-target="#chooseColumnsModal">Choose Columns</button>
                 <button id="downloadButton" class="btn btn-info mr-2 uniform-btn">Download</button>
                 <button id="clearFilters" class="btn btn-secondary uniform-btn">Clear All Filters</button>
@@ -115,8 +115,9 @@
                                 <ul id="paymentstatusFilterOptions" class="dropdown-options">
                                     <li data-value="selectAll"><input type="checkbox"> Select All</li>
                                     <li data-value="clearAll"><input type="checkbox"> Clear All</li>
-                                    <li data-value="Authorized"><input type="checkbox"> Authorized</li>
-                                    <li data-value="Failed"><input type="checkbox"> Failed</li>
+                                    <li data-value="Authorized"><input type="checkbox"> Success</li>
+                                    <li data-value="Failure - Incorrect Card Details"><input type="checkbox"> Failure - Incorrect Card Details</li>
+                                    <li data-value="Failure - Insufficient Funds"><input type="checkbox"> Failure - Insufficient Funds</li>
                                     <!-- Add more payment statuses as needed -->
                                 </ul>
                             </th>
