@@ -87,19 +87,6 @@ thead th {
     pointer-events: auto;
 }
 
-/* Ensure this CSS is applied after any DataTables CSS */
-#orderTable {
-    table-layout: fixed;
-    width: 100%;
-}
-
-#orderTable th, #orderTable td {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-
 /* General styling for wrapping text in table headers and cells */
 table th, table td {
     white-space: normal;
