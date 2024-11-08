@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
             order: [], // Initial no ordering
             pageLength: 10,
             orderCellsTop: true,
-            autoWidth: true, // Enable auto-width
+            autoWidth: false, // Disable automatic column width calculation
             colReorder: {
                 realtime: true, // Enable realtime reordering (drag-and-drop)
             },
@@ -236,26 +236,31 @@ document.addEventListener('DOMContentLoaded', function () {
             footerCallback: function (row, data, start, end, display) {
                 let totalAmount = 0;
                 let totalTransactionAmount = 0;
-
+                const api = this.api();
+            
+                // Get the indices of the required columns
+                const totalAmountIndex = api.column('Total Amount:name').index('visible');
+                const authorizationAmountIndex = api.column('Authorization Amount:name').index('visible');
+            
                 // Loop through displayed rows
                 data.forEach(function(rowData) {
                     // Remove dollar signs and commas before parsing
-                    const amount = parseFloat(rowData[15].replace('$', '').replace(/,/g, '')) || 0;
-                    const transactionAmount = parseFloat(rowData[24].replace('$', '').replace(/,/g, '')) || 0;
-
+                    const amount = parseFloat(rowData[totalAmountIndex].replace('$', '').replace(/,/g, '')) || 0;
+                    const transactionAmount = parseFloat(rowData[authorizationAmountIndex].replace('$', '').replace(/,/g, '')) || 0;
+            
                     totalAmount += amount;
                     totalTransactionAmount += transactionAmount;
                 });
-
-                // Format numbers with commas
-                const formattedTotalAmount = totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const formattedTotalTransactionAmount = totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
+            
                 // Update the footer totals
-                $('#totalAmount').text(`$${formattedTotalAmount}`);
-                $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
+                $('#totalAmount').text(`$${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+                $('#totalTransactionAmount').text(`$${totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
             }
+            
         });
+
+            // Initialize dynamic column indices
+            updateDynamicColumnIndices();
 
         // Hook into the draw event to ensure totals are updated after the table is drawn
         table.on('draw', updateTotals);
@@ -263,10 +268,23 @@ document.addEventListener('DOMContentLoaded', function () {
         // Listen for column reorder events (optional logging)
         table.on('column-reorder', function (e, settings, details) {
             console.log('Columns reordered');
+            // Update dynamic column indices
+            updateDynamicColumnIndices();
         });
+        
+        
 
         addColumnFiltering();
     }
+
+    let totalAmountIndex, authorizationAmountIndex;
+
+    function updateDynamicColumnIndices() {
+        totalAmountIndex = table.column('Total Amount:name').index('visible');
+        authorizationAmountIndex = table.column('Authorization Amount:name').index('visible');
+        // Update any other dynamic indices here if needed
+    }
+    
 
     // Display orders in the table after initializing DataTable
     function displayOrders(orders) {
@@ -318,77 +336,101 @@ document.addEventListener('DOMContentLoaded', function () {
         // Adjust and draw the DataTable after loading the data
         table.columns.adjust().draw();
     }
+// Add filtering functionality for individual columns
+function addColumnFiltering() {
+    $('#orderIDFilter').on('keyup', debounce(function () {
+        table.column('Order ID:name').search(this.value).draw();
+    }, 300));
 
-    // Add filtering functionality for individual columns
-    function addColumnFiltering() {
-        $('#orderIDFilter').on('keyup', debounce(function () {
-            table.column(0).search(this.value).draw(); // Order ID (column index 0)
-        }, 300));
-        $('#customerFilter').on('keyup', debounce(function () {
-            table.column(1).search(this.value).draw(); // Customer (column index 1)
-        }, 300));
-        $('#emailFilter').on('keyup', debounce(function () {
-            table.column(2).search(this.value).draw(); // Email (column index 2)
-        }, 300));
-        $('#phoneNumberFilter').on('keyup', debounce(function () {
-            table.column(3).search(this.value).draw(); // Phone Number (column index 3)
-        }, 300));
-        // Shipping Method is handled via dropdown, so no direct input
-        $('#shippingAddressFilter').on('keyup', debounce(function () {
-            table.column(5).search(this.value).draw(); // Shipping Address (column index 5)
-        }, 300));
-        $('#shippingUnitNumberFilter').on('keyup', debounce(function () {
-            table.column(6).search(this.value).draw(); // Shipping Unit Number (column index 6)
-        }, 300));
-        $('#shippingCityFilter').on('keyup', debounce(function () {
-            table.column(7).search(this.value).draw(); // Shipping City (column index 7)
-        }, 300));
-        $('#shippingStateFilter').on('keyup', debounce(function () {
-            table.column(8).search(this.value).draw(); // Shipping State (column index 8)
-        }, 300));
-        $('#shippingZipFilter').on('keyup', debounce(function () {
-            table.column(9).search(this.value).draw(); // Shipping Zip (column index 9)
-        }, 300));
-        $('#billingAddressFilter').on('keyup', debounce(function () {
-            table.column(10).search(this.value).draw(); // Billing Address (column index 10)
-        }, 300));
-        $('#billingUnitNumberFilter').on('keyup', debounce(function () {
-            table.column(11).search(this.value).draw(); // Billing Unit Number (column index 11)
-        }, 300));
-        $('#billingCityFilter').on('keyup', debounce(function () {
-            table.column(12).search(this.value).draw(); // Billing City (column index 12)
-        }, 300));
-        $('#billingStateFilter').on('keyup', debounce(function () {
-            table.column(13).search(this.value).draw(); // Billing State (column index 13)
-        }, 300));
-        $('#billingZipFilter').on('keyup', debounce(function () {
-            table.column(14).search(this.value).draw(); // Billing Zip (column index 14)
-        }, 300));
-        $('#totalAmountFilter').on('keyup', debounce(function () {
-            table.column(15).search(this.value).draw(); // Total Amount (column index 15)
-        }, 300));
-        // Payment Status is handled via dropdown, so no direct input
-        $('#cardNumberFilter').on('keyup', debounce(function () {
-            table.column(17).search(this.value).draw(); // Card Number (column index 17)
-        }, 300));
-        $('#cardBrandFilter').on('keyup', debounce(function () {
-            table.column(18).search(this.value).draw(); // Card Brand (column index 18)
-        }, 300));
-        $('#expirationDateFilter').on('keyup', debounce(function () {
-            table.column(19).search(this.value).draw(); // Expiration Date (column index 19)
-        }, 300));
-        // Date filters are handled via custom filtering functions
-        $('#orderTimeFilter').on('keyup', debounce(function () {
-            table.column(22).search(this.value).draw(); // Order Time (column index 22)
-        }, 300));
-        $('#authTokenFilter').on('keyup', debounce(function () {
-            table.column(23).search(this.value).draw(); // Authorization Token (column index 23)
-        }, 300));
-        $('#authAmountFilter').on('keyup', debounce(function () {
-            table.column(24).search(this.value).draw(); // Authorization Amount (column index 24)
-        }, 300));
-        // Warehouse Status is handled via dropdown, so no direct input
-    }
+    $('#customerFilter').on('keyup', debounce(function () {
+        table.column('Customer:name').search(this.value).draw();
+    }, 300));
+
+    $('#emailFilter').on('keyup', debounce(function () {
+        table.column('Email:name').search(this.value).draw();
+    }, 300));
+
+    $('#phoneNumberFilter').on('keyup', debounce(function () {
+        table.column('Phone Number:name').search(this.value).draw();
+    }, 300));
+
+    // Shipping Method is handled via dropdown, so no direct input
+
+    $('#shippingAddressFilter').on('keyup', debounce(function () {
+        table.column('Shipping Address:name').search(this.value).draw();
+    }, 300));
+
+    $('#shippingUnitNumberFilter').on('keyup', debounce(function () {
+        table.column('Shipping Unit Number:name').search(this.value).draw();
+    }, 300));
+
+    $('#shippingCityFilter').on('keyup', debounce(function () {
+        table.column('Shipping City:name').search(this.value).draw();
+    }, 300));
+
+    $('#shippingStateFilter').on('keyup', debounce(function () {
+        table.column('Shipping State:name').search(this.value).draw();
+    }, 300));
+
+    $('#shippingZipFilter').on('keyup', debounce(function () {
+        table.column('Shipping Zip:name').search(this.value).draw();
+    }, 300));
+
+    $('#billingAddressFilter').on('keyup', debounce(function () {
+        table.column('Billing Address:name').search(this.value).draw();
+    }, 300));
+
+    $('#billingUnitNumberFilter').on('keyup', debounce(function () {
+        table.column('Billing Unit Number:name').search(this.value).draw();
+    }, 300));
+
+    $('#billingCityFilter').on('keyup', debounce(function () {
+        table.column('Billing City:name').search(this.value).draw();
+    }, 300));
+
+    $('#billingStateFilter').on('keyup', debounce(function () {
+        table.column('Billing State:name').search(this.value).draw();
+    }, 300));
+
+    $('#billingZipFilter').on('keyup', debounce(function () {
+        table.column('Billing Zip:name').search(this.value).draw();
+    }, 300));
+
+    $('#totalAmountFilter').on('keyup', debounce(function () {
+        table.column('Total Amount:name').search(this.value).draw();
+    }, 300));
+
+    // Payment Status is handled via dropdown, so no direct input
+
+    $('#cardNumberFilter').on('keyup', debounce(function () {
+        table.column('Card Last 4:name').search(this.value).draw();
+    }, 300));
+
+    $('#cardBrandFilter').on('keyup', debounce(function () {
+        table.column('Card Brand:name').search(this.value).draw();
+    }, 300));
+
+    $('#expirationDateFilter').on('keyup', debounce(function () {
+        table.column('Expiration Date:name').search(this.value).draw();
+    }, 300));
+
+    // Date filters are handled via custom filtering functions
+
+    $('#orderTimeFilter').on('keyup', debounce(function () {
+        table.column('Order Time:name').search(this.value).draw();
+    }, 300));
+
+    $('#authTokenFilter').on('keyup', debounce(function () {
+        table.column('Authorization Token:name').search(this.value).draw();
+    }, 300));
+
+    $('#authAmountFilter').on('keyup', debounce(function () {
+        table.column('Authorization Amount:name').search(this.value).draw();
+    }, 300));
+
+    // Warehouse Status is handled via dropdown, so no direct input
+}
+
 
     // Debounce function to limit the rate of function calls
     function debounce(func, wait) {
@@ -427,55 +469,49 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateTotals() {
         let totalAmount = 0;
         let totalTransactionAmount = 0;
-
+    
         $('#orderTable tbody tr:visible').each(function () {
-            const amountText = $(this).find('td').eq(15).text().replace('$', '').replace(/,/g, '');
-            const transactionAmountText = $(this).find('td').eq(24).text().replace('$', '').replace(/,/g, '');
-
+            const amountText = $(this).find('td').eq(totalAmountIndex).text().replace('$', '').replace(/,/g, '');
+            const transactionAmountText = $(this).find('td').eq(authorizationAmountIndex).text().replace('$', '').replace(/,/g, '');
+    
             const amount = parseFloat(amountText) || 0;
             const transactionAmount = parseFloat(transactionAmountText) || 0;
-
+    
             totalAmount += amount;
             totalTransactionAmount += transactionAmount;
         });
-
-        // Format numbers with commas
-        const formattedTotalAmount = totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        const formattedTotalTransactionAmount = totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-        $('#totalAmount').text(`$${formattedTotalAmount}`);
-        $('#totalTransactionAmount').text(`$${formattedTotalTransactionAmount}`);
+    
+        // Update the totals in the footer
+        $('#totalAmount').text(`$${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+        $('#totalTransactionAmount').text(`$${totalTransactionAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
     }
+    
 
     // Initialize dropdown filters
-    function initializeDropdownFilter(buttonId, optionsId, columnIndex) {
+    function initializeDropdownFilter(buttonId, optionsId, columnName) {
         const filterButton = document.getElementById(buttonId);
         const filterOptions = document.getElementById(optionsId);
         const checkboxes = filterOptions.querySelectorAll('input[type="checkbox"]');
-
+    
         // Toggle dropdown on button click
         filterButton.addEventListener('click', function (e) {
             e.stopPropagation();
             // Toggle visibility of the dropdown
-            if (filterOptions.style.display === 'block') {
-                filterOptions.style.display = 'none';
-            } else {
-                filterOptions.style.display = 'block';
-            }
+            filterOptions.style.display = (filterOptions.style.display === 'block') ? 'none' : 'block';
         });
-
+    
         // Hide dropdown when clicking outside
         document.addEventListener('click', function (e) {
             if (!filterOptions.contains(e.target) && e.target !== filterButton) {
                 filterOptions.style.display = 'none';
             }
         });
-
+    
         // Handle selection and filtering logic
         filterOptions.addEventListener('click', function (e) {
             if (e.target.tagName === 'INPUT') {
                 const selectedOption = e.target.parentNode.getAttribute('data-value');
-
+    
                 if (selectedOption === 'selectAll') {
                     // Select all options except "Clear All"
                     checkboxes.forEach(checkbox => {
@@ -498,10 +534,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         clearAllCheckbox.checked = false;
                     }
                 }
-
+    
                 // Update the table with selected filters
-                updateTableFilter(columnIndex, checkboxes);
-
+                updateTableFilter(columnName, checkboxes);
+    
                 // Update the button text to reflect selected filters
                 updateFilterButtonText(buttonId, filterOptions);
             }
@@ -525,24 +561,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Update the table based on selected filters
-    function updateTableFilter(columnIndex, checkboxes) {
+    function updateTableFilter(columnName, checkboxes) {
         const selectedValues = [];
-
+    
         checkboxes.forEach(checkbox => {
             if (checkbox.checked && checkbox.parentNode.getAttribute('data-value') !== 'selectAll' && checkbox.parentNode.getAttribute('data-value') !== 'clearAll') {
                 selectedValues.push(escapeRegExp(checkbox.parentNode.getAttribute('data-value')));
             }
         });
-
+    
+        // Get the current index of the column
+        const columnIndex = table.column(`${columnName}:name`).index('visible');
+    
         // If no filters are selected, reset the filter
         if (selectedValues.length === 0) {
-            table.column(columnIndex).search('').draw();
+            table.column(`${columnName}:name`).search('').draw();
         } else {
             // Use a regex to match any of the selected values
             const regex = selectedValues.join('|');
-            table.column(columnIndex).search(regex, true, false).draw();
+            table.column(`${columnName}:name`).search(regex, true, false).draw();
         }
     }
+    
 
     // Utility function to escape regex special characters
     function escapeRegExp(string) {
@@ -550,10 +590,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Initialize all dropdown filters
-    initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 4); // Shipping Method column index is 4
-    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 16); // Payment Status column index is 16
-    initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 26); // Warehouse Status column index is 26
-
+    initializeDropdownFilter('shippingMethodFilterButton', 'shippingMethodFilterOptions', 'Shipping Method');
+    initializeDropdownFilter('paymentstatusFilterButton', 'paymentstatusFilterOptions', 'Payment Status');
+    initializeDropdownFilter('warehouseStatusFilterButton', 'warehouseStatusFilterOptions', 'Warehouse Status');
+    
     // Download functionality
     document.getElementById('downloadButton').addEventListener('click', function () {
         $('#downloadModal').modal('show');
@@ -689,21 +729,23 @@ document.addEventListener('DOMContentLoaded', function () {
     // Custom date filtering functions
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
-            // Order Date filter
+            var table = new $.fn.dataTable.Api(settings);
+            var orderDateIndex = table.column('Order Date:name').index('visible');
+            var orderDate = data[orderDateIndex];
+    
             var minDate = $('#orderDateMin').val();
             var maxDate = $('#orderDateMax').val();
-            var orderDate = data[21]; // Index of Order Date column
-
+    
             if (orderDate) {
                 var orderDateParsed = dayjs(orderDate, 'MM/DD/YYYY');
-
+    
                 if (minDate) {
                     var minDateParsed = dayjs(minDate, 'MM/DD/YYYY');
                     if (!orderDateParsed.isSameOrAfter(minDateParsed, 'day')) {
                         return false;
                     }
                 }
-
+    
                 if (maxDate) {
                     var maxDateParsed = dayjs(maxDate, 'MM/DD/YYYY');
                     if (!orderDateParsed.isSameOrBefore(maxDateParsed, 'day')) {
@@ -711,10 +753,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             }
-
+    
             return true;
         }
     );
+    
 
     // Event listener to redraw on date range filter change
     $('#orderDateMin, #orderDateMax').change(function() {
