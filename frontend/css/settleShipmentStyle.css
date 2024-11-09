@@ -42,7 +42,7 @@ body {
 }
 
 .nav-container {
-    max-width: 1700px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
@@ -55,15 +55,15 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     text-decoration: none;
+    white-space: nowrap; /* Prevent logo text from wrapping */
 }
 
-/* Hidden by default; shown on mobile */
 .nav-toggle {
-    display: none;
+    display: none; /* Keep the checkbox hidden */
 }
 
 .nav-toggle-label {
-    display: none;
+    display: none; /* Hidden by default; shown on mobile */
     flex-direction: column;
     cursor: pointer;
     margin-left: auto;
@@ -105,10 +105,11 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally */
     padding: 80px 20px 40px 20px; /* Adjust top padding to account for navbar */
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%; /* Ensure main takes full width */
+    margin: 0;
+    align-items: stretch; /* Allow child elements to stretch full width */
+    margin-top: 120px; /* Adjusted as per your addition */
 }
 
 /* Containers */
@@ -116,7 +117,6 @@ main {
 .order-history-container,
 .warehouse-status-container {
     width: 100%;
-    max-width: 1600px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -124,6 +124,7 @@ main {
     margin-bottom: 40px;
 }
 
+/* Headings */
 .settle-shipment-container h2,
 .order-history-container h2,
 .warehouse-status-container h2 {
@@ -153,7 +154,6 @@ main {
 
 .form-group input {
     width: 100%;
-    max-width: 400px;
     padding: 12px;
     font-size: 1rem;
     border: 1px solid #ced4da;
@@ -200,7 +200,7 @@ button img, .action-button img {
 
 .submit-button {
     margin-right: 0;
-    width: 100%;
+    width: 100%; /* Make the submit button full width */
 }
 
 #printLabel {
@@ -213,6 +213,7 @@ button img, .action-button img {
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
     margin-top: 20px;
+    width: 100%; /* Make the print button full width */
 }
 
 #printLabel:hover {
@@ -336,7 +337,7 @@ button img, .action-button img {
 }
 
 .footer-container {
-    max-width: 1200px;
+    width: 100%; /* Ensure footer spans full width */
     margin: 0 auto;
     color: #666;
 }
@@ -352,86 +353,104 @@ button img, .action-button img {
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
-    /* Tablet adjustments */
+@media (max-width: 768px) {
+    /* Mobile adjustments */
+
+    main {
+        padding: 10px; /* Reduce padding on mobile */
+        width: 100%; /* Ensure main takes full width */
+        margin: 0;
+        align-items: stretch; /* Allow child elements to stretch full width */
+        margin-top: 120px; /* Adjusted as per your addition */
+    }
+
     .settle-shipment-container {
-        width: 95%;
-        padding: 30px;
+        width: 100%;
+        padding: 10px; /* Reduce padding for mobile */
+        margin: 0; /* Remove margins */
     }
 
-    .form-group input, .action-button, .submit-button {
-        font-size: 0.95rem;
-        padding: 12px;
+    .form-group input, 
+    .action-button, 
+    .submit-button {
+        width: 100%; /* Make inputs and buttons full width */
+        max-width: none; /* Remove any max-width constraints */
+        box-sizing: border-box;
     }
 
+    .settle-shipment-container h2,
+    .settle-shipment-container h3 {
+        font-size: 1.5rem; /* Adjust font sizes */
+        margin-bottom: 15px;
+    }
 
+    #printLabel {
+        width: 100%; /* Make the print button full width */
+    }
+
+    /* Show the hamburger menu */
     .nav-toggle-label {
         display: flex;
-        cursor: pointer;
     }
 
+    /* Hide the nav-menu by default */
     .nav-menu {
         display: none;
-        flex-direction: column;
+        flex-direction: row; /* Display items side by side */
+        flex-wrap: wrap; /* Allow wrapping if necessary */
         position: absolute;
-        top: 60px;
+        top: 60px; /* Position below the navbar */
         left: 0;
         width: 100%;
         background-color: var(--primary-color);
         z-index: 100;
+        justify-content: space-around; /* Evenly distribute items */
+        padding: 10px 0;
     }
 
+    /* Show the nav-menu when the hamburger menu is clicked */
     .nav-toggle:checked + .nav-toggle-label + .nav-menu {
         display: flex;
     }
-}
 
-@media (max-width: 768px) {
-    /* Mobile adjustments */
-    .settle-shipment-container {
-        width: 100%;
-        padding: 20px;
+    /* Adjust nav-link styles */
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 5px;
+        text-align: center;
+        width: auto;
+        display: flex;
+        flex-direction: column; /* Stack icon and text vertically */
+        align-items: center;
+        flex-grow: 1;
+        margin-left: 0; /* Remove left margin */
+        font-size: 0.9rem; /* Adjust font size */
     }
 
-    .form-group input {
-        max-width: 100%;
-        font-size: 0.875rem;
+    .nav-link img {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 5px;
     }
 
-    .action-button, .submit-button {
-        font-size: 0.875rem;
-        padding: 10px;
+    /* Allow horizontal scrolling if necessary */
+    .nav-menu {
+        overflow-x: auto;
+        white-space: nowrap;
     }
 
+    /* Prevent flex items from shrinking */
+    .nav-link {
+        flex: none;
+    }
+
+    /* Adjust nav-logo for mobile */
     .nav-logo {
         font-size: 1.2rem;
     }
 
-    .nav-menu {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background-color: var(--primary-color);
-        position: absolute;
-        top: 60px;
-        left: 0;
-        z-index: 100;
-        padding: 10px 0;
-    }
-
-    .nav-menu .nav-link {
-        padding: 10px;
-        text-align: center;
-        color: white;
-        width: 100%;
-        display: block;
-    }
-
     .nav-toggle-label span {
         width: 20px;
-    }
-
-    .nav-toggle:checked + .nav-toggle-label + .nav-menu {
-        display: flex;
     }
 }
