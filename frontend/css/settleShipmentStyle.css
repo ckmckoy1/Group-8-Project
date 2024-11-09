@@ -399,7 +399,7 @@ button img, .action-button img {
         flex-direction: row; /* Display items side by side */
         flex-wrap: wrap; /* Allow wrapping if necessary */
         position: absolute;
-        top: 60px; /* Position below the navbar */
+        top: 20px; /* Position below the navbar */
         left: 0;
         width: 100%;
         background-color: var(--primary-color);
