@@ -364,9 +364,6 @@ button img, .action-button img {
         padding: 12px;
     }
 
-    .nav-toggle {
-        display: block;
-    }
 
     .nav-toggle-label {
         display: flex;
