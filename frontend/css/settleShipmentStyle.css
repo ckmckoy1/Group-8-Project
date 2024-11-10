@@ -332,6 +332,11 @@ main {
     text-decoration: underline;
 }
 
+/* Style adjustments for the Search Order button */
+#typeContainer .action-button {
+    margin-top: 20px;
+}
+
 /* Buttons */
 button, .action-button, .submit-button {
     background-color: var(--primary-color);
