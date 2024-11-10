@@ -423,6 +423,35 @@ button img, .action-button img {
         box-sizing: border-box;
     }
 
+    /* Form Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    color: var(--text-color);
+    background-color: white;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 120, 215, 0.5);
+    outline: none;
+}
+
+
     .settle-shipment-container h2 {
         font-size: 2.5rem; /* Adjust font sizes */
         margin-bottom: 15px;
