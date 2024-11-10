@@ -510,6 +510,49 @@ input:focus::placeholder {
     color: #333;
 }
 
+/* Google Autocomplete Dropdown Styling */
+.pac-container {
+    /* Adjust the position to make sure it overlays correctly */
+    z-index: 10000 !important; /* Ensure it appears above other elements */
+    background-color: #fff;     /* Background color of the dropdown */
+    border: 1px solid #ccc;     /* Border around the dropdown */
+    border-radius: 4px;         /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+    font-family: "interstate", Helvetica, Arial, sans-serif; /* Match your site's font */
+}
+
+.pac-item {
+    padding: 10px;              /* Space inside each suggestion item */
+    cursor: pointer;            /* Cursor changes to pointer on hover */
+    font-size: 0.9em;           /* Adjust font size as needed */
+    color: #333;                /* Text color */
+}
+
+.pac-item:hover {
+    background-color: #f4f4f9;  /* Background color on hover */
+}
+
+.pac-item-query {
+    font-weight: bold;          /* Bold the matching text */
+    color: #05668d;             /* Use your primary color */
+}
+
+.pac-matched {
+    font-weight: bold;          /* Bold the matched text */
+}
+
+/* Optional: Style the icons (e.g., location pin) */
+.pac-icon {
+    width: 15px;                /* Adjust size */
+    height: 15px;
+    margin-right: 10px;         /* Space between icon and text */
+}
+
+/* Optional: Hide the powered-by-google logo */
+.pac-container .pac-logo {
+    display: none;
+}
+
 
 /* Radio Group Styling */
 .radio-group {
