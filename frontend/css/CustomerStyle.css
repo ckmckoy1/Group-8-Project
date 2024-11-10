@@ -1459,11 +1459,6 @@ select option {
 
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .footer-container {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-}
 
 @media (max-width: 480px) {
     .footer-container {
@@ -1701,6 +1696,19 @@ select option {
         flex-direction: column;
     }
 
+        /* Hide the Earn_Rewards and right-section divs on small screens */
+        .promo-bar .Earn_Rewards,
+        .promo-bar .right-section {
+            display: none;
+        }
+    
+        /* Center the Find_Deals div */
+        .promo-bar .Find_Deals {
+            flex: 1;
+            justify-content: center;
+            text-align: center;
+        }
+
     .form-group-pair {
         flex-direction: column;
         max-width: 100%;
@@ -1712,6 +1720,13 @@ select option {
     .footer-row {
         flex-direction: column;
     }
+
+ 
+        .footer-container {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+    
+    
 
     .footer-section ul {
         display: none; /* Hidden by default */
@@ -1811,7 +1826,7 @@ select option {
 }
 
 /* Responsive adjustments */
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     /* Tablet view: show search input and reorganize navbar */
     .search-bar input {
         display: inline-block;
@@ -1918,7 +1933,7 @@ select option {
 
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 768px) {
     /* Mobile view */
     .top-bar {
         flex-direction: row;
