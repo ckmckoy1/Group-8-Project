@@ -121,6 +121,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const paymentMessageDiv = document.getElementById('paymentMessage');
     const discountMessageDiv = document.getElementById('discountMessage');
     const expDateMessage = document.getElementById('expDateMessage');
+    // Navbar toggler for mobile view
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarCollapse = document.querySelector(".navbar-collapse");
+
 
     // Buttons for moving to next sections
     const continueToPaymentBtn = document.getElementById('continueToPayment');
@@ -1039,15 +1043,12 @@ document.querySelectorAll('.footer-section').forEach(section => {
     }
 });
 
-// Navbar toggler for mobile view
-const navbarToggler = document.querySelector(".navbar-toggler");
-const navbarCollapse = document.querySelector(".navbar-collapse");
 
 if (navbarToggler && navbarCollapse) {
-    navbarToggler.addEventListener("click", () => {
-        const expanded = navbarToggler.getAttribute("aria-expanded") === "true";
-        navbarToggler.setAttribute("aria-expanded", !expanded);
-        navbarCollapse.classList.toggle("show");
+    navbarToggler.addEventListener('click', function () {
+        const isExpanded = navbarToggler.getAttribute('aria-expanded') === 'true';
+        navbarToggler.setAttribute('aria-expanded', !isExpanded);
+        navbarCollapse.classList.toggle('show');
     });
 }
 });
