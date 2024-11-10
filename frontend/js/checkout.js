@@ -1,7 +1,4 @@
-// checkout.js
-
 // Helper functions and variables
-const SHORT_NAME_ADDRESS_COMPONENT_TYPES = new Set(['street_number', 'administrative_area_level_1', 'postal_code']);
 const ADDRESS_COMPONENT_TYPES = {
     shipping: {
         address: 'address',
@@ -15,7 +12,7 @@ const ADDRESS_COMPONENT_TYPES = {
         city: 'billingCity',
         state: 'billingState',
         zip: 'billingZipCode',
-        country: 'billingCountry' // Make sure to have this in your HTML if needed
+        country: 'billingCountry' // Ensure you have this field in your HTML
     }
 };
 
@@ -26,84 +23,95 @@ function getAddressInputElement(section, componentType) {
 
 // Function to fill in address fields based on the Google Place object
 function fillInAddressFields(place, section) {
-    function getComponent(componentType) {
-        for (const component of place.address_components || []) {
-            if (component.types.includes(componentType)) {
-                return SHORT_NAME_ADDRESS_COMPONENT_TYPES.has(componentType) ? component.short_name : component.long_name;
+    // Mapping from Google Place types to your form fields
+    const componentForm = {
+        street_number: 'short_name',
+        route: 'long_name',
+        locality: 'long_name', // City
+        administrative_area_level_1: 'short_name', // State
+        postal_code: 'short_name',
+        country: 'long_name'
+    };
+
+    // Get the form fields for the specified section (shipping or billing)
+    const fields = ADDRESS_COMPONENT_TYPES[section];
+
+    // Reset the values
+    for (const component in fields) {
+        const field = getAddressInputElement(section, component);
+        if (field) field.value = '';
+    }
+
+    // Populate the form fields
+    for (const component of place.address_components) {
+        const addressType = component.types[0];
+        if (componentForm[addressType]) {
+            const val = component[componentForm[addressType]];
+            switch (addressType) {
+                case 'street_number':
+                    getAddressInputElement(section, 'address').value = val + ' ' + getAddressInputElement(section, 'address').value;
+                    break;
+                case 'route':
+                    getAddressInputElement(section, 'address').value += val;
+                    break;
+                case 'locality':
+                    getAddressInputElement(section, 'city').value = val;
+                    break;
+                case 'administrative_area_level_1':
+                    getAddressInputElement(section, 'state').value = val;
+                    break;
+                case 'postal_code':
+                    getAddressInputElement(section, 'zip').value = val;
+                    break;
+                case 'country':
+                    getAddressInputElement(section, 'country').value = val;
+                    break;
             }
         }
-        return '';
-    }
-
-    // Assign values to each field
-    const addressInput = getAddressInputElement(section, 'address');
-    if (addressInput) {
-        const streetNumber = getComponent('street_number');
-        const route = getComponent('route');
-        addressInput.value = `${streetNumber} ${route}`.trim();
-    }
-
-    const cityInput = getAddressInputElement(section, 'city');
-    if (cityInput) {
-        cityInput.value = getComponent('locality');
-    }
-
-    const stateInput = getAddressInputElement(section, 'state');
-    if (stateInput) {
-        stateInput.value = getComponent('administrative_area_level_1');
-    }
-
-    const zipInput = getAddressInputElement(section, 'zip');
-    if (zipInput) {
-        zipInput.value = getComponent('postal_code');
-    }
-
-    const countryInput = getAddressInputElement(section, 'country');
-    if (countryInput) {
-        countryInput.value = getComponent('country');
     }
 }
 
-// Define your initAddressAutocompletes function
-async function initAddressAutocompletes() {
-    // Import the 'places' library
-    const { Map, places } = await google.maps.importLibrary(['maps', 'places']);
-    
-    // Shipping address autocomplete
-    const shippingAddressInput = document.getElementById('address');
-    if (shippingAddressInput) {
-        const shippingAutocomplete = new google.maps.places.Autocomplete(shippingAddressInput);
+// Initialize the address autocompletes
+function initAddressAutocompletes() {
+    if (typeof google === 'object' && typeof google.maps === 'object') {
+        // Shipping address autocomplete
+        const shippingAddressInput = document.getElementById('address');
+        if (shippingAddressInput) {
+            const shippingAutocomplete = new google.maps.places.Autocomplete(shippingAddressInput);
 
-        shippingAutocomplete.addListener('place_changed', () => {
-            const place = shippingAutocomplete.getPlace();
-            if (!place.geometry) {
-                alert(`No details available for input: '${place.name}'`);
-                return;
-            }
-            fillInAddressFields(place, 'shipping');
-        });
-    }
+            shippingAutocomplete.addListener('place_changed', () => {
+                const place = shippingAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert(`No details available for input: '${place.name}'`);
+                    return;
+                }
+                fillInAddressFields(place, 'shipping');
+            });
+        }
 
-    // Billing address autocomplete
-    const billingAddressInput = document.getElementById('billingAddress');
-    if (billingAddressInput) {
-        const billingAutocomplete = new google.maps.places.Autocomplete(billingAddressInput);
+        // Billing address autocomplete
+        const billingAddressInput = document.getElementById('billingAddress');
+        if (billingAddressInput) {
+            const billingAutocomplete = new google.maps.places.Autocomplete(billingAddressInput);
 
-        billingAutocomplete.addListener('place_changed', () => {
-            const place = billingAutocomplete.getPlace();
-            if (!place.geometry) {
-                alert(`No details available for input: '${place.name}'`);
-                return;
-            }
-            fillInAddressFields(place, 'billing');
-        });
+            billingAutocomplete.addListener('place_changed', () => {
+                const place = billingAutocomplete.getPlace();
+                if (!place.geometry) {
+                    alert(`No details available for input: '${place.name}'`);
+                    return;
+                }
+                fillInAddressFields(place, 'billing');
+            });
+        }
+    } else {
+        console.error('Google Maps JavaScript API not loaded.');
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', function () {
     // Call initAddressAutocompletes to initialize the autocompletes
     initAddressAutocompletes();
+
     const checkoutForm = document.getElementById('checkoutForm');
     const popupOverlay = document.getElementById('popupOverlay');
     const closePopup = document.getElementById('closePopup');
@@ -231,7 +239,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function validatePhone(phone) {
-        console.log('Validating phone number:', phone);
         phone = phone.trim();
         const re = /^\(\d{3}\) \d{3}-\d{4}$/;
         return re.test(phone);
@@ -803,6 +810,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (rewardNumber) {
             orderData.rewardNumber = rewardNumber;
         }
+
         try {
             const response = await fetch('https://group8-a70f0e413328.herokuapp.com/api/checkout', {
                 method: 'POST',
@@ -811,7 +819,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify(orderData),
             });
-        
+
             let result;
             try {
                 result = await response.json();
@@ -819,7 +827,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error parsing JSON response:', parseError);
                 throw new Error('Invalid server response. Please try again later.');
             }
-        
+
             if (response.ok) {
                 window.location.href = `../views/orderConfirmation.html?orderId=${encodeURIComponent(result.orderId)}`;
             } else {
@@ -838,7 +846,6 @@ document.addEventListener('DOMContentLoaded', function () {
             hideLoading();
             placeOrderButton.disabled = false;
         }
-        
     });
 
     // Close popup functionality (if using a popup)
