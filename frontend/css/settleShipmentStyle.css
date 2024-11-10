@@ -141,6 +141,20 @@ main {
     text-align: center;
 }
 
+/* Parent container for h3 and toggle-container */
+.step1-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Adds space between h3 and toggle-container */
+    gap: 20px; /* Optional: space between elements */
+}
+
+/* Adjust h3 styling to align better in flex container */
+.step1-header h3 {
+    margin: 0; /* Remove default margin for better alignment */
+    font-size: 1rem; /* Adjust as needed for layout */
+}
+
 /* Form Styling */
 .form-group {
     margin-bottom: 20px;
@@ -238,17 +252,19 @@ button img, .action-button img {
     background-color: var(--error-color);
 }
 
-/* Toggle Switch Styles */
+/* 1. Align Toggle Switch and Information Icon Side by Side */
 .toggle-container {
-    text-align: center;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the items horizontally */
+    margin-top: 20px;
 }
 
 .toggle-label {
     display: flex;
     align-items: center;
     cursor: pointer;
-    justify-content: center; /* Center the toggle switch and text */
+    margin-right: 10px; /* Space between toggle and info icon */
 }
 
 .toggle-label input {
@@ -289,6 +305,64 @@ button img, .action-button img {
 .toggle-text {
     font-size: 1rem;
     color: var(--text-color);
+}
+
+/* 2. Information Icon and Tooltip Styles */
+.info-icon-container {
+    position: relative; /* To position the tooltip absolutely within this container */
+}
+
+.info-icon {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.info-icon:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.info-icon-container:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tooltip Styles */
+.tooltip {
+    position: absolute;
+    top: 50%;
+    left: 120%; /* Position tooltip to the right of the icon */
+    transform: translateY(-50%); /* Center tooltip vertically relative to the icon */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    width: 250px; /* Fixed width to ensure text wraps */
+    white-space: normal; /* Allow text to wrap */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 10;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Show the tooltip */
+.tooltip.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tooltip Arrow */
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -6px; /* Adjust based on tooltip position */
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent rgba(0, 0, 0, 0.8) transparent transparent;
 }
 
 /* Center scanContainer and typeContainer */
@@ -378,7 +452,11 @@ button img, .action-button img {
         box-sizing: border-box;
     }
 
-    .settle-shipment-container h2,
+    .settle-shipment-container h2 {
+        font-size: 2.5rem; /* Adjust font sizes */
+        margin-bottom: 15px;
+    }
+
     .settle-shipment-container h3 {
         font-size: 1.5rem; /* Adjust font sizes */
         margin-bottom: 15px;

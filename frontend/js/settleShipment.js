@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const backToStep1Button = document.getElementById('backToStep1');
   const refreshStep1Button = document.getElementById('refreshStep1');
 
+  // Tooltip functionality
+  const infoIcon = document.querySelector('.info-icon');
+  const tooltip = document.getElementById('infoTooltip');
+
   const step1Container = document.getElementById('step1');
   const step2Container = document.getElementById('step2');
   const step3Container = document.getElementById('step3');
@@ -67,6 +71,27 @@ document.addEventListener('DOMContentLoaded', () => {
       throw new Error('Unable to find order number. Please check that the number is correct or try again.');
     }
   };
+
+
+
+   // Toggle tooltip on click
+   if (infoIcon && tooltip) {
+    // Toggle tooltip on click
+    infoIcon.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent the click from bubbling up
+        tooltip.classList.toggle('show'); // Toggle visibility
+    });
+
+    // Hide tooltip when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!infoIcon.contains(event.target) && !tooltip.contains(event.target)) {
+            tooltip.classList.remove('show'); // Hide tooltip
+        }
+    });
+} else {
+    console.error('Tooltip elements not found. Verify your HTML structure.');
+}
+
 
   // Function to handle Order ID submission (both Scan and Type modes)
   const handleOrderIdSubmission = async (enteredOrderId) => {

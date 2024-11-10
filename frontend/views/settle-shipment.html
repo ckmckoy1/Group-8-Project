@@ -36,17 +36,28 @@
 
             <!-- Step 1 Container -->
             <div id="step1">
-                <h3>Step 1: Scan or Enter Order ID</h3>
-
-                <!-- Toggle Switch -->
-                <div class="toggle-container">
-                    <label class="toggle-label">
-                        <input type="checkbox" id="modeToggle">
-                        <span class="toggle-slider"></span>
-                        <span class="toggle-text">Scan / Type</span>
-                    </label>
+                <div class="step1-header">
+                    <h3>Step 1: Scan or Enter Order ID</h3>
+                    
+                    <!-- Toggle Switch and Information Icon -->
+                    <div class="toggle-container">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="modeToggle">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">Scan / Type</span> 
+                        </label>
+                        <div class="info-icon-container">
+                            <img src="../assets/information.svg" width="18" height="18" alt="Information" class="info-icon">
+                            <!-- Tooltip Element -->
+                            <div class="tooltip" id="infoTooltip">
+                                Toggle between Scan mode (using your device's camera to scan a barcode) and Type mode (manually entering the Order ID).
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
+                        
                 <!-- Scan Button (Initially Visible) -->
                 <div id="scanContainer">
                     <button type="button" id="barcodeScanner" class="action-button">
