@@ -42,12 +42,10 @@ header {
 }
 
 /* Default Styles (Desktop View) */
-/* Hide Mobile Promo Bar and Mobile Header */
-.mobile-promo,
+/* Hide Mobile Elements */
 .mobile-header {
     display: none;
 }
-
 
 /* Desktop Promo Bar */
 .promo-bar.desktop-promo {
@@ -1156,17 +1154,109 @@ select option {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    /* Hide Desktop Elements */
-    .desktop-promo,
-    .desktop-header,
-    .top-bar {
-        display: none;
-    }
-    /* Show Mobile Elements */
-    .mobile-promo,
-    .mobile-header {
+ /* Hide Desktop Elements */
+ .promo-bar.desktop-promo,
+ .desktop-header,
+ .top-bar {
+     display: none;
+ }
+
+    /* Show Mobile Header */
+    header .mobile-header {
         display: block;
     }
+
+ /* Mobile Promo Bar */
+ .promo-bar.mobile-promo {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: #333;
+     color: #fff;
+     padding: 0;
+     margin: 0;
+     padding: 5px;
+     position: fixed;
+     top: 0;
+     width: 100%;
+     z-index: 1001;
+ }
+
+ /* Mobile Header */
+ .mobile-header {
+     display: flex;
+     flex-direction: column;
+     background-color: #023047;
+     color: white;
+     position: fixed;
+     top: 30px;
+     width: 100%;
+     z-index: 1002;
+ }
+
+ .mobile-header .mobile-top-bar {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     padding: 10px 20px;
+ }
+
+ .mobile-header .logo img {
+     height: 30px;
+     width: auto;
+ }
+
+ /* Navbar Toggler */
+ .navbar-toggler {
+     display: inline-block;
+     background: none;
+     border: none;
+     color: white;
+ }
+
+ /* Navbar Collapse */
+ .mobile-header .navbar-collapse {
+     display: none;
+     flex-direction: column;
+     width: 100%;
+     position: absolute;
+     top: 60px;
+     left: 0;
+     z-index: 999;
+     background-color: #023047;
+ }
+
+ .mobile-header .navbar-collapse.show {
+     display: flex;
+ }
+
+ /* Navbar Links */
+ .navbar-nav {
+     display: flex;
+     flex-direction: column;
+     list-style: none;
+     padding: 0;
+     margin: 0;
+     align-items: center;
+ }
+
+ .navbar-nav .nav-item {
+     width: 100%;
+ }
+
+ .navbar-nav .nav-link {
+     display: block;
+     width: 100%;
+     padding: 15px 0;
+     text-align: center;
+     color: #fff;
+     text-decoration: none;
+     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+ }
+
+ .navbar-nav .nav-link:hover {
+     background-color: #024E76;
+ }
 
     .footer-row {
         flex-direction: column;
@@ -1310,7 +1400,7 @@ select option {
         position: fixed;
         top: 30px;
         width: 100%;
-        z-index: 1003;
+        z-index: 1002;
     }
 
     .mobile-header .mobile-top-bar {
@@ -1407,11 +1497,21 @@ select option {
         background-color: #024E76;
     }
 
-    /* Adjust Mobile Promo Bar */
-    .mobile-promo .Find_Deals {
+     /* Find Deals Section */
+     .promo-bar.mobile-promo .Find_Deals {
         flex: 1;
         text-align: center;
+        margin: 0;
     }
+
+        /* Reset Margins and Padding for Child Elements */
+        .promo-bar.mobile-promo .Find_Deals *,
+        .promo-bar.mobile-promo .Find_Deals a {
+            margin: 0;
+            padding: 0;
+            color: #ffb703; /* Adjust link color if needed */
+            text-decoration: none;
+        }
 
     /* Footer Adjustments */
     .footer-row {
@@ -3465,4 +3565,112 @@ header {
     background-color: #FFEBE8;
     border: 1px solid #d9534f;
     border-radius: 3px;
+}
+
+/* Place this at the end of your CSS file */
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    /* Hide Desktop Elements */
+    .desktop-header,
+    .promo-bar.desktop-promo,
+    .top-bar {
+        display: none;
+    }
+ /* Mobile Header */
+ .mobile-header {
+    display: flex;
+    flex-direction: column;
+    background-color: #023047;
+    color: white;
+    position: fixed;
+    top: 30px;
+    width: 100%;
+    z-index: 1002;
+}
+
+/* Mobile Top Bar */
+.mobile-header .mobile-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+/* Navbar Toggler Icon */
+.navbar-toggler .navbar-toggler-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+/* Logo Adjustments */
+.mobile-header .logo img {
+    height: 30px;
+    width: auto;
+}
+
+/* Header Icons Container */
+.mobile-header .header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Search Icon Size */
+.mobile-header .header-icons .search-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Cart Icon Size */
+.mobile-header .header-icons .cart-icon .cart-image {
+    width: 24px;
+    height: 24px;
+}
+
+/* Cart Badge Adjustments (Optional) */
+.mobile-header .header-icons .cart-icon .cart-badge {
+    font-size: 12px;
+    padding: 2px 6px;
+}
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    /* Reset margins and padding for promo bar and its children */
+    .promo-bar.mobile-promo,
+    .promo-bar.mobile-promo .Find_Deals,
+    .promo-bar.mobile-promo .Find_Deals * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Promo Bar Styles */
+    .promo-bar.mobile-promo {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center content horizontally */
+        background-color: #333;
+        color: #fff;
+        position: fixed;
+        top: 0;
+        left: 0; /* Ensure it starts from the left edge */
+        width: 100%; /* Full width */
+        height: 40px; /* Set the actual height of the promo bar */
+        z-index: 1001;
+    }
+
+    /* Find_Deals Styles */
+    .promo-bar.mobile-promo .Find_Deals {
+        flex: 1;
+        text-align: center;
+    }
+
+    /* Link Styles (Optional) */
+    .promo-bar.mobile-promo .Find_Deals a {
+        color: #ffb703; /* Adjust link color */
+        text-decoration: none;
+    }
 }
