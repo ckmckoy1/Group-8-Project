@@ -916,9 +916,11 @@ window.toggleSection = function (sectionId) {
 
 // JavaScript to toggle mobile navbar
 document.querySelector('.navbar-toggler').addEventListener('click', function () {
-    var navbarCollapse = document.querySelector('.mobile-header .navbar-collapse');
+    console.log('Navbar toggler clicked'); // Debugging line
+    var navbarCollapse = document.querySelector('.navbar-collapse');
     navbarCollapse.classList.toggle('show');
 });
+
 
 
 // Function to handle the toggle of Order Summary Details
