@@ -282,15 +282,16 @@ header {
 }
 
 .desktop-header .banner .navbar .navbar-nav {
-    list-style: none;            /* Remove bullet points */
-    display: flex;               /* Arrange items horizontally */
-    justify-content: space-around; /* Align items to the right */
-    padding: 0;                  /* Remove default padding */
-    margin: 0;                   /* Remove default margin */
-    gap: 50px;                   /* Space between nav items */
-    text-align: center;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
     align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 50px;
 }
+
 
 .desktop-header .banner .navbar-nav a {
     font-weight: bold;
@@ -1156,6 +1157,133 @@ select option {
     .top-bar {
         display: none;
     }
+    /* Show Mobile Elements */
+    .mobile-promo,
+    .mobile-header {
+        display: block;
+    }
+
+    .footer-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        flex: 1 1 100%;
+        text-align: center;
+    }
+
+    .footer-row.middle-row .footer-section {
+        flex: 1 1 100%;
+    }
+
+        /* Hide top-bar on mobile */
+        .top-bar {
+            display: none;
+        }
+
+        .footer-section.download-apps,
+        .footer-section.newsletter-signup {
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        .download-apps, .social-media-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+    /* Display mobile header elements */
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #023047;
+        color: white;
+    }
+
+        /* Center the headings in the specified sections on mobile */
+        .footer-section.newsletter-signup h3,
+        .footer-section.download-apps h3 {
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        /* Center-align content inside these sections as well */
+        .footer-section.newsletter-signup,
+        .footer-section.download-apps {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    /* Center the download apps container and align images horizontally */
+    .footer-section.download-apps {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section.download-apps .download-apps {
+        display: flex;
+        flex-direction: row; /* Keep images side by side */
+        justify-content: center;
+        gap: 10px; /* Space between images */
+    }
+
+    /* Ensure navbar-toggler (hamburger menu) is visible */
+    .navbar-toggler {
+        display: inline-block;
+        background: none;
+        border: none;
+        color: white;
+    }
+
+    /* Hide the full navbar links */
+    .navbar-nav {
+        display: none;
+    }
+
+    /* Show navbar links when toggler is active */
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #05668d; /* Matches your primary color */
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+ 
+    /* Hide Desktop Elements */
+    .desktop-promo,
+    .desktop-header,
+    .top-bar {
+        display: none;
+    }
+
+    /* Show Mobile Elements */
+    .mobile-promo,
+    .mobile-header {
+        display: block;
+    }
+
 
     /* Show Mobile Elements */
     .mobile-promo {
@@ -1388,7 +1516,186 @@ select option {
         width: 60px;
         height: auto;
     }
-}
+        .top-bar {
+            flex-direction: row;
+            justify-content: space-around;
+        }
+    
+        .promo-bar .Earn_Rewards,
+        .promo-bar .right-section {
+            display: none;
+        }
+    
+        /* Adjust the Find_Deals section to center it */
+        .promo-bar .Find_Deals {
+            flex: 1;
+            justify-content: center;
+            text-align: center;
+        }
+    
+        /* Show hamburger menu and icons in top bar */
+        .navbar-toggler {
+            display: inline-block;
+        }
+    
+        .search-bar input {
+            display: none;
+        }
+    
+        /* Hide main navbar; show only on click */
+        .navbar-collapse {
+            display: none;
+        }
+    
+        .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+            display: block;
+        }
+    
+        .logo img, .search-bar img, .cart-icon img {
+            width: 20px; /* Resize icons on mobile */
+            height: 20px;
+        }
+    
+        /* Add border below each nav link on mobile */
+        .navbar-nav .nav-link {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            color: white;
+        }
+    
+        .checkout-options img {
+            width: 60px; /* Reduce the width for smaller screens */
+            height: auto; /* Maintain aspect ratio */
+        }
+    
+        .checkout-options {
+            gap: 5px; /* Reduce space between images */
+        }
+    
+      /* Show hamburger menu */
+      .navbar-toggler {
+        display: inline-block;
+    }
+    
+    /* Hide navbar links unless toggled */
+    .navbar-collapse {
+        display: none;
+    }
+    
+    /* Adjust positioning of elements */
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    /* Adjust logo sizes */
+    .navbar .wpo-title,
+    .navbar .wpo-logo {
+        width: 100px;
+        height: auto;
+    }
+    
+    /* Adjust search icon */
+    .navbar .search-icon {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* Adjust sign-in and cart icon */
+    .navbar .Sign_In,
+    .navbar .cart-icon {
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    /* Hide the full navbar links */
+    .navbar-nav {
+        display: none;
+    }
+    
+    /* Show navbar links when toggler is active */
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+        display: block;
+    }
+    
+     /* Hide paragraphs in footer top row */
+     .footer-row.top-row .footer-text p {
+        display: none;
+    }
+    
+    /* Adjust footer section to center content */
+    .footer-row.top-row .footer-section {
+        text-align: center;
+    }
+    
+    /* Ensure drop-down arrows are not displayed */
+    .footer-row.top-row .footer-section h3::after {
+        content: none;
+    }
+    
+    /* Adjust image and h3 size */
+    .footer-row.top-row .footer-section img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .footer-row.top-row .footer-section h3 {
+        font-size: 1em;
+    }
+    
+    /* Keep bottom row items side-by-side on small screens */
+    .footer-row.bottom-row ul {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px; /* Adjust space between items */
+    }
+    
+    .footer-row.bottom-row ul li {
+        display: inline; /* Ensures items stay side-by-side */
+    }
+    
+    .footer-section.download-apps,
+    .footer-section.newsletter-signup {
+        text-align: center;
+    }
+    
+    .footer-section.download-apps .download-apps,
+    .footer-section.newsletter-signup .social-media-icons {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Adjust spacing as needed */
+    }
+    
+    .footer-section.newsletter-signup .newsletter-form {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    
+    /* Display 'Terms of Use | Sitemap' inline on mobile */
+    .footer-row.bottom-row ul {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+    gap: 5px; /* Adjust spacing as needed */
+    }
+    
+    .footer-row.bottom-row ul li {
+    display: inline;
+    }
+    
+    .footer-section[aria-expanded="true"] ul {
+        display: block; /* Show list items when expanded */
+        margin-top: 8px; /* Add some spacing if needed */
+    }
+    
+    
+    }
+    /* end of mobile view */
+    
 
 @media (max-width: 480px) {
     .footer {
@@ -1483,21 +1790,7 @@ select option {
 
 
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-    /* Hide Desktop Elements */
-    .desktop-promo,
-    .desktop-header,
-    .top-bar {
-        display: none;
-    }
 
-    /* Show Mobile Elements */
-    .mobile-promo,
-    .mobile-header {
-        display: block;
-    }
-}
 
 /* take out if needed
 /* Ensure there's no margin or padding at the top of the body */
@@ -2575,117 +2868,7 @@ select option {
     color: #777;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .footer-row {
-        flex-direction: column;
-        align-items: center;
-    }
 
-    .footer-section {
-        flex: 1 1 100%;
-        text-align: center;
-    }
-
-    .footer-row.middle-row .footer-section {
-        flex: 1 1 100%;
-    }
-
-        /* Hide top-bar on mobile */
-        .top-bar {
-            display: none;
-        }
-
-        .footer-section.download-apps,
-        .footer-section.newsletter-signup {
-            text-align: center;
-            margin: 0 auto;
-        }
-    
-        .download-apps, .social-media-icons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-    
-        .newsletter-form {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            gap: 10px;
-        }
-    /* Display mobile header elements */
-    .mobile-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-        background-color: #023047;
-        color: white;
-    }
-
-        /* Center the headings in the specified sections on mobile */
-        .footer-section.newsletter-signup h3,
-        .footer-section.download-apps h3 {
-            text-align: center;
-            margin: 0 auto;
-        }
-    
-        /* Center-align content inside these sections as well */
-        .footer-section.newsletter-signup,
-        .footer-section.download-apps {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    /* Center the download apps container and align images horizontally */
-    .footer-section.download-apps {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .footer-section.download-apps .download-apps {
-        display: flex;
-        flex-direction: row; /* Keep images side by side */
-        justify-content: center;
-        gap: 10px; /* Space between images */
-    }
-
-    /* Ensure navbar-toggler (hamburger menu) is visible */
-    .navbar-toggler {
-        display: inline-block;
-        background: none;
-        border: none;
-        color: white;
-    }
-
-    /* Hide the full navbar links */
-    .navbar-nav {
-        display: none;
-    }
-
-    /* Show navbar links when toggler is active */
-    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background-color: #05668d; /* Matches your primary color */
-    }
-
-    .navbar-nav .nav-link {
-        color: white;
-        padding: 10px;
-        text-align: center;
-        width: 100%;
-    }
-
-
-}
 
 @media (max-width: 480px) {
     .footer {
@@ -3070,25 +3253,7 @@ select option {
         margin-top: 20px;
         padding: 10px;
     }
-}
 
-@media (max-width: 480px) {
-    .top-bar .logo h1 {
-        font-size: 2em;
-    }
-
-    .banner .nav a {
-        font-size: 0.9em;
-    }
-
-    .checkout-container, .order-summary {
-        padding: 10px;
-    }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    /* Tablet view: show search input and reorganize navbar */
     .search-bar input {
         display: inline-block;
         width: 100px;
@@ -3194,187 +3359,21 @@ select option {
 
 }
 
-@media (max-width: 768px) {
-    /* Mobile view */
-    .top-bar {
-        flex-direction: row;
-        justify-content: space-around;
+@media (max-width: 480px) {
+    .top-bar .logo h1 {
+        font-size: 2em;
     }
 
-    .promo-bar .Earn_Rewards,
-    .promo-bar .right-section {
-        display: none;
+    .banner .nav a {
+        font-size: 0.9em;
     }
 
-    /* Adjust the Find_Deals section to center it */
-    .promo-bar .Find_Deals {
-        flex: 1;
-        justify-content: center;
-        text-align: center;
-    }
-
-    /* Show hamburger menu and icons in top bar */
-    .navbar-toggler {
-        display: inline-block;
-    }
-
-    .search-bar input {
-        display: none;
-    }
-
-    /* Hide main navbar; show only on click */
-    .navbar-collapse {
-        display: none;
-    }
-
-    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-        display: block;
-    }
-
-    .logo img, .search-bar img, .cart-icon img {
-        width: 20px; /* Resize icons on mobile */
-        height: 20px;
-    }
-
-    /* Add border below each nav link on mobile */
-    .navbar-nav .nav-link {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    .checkout-container, .order-summary {
         padding: 10px;
-        color: white;
     }
-
-    .checkout-options img {
-        width: 60px; /* Reduce the width for smaller screens */
-        height: auto; /* Maintain aspect ratio */
-    }
-
-    .checkout-options {
-        gap: 5px; /* Reduce space between images */
-    }
-
-  /* Show hamburger menu */
-  .navbar-toggler {
-    display: inline-block;
-}
-
-/* Hide navbar links unless toggled */
-.navbar-collapse {
-    display: none;
-}
-
-/* Adjust positioning of elements */
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* Adjust logo sizes */
-.navbar .wpo-title,
-.navbar .wpo-logo {
-    width: 100px;
-    height: auto;
-}
-
-/* Adjust search icon */
-.navbar .search-icon {
-    width: 24px;
-    height: 24px;
-}
-
-/* Adjust sign-in and cart icon */
-.navbar .Sign_In,
-.navbar .cart-icon {
-    display: inline-flex;
-    align-items: center;
-}
-
-/* Hide the full navbar links */
-.navbar-nav {
-    display: none;
-}
-
-/* Show navbar links when toggler is active */
-.navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-    display: block;
-}
-
- /* Hide paragraphs in footer top row */
- .footer-row.top-row .footer-text p {
-    display: none;
-}
-
-/* Adjust footer section to center content */
-.footer-row.top-row .footer-section {
-    text-align: center;
-}
-
-/* Ensure drop-down arrows are not displayed */
-.footer-row.top-row .footer-section h3::after {
-    content: none;
-}
-
-/* Adjust image and h3 size */
-.footer-row.top-row .footer-section img {
-    width: 50px;
-    height: 50px;
-}
-
-.footer-row.top-row .footer-section h3 {
-    font-size: 1em;
-}
-
-/* Keep bottom row items side-by-side on small screens */
-.footer-row.bottom-row ul {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 8px; /* Adjust space between items */
-}
-
-.footer-row.bottom-row ul li {
-    display: inline; /* Ensures items stay side-by-side */
-}
-
-.footer-section.download-apps,
-.footer-section.newsletter-signup {
-    text-align: center;
-}
-
-.footer-section.download-apps .download-apps,
-.footer-section.newsletter-signup .social-media-icons {
-    display: flex;
-    justify-content: center;
-    gap: 10px; /* Adjust spacing as needed */
-}
-
-.footer-section.newsletter-signup .newsletter-form {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
 }
 
 
-/* Display 'Terms of Use | Sitemap' inline on mobile */
-.footer-row.bottom-row ul {
-display: flex;
-justify-content: center;
-padding: 0;
-list-style: none;
-gap: 5px; /* Adjust spacing as needed */
-}
-
-.footer-row.bottom-row ul li {
-display: inline;
-}
-
-.footer-section[aria-expanded="true"] ul {
-    display: block; /* Show list items when expanded */
-    margin-top: 8px; /* Add some spacing if needed */
-}
-
-
-}
-/* end of mobile view */
 
 /* take out if needed
 /* Ensure there's no margin or padding at the top of the body */
