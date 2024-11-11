@@ -281,6 +281,11 @@ header {
     z-index: 1003;
 }
 
+.desktop-header .banner .navbar {
+    justify-content: center;
+}
+
+
 .desktop-header .banner .navbar .navbar-nav {
     display: flex !important;
     flex-direction: row !important;
