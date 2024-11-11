@@ -164,12 +164,15 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingOverlay.setAttribute('aria-hidden', 'true');
     }
 
-    // Function to display messages
-    const displayMessage = (targetDiv, message, type) => {
-        targetDiv.textContent = message;
-        targetDiv.className = `message ${type}`;
-        targetDiv.style.display = 'block';
-    };
+// Function to display messages and scroll to the message
+const displayMessage = (targetDiv, message, type) => {
+    targetDiv.textContent = message;
+    targetDiv.className = `message ${type}`;
+    targetDiv.style.display = 'block';
+
+    // Scroll to the message so it’s visible
+    targetDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
 
     // Function to clear messages
     function clearMessage(targetDiv) {
@@ -331,17 +334,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // Open the next section
-            const nextSection = document.getElementById(nextSectionId);
-            if (nextSection) {
-                const formContent = nextSection.querySelector('.form-content');
-                if (formContent) {
-                    formContent.style.display = 'block';
+                // Open the next section
+                const nextSection = document.getElementById(nextSectionId);
+                if (nextSection) {
+                    const formContent = nextSection.querySelector('.form-content');
+                    if (formContent) {
+                        formContent.style.display = 'block';
+                    }
                 }
+            } else {
+                // Scroll to the message if validation fails
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
-    }
-
     // Section 1: Continue to Payment
     continueToPaymentBtn.addEventListener('click', function () {
         const isSection1Valid = validateSection(requiredFieldsSection1, shippingMessageDiv);
