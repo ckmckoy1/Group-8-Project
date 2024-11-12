@@ -2759,6 +2759,15 @@ header {
         width: auto;
     }
 
+    /* Limit width of wpo-title */
+.mobile-header .wpo-title {
+    max-width: 50%; /* Adjust as needed */
+    flex-shrink: 1;
+    height: auto;
+}
+
+
+
     /* Header Icons */
     .header-icons {
         display: flex;
