@@ -2701,214 +2701,164 @@ header {
 
 
 /* Mobile Styles */
+/* Responsive Design for Mobile (max-width: 768px) */
 @media (max-width: 768px) {
-    /* Reset margins and padding for promo bar and its children */
-    .promo-bar.mobile-promo,
-    .promo-bar.mobile-promo .Find_Deals,
-    .promo-bar.mobile-promo .Find_Deals * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
+
     /* Hide Desktop Elements */
-    .desktop-header,
-    .promo-bar.desktop-promo,
-    .top-bar {
+    .desktop-header, .promo-bar.desktop-promo, .top-bar {
         display: none;
     }
- /* Mobile Header */
- .mobile-header {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #023047;
-    color: white;
-    position: fixed;
-    top: 30px;
-    width: 100%;
-    z-index: 1002;
-}
 
-/* Mobile Top Bar */
-.mobile-header .mobile-top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-}
+    /* Show Mobile Header Elements */
+    header .mobile-header {
+        display: flex;
+        flex-direction: column;
+        background-color: #023047;
+        color: white;
+        position: fixed;
+        top: 30px;
+        width: 100%;
+        z-index: 1002;
+    }
 
-/* Navbar Toggler Icon */
-.navbar-toggler .navbar-toggler-icon {
-    width: 24px;
-    height: 24px;
-    color: white;
-}
-
-/* Logo Adjustments */
-.mobile-header .logo img {
-    height: 30px;
-    width: auto;
-}
-
-/* Header Icons Container */
-.mobile-header .header-icons {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Search Icon Size */
-.mobile-header .header-icons .search-icon {
-    width: 24px;
-    height: 24px;
-}
-
-/* Cart Icon Size */
-.mobile-header .header-icons .cart-icon .cart-image {
-    width: 24px;
-    height: 24px;
-}
-
-/* Cart Badge Adjustments (Optional) */
-.mobile-header .header-icons .cart-icon .cart-badge {
-    font-size: 12px;
-    padding: 2px 6px;
-}
-
-
-    /* Promo Bar Styles */
+    /* Mobile Promo Bar */
     .promo-bar.mobile-promo {
         display: flex;
+        justify-content: center;
         align-items: center;
-        justify-content: center; /* Center content horizontally */
         background-color: #333;
         color: #fff;
+        padding: 5px 0;
         position: fixed;
         top: 0;
-        left: 0; /* Ensure it starts from the left edge */
-        width: 100%; /* Full width */
-        height: 40px; /* Set the actual height of the promo bar */
+        width: 100%;
         z-index: 1001;
     }
 
-    /* Find_Deals Styles */
+    /* Find Deals Section Styling */
     .promo-bar.mobile-promo .Find_Deals {
         flex: 1;
         text-align: center;
+        color: #ffb703; /* Link color */
     }
 
-    /* Link Styles (Optional) */
-    .promo-bar.mobile-promo .Find_Deals a {
-        color: #ffb703; /* Adjust link color */
-        text-decoration: none;
-    }
-
-    .navbar-toggler {
-        border: none;
-    }
-    
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-        background-size: contain;
-        width: 1.5em;
-        height: 1.5em;
-    }
-
-    .navbar-collapse {
-        position: absolute;
-        top: 70px; /* Adjust this value if needed */
-        left: 0;
-        width: 100%;
-        background-color: #023047;
-        z-index: 1003;
-    }
-    .navbar-nav .nav-item .nav-link {
-        color: #fff;
-        padding: 10px 15px;
-        text-align: center;
-    }
-    
-    .navbar-collapse {
-        display: none; /* Hide by default */
-    }
-    
-    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+    /* Mobile Navbar */
+    .mobile-header .mobile-top-bar,
+    .mobile-nav-row {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    /* Logo Styling */
+    .mobile-header .logo img {
+        max-height: 30px;
+        width: auto;
+    }
+
+    /* Header Icons */
+    .header-icons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-icons .search-icon, .cart-icon .cart-image {
+        width: 24px;
+        height: 24px;
+    }
+
+    .cart-icon .cart-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 5px;
+        font-size: 12px;
+    }
+
+    /* Navbar Toggler */
+    .navbar-toggler {
+        display: inline-block;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+    }
+
+    /* Navbar Collapse */
+    .navbar-collapse {
+        display: none;
         position: absolute;
         top: 60px;
         left: 0;
         width: 100%;
-        background-color: #023047; /* Matches mobile header background */
+        background-color: #023047;
+        flex-direction: column;
         z-index: 1003;
         padding: 10px 0;
     }
-    
-    .navbar-collapse {
-        display: none;
-        z-index: 1000; /* Ensure it is above other elements */
-        position: absolute; /* Required if it should overlap other content */
-        width: 100%; /* Full-width for mobile menu */
-        background-color: white; /* Set a background color */
-    }
-    
-        .container {
-            flex-direction: column;
-        }
-    
-            /* Hide the Earn_Rewards and right-section divs on small screens */
-            .promo-bar .Earn_Rewards,
-            .promo-bar .right-section {
-                display: none;
-            }
-        
-            /* Center the Find_Deals div */
-            .promo-bar .Find_Deals {
-                flex: 1;
-                justify-content: center;
-                text-align: center;
-            }
-    
-        .form-group-pair {
-            flex-direction: column;
-            max-width: 100%;
-        }
-    
-        .form-group-pair input, .form-group input {
-            max-width: 100%;
-        }
-        .footer-row {
-            flex-direction: column;
-        }
-    
-     
-            .footer-container {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-        
-        
-    
-        .footer-section ul {
-            display: none; /* Hidden by default */
-        }
-    
-        /* Show the content when expanded */
-        .footer-section[aria-expanded="true"] ul {
-            display: block;
-            margin-top: 8px;
-        }
-    /* General Footer Section Styles */
-    .footer-row {
+
+    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
         display: flex;
-        justify-content: space-around;
-        padding: 20px 0;
     }
+
+    /* Navbar Links */
+    .navbar-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        align-items: center;
+        background-color: #023047;
+    }
+
+    .navbar-nav .nav-item {
+        width: 100%;
+    }
+
+    .navbar-nav .nav-link {
+        display: block;
+        padding: 15px;
+        text-align: center;
+        color: #fff;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .navbar-nav .nav-link:hover {
+        background-color: #024E76;
+    }
+
+           /* Adjustments for Mobile View */
+           .container {
+            flex-direction: column;
+        }
     
+
+    /* Footer Adjustments */
+    .footer-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .footer-section {
-        flex: 1;
-        padding: 10px;
+        flex: 1 1 100%;
+        text-align: center;
     }
-    
+
+    /* Expandable Footer Sections */
+    .footer-section ul {
+        display: none; /* Hidden by default */
+    }
+
+    .footer-section[aria-expanded="true"] ul {
+        display: block;
+        margin-top: 8px;
+    }
+
     .footer-section h3 {
         font-size: 1.1rem;
         display: flex;
@@ -2919,23 +2869,8 @@ header {
         padding-bottom: 8px;
         margin-bottom: 10px;
     }
-    
-    .footer-section ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: none; /* Hide content by default on mobile */
-    }
-    
-    .footer-section ul li {
-        margin: 8px 0;
-    }
-    
-    .footer-section ul li a {
-        text-decoration: none;
-        color: #555;
-    }
-    
+
+    /* Dropdown Arrow for Expandable Footer Sections */
     .footer-section h3::after {
         content: '';
         display: inline-block;
@@ -2947,226 +2882,46 @@ header {
         background-repeat: no-repeat;
         background-position: center;
         transition: transform 0.3s;
-        cursor: pointer;
     }
-    
-    /* Exclude specific footer sections from having drop-down arrows */
-    .footer-row.top-row .footer-section h3::after,
+
+    /* Rotate Arrow when Expanded */
+    .footer-section[aria-expanded="true"] h3::after {
+        transform: rotate(180deg);
+    }
+
+    /* Non-expandable Footer Sections */
     .footer-section.download-apps h3::after,
     .footer-section.newsletter-signup h3::after {
         content: none;
     }
-    
-    /* Add rotation only for other expandable sections */
-    .footer-section[aria-expanded="true"] h3::after {
-        transform: rotate(180deg);
+
+    /* Footer Apps Download and Social Media Icons */
+    .footer-section.download-apps, .footer-section.newsletter-signup {
+        text-align: center;
     }
-    
-    
-    
-        .order-summary {
-            margin-left: 0;
-            margin-top: 20px;
-            padding: 10px;
-        }
-    
-        .search-bar input {
-            display: inline-block;
-            width: 100px;
-            margin-left: 5px;
-        }
-    
-        .navbar-nav {
-            display: none; /* Hide navbar links initially */
-        }
-    
-        .navbar-toggler {
-            display: inline-block; /* Show hamburger icon */
-        }
-    
-        .navbar-toggler:focus + .navbar-collapse,
-        .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            position: absolute;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            padding: 10px 0;
-        }
-    
-        .navbar-nav .nav-link {
-            color: white;
-            padding: 10px 20px;
-            width: 100%;
-            text-align: left;
-        }
-    
-        /* Top bar styling */
-    .top-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-    }
-    
-    .search-bar {
-        display: flex;
-        align-items: center;
-        border-bottom: none;
-    }
-    
-    .search-bar input {
-        display: none; /* Hide input field on mobile */
-    }
-    
-    .search-bar img {
-        height: 30px;
-    }
-    
-    .logo img {
-        height: 30px;
-    }
-    
-    .cart-icon {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-    
-    .cart-badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background-color: red;
-        color: white;
-        border-radius: 50%;
-        padding: 2px 6px;
-        font-size: 0.8rem;
-    }
-    
-    /* Navbar collapse and icon adjustments */
-    .navbar {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-    }
-    
-    .navbar-toggler {
-        border: none;
-        background: transparent;
-        display: none; /* Hidden on desktop */
-    }
-    
-    .navbar-collapse {
+
+    .download-apps, .social-media-icons {
         display: flex;
         justify-content: center;
-    }
-    
-    .navbar-nav {
-        list-style: none;
-        display: flex;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .mobile-header {
-        width: 100%;
-    }
-
-    /* Promo bar styling */
-    .promo-bar {
-        padding: 8px;
-        background-color: #f4f4f4;
-        text-align: center;
-        font-size: 14px;
-    }
-
-    /* Flex layout for the nav row */
-    .mobile-nav-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px;
-    }
-
-    /* Hamburger button */
-    .navbar-toggler {
-        font-size: 24px;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    /* Logo styling */
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .logo img {
-        max-height: 40px;
-    }
-
-    /* Header icons */
-    .header-icons {
-        display: flex;
-        align-items: center;
         gap: 10px;
     }
 
-    .header-icons img {
-        max-height: 24px;
+    .newsletter-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
     }
 
-    .cart-icon {
-        position: relative;
-    }
-
-    .cart-badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background-color: red;
-        color: white;
-        border-radius: 50%;
-        padding: 2px 5px;
-        font-size: 12px;
-    }
-
-    /* Navbar links for mobile view */
-    .navbar-collapse {
-        display: none;
-    }
-
-    .navbar-collapse.show {
-        display: block;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background-color: white;
-        z-index: 1000;
-        padding-top: 10px;
-    }
-
-    .navbar-nav {
-        list-style-type: none;
+    /* Terms and Sitemap Inline */
+    .footer-row.bottom-row ul {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
         padding: 0;
-        margin: 0;
     }
 
-    .navbar-nav .nav-item {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .navbar-nav .nav-link {
-        text-decoration: none;
-        color: black;
+    .footer-row.bottom-row ul li {
+        display: inline;
     }
 }
