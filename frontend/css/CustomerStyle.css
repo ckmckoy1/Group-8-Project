@@ -2578,7 +2578,7 @@ select option {
 }
 
 /* Responsive Layout */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
     .container {
         flex-direction: row;
     }
@@ -2722,7 +2722,6 @@ header {
         z-index: 1002;
     }
 
-
     /* Mobile Promo Bar */
     .promo-bar.mobile-promo {
         display: flex;
@@ -2786,7 +2785,7 @@ header {
             align-items: center;
             gap: 10px;
             margin-right: 50px;
-            margin-left: 10px;
+            margin-left: 5px;
         }
     
         .header-search .search-icon {
@@ -2812,6 +2811,7 @@ header {
         border: none;
         color: white;
         font-size: 24px;
+        margin-right: 0px;
     }
 
     /* Navbar Collapse */
@@ -2837,9 +2837,11 @@ header {
         border: none; /* Remove any border */
         font-size: 24px; /* Adjust size if needed */
         cursor: pointer;
+        margin-right: 0px;
     }
     
 
+    
     /* Navbar Links */
     .navbar-nav {
         list-style: none;
@@ -2905,6 +2907,11 @@ header {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
+        /* Hide paragraphs in footer top row */
+        .footer-row.top-row .footer-text p {
+            display: none;
+        }
+        
 
     /* Footer Adjustments */
     .footer-row {
@@ -3000,4 +3007,6 @@ header {
     .footer-row.bottom-row ul li {
         display: inline;
     }
+
+    
 }
