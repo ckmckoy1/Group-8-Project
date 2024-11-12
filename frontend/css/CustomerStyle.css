@@ -2320,6 +2320,7 @@ select option {
     margin-bottom: 0;
 }
 
+
 .footer-row.bottom-row p {
     margin-top: var(--spacing-md);
     font-size: 0.85em;
@@ -2981,6 +2982,48 @@ header {
         gap: 10px;
     }
 
+          
+    .footer-section.download-apps,
+    .footer-section.newsletter-signup {
+        text-align: center;
+    }
+    
+    .footer-section.download-apps .download-apps,
+    .footer-section.newsletter-signup .social-media-icons {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Adjust spacing as needed */
+    }
+    
+    .footer-section.newsletter-signup .newsletter-form {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+     /* Center the headings in the specified sections on mobile */
+     .footer-section.newsletter-signup h3,
+     .footer-section.download-apps h3 {
+         text-align: center;
+         margin: 0 auto;
+     }
+ 
+     /* Center-align content inside these sections as well */
+     .footer-section.newsletter-signup,
+     .footer-section.download-apps {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+     }
+ /* Center the download apps container and align images horizontally */
+ .footer-section.download-apps {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     text-align: center;
+ }
+    
+
     .newsletter-form {
         display: flex;
         flex-direction: column;
@@ -3008,5 +3051,9 @@ header {
         display: inline;
     }
 
+    .footer-section.download-apps,
+.footer-section.newsletter-signup {
+    text-align: center;
+}
     
 }
