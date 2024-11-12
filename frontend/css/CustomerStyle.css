@@ -2761,7 +2761,7 @@ header {
 
     /* Limit width of wpo-title */
 .mobile-header .wpo-title {
-    max-width: 50%; /* Adjust as needed */
+    max-width: 70%; /* Adjust as needed */
     flex-shrink: 1;
     height: auto;
 }
@@ -2775,10 +2775,24 @@ header {
         gap: 10px;
     }
 
-    .header-icons .search-icon, .cart-icon .cart-image {
+    .header-icons .account-icon, .cart-icon .cart-image {
         width: 24px;
         height: 24px;
     }
+
+        /* Header Search Icons */
+        .header-search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 50px;
+            margin-left: 10px;
+        }
+    
+        .header-search .search-icon {
+            width: 24px;
+            height: 24px;
+        }
 
     .cart-icon .cart-badge {
         position: absolute;
