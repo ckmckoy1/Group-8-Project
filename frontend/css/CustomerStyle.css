@@ -2713,13 +2713,15 @@ header {
     header .mobile-header {
         display: flex;
         flex-direction: column;
-        background-color: #023047;
+        background-color: white;
+        border-bottom: 1px solid  #023047;
         color: white;
         position: fixed;
         top: 30px;
         width: 100%;
         z-index: 1002;
     }
+
 
     /* Mobile Promo Bar */
     .promo-bar.mobile-promo {
@@ -2806,6 +2808,15 @@ header {
         display: flex;
     }
 
+    .navbar-toggler {
+        color: black; /* Set the color of the ☰ symbol to black */
+        background: none; /* Remove any background color */
+        border: none; /* Remove any border */
+        font-size: 24px; /* Adjust size if needed */
+        cursor: pointer;
+    }
+    
+
     /* Navbar Links */
     .navbar-nav {
         list-style: none;
@@ -2832,11 +2843,44 @@ header {
         background-color: #024E76;
     }
 
-           /* Adjustments for Mobile View */
-           .container {
-            flex-direction: column;
-        }
-    
+   /* Adjustments for Mobile View */
+   .container {
+    flex-direction: column;
+}
+
+.form-group-pair {
+    flex-direction: column;
+    max-width: 100%;
+}
+
+.form-group-pair input, .form-group input {
+    max-width: 100%;
+}
+
+.order-summary {
+    margin-left: 0;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.order-summary-top {
+    padding: 10px;
+}
+
+.checkout-options {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.checkout-options img {
+    width: 60px;
+    height: auto;
+}
+
+.footer-container {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
 
     /* Footer Adjustments */
     .footer-row {
@@ -2909,6 +2953,7 @@ header {
     .newsletter-form {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 10px;
         align-items: center;
     }
@@ -2920,6 +2965,13 @@ header {
         gap: 5px;
         padding: 0;
     }
+
+       /* Exclude specific footer sections from having drop-down arrows */
+   .footer-row.top-row .footer-section h3::after,
+   .footer-section.download-apps h3::after,
+   .footer-section.newsletter-signup h3::after {
+       content: none;
+   }
 
     .footer-row.bottom-row ul li {
         display: inline;
