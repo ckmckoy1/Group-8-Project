@@ -1100,7 +1100,7 @@ select option {
 
 .footer-section h3 {
     font-size: 1.25em;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
     color: var(--color-text);
 }
 
