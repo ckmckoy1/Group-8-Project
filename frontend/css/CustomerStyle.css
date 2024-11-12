@@ -2855,6 +2855,7 @@ header {
    /* Adjustments for Mobile View */
    .container {
     flex-direction: column;
+    margin-top: 35px;
 }
 
 .form-group-pair {
