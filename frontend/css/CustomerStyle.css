@@ -1152,655 +1152,6 @@ select option {
     transform: scale(1.1);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
- /* Hide Desktop Elements */
- .promo-bar.desktop-promo,
- .desktop-header,
- .top-bar {
-     display: none;
- }
-
-    /* Show Mobile Header */
-    header .mobile-header {
-        display: block;
-    }
-
- /* Mobile Promo Bar */
- .promo-bar.mobile-promo {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     background-color: #333;
-     color: #fff;
-     padding: 0;
-     margin: 0;
-     padding: 5px;
-     position: fixed;
-     top: 0;
-     width: 100%;
-     z-index: 1001;
- }
-
- /* Mobile Header */
- .mobile-header {
-     display: flex;
-     flex-direction: column;
-     background-color: #023047;
-     color: white;
-     position: fixed;
-     top: 30px;
-     width: 100%;
-     z-index: 1002;
- }
-
- .mobile-header .mobile-top-bar {
-     display: flex;
-     align-items: center;
-     justify-content: space-between;
-     padding: 10px 20px;
- }
-
- .mobile-header .logo img {
-     height: 30px;
-     width: auto;
- }
-
- /* Navbar Toggler */
- .navbar-toggler {
-     display: inline-block;
-     background: none;
-     border: none;
-     color: white;
- }
-
- /* Navbar Collapse */
- .mobile-header .navbar-collapse {
-     display: none;
-     flex-direction: column;
-     width: 100%;
-     position: absolute;
-     top: 60px;
-     left: 0;
-     z-index: 999;
-     background-color: #023047;
- }
-
- .mobile-header .navbar-collapse.show {
-     display: flex;
- }
-
- /* Navbar Links */
- .navbar-nav {
-     display: flex;
-     flex-direction: column;
-     list-style: none;
-     padding: 0;
-     margin: 0;
-     align-items: center;
- }
-
- .navbar-nav .nav-item {
-     width: 100%;
- }
-
- .navbar-nav .nav-link {
-     display: block;
-     width: 100%;
-     padding: 15px 0;
-     text-align: center;
-     color: #fff;
-     text-decoration: none;
-     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
- }
-
- .navbar-nav .nav-link:hover {
-     background-color: #024E76;
- }
-
-    .footer-row {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer-section {
-        flex: 1 1 100%;
-        text-align: center;
-    }
-
-    .footer-row.middle-row .footer-section {
-        flex: 1 1 100%;
-    }
-
-        /* Hide top-bar on mobile */
-        .top-bar {
-            display: none;
-        }
-
-        .footer-section.download-apps,
-        .footer-section.newsletter-signup {
-            text-align: center;
-            margin: 0 auto;
-        }
-    
-        .download-apps, .social-media-icons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-    
-        .newsletter-form {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            gap: 10px;
-        }
-    /* Display mobile header elements */
-    .mobile-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-        background-color: #023047;
-        color: white;
-    }
-
-        /* Center the headings in the specified sections on mobile */
-        .footer-section.newsletter-signup h3,
-        .footer-section.download-apps h3 {
-            text-align: center;
-            margin: 0 auto;
-        }
-    
-        /* Center-align content inside these sections as well */
-        .footer-section.newsletter-signup,
-        .footer-section.download-apps {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    /* Center the download apps container and align images horizontally */
-    .footer-section.download-apps {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .footer-section.download-apps .download-apps {
-        display: flex;
-        flex-direction: row; /* Keep images side by side */
-        justify-content: center;
-        gap: 10px; /* Space between images */
-    }
-
-    /* Ensure navbar-toggler (hamburger menu) is visible */
-    .navbar-toggler {
-        display: inline-block;
-        background: none;
-        border: none;
-        color: white;
-    }
-
-    /* Hide the full navbar links */
-    .navbar-nav {
-        display: none;
-    }
-
-    /* Show navbar links when toggler is active */
-    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        background-color: #05668d; /* Matches your primary color */
-    }
-
-    .navbar-nav .nav-link {
-        color: white;
-        padding: 10px;
-        text-align: center;
-        width: 100%;
-    }
-
- 
-    /* Hide Desktop Elements */
-    .desktop-promo,
-    .desktop-header,
-    .top-bar {
-        display: none;
-    }
-
-    /* Show Mobile Elements */
-    .mobile-promo,
-    .mobile-header {
-        display: block;
-    }
-
-
-    /* Show Mobile Elements */
-    .mobile-promo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .mobile-header {
-        display: block;
-    }
-
-    /* Mobile Header Styles */
-    .mobile-header {
-        display: flex;
-        flex-direction: column;
-        background-color: #023047;
-        color: white;
-        position: fixed;
-        top: 30px;
-        width: 100%;
-        z-index: 1002;
-    }
-
-    .mobile-header .mobile-top-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-    }
-
-    .mobile-header .logo img {
-        height: 30px;
-        width: auto;
-    }
-
-    .mobile-header .cart-icon .cart-image {
-        width: 30px;
-        height: 30px;
-    }
-
-    /* Navbar Toggler */
-    .navbar-toggler {
-        display: block;
-        background: none;
-        border: none;
-        cursor: pointer;
-    }
-
-    .navbar-toggler-icon {
-        width: 25px;
-        height: 2px;
-        background-color: #fff;
-        position: relative;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-toggler-icon::before,
-    .navbar-toggler-icon::after {
-        content: '';
-        width: 25px;
-        height: 2px;
-        background-color: #fff;
-        position: absolute;
-        left: 0;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-toggler-icon::before {
-        top: -7px;
-    }
-
-    .navbar-toggler-icon::after {
-        top: 7px;
-    }
-
-    /* Mobile Navbar Collapse */
-    .mobile-header .navbar-collapse {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        z-index: 999;
-    }
-
-    .mobile-header .navbar-collapse.show {
-        display: flex;
-    }
-
-    /* Navbar Links Styling */
-    .navbar-nav {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        flex-direction: column;
-        align-items: center;
-        background-color: #023047;
-    }
-
-    .navbar-nav .nav-item {
-        width: 100%;
-    }
-
-    .navbar-nav .nav-link {
-        display: block;
-        width: 100%;
-        padding: 15px 0;
-        text-align: center;
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .navbar-nav .nav-link:hover {
-        background-color: #024E76;
-    }
-
-     /* Find Deals Section */
-     .promo-bar.mobile-promo .Find_Deals {
-        flex: 1;
-        text-align: center;
-        margin: 0;
-    }
-
-        /* Reset Margins and Padding for Child Elements */
-        .promo-bar.mobile-promo .Find_Deals *,
-        .promo-bar.mobile-promo .Find_Deals a {
-            margin: 0;
-            padding: 0;
-            color: #ffb703; /* Adjust link color if needed */
-            text-decoration: none;
-        }
-
-    /* Footer Adjustments */
-    .footer-row {
-        flex-direction: column;
-    }
-
-    .footer-section {
-        flex: 1 1 100%;
-        text-align: center;
-    }
-
-    .footer-section ul {
-        display: none;
-    }
-
-    .footer-section[aria-expanded="true"] ul {
-        display: block;
-        margin-top: 8px;
-    }
-
-    .footer-section h3 {
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 8px;
-        margin-bottom: 10px;
-    }
-
-    .footer-section h3::after {
-        content: '';
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin-left: auto;
-        background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 16.5L6 10.5h12z"/></svg>');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        transition: transform 0.3s;
-        cursor: pointer;
-    }
-
-    /* Exclude specific footer sections from having drop-down arrows */
-    .footer-row.top-row .footer-section h3::after,
-    .footer-section.download-apps h3::after,
-    .footer-section.newsletter-signup h3::after {
-        content: none;
-    }
-
-    .footer-section[aria-expanded="true"] h3::after {
-        transform: rotate(180deg);
-    }
-
-    /* Adjustments for Footer Sections */
-    .footer-section.download-apps,
-    .footer-section.newsletter-signup {
-        text-align: center;
-        margin: 0 auto;
-    }
-
-    .download-apps, .social-media-icons {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .newsletter-form {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    /* Adjustments for Mobile View */
-    .container {
-        flex-direction: column;
-    }
-
-    .form-group-pair {
-        flex-direction: column;
-        max-width: 100%;
-    }
-
-    .form-group-pair input, .form-group input {
-        max-width: 100%;
-    }
-
-    .order-summary {
-        margin-left: 0;
-        margin-top: 20px;
-        padding: 10px;
-    }
-
-    .order-summary-top {
-        padding: 10px;
-    }
-
-    .checkout-options {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .checkout-options img {
-        width: 60px;
-        height: auto;
-    }
-        .top-bar {
-            flex-direction: row;
-            justify-content: space-around;
-        }
-    
-        .promo-bar .Earn_Rewards,
-        .promo-bar .right-section {
-            display: none;
-        }
-    
-        /* Adjust the Find_Deals section to center it */
-        .promo-bar .Find_Deals {
-            flex: 1;
-            justify-content: center;
-            text-align: center;
-        }
-    
-        /* Show hamburger menu and icons in top bar */
-        .navbar-toggler {
-            display: inline-block;
-        }
-    
-        .search-bar input {
-            display: none;
-        }
-    
-        /* Hide main navbar; show only on click */
-        .navbar-collapse {
-            display: none;
-        }
-    
-        .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-            display: block;
-        }
-    
-        .logo img, .search-bar img, .cart-icon img {
-            width: 20px; /* Resize icons on mobile */
-            height: 20px;
-        }
-    
-        /* Add border below each nav link on mobile */
-        .navbar-nav .nav-link {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            color: white;
-        }
-    
-        .checkout-options img {
-            width: 60px; /* Reduce the width for smaller screens */
-            height: auto; /* Maintain aspect ratio */
-        }
-    
-        .checkout-options {
-            gap: 5px; /* Reduce space between images */
-        }
-    
-      /* Show hamburger menu */
-      .navbar-toggler {
-        display: inline-block;
-    }
-    
-    /* Hide navbar links unless toggled */
-    .navbar-collapse {
-        display: none;
-    }
-    
-    /* Adjust positioning of elements */
-    .navbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    
-    /* Adjust logo sizes */
-    .navbar .wpo-title,
-    .navbar .wpo-logo {
-        width: 100px;
-        height: auto;
-    }
-    
-    /* Adjust search icon */
-    .navbar .search-icon {
-        width: 24px;
-        height: 24px;
-    }
-    
-    /* Adjust sign-in and cart icon */
-    .navbar .Sign_In,
-    .navbar .cart-icon {
-        display: inline-flex;
-        align-items: center;
-    }
-    
-    /* Hide the full navbar links */
-    .navbar-nav {
-        display: none;
-    }
-    
-    /* Show navbar links when toggler is active */
-    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-        display: block;
-    }
-    
-     /* Hide paragraphs in footer top row */
-     .footer-row.top-row .footer-text p {
-        display: none;
-    }
-    
-    /* Adjust footer section to center content */
-    .footer-row.top-row .footer-section {
-        text-align: center;
-    }
-    
-    /* Ensure drop-down arrows are not displayed */
-    .footer-row.top-row .footer-section h3::after {
-        content: none;
-    }
-    
-    /* Adjust image and h3 size */
-    .footer-row.top-row .footer-section img {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .footer-row.top-row .footer-section h3 {
-        font-size: 1em;
-    }
-    
-    /* Keep bottom row items side-by-side on small screens */
-    .footer-row.bottom-row ul {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 8px; /* Adjust space between items */
-    }
-    
-    .footer-row.bottom-row ul li {
-        display: inline; /* Ensures items stay side-by-side */
-    }
-    
-    .footer-section.download-apps,
-    .footer-section.newsletter-signup {
-        text-align: center;
-    }
-    
-    .footer-section.download-apps .download-apps,
-    .footer-section.newsletter-signup .social-media-icons {
-        display: flex;
-        justify-content: center;
-        gap: 10px; /* Adjust spacing as needed */
-    }
-    
-    .footer-section.newsletter-signup .newsletter-form {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-    
-    
-    /* Display 'Terms of Use | Sitemap' inline on mobile */
-    .footer-row.bottom-row ul {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    list-style: none;
-    gap: 5px; /* Adjust spacing as needed */
-    }
-    
-    .footer-row.bottom-row ul li {
-    display: inline;
-    }
-    
-    .footer-section[aria-expanded="true"] ul {
-        display: block; /* Show list items when expanded */
-        margin-top: 8px; /* Add some spacing if needed */
-    }
-    
-    
-    }
-    /* end of mobile view */
-    
 
 @media (max-width: 480px) {
     .footer {
@@ -3242,229 +2593,6 @@ select option {
     }
 }
 
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-        /* Hide the Earn_Rewards and right-section divs on small screens */
-        .promo-bar .Earn_Rewards,
-        .promo-bar .right-section {
-            display: none;
-        }
-    
-        /* Center the Find_Deals div */
-        .promo-bar .Find_Deals {
-            flex: 1;
-            justify-content: center;
-            text-align: center;
-        }
-
-    .form-group-pair {
-        flex-direction: column;
-        max-width: 100%;
-    }
-
-    .form-group-pair input, .form-group input {
-        max-width: 100%;
-    }
-    .footer-row {
-        flex-direction: column;
-    }
-
- 
-        .footer-container {
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        }
-    
-    
-
-    .footer-section ul {
-        display: none; /* Hidden by default */
-    }
-
-    /* Show the content when expanded */
-    .footer-section[aria-expanded="true"] ul {
-        display: block;
-        margin-top: 8px;
-    }
-/* General Footer Section Styles */
-.footer-row {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px 0;
-}
-
-.footer-section {
-    flex: 1;
-    padding: 10px;
-}
-
-.footer-section h3 {
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: none; /* Hide content by default on mobile */
-}
-
-.footer-section ul li {
-    margin: 8px 0;
-}
-
-.footer-section ul li a {
-    text-decoration: none;
-    color: #555;
-}
-
-.footer-section h3::after {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-left: auto;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 16.5L6 10.5h12z"/></svg>');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: transform 0.3s;
-    cursor: pointer;
-}
-
-/* Exclude specific footer sections from having drop-down arrows */
-.footer-row.top-row .footer-section h3::after,
-.footer-section.download-apps h3::after,
-.footer-section.newsletter-signup h3::after {
-    content: none;
-}
-
-/* Add rotation only for other expandable sections */
-.footer-section[aria-expanded="true"] h3::after {
-    transform: rotate(180deg);
-}
-
-
-
-    .order-summary {
-        margin-left: 0;
-        margin-top: 20px;
-        padding: 10px;
-    }
-
-    .search-bar input {
-        display: inline-block;
-        width: 100px;
-        margin-left: 5px;
-    }
-
-    .navbar-nav {
-        display: none; /* Hide navbar links initially */
-    }
-
-    .navbar-toggler {
-        display: inline-block; /* Show hamburger icon */
-    }
-
-    .navbar-toggler:focus + .navbar-collapse,
-    .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        padding: 10px 0;
-    }
-
-    .navbar-nav .nav-link {
-        color: white;
-        padding: 10px 20px;
-        width: 100%;
-        text-align: left;
-    }
-
-    /* Top bar styling */
-.top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    border-bottom: none;
-}
-
-.search-bar input {
-    display: none; /* Hide input field on mobile */
-}
-
-.search-bar img {
-    height: 30px;
-}
-
-.logo img {
-    height: 30px;
-}
-
-.cart-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.cart-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-size: 0.8rem;
-}
-
-/* Navbar collapse and icon adjustments */
-.navbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-}
-
-.navbar-toggler {
-    border: none;
-    background: transparent;
-    display: none; /* Hidden on desktop */
-}
-
-.navbar-collapse {
-    display: flex;
-    justify-content: center;
-}
-
-.navbar-nav {
-    list-style: none;
-    display: flex;
-    padding: 0;
-    margin: 0;
-}
-
-}
 
 @media (max-width: 480px) {
     .top-bar .logo h1 {
@@ -3571,8 +2699,18 @@ header {
 
 /* Place this at the end of your CSS file */
 
+
 /* Mobile Styles */
 @media (max-width: 768px) {
+    /* Reset margins and padding for promo bar and its children */
+    .promo-bar.mobile-promo,
+    .promo-bar.mobile-promo .Find_Deals,
+    .promo-bar.mobile-promo .Find_Deals * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
     /* Hide Desktop Elements */
     .desktop-header,
     .promo-bar.desktop-promo,
@@ -3583,7 +2721,7 @@ header {
  .mobile-header {
     display: flex;
     flex-direction: column;
-    background-color: #023047;
+    border-bottom: 1px solid #023047;
     color: white;
     position: fixed;
     top: 30px;
@@ -3636,18 +2774,7 @@ header {
     font-size: 12px;
     padding: 2px 6px;
 }
-}
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-    /* Reset margins and padding for promo bar and its children */
-    .promo-bar.mobile-promo,
-    .promo-bar.mobile-promo .Find_Deals,
-    .promo-bar.mobile-promo .Find_Deals * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
     /* Promo Bar Styles */
     .promo-bar.mobile-promo {
@@ -3725,11 +2852,227 @@ header {
         background-color: white; /* Set a background color */
     }
     
-
-}
-
-/* Mobile-specific styling for screens 768px and below */
-@media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+    
+            /* Hide the Earn_Rewards and right-section divs on small screens */
+            .promo-bar .Earn_Rewards,
+            .promo-bar .right-section {
+                display: none;
+            }
+        
+            /* Center the Find_Deals div */
+            .promo-bar .Find_Deals {
+                flex: 1;
+                justify-content: center;
+                text-align: center;
+            }
+    
+        .form-group-pair {
+            flex-direction: column;
+            max-width: 100%;
+        }
+    
+        .form-group-pair input, .form-group input {
+            max-width: 100%;
+        }
+        .footer-row {
+            flex-direction: column;
+        }
+    
+     
+            .footer-container {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        
+        
+    
+        .footer-section ul {
+            display: none; /* Hidden by default */
+        }
+    
+        /* Show the content when expanded */
+        .footer-section[aria-expanded="true"] ul {
+            display: block;
+            margin-top: 8px;
+        }
+    /* General Footer Section Styles */
+    .footer-row {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px 0;
+    }
+    
+    .footer-section {
+        flex: 1;
+        padding: 10px;
+    }
+    
+    .footer-section h3 {
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: none; /* Hide content by default on mobile */
+    }
+    
+    .footer-section ul li {
+        margin: 8px 0;
+    }
+    
+    .footer-section ul li a {
+        text-decoration: none;
+        color: #555;
+    }
+    
+    .footer-section h3::after {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-left: auto;
+        background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 16.5L6 10.5h12z"/></svg>');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: transform 0.3s;
+        cursor: pointer;
+    }
+    
+    /* Exclude specific footer sections from having drop-down arrows */
+    .footer-row.top-row .footer-section h3::after,
+    .footer-section.download-apps h3::after,
+    .footer-section.newsletter-signup h3::after {
+        content: none;
+    }
+    
+    /* Add rotation only for other expandable sections */
+    .footer-section[aria-expanded="true"] h3::after {
+        transform: rotate(180deg);
+    }
+    
+    
+    
+        .order-summary {
+            margin-left: 0;
+            margin-top: 20px;
+            padding: 10px;
+        }
+    
+        .search-bar input {
+            display: inline-block;
+            width: 100px;
+            margin-left: 5px;
+        }
+    
+        .navbar-nav {
+            display: none; /* Hide navbar links initially */
+        }
+    
+        .navbar-toggler {
+            display: inline-block; /* Show hamburger icon */
+        }
+    
+        .navbar-toggler:focus + .navbar-collapse,
+        .navbar-toggler[aria-expanded="true"] + .navbar-collapse {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            padding: 10px 0;
+        }
+    
+        .navbar-nav .nav-link {
+            color: white;
+            padding: 10px 20px;
+            width: 100%;
+            text-align: left;
+        }
+    
+        /* Top bar styling */
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+    
+    .search-bar {
+        display: flex;
+        align-items: center;
+        border-bottom: none;
+    }
+    
+    .search-bar input {
+        display: none; /* Hide input field on mobile */
+    }
+    
+    .search-bar img {
+        height: 30px;
+    }
+    
+    .logo img {
+        height: 30px;
+    }
+    
+    .cart-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .cart-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.8rem;
+    }
+    
+    /* Navbar collapse and icon adjustments */
+    .navbar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+    
+    .navbar-toggler {
+        border: none;
+        background: transparent;
+        display: none; /* Hidden on desktop */
+    }
+    
+    .navbar-collapse {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .navbar-nav {
+        list-style: none;
+        display: flex;
+        padding: 0;
+        margin: 0;
+    }
+    
     .mobile-header {
         width: 100%;
     }
