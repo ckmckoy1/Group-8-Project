@@ -247,12 +247,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const config = {
       fps: 10,
-      qrbox: { width: 250, height: 250 },
+      verbose: true,
       formatsToSupport: [
+        Html5QrcodeSupportedFormats.QR_CODE,
         Html5QrcodeSupportedFormats.CODE_128,
-        Html5QrcodeSupportedFormats.EAN_13,
         Html5QrcodeSupportedFormats.CODE_39,
-        // Add other formats as required
+        Html5QrcodeSupportedFormats.CODE_93,
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.ITF,
+        Html5QrcodeSupportedFormats.AZTEC,
+        Html5QrcodeSupportedFormats.DATA_MATRIX,
+        Html5QrcodeSupportedFormats.PDF_417,
       ]
     };
     
@@ -276,13 +284,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const qrCodeErrorCallback = (errorMessage) => {
-      console.warn(`QR Code no match: ${errorMessage}`);
+      console.warn(`Scanning error: ${errorMessage}`);
     };
+    
 
     // Start scanning with the back-facing camera
     console.log('Starting scanner with back-facing camera.');
     html5QrCode.start(
-      { facingMode: "environment" }, // Use the back-facing camera
+      { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
       config,
       qrCodeSuccessCallback,
       qrCodeErrorCallback
