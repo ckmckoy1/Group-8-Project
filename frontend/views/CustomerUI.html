@@ -10,7 +10,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/CustomerStyle.css">
     <link rel="icon" href="../assets/compass-logo.png" type="image/png">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s&libraries=places"></script>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBChMKEuIQtHbF4M5U2vyhYHmWMwMFqE2s&libraries=places&callback=initAddressAutocompletes"
+    async
+    defer
+></script>
+
    <!--  <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGDrs9iYGldy82UAuzPMypwVlCeD0Txxg&libraries=places"
     async
@@ -369,6 +374,15 @@
                                     <label for="billingZipCode" class="floating-label">ZIP / Postal Code *</label>
                                 </div>
                             </div>
+                            <!-- **Add Billing Country Field Here** -->
+                                <div class="form-group">
+                                    <select id="billingCountry" name="billingCountry" required>
+                                        <option value="">Select Country</option>
+                                        <option value="US" selected>United States</option>
+                                        <!-- Add other countries as needed -->
+                                    </select>
+                                    <label for="billingCountry" class="floating-label">Country *</label>
+                                </div>
 
                                 <button type="button" class="continue-btn" id="continueToReview">CONTINUE TO REVIEW</button>
                             </div>
