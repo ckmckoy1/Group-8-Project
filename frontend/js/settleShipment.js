@@ -247,7 +247,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const config = {
       fps: 10,
-      verbose: true,
+      qrbox: { width: 250, height: 250 },
+      videoConstraints: {
+        width: { ideal: 1280 },
+        height: { ideal: 720 },
+      },
       formatsToSupport: [
         Html5QrcodeSupportedFormats.QR_CODE,
         Html5QrcodeSupportedFormats.CODE_128,
@@ -261,9 +265,10 @@ document.addEventListener('DOMContentLoaded', () => {
         Html5QrcodeSupportedFormats.AZTEC,
         Html5QrcodeSupportedFormats.DATA_MATRIX,
         Html5QrcodeSupportedFormats.PDF_417,
-      ]
+      ],
+      verbose: true,
     };
-    
+  
     console.log('Creating Html5Qrcode instance.');
     html5QrCode = new Html5Qrcode("qr-reader");
 
@@ -291,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start scanning with the back-facing camera
     console.log('Starting scanner with back-facing camera.');
     html5QrCode.start(
-      { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
+      { facingMode: "environment" }, // Object with exactly one key
       config,
       qrCodeSuccessCallback,
       qrCodeErrorCallback
