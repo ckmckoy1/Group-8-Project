@@ -74,13 +74,17 @@
                 </button>
                 <div id="orderIdError" class="message error" style="display: none;"></div>
             </div>
-            
+
         <!-- QR Reader Container with Instructions and Stop Button -->
         <div class="qr-reader-wrapper">
             <!-- Scanner Instructions -->
             <p id="scannerInstructions" class="scanner-instructions" style="display: none;">
                 Please align the barcode within the frame to scan.
             </p>
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <img src="../assets/loading-spinner.gif" alt="Loading...">
+                <p>Initializing camera...</p>
+            </div>
             <!-- Html5Qrcode Scanner Container -->
             <div id="qr-reader" style="width: 100%; max-width: 600px; display: none;"></div>
             <!-- Stop Scanning Button -->
