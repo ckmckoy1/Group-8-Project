@@ -1,5 +1,6 @@
 // Import necessary modules
-import { Html5Qrcode } from 'html5-qrcode';
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode';
+
 
 document.addEventListener('DOMContentLoaded', () => {
   // Access all DOM elements
@@ -244,8 +245,17 @@ document.addEventListener('DOMContentLoaded', () => {
     messageDiv.style.display = 'block';
     qrReaderContainer.style.display = 'block'; // Show scanner container
 
-    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
+    const config = {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.CODE_128,
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.CODE_39,
+        // Add other formats as required
+      ]
+    };
+    
     console.log('Creating Html5Qrcode instance.');
     html5QrCode = new Html5Qrcode("qr-reader");
 
