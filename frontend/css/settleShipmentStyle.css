@@ -991,3 +991,52 @@ button img, .action-button img {
     }
 }
 
+@media (max-width: 768px) {
+    /* ... other styles ... */
+
+    /* Footer Styles for Mobile */
+    .footer {
+        width: 100%;
+        margin: 0;
+        padding: 10px 0;
+        background-color: #f1f1f1;
+        text-align: center;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .footer-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 20px; /* Optional: Add side padding if desired */
+        box-sizing: border-box;
+    }
+
+    /* Ensure body and main do not add unwanted padding or margins */
+    body, main {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    /* ... other styles ... */
+
+    /* Center the shipment container on mobile */
+    .settle-shipment-container {
+        width: 100%;
+        max-width: 100%; /* Allow full width on mobile */
+        padding: 20px; /* Adjust padding as needed */
+        margin: 0 auto; /* Center the container */
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+
+    /* Adjust main element to support centering */
+    main {
+        padding: 70px 10px 20px 10px; /* Adjust padding for mobile */
+        display: block; /* Change to block to prevent flex alignment issues */
+        width: 100%;
+        margin: 0;
+    }
+}
