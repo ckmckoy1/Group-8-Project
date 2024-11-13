@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const printLabelButton = document.getElementById('printLabel');
   const backToStep1Button = document.getElementById('backToStep1');
   const refreshStep1Button = document.getElementById('refreshStep1');
+  const stopScannerButton = document.getElementById('stopScannerButton');
+
 
   // Tooltip functionality
   const infoIcon = document.querySelector('.info-icon');
@@ -197,6 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
         html5QrCode.stop().then(() => {
           qrReaderContainer.style.display = 'none';
           scannerInstructions.style.display = 'none';
+          // Inside the .then() after html5QrCode.stop()
+        stopScannerButton.style.display = 'none';
+
         }).catch(err => {
           console.error('Error stopping the scanner:', err);
         });
@@ -244,14 +249,9 @@ document.addEventListener('DOMContentLoaded', () => {
     messageDiv.className = 'message';
     messageDiv.style.display = 'block';
     qrReaderContainer.style.display = 'block'; // Show scanner container
-
     const config = {
       fps: 10,
       qrbox: { width: 250, height: 250 },
-      videoConstraints: {
-        width: { ideal: 1280 },
-        height: { ideal: 720 },
-      },
       formatsToSupport: [
         Html5QrcodeSupportedFormats.QR_CODE,
         Html5QrcodeSupportedFormats.CODE_128,
@@ -281,38 +281,69 @@ document.addEventListener('DOMContentLoaded', () => {
         messageDiv.style.display = 'none';
         qrReaderContainer.style.display = 'none';
         scannerInstructions.style.display = 'none';
+        stopScannerButton.style.display = 'none';
       }).catch(err => {
         console.error('Error stopping the scanner:', err);
       });
       // Handle the decoded Order ID
       handleOrderIdSubmission(decodedText);
     };
-
+  
     const qrCodeErrorCallback = (errorMessage) => {
       console.warn(`Scanning error: ${errorMessage}`);
     };
     
 
-    // Start scanning with the back-facing camera
-    console.log('Starting scanner with back-facing camera.');
+ // Get the list of cameras and start scanning with the back camera
+ Html5Qrcode.getCameras().then(cameras => {
+  if (cameras && cameras.length) {
+    // Select the back camera if available
+    let backCameraId = cameras[0].id; // Default to the first camera
+    for (let camera of cameras) {
+      if (camera.label.toLowerCase().includes('back')) {
+        backCameraId = camera.id;
+        break;
+      }
+    }
+    console.log('Starting scanner with camera id:', backCameraId);
     html5QrCode.start(
-      { facingMode: "environment" }, // Object with exactly one key
+      backCameraId,
       config,
       qrCodeSuccessCallback,
       qrCodeErrorCallback
     ).then(() => {
       loadingSpinner.style.display = 'none';
       messageDiv.style.display = 'none';
-      console.log('Scanner started successfully with back-facing camera.');
+      console.log('Scanner started successfully.');
+      stopScannerButton.style.display = 'block'; // Show Stop Scanning button
+      // Inside the .then() after html5QrCode.start()
+      stopScannerButton.style.display = 'block';
+
     }).catch(err => {
-      console.error('Unable to start scanning with back-facing camera:', err);
-      messageDiv.textContent = 'Unable to access the back camera.';
+      console.error('Unable to start scanning:', err);
+      messageDiv.textContent = 'Unable to access the camera.';
       messageDiv.className = 'message error';
       messageDiv.style.display = 'block';
       qrReaderContainer.style.display = 'none';
       loadingSpinner.style.display = 'none';
     });
-  };
+  } else {
+    console.error('No cameras found.');
+    messageDiv.textContent = 'No cameras found.';
+    messageDiv.className = 'message error';
+    messageDiv.style.display = 'block';
+    qrReaderContainer.style.display = 'none';
+    loadingSpinner.style.display = 'none';
+  }
+}).catch(err => {
+  console.error('Error getting cameras:', err);
+  messageDiv.textContent = 'Error getting cameras.';
+  messageDiv.className = 'message error';
+  messageDiv.style.display = 'block';
+  qrReaderContainer.style.display = 'none';
+  loadingSpinner.style.display = 'none';
+});
+};
 
   // Event listener for barcode scanner button
   barcodeButton.addEventListener('click', startQrScanner);
@@ -435,6 +466,22 @@ document.addEventListener('DOMContentLoaded', () => {
       messageStep2.style.display = 'block';
     }
   };
+
+  stopScannerButton.addEventListener('click', () => {
+    if (html5QrCode) {
+      html5QrCode.stop().then(() => {
+        console.log('Scanner stopped by user.');
+        loadingSpinner.style.display = 'none';
+        messageDiv.style.display = 'none';
+        qrReaderContainer.style.display = 'none';
+        scannerInstructions.style.display = 'none';
+        stopScannerButton.style.display = 'none';
+      }).catch(err => {
+        console.error('Error stopping the scanner:', err);
+      });
+    }
+  });
+  
   
 
   // Attach the printLabel function to the print button

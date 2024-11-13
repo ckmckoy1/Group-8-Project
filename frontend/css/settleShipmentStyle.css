@@ -439,6 +439,12 @@ button img, .action-button img {
     color: var(--text-color);
 }
 
+.form-group h4 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
 .form-group input {
     width: 100%;
     padding: 12px;
@@ -455,6 +461,36 @@ button img, .action-button img {
     box-shadow: 0 0 5px rgba(0, 120, 215, 0.5);
     outline: none;
 }
+
+/* Center the QR reader container */
+#qr-reader {
+    margin: 0 auto; /* This centers the div horizontally */
+}
+
+/* Flexbox container to center the QR reader and related elements */
+.qr-reader-wrapper {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;    /* Center horizontally */
+    padding: 20px 0;
+}
+
+/* Center the scanner instructions */
+.scanner-instructions {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Adjust the Stop Scanning button spacing */
+#stopScannerButton {
+    margin-top: 10px;
+}
+
+/* Center the message div */
+#message {
+    text-align: center;
+}
+
 
 
     .settle-shipment-container h2 {
@@ -544,5 +580,24 @@ button img, .action-button img {
         align-items: center;
         justify-content: center; /* Center the elements */
         gap: 10px; /* Smaller gap */
+    }
+}
+
+/* Step 2 Buttons */
+.step2-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Adds space below the buttons */
+}
+
+.step2-buttons .action-button {
+    flex: 0 0 auto;
+    width: 120px; /* Adjust as needed */
+}
+
+@media (max-width: 768px) {
+    .step2-buttons {
+        flex-direction: row;
+        justify-content: space-between;
     }
 }
