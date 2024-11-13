@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Order ID', visible: true,  targets: 0, orderable: true, width: '100px', responsivePriority: 1 },
                 { name: 'Customer', visible: true,  targets: 1, orderable: true, width: '150px', responsivePriority: 2 },
                 { name: 'Email', visible: true,  targets: 2, orderable: true, width: '200px', responsivePriority: 3 },
-                { name: 'Phone Number', visible: true,  targets: 3, orderable: true, width: '150px', responsivePriority: 4 },
+                { name: 'Phone Number', visible: false,  targets: 3, orderable: true, width: '150px', responsivePriority: 4 },
                 { name: 'Shipping Method', visible: true,  targets: 4, orderable: true, width: '120px', responsivePriority: 5 },
                 { name: 'Shipping Address', visible: false, targets: 5, orderable: true, width: '200px', responsivePriority: 6 },
                 { name: 'Shipping Unit Number', visible: false, targets: 6, orderable: true, width: '100px', responsivePriority: 7 },
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Expiration Date', visible: true,  targets: 19, orderable: true, width: '120px', responsivePriority: 20 },
                 {
                     name: 'Order Date/Time',
-                    visible: true,
+                    visible: false,
                     targets: 20,
                     orderable: true,
                     type: 'datetime',
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         return data;
                     }
                 },
-                { name: 'Order Time', visible: true,  targets: 22, orderable: true, width: '100px', responsivePriority: 23 },
+                { name: 'Order Time', visible: false,  targets: 22, orderable: true, width: '100px', responsivePriority: 23 },
                 { name: 'Authorization Token', visible: true,  targets: 23, orderable: true, width: '150px', responsivePriority: 24 },
                 { name: 'Authorization Amount', visible: true,  targets: 24, orderable: true, width: '150px', responsivePriority: 25 },
                 {
