@@ -71,14 +71,14 @@ function fillInAddressFields(place, section) {
     }
 }
 
-// Initialize the address autocompletes
-function initAddressAutocompletes() {
+// Define the callback function globally
+window.initAddressAutocompletes = function() {
     if (typeof google === 'object' && typeof google.maps === 'object') {
         // Shipping address autocomplete
         const shippingAddressInput = document.getElementById('address');
         if (shippingAddressInput) {
             const shippingAutocomplete = new google.maps.places.Autocomplete(shippingAddressInput);
-
+    
             shippingAutocomplete.addListener('place_changed', () => {
                 const place = shippingAutocomplete.getPlace();
                 if (!place.geometry) {
@@ -88,12 +88,12 @@ function initAddressAutocompletes() {
                 fillInAddressFields(place, 'shipping');
             });
         }
-
+    
         // Billing address autocomplete
         const billingAddressInput = document.getElementById('billingAddress');
         if (billingAddressInput) {
             const billingAutocomplete = new google.maps.places.Autocomplete(billingAddressInput);
-
+    
             billingAutocomplete.addListener('place_changed', () => {
                 const place = billingAutocomplete.getPlace();
                 if (!place.geometry) {
@@ -106,7 +106,7 @@ function initAddressAutocompletes() {
     } else {
         console.error('Google Maps JavaScript API not loaded.');
     }
-}
+};
 
 document.addEventListener('DOMContentLoaded', function () {
     // Initialize the address autocompletes
