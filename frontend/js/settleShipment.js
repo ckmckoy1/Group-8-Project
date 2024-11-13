@@ -425,47 +425,59 @@ document.addEventListener('DOMContentLoaded', () => {
     step3Container.style.display = 'block';
   };
 
-  // Function to print the shipment label
-  const printLabel = async () => {
-    if (!currentFormattedOrderId) {
-      messageStep2.textContent = 'Order ID is missing. Please start over.';
-      messageStep2.className = 'message error';
-      messageStep2.style.display = 'block';
-      return;
-    }
-  
-    console.log(`Printing label for Order ID: ${currentFormattedOrderId}`);
-    try {
-      const order = await fetchOrderDetails(currentFormattedOrderId);
-      const shippingAddress = order.ShippingAddress;
-  
-      // Check if ShippingAddress is an object with expected properties or a string
-      const addressLine = typeof shippingAddress === 'object'
-        ? `${shippingAddress.street1}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zip}`
-        : shippingAddress; // Handle as a string if that's the case
-  
-      const labelWindow = window.open('', '', 'height=600,width=800');
-      labelWindow.document.write('<html><head><title>Shipment Label</title>');
-      labelWindow.document.write('<style>');
-      labelWindow.document.write('body { font-family: Arial, sans-serif; padding: 20px; }');
-      labelWindow.document.write('</style>');
-      labelWindow.document.write('</head><body>');
-      labelWindow.document.write(`<h1>Shipment Label for Order: ${currentFormattedOrderId}</h1>`);
-      labelWindow.document.write(`<p><strong>Shipping Address:</strong> ${addressLine}</p>`);
-      labelWindow.document.write('<p><strong>Warehouse Status:</strong> Ready for Shipment</p>');
-      labelWindow.document.write('</body></html>');
-      labelWindow.document.close();
-      labelWindow.focus();
-      labelWindow.print();
-      labelWindow.close();
-      console.log('Label printed successfully.');
-    } catch (error) {
-      console.error('Error printing label:', error);
-      messageStep2.textContent = 'Error printing label. Please try again.';
-      messageStep2.className = 'message error';
-      messageStep2.style.display = 'block';
-    }
-  };
+// Function to print the shipment label
+const printLabel = async () => {
+  if (!currentFormattedOrderId) {
+    messageStep2.textContent = 'Order ID is missing. Please start over.';
+    messageStep2.className = 'message error';
+    messageStep2.style.display = 'block';
+    return;
+  }
+
+  console.log(`Printing label for Order ID: ${currentFormattedOrderId}`);
+  try {
+    const order = await fetchOrderDetails(currentFormattedOrderId);
+
+    // Extract customer's name
+    const firstName = order.FirstName || '';
+    const lastName = order.LastName || '';
+    const customerName = `${firstName} ${lastName}`.trim();
+
+    // Assemble the full shipping address
+    const addressParts = [
+      order.ShippingAddress || '',
+      order.ShippingUnitNumber || '',
+      order.ShippingCity || '',
+      order.ShippingState || '',
+      order.ShippingZip || '',
+    ];
+
+    const fullAddress = addressParts.filter(Boolean).join(', ');
+
+    const labelWindow = window.open('', '', 'height=600,width=800');
+    labelWindow.document.write('<html><head><title>Shipment Label</title>');
+    labelWindow.document.write('<style>');
+    labelWindow.document.write('body { font-family: Arial, sans-serif; padding: 20px; }');
+    labelWindow.document.write('</style>');
+    labelWindow.document.write('</head><body>');
+    labelWindow.document.write(`<h1>Shipment Label for Order: ${currentFormattedOrderId}</h1>`);
+    labelWindow.document.write(`<p><strong>Customer Name:</strong> ${customerName}</p>`);
+    labelWindow.document.write(`<p><strong>Shipping Address:</strong> ${fullAddress}</p>`);
+    labelWindow.document.write('<p><strong>Warehouse Status:</strong> Ready for Shipment</p>');
+    labelWindow.document.write('</body></html>');
+    labelWindow.document.close();
+    labelWindow.focus();
+    labelWindow.print();
+    labelWindow.close();
+    console.log('Label printed successfully.');
+  } catch (error) {
+    console.error('Error printing label:', error);
+    messageStep2.textContent = 'Error printing label. Please try again.';
+    messageStep2.className = 'message error';
+    messageStep2.style.display = 'block';
+  }
+};
+
 
   stopScannerButton.addEventListener('click', () => {
     if (html5QrCode) {
