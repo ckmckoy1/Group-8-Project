@@ -483,7 +483,8 @@ button img, .action-button img {
 
 /* Adjust the Stop Scanning button spacing */
 #stopScannerButton {
-    margin-top: 10px;
+    margin-top: 20px;
+    align-items: center;    /* Center horizontally */
 }
 
 /* Center the message div */
