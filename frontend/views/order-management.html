@@ -1,342 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <title>WPO Order Management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout | Wild Path Outfitters</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css"> <!-- Include your CSS file -->
-    <link rel="icon" href="../assets/compass-logo.png" type="image/png">
-
-
-
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- ColReorder Extension -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.6.2/css/colReorder.dataTables.min.css">
+    <!-- DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/orderManagementStyle.css">
+    <link rel="stylesheet" href="../css/orderMgmtTableStyles.css">
+    <!-- jQuery UI CSS for Datepicker -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
-
 <body>
-    <header>
-        <!-- Desktop Promo Bar (Visible on Desktop) -->
-        <div class="promo-bar desktop-promo">
-            <div class="Earn_Rewards">
-                <img src="../assets/mountain.svg" width="20" height="20" alt="Mountain"> Earn Rewards On Purchases
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img class="navbar-logo" src="../assets/PaymentLogo.svg" alt="WPO logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- Navigation links (if any) -->
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid mt-4">
+        <!-- Buttons Section -->
+        <div class="row mb-3 align-items-center">
+            <div class="col-md-6 d-flex align-items-center">
+                <h2 class="text-left mr-3 mb-0 nowrap-text">Order Items: Recent Transactions</h2>
+                <button id="refreshTable" class="btn btn-primary mr-2 uniform-btn">Reset Table</button>
+                <button id="chooseColumns" class="btn btn-secondary mr-2 uniform-btn" data-toggle="modal" data-target="#chooseColumnsModal">Choose Columns</button>
+                <button id="downloadButton" class="btn btn-info mr-2 uniform-btn">Download</button>
+                <button id="clearFilters" class="btn btn-secondary uniform-btn">Clear All Filters</button>
             </div>
-            <div class="Find_Deals">
-                WINTER OUTERWEAR 20-40% OFF |
-                <a href="#" class="view-deals">
-                    VIEW DEALS
-                    <!-- Inline SVG -->
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z" />
-                    </svg>
-                </a>
-            </div>
-            <div class="right-section">
-                <div class="Find_Location">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.89129 21.0787L8.9461 21.1315L8.95039 21.1357C9.95462 22.098 10.9283 22.7576 12.0296 22.7449C13.1259 22.7323 14.0956 22.0555 15.0992 21.0783C16.4747 19.7455 18.2545 17.9477 19.5403 15.8149C20.831 13.6741 21.6639 11.1292 21.0372 8.33595C18.9197 -1.10413 5.09133 -1.11519 2.96276 8.32592C2.35382 11.04 3.12314 13.5227 4.34999 15.6268C5.57222 17.7231 7.2824 19.5029 8.65394 20.8471C8.73386 20.9254 8.81273 21.0023 8.89035 21.0778L8.89129 21.0787ZM12 6.25012C10.2051 6.25012 8.75 7.7052 8.75 9.50012C8.75 11.295 10.2051 12.7501 12 12.7501C13.7949 12.7501 15.25 11.295 15.25 9.50012C15.25 7.7052 13.7949 6.25012 12 6.25012Z" />
-                    </svg>
-                    <a href="#" class="location-link">
-                        The Outlet Shoppes at Atlanta
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M12 16.5C11.45 16.5 10.98 16.28 10.66 15.94L5.66 10.94C5.26 10.54 5.26 9.91 5.66 9.51C6.06 9.11 6.69 9.11 7.09 9.51L12 14.42L16.91 9.51C17.31 9.11 17.94 9.11 18.34 9.51C18.74 9.91 18.74 10.54 18.34 10.94L13.34 15.94C13.02 16.28 12.55 16.5 12 16.5Z" />
-                        </svg>
-                    </a> |
-                </div>
-                <div class="Sign_In">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 
-                            3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 
-                            0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 
-                            5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
-                    </svg> <a href="#">Sign In / Sign Up</a>
-                </div>
+            <div class="col-md-6 d-flex justify-content-end">
+                <div class="dataTables_length" id="orderTable_length"></div>
             </div>
         </div>
-        
-        <!-- Desktop Header (Visible on Desktop) -->
-        <div class="desktop-header">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
-                    <img src="../assets/search.svg" width="20" height="20" alt="Search">
-                </div>
-                <div class="logo">
-                    <img class="wpo-title" src="../assets/Wild-Path-Outfitters.svg" alt="Wild Path Outfitters" />
-                    <img class="wpo-logo" src="../assets/compass.svg" alt="Compass" />
-                </div>
-                <div class="cart-icon">
-                    <img src="../assets/cart.svg" alt="Shopping Cart" class="cart-image">
-                    <span class="cart-badge">1</span>
-                </div>
-            </div>
-    
-            <!-- Banner -->
-            <div class="banner">
-                <nav class="navbar">
-                    <ul class="navbar-nav d-flex flex-row justify-content-center">
-                        <li class="nav-item active"><a class="nav-link" href="#">Women</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Men</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Kids</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Gear &amp; Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Shoes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Clearance</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                    </ul>
-                </nav>
+
+        <!-- Orders Table Scrollable Container -->
+        <div class="row">
+            <div class="col-12 table-container">
+                <div id="message" style="display: none;">Error message goes here</div>
+                <table id="orderTable" class="table table-striped table-bordered">
+                    <thead>
+                        <tr class="header-row">
+                            <th data-orderable="true">Order ID</th>
+                            <th data-orderable="true">Customer</th>
+                            <th data-orderable="true">Email</th>
+                            <th data-orderable="true">Phone Number</th>
+                            <th data-orderable="true">Shipping Method</th>
+                            <th data-orderable="true">Shipping Address</th>
+                            <th data-orderable="true">Unit Number</th>
+                            <th data-orderable="true">Shipping City</th>
+                            <th data-orderable="true">Shipping State</th>
+                            <th data-orderable="true">Shipping Zip</th>
+                            <th data-orderable="true">Billing Address</th>
+                            <th data-orderable="true">Billing Unit Number</th>
+                            <th data-orderable="true">Billing City</th>
+                            <th data-orderable="true">Billing State</th>
+                            <th data-orderable="true">Billing Zip</th>
+                            <th data-orderable="true">Total Amount</th>
+                            <th data-orderable="true">Payment Status</th>
+                            <th data-orderable="true">Card Last 4</th>
+                            <th data-orderable="true">Card Brand</th>
+                            <th data-orderable="true">Expiration Date</th>
+                            <th data-orderable="true">Order Date/Time</th>
+                            <th data-orderable="true">Order Date</th>
+                            <th data-orderable="true">Order Time</th>
+                            <th data-orderable="true">Authorization Token</th>
+                            <th data-orderable="true">Authorization Amount</th>
+                            <th data-orderable="true">Authorization Expiration</th>
+                            <th data-orderable="true">Warehouse Status</th>
+                            <th data-orderable="true">Warehouse Approval Date</th>
+                        </tr>
+                        <tr class="filter-row">
+                            <th><input type="text" id="orderIDFilter" class="form-control"></th>
+                            <th><input type="text" id="customerFilter" class="form-control"></th>
+                            <th><input type="text" id="emailFilter" class="form-control"></th>
+                            <th><input type="text" id="phoneNumberFilter" class="form-control"></th>
+                            <th>
+                                <button id="shippingMethodFilterButton" class="select-button">Choose...</button>
+                                <ul id="shippingMethodFilterOptions" class="dropdown-options">
+                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                                    <li data-value="Standard"><input type="checkbox"> Standard</li>
+                                    <li data-value="Express"><input type="checkbox"> Express</li>
+                                    <li data-value="Rush"><input type="checkbox"> Rush</li>
+                                </ul>
+                            </th>
+                            <th><input type="text" id="shippingAddressFilter" class="form-control"></th>
+                            <th><input type="text" id="shippingUnitNumberFilter" class="form-control"></th>
+                            <th><input type="text" id="shippingCityFilter" class="form-control"></th>
+                            <th><input type="text" id="shippingStateFilter" class="form-control"></th>
+                            <th><input type="text" id="shippingZipFilter" class="form-control"></th>
+                            <th><input type="text" id="billingAddressFilter" class="form-control"></th>
+                            <th><input type="text" id="billingUnitNumberFilter" class="form-control"></th>
+                            <th><input type="text" id="billingCityFilter" class="form-control"></th>
+                            <th><input type="text" id="billingStateFilter" class="form-control"></th>
+                            <th><input type="text" id="billingZipFilter" class="form-control"></th>
+                            <th><input type="text" id="totalAmountFilter" class="form-control"></th>
+                            <th>
+                                <button id="paymentstatusFilterButton" class="select-button">Choose...</button>
+                                <ul id="paymentstatusFilterOptions" class="dropdown-options">
+                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                                    <li data-value="Authorized"><input type="checkbox"> Success</li>
+                                    <li data-value="Failure - Incorrect Card Details"><input type="checkbox"> Failure - Incorrect Card Details</li>
+                                    <li data-value="Failure - Insufficient Funds"><input type="checkbox"> Failure - Insufficient Funds</li>
+                                    <!-- Add more payment statuses as needed -->
+                                </ul>
+                            </th>
+                            <th><input type="text" id="cardNumberFilter" class="form-control"></th>
+                            <th><input type="text" id="cardBrandFilter" class="form-control"></th>
+                            <th><input type="text" id="expirationDateFilter" class="form-control"></th>
+                            <th>
+                                <input type="text" id="orderDateTimeMin" class="form-control datepicker" placeholder="From Date/Time">
+                                <input type="text" id="orderDateTimeMax" class="form-control datepicker" placeholder="To Date/Time">
+                            </th>
+                            <th>
+                                <input type="text" id="orderDateMin" class="form-control datepicker" placeholder="From Date">
+                                <input type="text" id="orderDateMax" class="form-control datepicker" placeholder="To Date">
+                            </th>
+                            <th><input type="text" id="orderTimeFilter" class="form-control"></th>
+                            <th><input type="text" id="authTokenFilter" class="form-control"></th>
+                            <th><input type="text" id="authAmountFilter" class="form-control"></th>
+                            <th>
+                                <input type="text" id="authExpirationMin" class="form-control datepicker" placeholder="From Date">
+                                <input type="text" id="authExpirationMax" class="form-control datepicker" placeholder="To Date">
+                            </th>
+                            <th>
+                                <button id="warehouseStatusFilterButton" class="select-button">Choose...</button>
+                                <ul id="warehouseStatusFilterOptions" class="dropdown-options">
+                                    <li data-value="selectAll"><input type="checkbox"> Select All</li>
+                                    <li data-value="clearAll"><input type="checkbox"> Clear All</li>
+                                    <li data-value="Settled"><input type="checkbox"> Settled</li>
+                                    <li data-value="Pending"><input type="checkbox"> Pending</li>
+                                    <li data-value="N/A"><input type="checkbox"> N/A</li>
+                                </ul>
+                            </th>
+                            <th>
+                                <input type="text" id="warehouseApprovalDateMin" class="form-control datepicker" placeholder="From Date">
+                                <input type="text" id="warehouseApprovalDateMax" class="form-control datepicker" placeholder="To Date">
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="orderTableBody">
+                        <!-- Orders will be dynamically added here by JavaScript -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <!-- Columns 1-15: Empty -->
+                            <td colspan="15"></td>
+
+                            <!-- Column 16: Total Amount -->
+                            <td id="totalAmount">$0.00</td>
+
+                            <!-- Columns 17-24: Empty -->
+                            <td colspan="8"></td>
+
+                            <!-- Column 25: Total Transaction Amount -->
+                            <td id="totalTransactionAmount">$0.00</td>
+
+                            <!-- Columns 26-28: Empty -->
+                            <td colspan="3"></td>
+                        </tr>
+                    </tfoot>
+
+                </table>
             </div>
         </div>
-    
-        <!-- Mobile Header (Visible on Mobile) -->
-        <div class="mobile-header">
-            <!-- Mobile Promo Bar -->
-            <div class="promo-bar mobile-promo">
-                <div class="Find_Deals">
-                    WINTER OUTERWEAR 20-40% OFF |
-                    <a href="#" class="view-deals">
-                        VIEW DEALS
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M8.29289 4.29289C8.68342 3.90237 9.31658 3.90237 9.70711 4.29289L16.7071 11.2929C17.0976 11.6834 17.0976 12.3166 16.7071 12.7071L9.70711 19.7071C9.31658 20.0976 8.68342 20.0976 8.29289 19.7071C7.90237 19.3166 7.90237 18.6834 8.29289 18.2929L14.5858 12L8.29289 5.70711C7.90237 5.31658 7.90237 4.68342 8.29289 4.29289Z" />
-                        </svg>
-                    </a>
+    </div>
+
+    <!-- Modal for Choose Columns -->
+    <div class="modal fade" id="chooseColumnsModal" tabindex="-1" role="dialog" aria-labelledby="chooseColumnsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="chooseColumnsModalLabel">Choose Columns</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-    
-            <!-- Mobile Nav Row -->
-            <div class="mobile-nav-row">
-                <button class="navbar-toggler" type="button" aria-expanded="false">☰</button>
-                <div class="header-search">
-                    <img src="../assets/search.svg" alt="Search" class="search-icon">
-                </div>    
-                <div class="logo">
-                    <img class="wpo-title" src="../assets/Wild-Path-Outfitters.svg" alt="Wild Path Outfitters" />
-                    <img class="wpo-logo" src="../assets/compass.svg" alt="Compass" />
-                </div>
-                <div class="header-icons">
-                    <img src="../assets/account.svg" alt="Account" class="account-icon">
-                    <div class="cart-icon">
-                        <img src="../assets/cart.svg" alt="Shopping Cart" class="cart-image">
-                        <span class="cart-badge">1</span>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Available Columns</h6>
+                            <ul id="availableColumns" class="list-group connectedSortable">
+                                <!-- Available columns will be dynamically added here -->
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Selected Columns</h6>
+                            <ul id="selectedColumns" class="list-group connectedSortable">
+                                <!-- Selected columns will be dynamically added here -->
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-    
-            <!-- Mobile Navbar Links -->
-            <div class="navbar-collapse">
-                <ul class="navbar-nav">
-                    <li class="nav-item active"><a class="nav-link" href="#">Women</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Men</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Kids</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Gear &amp; Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Shoes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Clearance</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                </ul>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" id="applyColumns" class="btn btn-primary">Apply</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
-    </header>
-    
-    
-    
-    <main class="main-content">
-        <div class="container">
-            <section class="confirmation-section">
-                <h1>Thank You for Your Purchase, Navigator!</h1>
-                <p>We're thrilled to have you on board. Your order has been successfully placed, and we're already gearing up to get it to you as soon as possible.</p>
-                <p>Your Order ID: <span id="orderIdDisplay"></span></p>
-                <p>Keep an eye on your inbox for the confirmation and shipping details. If you have any questions, we're here to help every step of the way.</p>
-                <!-- Optionally, include more details about the order -->
-            </section>
+    </div>
+
+    <!-- Modal for Download Options -->
+    <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Download Options</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                   <div class="modal-body">
+                    <div class="form-group">
+                        <label for="downloadFormat">Choose Format</label>
+                        <select id="downloadFormat" class="form-control">
+                            <option value="csv">CSV</option>
+                            <option value="pdf">PDF</option>
+                            <option value="excel">Excel</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="downloadConfirm" class="btn btn-primary">Download</button>
+                </div>
+            </div>
         </div>
-    </main>
-    
-    <footer class="footer">
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-4">
         <div class="footer-container">
-            <!-- Top Row -->
-            <div class="footer-row top-row">
-                <!-- Store Locator -->
-                <section class="footer-section">
-                    <div class="footer-section-content">
-                        <img src="../assets/location.svg" width="40" height="40" alt="Location">
-                        <div class="footer-text">
-                            <h3>Store Locator</h3>
-                            <p>Find one of over 250 Wild Path Outfitters in North America.</p>
-                        </div>
-                    </div>
-                </section>
-            
-                <!-- Navigator Rewards -->
-                <section class="footer-section">
-                    <div class="footer-section-content">
-                        <img src="../assets/mountain.svg" width="40" height="40" alt="Mountain">
-                        <div class="footer-text">
-                            <h3>Navigator Rewards</h3>
-                            <p>Sign up today to start earning rewards!</p>
-                        </div>
-                    </div>
-                </section>
-            
-                <!-- Mission Statement -->
-                <section class="footer-section">
-                    <div class="footer-section-content">
-                        <img src="../assets/compass.svg" width="40" height="40" alt="Compass">
-                        <div class="footer-text">
-                            <h3>Mission Statement</h3>
-                            <p>Sustainable apparel and gear inspiring journeys and safeguarding the natural world.</p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            
-    
-            <!-- Middle Row -->
-            <div class="footer-row middle-row">
-                <!-- Help -->
-                <section class="footer-section expandable" aria-expanded="false">
-                    <h3>Help</h3>
-                    <ul>
-                        <li><a href="#">Customer Service</a></li>
-                        <li><a href="#">Track Your Order</a></li>
-                        <li><a href="#">Return Policy</a></li>
-                        <li><a href="#">Start a Return</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Payment Options</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </section>
-    
-                <!-- Shopping -->
-                <section class="footer-section expandable" aria-expanded="false">
-                    <h3>Shopping</h3>
-                    <ul>
-                        <li><a href="#">Sign In / Register</a></li>
-                        <li><a href="#">Adventure Rewards</a></li>
-                        <li><a href="#">Buy Gift Cards</a></li>
-                        <li><a href="#">Promos and Coupons</a></li>
-                    </ul>
-                </section>
-    
-                <!-- About Us -->
-                <section class="footer-section expandable" aria-expanded="false">
-                    <h3>About Us</h3>
-                    <ul>
-                        <li><a href="#">Our Story</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Affiliate Program</a></li>
-                        <li><a href="#">Land Acknowledgement</a></li>
-                    </ul>
-                </section>
-    
-                <!-- Privacy Policy -->
-                <section class="footer-section expandable" aria-expanded="false">
-                    <h3>Privacy Policy</h3>
-                    <ul>
-                        <li><a href="#">Your Privacy Choices <img src="../assets/privacy.svg" width="20" height="20" alt="Privacy"></a></li>
-                        <li><a href="#">CA Supply Chains Act</a></li>
-                        <li><a href="#">Notice at Collection</a></li>
-                        <li><a href="#">Do Not Contact Me</a></li>
-                        <li><a href="#">Accessibility Statement</a></li>
-                        <li><a href="#">Forced Labor Report</a></li>
-                    </ul>
-                </section>
-
-                    
-        <!-- Download Apps -->
-        <section class="footer-section download-apps">
-            <h3>Download Apps</h3>
-            <div class="download-apps">
-                <a href="#"><img src="../assets/apple-store.svg" alt="Apple Store"></a>
-                <a href="#"><img src="../assets/google-store.svg" alt="Google Play"></a>
-            </div>
-        </section>
-
-        <!-- Newsletter Signup -->
-        <section class="footer-section newsletter-signup">
-            <h3>Newsletter Signup</h3>
-            <p>Be the first to know and earn rewards and be the first to hear about sales and special offers.</p>
-            <form class="newsletter-form">
-                <button type="submit">Sign Up</button>
-            </form>
-            <div class="social-media-icons">
-                <img src="../assets/facebook.svg" width="20" height="20" alt="Facebook">
-                <img src="../assets/youtube.svg" width="20" height="20" alt="YouTube">
-                <img src="../assets/instagram.svg" width="20" height="20" alt="Instagram">
-                <img src="../assets/pinterest.svg" width="20" height="20" alt="Pinterest">
-                <img src="../assets/twitter.svg" width="20" height="20" alt="Twitter">
-            </div>
-        </section>
-
-            </div>
-    
-            <!-- Bottom Row -->
-            <div class="footer-row bottom-row">
-                <!-- Session and Legal -->
-                <section class="footer-section">
-                    <ul>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li> | </li>
-                        <li><a href="#">Sitemap</a></li>
-                    </ul>
-                    <p>&copy; 2024 Wild Path Outfitters. All Rights Reserved.</p>
-                </section>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-end align-items-center">
+                    <a href="#">Privacy Policy</a>
+                    <span class="mx-2">|</span>
+                    <a href="#">Terms of Use</a>
+                    <span class="mx-2"></span>
+                    <img src="../assets/blaze.svg" width="50" height="50" alt="OrderTrail-OMS: A Service of Trailblaze Technologies">
+                    <img src="../assets/trailblaze.svg" width="50" height="50" alt="Powered by Trailblaze Technologies">
+                </div>
             </div>
         </div>
     </footer>
-    
-    
 
-    <!-- Chat Popup -->
-    <div id="chatPopupOverlay">
-        <div id="chatPopup">
-            <img src="../assets/chat.svg" width="50" height="50" alt="Chat">
-        </div>
-    </div>
-
-    <!-- Popup for Feedback -->
-    <div class="popup-overlay" id="feedbackPopupOverlay">
-        <div class="popup" id="feedbackPopup">
-            <span class="close" id="closeFeedbackPopup">&times;</span>
-            <div class="popup-content">
-                <p>Give us feedback!</p>
-            </div>
-        </div>
-    </div>
-
-
-
-
-  <!-- jQuery and Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<!-- Bootstrap JavaScript Bundle -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Custom JavaScript file -->
-<script src="../js/checkout.js"></script>
-
-<script>
-    // Get the order ID from the query parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get('orderId');
-    if (orderId) {
-        document.getElementById('orderIdDisplay').textContent = orderId;
-    } else {
-        document.getElementById('orderIdDisplay').textContent = 'Unknown';
-    }
-    </script>
-
-
-
-  <!-- Loading Overlay -->
-<div class="loading-overlay" id="loadingOverlay" aria-hidden="true" role="alert" aria-live="assertive">
-    <div class="spinner" aria-label="Loading"></div>
-</div>
-
+    <!-- Scripts -->
+    <!-- jQuery first -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery UI for sortable functionality and datepicker -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <!-- Popper.js, required for Bootstrap 4 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables ColReorder Extension JS -->
+    <script src="https://cdn.datatables.net/colreorder/1.6.2/js/dataTables.colReorder.min.js"></script>
+    <!-- DataTables Buttons Extension JS -->
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+    <!-- DataTables Buttons HTML5 Export -->
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+    <!-- DataTables Buttons JSZip (for Excel export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <!-- DataTables Buttons PDFMake (for PDF export) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <!-- PDFMake VFS Fonts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <!-- Day.js and Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/advancedFormat.js"></script>
+    <!-- Custom JS -->
+    <script src="../js/orderManagement.js"></script>
 </body>
-
 </html>
