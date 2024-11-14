@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to format date as "MM/DD/YYYY"
     const formatDate = (dateString) => {
         if (!dateString) return ''; // Handle null or undefined
-        const date = dayjs(dateString).tz(dayjs.tz.guess()); // Convert to local timezone
+        const date = dayjs.utc(dateString); // Parse in UTC
         if (!date.isValid()) return ''; // Handle invalid dates
         return date.format('MM/DD/YYYY');
     };
-
+    
     // Function to format date and time as "MM/DD/YYYY hh:mm:ss A"
     const formatDateAndTime = (dateString) => {
         if (!dateString) return ''; // Handle null or undefined
