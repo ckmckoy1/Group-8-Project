@@ -219,19 +219,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 {
                     extend: 'pdf',
-                    className: 'd-none', // Hide the button, but it should still be accessible via JavaScript
+                    className: 'd-none', // Hide the button
                     orientation: 'landscape', // Landscape mode
-                    pageSize: 'A4', // Use A4 paper size
+                    pageSize: 'LEGAL', // Use LEGAL paper size for more width
                     customize: function (doc) {
-                        // Auto-width for each column
-                        const totalColumns = doc.content[1].table.body[0].length;
-                        doc.content[1].table.widths = Array(totalColumns).fill('*');
-
-                        // Smaller font sizes
-                        doc.styles.tableHeader.fontSize = 10;
-                        doc.defaultStyle.fontSize = 8;
+                        // Reduce font sizes
+                        doc.styles.tableHeader.fontSize = 6;
+                        doc.defaultStyle.fontSize = 6;
+                
+                        // Adjust margins
+                        doc.pageMargins = [5, 5, 5, 5]; // left, top, right, bottom
+                
+                        // Set column widths to auto-fit
+                        var colCount = doc.content[1].table.body[0].length;
+                        var widths = [];
+                        for (i = 0; i < colCount; i++) {
+                            widths.push('*');
+                        }
+                        doc.content[1].table.widths = widths;
+                
+                        // Adjust cell alignment
+                        doc.content[1].table.body.forEach(function(row) {
+                            row.forEach(function(cell) {
+                                cell.alignment = 'left';
+                            });
+                        });
                     }
                 }
+                
             ],
             footerCallback: function (row, data, start, end, display) {
                 let totalAmount = 0;
@@ -270,8 +285,10 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Columns reordered');
             // Update dynamic column indices
             updateDynamicColumnIndices();
-        });
         
+            // Adjust table layout
+            table.columns.adjust().draw(false);
+        });
         
 
         addColumnFiltering();
@@ -730,6 +747,8 @@ function addColumnFiltering() {
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
             var table = new $.fn.dataTable.Api(settings);
+    
+            // "Order Date" Filtering
             var orderDateIndex = table.column('Order Date:name').index('visible');
             var orderDate = data[orderDateIndex];
     
@@ -737,17 +756,17 @@ function addColumnFiltering() {
             var maxDate = $('#orderDateMax').val();
     
             if (orderDate) {
-                var orderDateParsed = dayjs(orderDate, 'MM/DD/YYYY');
+                var orderDateParsed = dayjs.utc(orderDate, 'MM/DD/YYYY');
     
                 if (minDate) {
-                    var minDateParsed = dayjs(minDate, 'MM/DD/YYYY');
+                    var minDateParsed = dayjs.utc(minDate, 'MM/DD/YYYY');
                     if (!orderDateParsed.isSameOrAfter(minDateParsed, 'day')) {
                         return false;
                     }
                 }
     
                 if (maxDate) {
-                    var maxDateParsed = dayjs(maxDate, 'MM/DD/YYYY');
+                    var maxDateParsed = dayjs.utc(maxDate, 'MM/DD/YYYY');
                     if (!orderDateParsed.isSameOrBefore(maxDateParsed, 'day')) {
                         return false;
                     }
@@ -758,15 +777,48 @@ function addColumnFiltering() {
         }
     );
     
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            var table = new $.fn.dataTable.Api(settings);
+    
+            // "Order Date/Time" Filtering
+            var orderDateTimeIndex = table.column('Order Date/Time:name').index('visible');
+            var orderDateTime = data[orderDateTimeIndex];
+    
+            var minDateTime = $('#orderDateTimeMin').val();
+            var maxDateTime = $('#orderDateTimeMax').val();
+    
+            if (orderDateTime) {
+                var orderDateTimeParsed = dayjs.utc(orderDateTime, 'MM/DD/YYYY hh:mm:ss A');
+    
+                if (minDateTime) {
+                    var minDateTimeParsed = dayjs.utc(minDateTime, 'MM/DD/YYYY hh:mm:ss A');
+                    if (!orderDateTimeParsed.isSameOrAfter(minDateTimeParsed)) {
+                        return false;
+                    }
+                }
+    
+                if (maxDateTime) {
+                    var maxDateTimeParsed = dayjs.utc(maxDateTime, 'MM/DD/YYYY hh:mm:ss A');
+                    if (!orderDateTimeParsed.isSameOrBefore(maxDateTimeParsed)) {
+                        return false;
+                    }
+                }
+            }
+    
+            return true;
+        }
+    );
+    
 
-    // Event listener to redraw on date range filter change
-    $('#orderDateMin, #orderDateMax').change(function() {
-        table.draw();
-    });
+// Initialize datepickers
+$('#orderDateMin, #orderDateMax, #orderDateTimeMin, #orderDateTimeMax').datepicker({
+    dateFormat: 'mm/dd/yy'
+});
 
-    // Initialize datepickers
-    $('#orderDateMin, #orderDateMax').datepicker({
-        dateFormat: 'mm/dd/yy'
-    });
+// Redraw table when date inputs change
+$('#orderDateMin, #orderDateMax, #orderDateTimeMin, #orderDateTimeMax').change(function() {
+    table.draw();
+});
 
 });
